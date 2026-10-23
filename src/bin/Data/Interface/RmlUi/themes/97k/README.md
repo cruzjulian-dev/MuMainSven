@@ -26,13 +26,18 @@ in `legacy`:
   keep working from their keys (R, the number keys, F, U).
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
-  `workspace.rcss`): the 0.97k input box, centred over the bar, shows while typing; the ear in it
-  blocks whispers. Without its frame the log stands on the left, as in `legacy`. F5 (while typing)
-  shows the 0.97k frame over the box, with its scrollbar and resize grip, and the frame stays up
-  after typing (`KeepsChatFrame=1` in `theme.ini`) until F5 again. While it is up and nobody types,
-  moving the pointer over the bar's middle brings up the show-chat, size and transparency buttons
-  over the closed box. There are no chat-type buttons: start a message with ~ (party), @ (guild)
-  or $ (Gens).
+  `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):
+  - **History**: the log on the left without a frame, as in `legacy`.
+  - **Box**: the 0.97k frame over the input box, down to the bar, with its scrollbar and resize
+    grip. It stays up when typing ends; then moving the pointer over the bar's middle brings up the
+    show-chat, size and transparency buttons over the closed input box.
+
+  F5 switches the modes and F4 cycles the current one's height (3, 6, 9, 12 or 15 lines), typing
+  or not; each mode keeps its own height, so switching brings back the one it had. Lines are 13
+  units apart and the box is 40 units per 3 lines plus 10, as in the 0.97k client. The input box,
+  shown while typing, draws over the bar (`[Stacking]` in `theme.ini`); the ear in it blocks
+  whispers. There are no chat-type buttons: start a message with ~ (party), @ (guild) or
+  $ (Gens).
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 

@@ -1,9 +1,10 @@
 /* MU 0.97k theme for CChatLogWindow: legacy's lines (the 0.97k client used the very same per-type
-   colours). Without its frame the log stands on the left, where legacy puts it. With the frame (F5)
-   it is the 0.97k chat frame: 268 wide over the 0.97k input box, a 5-unit gold top edge
+   colours) in the 0.97k sizes, in its two modes (ChatLogModes in theme.ini). The history, without
+   the frame, stands on the left, where legacy puts it. The box, with the frame (F5), is the 0.97k
+   chat frame: 268 wide over the 0.97k input box and down to the bar, a 5-unit gold top edge
    (Message_box2), 5-unit sides (Nis_vframe), the Nis scrollbar with its two arrows, and the resize
-   grip at the top right (Nis_rsframe). The panel's height comes from C++ (15 * showing lines + 10),
-   since the user resizes it in 3-line steps. */
+   grip at the top right (Nis_rsframe). Lines are 13 units apart and the frame is 40 units per 3
+   lines plus 10 (#frame_box, chat_log.rml); #panel is the taller box C++ measures for the slot. */
 
 /* Frame off: on the left. 97 = 480 - 383, native's own bottom edge for the log, as legacy. */
 #panel {
@@ -33,6 +34,14 @@
 }
 #panel.framed.workspace-placed { margin-left: 0; margin-top: 0; }
 
+/* The 0.97k frame at the panel's bottom; its height is bound in chat_log.rml. */
+#frame_box {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
 /* The window fill, split three ways: whether it paints at all is frame state (.framed, native's
    own RenderBackground() m_bShowFrame guard), how opaque it is comes from the user's cycled
    transparency setting as a bound opacity, and its whole appearance is this rule's. #chat_backdrop sits
@@ -53,6 +62,8 @@
 	background-color: rgb(0, 0, 0);
 }
 #panel.framed #chat_backdrop { display: block; }
+/* The 0.97k fill and sides ran on 12 units under the frame, down to the bar. */
+#panel.framed #chat_backdrop { bottom: -12dp; }
 /* Above the backdrop, and unfaded. */
 #lines { position: relative; z-index: 1; }
 
@@ -62,8 +73,8 @@
 .chat-frame { display: none; position: absolute; z-index: 1; pointer-events: none; }
 #panel.framed .chat-frame { display: block; }
 #frame_top   { left: 0; top: 0; right: 0; height: 5dp; decorator: image(chat97-edge fill); }
-#frame_left  { left: 0; top: 5dp; bottom: 0; width: 5dp; decorator: image(chat97-side repeat-y); }
-#frame_right { right: 0; top: 5dp; bottom: 0; width: 5dp; decorator: image(chat97-side repeat-y); }
+#frame_left  { left: 0; top: 5dp; bottom: -12dp; width: 5dp; decorator: image(chat97-side repeat-y); }
+#frame_right { right: 0; top: 5dp; bottom: -12dp; width: 5dp; decorator: image(chat97-side repeat-y); }
 
 /* Drag target for the 3-line-step resize: the 0.97k grip, 22x12, at the top right. */
 @spritesheet chat-resize-sheet {
@@ -91,11 +102,14 @@
    overflows -- an auto margin absorbs free space when there is any and resolves to 0 when there
    isn't, so it never pushes content out of the scrollable area the way justify-content:flex-end
    would. */
+/* The well: the 0.97k client's bottom line ends 3 units above the frame's lower edge, its top line
+   8 or more under the top edge. */
 #lines {
 	position: absolute;
 	left: 8dp;
-	top: 6dp;
+	top: 8dp;
 	right: 8dp;
+	bottom: 3dp;
 	font-size: 1rem;
 	display: flex;
 	flex-direction: column;
@@ -156,7 +170,7 @@
 #lines scrollbarvertical sliderarrowinc { decorator: image(chat97-arrow flip-vertical); }
 
 /* No padding: native's background quad is exactly the measured text (RenderText() without a box).
-   Text size, height and the 15-unit row pitch come from chat_log.rml's bindings. flex-shrink 0:
+   Text size and height come from chat_log.rml's bindings; the pitch is the 0.97k 13. flex-shrink 0:
    with an explicit height, a flex item would otherwise shrink to fit a full well and the rows
    would crowd together instead of scrolling. */
 /* A line is the native renderer's line height, and the next starts a row pitch below it. */
@@ -166,7 +180,8 @@
 	flex-shrink: 0;
 	height: var(--line-px, 0px);
 	line-height: var(--line-px, 0px);
-	margin-bottom: calc(var(--row-px, 0px) - var(--line-px, 0px));
+	/* The 0.97k client's 13-unit pitch, not the bound 15-unit row. */
+	margin-bottom: calc(13dp - var(--line-px, 0px));
 }
 
 /* Per-type colours -- native's SetBgColor/SetTextColor pairs, verbatim. */

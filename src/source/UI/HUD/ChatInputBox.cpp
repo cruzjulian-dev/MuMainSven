@@ -232,9 +232,11 @@ bool mu::ui::window::CChatInputBox::UpdateKeyEvent()
         return false;
     }
 
-    if (m_pNewUIChatLogWnd->IsShowFrame())
+    // F4 cycles the log's height: the box's only, or, with the 0.97k modes (ChatLogModes), the
+    // current mode's whether or not the player types.
+    if (mu::ui::window::IsPress(VK_F4))
     {
-        if (mu::ui::window::IsPress(VK_F4))
+        if (m_pNewUIChatLogWnd->IsShowFrame() || UI::RmlBridge::ThemeHasChatLogModes())
         {
             m_pNewUIChatLogWnd->SetSizeAuto();
             m_pNewUIChatLogWnd->UpdateWndSize();
@@ -246,9 +248,9 @@ bool mu::ui::window::CChatInputBox::UpdateKeyEvent()
 
     if (mu::ui::window::IsPress(VK_F5))
     {
-        // A frame that stays after typing (KeepsChatFrame) also goes away without typing.
+        // With the 0.97k modes (ChatLogModes) F5 switches between them without typing too.
         if (g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_CHATINPUTBOX) ||
-            (m_pNewUIChatLogWnd->IsShowFrame() && UI::RmlBridge::ThemeKeepsChatFrame()))
+            UI::RmlBridge::ThemeHasChatLogModes())
         {
             if (m_pNewUIChatLogWnd->IsShowFrame())
             {
@@ -553,7 +555,7 @@ void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, C
 void mu::ui::window::CChatInputBox::OnRmlReloaded()
 {
     // A frame left up by the previous theme goes with it.
-    if (!IsVisible() && m_pNewUIChatLogWnd && !UI::RmlBridge::ThemeKeepsChatFrame())
+    if (!IsVisible() && m_pNewUIChatLogWnd && !UI::RmlBridge::ThemeHasChatLogModes())
         m_pNewUIChatLogWnd->HideFrame();
     UI::Placement::Invalidate();
 }
@@ -580,7 +582,7 @@ void mu::ui::window::CChatInputBox::SyncRmlModel()
     ChatInputRmlModel& model = m_RmlView.GetModel();
 
     // The frame's buttons over the closed box: shown while the frame stays and nobody types, which
-    // only a theme that keeps the frame (KeepsChatFrame) lets happen. Shown without the focus, so
+    // only a theme with the 0.97k modes (ChatLogModes) lets happen. Shown without the focus, so
     // the game keeps its keys; the theme lays out where the pointer brings the buttons up.
     Rml::ElementDocument* frameButtons = m_RmlView.Document(1);
     UI::RmlBridge::SyncDocumentVisibilityInFront(
@@ -682,7 +684,7 @@ void mu::ui::window::CChatInputBox::OpenningProcess()
 
 void mu::ui::window::CChatInputBox::ClosingProcess()
 {
-    if (!UI::RmlBridge::ThemeKeepsChatFrame())
+    if (!UI::RmlBridge::ThemeHasChatLogModes())
         m_pNewUIChatLogWnd->HideFrame();
 
     m_bFocusPending = false;

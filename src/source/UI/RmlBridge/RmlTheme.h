@@ -73,9 +73,11 @@ namespace UI::RmlBridge
     // Whether the active theme wants its images drawn with nearest instead of linear filtering
     // (NearestFiltering=1), for pixel art that should stay sharp when the UI is scaled.
     bool ThemeUsesNearestFiltering();
-    // Whether the chat log's frame stays shown when typing ends (KeepsChatFrame=1), as the 0.97k
-    // client kept it; its buttons then sit over the closed input box (chat_frame_buttons.rml).
-    bool ThemeKeepsChatFrame();
+    // Whether the chat log has the 0.97k client's two modes (ChatLogModes=1): the history without
+    // its frame and the box with it. F5 switches them and F4 cycles the current one's height
+    // whether or not the player types, each mode keeps its own height, and the box stays up when
+    // typing ends, its buttons over the closed input box (chat_frame_buttons.rml).
+    bool ThemeHasChatLogModes();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

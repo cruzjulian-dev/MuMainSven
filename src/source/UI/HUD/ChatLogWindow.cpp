@@ -44,6 +44,7 @@ void mu::ui::window::CChatLogWindow::Init()
     m_pNewUIMng = nullptr;
     m_WndSize.cx = WND_WIDTH; m_WndSize.cy = 0;
     m_nShowingLines = 6;
+    m_nOtherModeLines = 6;
     m_iCurrentRenderEndLine = -1;
     m_fBackAlpha = 0.6f;
 
@@ -495,12 +496,25 @@ float mu::ui::window::CChatLogWindow::GetBackAlpha() const
 
 void mu::ui::window::CChatLogWindow::ShowFrame()
 {
+    if (!m_bShowFrame)
+        SwapModeLines();
     m_bShowFrame = true;
 }
 
 void mu::ui::window::CChatLogWindow::HideFrame()
 {
+    if (m_bShowFrame)
+        SwapModeLines();
     m_bShowFrame = false;
+}
+
+void mu::ui::window::CChatLogWindow::SwapModeLines()
+{
+    if (!UI::RmlBridge::ThemeHasChatLogModes())
+        return;
+    const int lines = m_nOtherModeLines;
+    m_nOtherModeLines = m_nShowingLines;
+    SetNumberOfShowingLines(lines);
 }
 
 bool mu::ui::window::CChatLogWindow::IsShowFrame()

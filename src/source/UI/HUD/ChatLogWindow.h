@@ -142,6 +142,9 @@ namespace mu::ui::window
 
         SIZE	m_WndSize;
         int		m_nShowingLines;
+        // With the 0.97k modes (ChatLogModes) the history and the box each keep a height: this is
+        // the one not showing, taken back when the frame is switched.
+        int		m_nOtherModeLines;
 
         MESSAGE_TYPE		m_CurrentRenderMsgType;
         bool				m_bShowChatLog;
@@ -236,6 +239,8 @@ namespace mu::ui::window
 
         void ShowFrame();
         void HideFrame();
+        // Swaps in the other mode's height, for a frame switch under ChatLogModes.
+        void SwapModeLines();
         bool IsShowFrame();
 
         bool UpdateMouseEvent() override;

@@ -84,6 +84,13 @@ namespace UI::RmlBridge
             return usesNativeTextSize;
         }
 
+        // Read every frame by the chat's key handling, so cached like the above.
+        bool& HasChatLogModesStorage()
+        {
+            static bool hasChatLogModes = HasCapability(ActiveThemeNameStorage(), "ChatLogModes");
+            return hasChatLogModes;
+        }
+
     }
 
     const std::string& GetActiveThemeName()
@@ -119,15 +126,16 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "NearestFiltering");
     }
 
-    bool ThemeKeepsChatFrame()
+    bool ThemeHasChatLogModes()
     {
-        return HasCapability(ActiveThemeNameStorage(), "KeepsChatFrame");
+        return HasChatLogModesStorage();
     }
 
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);
         UsesNativeTextSizeStorage() = ComputeUsesNativeTextSize(ActiveThemeNameStorage());
+        HasChatLogModesStorage() = HasCapability(ActiveThemeNameStorage(), "ChatLogModes");
         RmlUiRuntime::Instance().SetFileTextureNearestFiltering(ThemeUsesNearestFiltering());
 
         // Both themes deliberately reuse the same <template name="..."> for a shared concept
@@ -296,11 +304,24 @@ namespace UI::RmlBridge
         if (document == nullptr)
             return;
 
-        const std::optional<float> depth = StackingDepthForDocument(documentName);
+        std::optional<float> depth = StackingDepthForDocument(documentName);
         if (!depth)
         {
             g_ErrorReport.Write(L"> [RmlTheme] No stacking depth for '%hs'.\r\n", documentName.c_str());
             return;
+        }
+        // A theme may draw one of its documents at another depth: theme.ini's [Stacking]
+        // <document>.rml=<depth>, inherited like the other sections.
+        const ThemeInheritance theme(std::filesystem::path("Data/Interface/RmlUi/themes") / GetActiveThemeName());
+        if (const auto setting = theme.GetSetting("Stacking", documentName))
+        {
+            char* end = nullptr;
+            const float themeDepth = std::strtof(setting->value.c_str(), &end);
+            if (end != setting->value.c_str())
+                depth = themeDepth;
+            else
+                g_ErrorReport.Write(L"> [RmlTheme] Bad [Stacking] depth '%hs' for '%hs'.\r\n",
+                                    setting->value.c_str(), documentName.c_str());
         }
         document->SetProperty(Rml::PropertyId::ZIndex, Rml::Property(*depth, Rml::Unit::NUMBER));
     }

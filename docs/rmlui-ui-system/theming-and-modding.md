@@ -312,22 +312,40 @@ the windows the theme inherits included. Text and the item, character and previe
 game draws into windows stay smooth. The setting follows the theme: switching to a theme without
 it brings linear filtering back right away. The `97k` theme uses it.
 
-## A chat frame that stays: `KeepsChatFrame`
+## The 0.97k chat modes: `ChatLogModes`
 
-The chat log's frame (F5 while typing) normally goes away when typing ends. A theme that declares
+The chat log's frame (F5 while typing) normally goes away when typing ends, and F4 only resizes
+the framed log. A theme that declares
 
 ```ini
 [Capabilities]
-KeepsChatFrame=1
+ChatLogModes=1
 ```
 
-keeps it up until F5 is pressed again, typing or not. While it is up and the input box is closed,
+gives the log the 0.97k client's two modes instead: the history (no frame) and the box (the
+frame). F5 switches them and F4 cycles the current mode's height (3 to 15 lines in steps of 3),
+whether or not the player types; each mode keeps its own height, so switching brings back the
+one it had. The box stays up when typing ends. While it is up and the input box is closed,
 `chat_frame_buttons.rml` shows over the box: the show-chat, size and transparency buttons, on the
 `chat_input` model. The theme's `chat_frame_buttons.rcss` places them and an `#reveal_zone`; while
 the pointer is inside that zone, `#panel` carries `.near`, which the theme uses to bring the
 buttons up. The zone only measures the pointer, so give it `pointer-events: none`. A theme without
 the capability never shows the document; `legacy` and `modern` hide its panel. The `97k` theme
 uses it.
+
+## Restacking a document: `[Stacking]`
+
+Each document draws at the depth of the original window it replaces (`RmlStackingOrder.cpp`). A
+theme whose layout makes two documents overlap differently can move one of them:
+
+```ini
+[Stacking]
+chat_input.rml=10.62
+```
+
+The key is the document's file name and the value its depth; higher draws over lower, the HUD
+(`main_frame.rml`) is 10.6 and the message boxes 10.7. The `97k` theme draws its chat input box
+over the bar this way, as the 0.97k client did.
 
 ## Optional system fonts
 
@@ -426,7 +444,7 @@ their element's drawn size; choose their scaling deliberately.
   window declares one.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
   theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
-  `NearestFiltering` and `KeepsChatFrame` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  `NearestFiltering` and `ChatLogModes` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking
