@@ -1,0 +1,19 @@
+{
+ "text_px": 12,
+ "line_height_px": 12,
+ "bold_text_px": 12,
+ "bold_line_height_px": 12,
+ "arrows": "",
+ "pets": [
+  {
+   "name": "Imp",
+   "bar_width": 40
+  },
+  {
+   "name": "Dark Horse",
+   "bar_width": 20
+  }
+ ],
+ "icons": [],
+ "tooltip": ""
+}
