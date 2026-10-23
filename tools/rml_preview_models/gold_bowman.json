@@ -1,0 +1,63 @@
+{
+ "text_px": 12,
+ "bold_text_px": 12,
+ "texts": [
+  {
+   "text": "Golden Archer",
+   "text_px": 12
+  },
+  {
+   "text": "Register the lucky",
+   "text_px": 12
+  },
+  {
+   "text": "number written on",
+   "text_px": 12
+  },
+  {
+   "text": "the Rena you were",
+   "text_px": 12
+  },
+  {
+   "text": "given.",
+   "text_px": 12
+  },
+  {
+   "text": "Example:",
+   "text_px": 12
+  },
+  {
+   "text": "AB12CD34EF56",
+   "text_px": 12
+  },
+  {
+   "text": "Type the number",
+   "text_px": 12
+  },
+  {
+   "text": "and press OK.",
+   "text_px": 12
+  },
+  {
+   "text": "Prize: Box of Luck",
+   "text_px": 12
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Register",
+   "hint": "",
+   "locked": false,
+   "bold": true,
+   "label_line_px": 29
+  },
+  {
+   "label": "",
+   "hint": "Close",
+   "locked": false,
+   "bold": false,
+   "label_line_px": 29
+  }
+ ],
+ "input_value": "AB12"
+}

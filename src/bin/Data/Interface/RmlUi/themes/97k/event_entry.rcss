@@ -1,0 +1,93 @@
+/* The 97k theme's Devil Square and Blood Castle entries (devil_square_enter, blood_castle_enter):
+   the 0.97k panel and exit are docked_panel_frame.rcss's. The 0.97k client chose the level in a
+   window of its own art-less bands, so each level is a black band edged in the 0.97k gold
+   (0.722,0.592,0.380), grey under the pointer while it can be entered and the label grey while
+   it can't. The text panes keep legacy's places and wrapping. */
+#panel { pointer-events: auto; }
+
+#title {
+    display: block;
+    position: absolute;
+    left: 8px;
+    top: 12px;
+    --flow-w: 154px;
+    font-weight: bold;
+    line-height: 1.1;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    pointer-events: none;
+}
+
+.entry-lines, .entry-buttons {
+    position: absolute;
+    left: 6px;
+    --flow-w: 178px;
+}
+.entry-lines {
+    top: 55px;
+    line-height: 1.1;
+    text-align: center;
+}
+.entry-line {
+    display: block;
+    white-space: normal;
+    word-break: break-word;
+    /* A line that fills the pane keeps its glyphs' side bearings inside the pane's clip. */
+    padding: 0 2px;
+    pointer-events: none;
+}
+.entry-line + .entry-line { margin-top: 0.25em; }
+
+.entry-buttons {
+    font-weight: bold;
+    line-height: 1.1;
+}
+.entry-btn {
+    /* The label centres on the band when the band's minimum height is the taller. */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    min-height: calc(29px * var(--root-scale));
+    padding: calc(6px * var(--root-scale)) calc(4px * var(--root-scale));
+    pointer-events: auto;
+}
+.entry-btn + .entry-btn { margin-top: calc(4px * var(--root-scale)); }
+.entry-btn-art {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+.entry-label {
+    display: block;
+    position: relative;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    pointer-events: none;
+}
+
+/* The pane is already physical-sized. Its descendants must not counter-scale again. */
+.entry-lines scrollbarvertical, .entry-buttons scrollbarvertical {
+    width: calc(15px * var(--root-scale));
+}
+.entry-lines scrollbarvertical sliderbar, .entry-buttons scrollbarvertical sliderbar {
+    height: calc(30px * var(--root-scale));
+}
+
+#title, .entry-line { color: #ffffff; }
+#title { color: rgb(220, 220, 220); }
+.entry-btn-art {
+    background-color: rgba(0, 0, 0, 160);
+    border: 1px rgba(184, 151, 97, 160);
+}
+.entry-btn.enabled:hover .entry-btn-art { background-color: rgba(128, 128, 128, 160); }
+.entry-btn.enabled:active .entry-btn-art { background-color: rgba(40, 40, 150, 200); }
+.entry-label { color: #969696; }
+.entry-btn.enabled .entry-label { color: #ffffff; }
+.entry-exit-glyph { display: none; }

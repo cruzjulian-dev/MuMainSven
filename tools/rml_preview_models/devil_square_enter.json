@@ -1,0 +1,29 @@
+{
+ "text_px": 12,
+ "bold_text_px": 12,
+ "title_text": "Devil Square",
+ "exit_tooltip": "Close",
+ "lines": [
+  {
+   "text": "Choose the square that matches your level. You need an invitation."
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Square 1 (Lv 15-130)",
+   "enabled": false
+  },
+  {
+   "label": "Square 2 (Lv 131-180)",
+   "enabled": true
+  },
+  {
+   "label": "Square 3 (Lv 181-230)",
+   "enabled": false
+  },
+  {
+   "label": "Square 4 (Lv 231-280)",
+   "enabled": false
+  }
+ ]
+}
