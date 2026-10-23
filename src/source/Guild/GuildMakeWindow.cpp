@@ -27,12 +27,9 @@
 
 #include <RmlUi/Core/ElementDocument.h>
 
-#include <cstdio>
-#include <iterator>
 
 extern MARK_t		GuildMark[MAX_MARKS];
 extern int			SelectMarkColor;
-extern unsigned int MarkColor[16];
 
 namespace
 {
@@ -57,18 +54,15 @@ namespace
         return FALSE;
     }
 
-    // The native editor's cell: RenderColorQuadARGB() read MarkColor[] (built for the mark
-    // texture, red in the low byte) as ARGB, so the editor shows red and blue swapped -- the
-    // original's own look, kept. Index 0 is the black cell with a grey cross.
+    // The editor's cell in the mark texture's own colour (Guild::MarkPalette, as the next page, the
+    // guild window and the world draw it). The native editor's RenderColorQuadARGB() read
+    // MarkColor[] (built for the texture, red in the low byte) as ARGB and showed red and blue
+    // swapped, so a mark drawn yellow came out cyan. Index 0 is the black cell with a grey cross.
     mu::ui::window::GuildMakeCellEntry EditorCell(int index)
     {
-        if (index <= 0 || static_cast<std::size_t>(index) >= std::size(MarkColor))
+        if (index <= 0 || index >= Guild::MarkPalette::ColorCount)
             return {"#000000ff", true};
-        const unsigned int argb = MarkColor[static_cast<std::size_t>(index)];
-        char color[16] = {};
-        std::snprintf(color, sizeof(color), "#%02x%02x%02x%02x", (argb >> 16) & 0xFFu, (argb >> 8) & 0xFFu,
-                      argb & 0xFFu, (argb >> 24) & 0xFFu);
-        return {color, false};
+        return {Guild::MarkPalette::CellColor(index), false};
     }
 
     // RenderText() shrinks a text wider than its box to fit it: the size it drew `text` at.
@@ -487,7 +481,7 @@ void CGuildMakeWindow::SyncContent()
     if (m_GuildMakeState == GUILDMAKE_INFO)
         return;
 
-    // The mark: CreateGuildMark(MARK_EDIT) fills MarkColor[], which the editor's cells read.
+    // The mark's texture, kept current while it is drawn.
     CreateGuildMark(MARK_EDIT);
     GuildMakeRmlModel& model = m_RmlView.GetModel();
     std::vector<GuildMakeCellEntry> cells;
