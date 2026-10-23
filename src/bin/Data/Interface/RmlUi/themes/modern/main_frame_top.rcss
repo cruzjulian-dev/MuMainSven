@@ -60,3 +60,5 @@
 	pointer-events: none;
 }
 
+/* main_frame.rml's own EXP digit is not covered here. */
+#exp_digit_over { display: none; }

@@ -9,7 +9,7 @@
    their keys (R, the number keys, F, U). */
 #gauge_fill_left, #gauge_fill_right, #item_band_fill, #skill_band_fill, #gauge_frame,
 .gauge-num.value-full, .gauge-fill-horizontal, .exp-frame, .btn-icon-label, .slot-hotkey-label,
-#bar_sd, #skill_list_highlight,
+#bar_sd, #skill_list_highlight, #exp_digit,
 #skill_slot_0, #skill_slot_1, #skill_slot_2, #skill_slot_3, #skill_slot_4, #item_slot_3,
 #btn_cshop, #btn_friend, #btn_window {
 	display: none;
@@ -123,7 +123,8 @@
 }
 
 /* EXP: a plain 198x4 gold fill at x 221, y 439, inside the slot painted into the bar, and the
-   tenth being filled centred on x 425 at y 434. The box is the original's hover area. */
+   tenth being filled centred on x 425 at y 434 -- drawn by main_frame_top.rcss instead, over the
+   chat input box (#exp_digit is hidden above). The box is the original's hover area. */
 #exp_track { position: absolute; left: 2dp; top: 0dp; width: 198dp; height: 4dp; }
 #exp_fill { position: absolute; left: 0; top: 0; height: 100%; background-color: #ebcc57; }
 #exp_digit {

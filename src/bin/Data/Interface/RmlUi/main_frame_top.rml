@@ -32,5 +32,9 @@
 			</div>
 		</div>
 	</div>
+	<!-- The EXP bar's tenth being filled, for a theme whose chat input box covers the bar
+	     (main_frame.rml's #exp_digit draws under it): this document can stack over the box.
+	     Hidden by the themes that don't need it. -->
+	<span id="exp_digit_over">{{exp_digit}}</span>
 </body>
 </rml>

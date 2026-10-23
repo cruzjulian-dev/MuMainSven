@@ -1,0 +1,23 @@
+/* MU 0.97k theme for main_frame_top.rml: no top-right buttons (the 0.97k bar has its own), and
+   the EXP bar's tenth being filled, which the 0.97k client drew over its chat input box (the box
+   covers the bar from y 415 to 444). theme.ini's [Stacking] draws this document over the box. The
+   digit is centred on x 425, its top at y 434, in HUD units like the bar (one unit is --hud-scale
+   px), the bar centred at the screen's bottom; main_frame.rcss hides the bar's own copy. */
+#top_right_row { display: none; }
+
+#exp_digit_over {
+	position: absolute;
+	left: 50%;
+	/* 105 = 425 - 320; 36 = 480 - 434 - 10. */
+	margin-left: calc(105px * var(--hud-scale));
+	bottom: calc(36px * var(--hud-scale));
+	transform: translateX(-50%);
+	color: #e8cf99;
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	font-family: "token(font-body)";
+	font-size: calc(10px * var(--hud-scale));
+	line-height: calc(10px * var(--hud-scale));
+	white-space: nowrap;
+	pointer-events: none;
+}
