@@ -78,7 +78,12 @@ execute_process(
           -P "${REPO_ROOT}/cmake/ApplyGitPatch.cmake"
   RESULT_VARIABLE rmlui_patch_result)
 if(NOT rmlui_patch_result EQUAL 0)
-  message(FATAL_ERROR "Could not apply cmake/patches/rmlui-sdl-gpu-nearest-texture-filtering.patch to ThirdParty/RmlUi")
+  message(FATAL_ERROR
+    "Could not apply cmake/patches/rmlui-sdl-gpu-nearest-texture-filtering.patch to ThirdParty/RmlUi. "
+    "The patch fits the RmlUi commit this repository pins; a checkout on another commit or with local "
+    "changes does not take it. Reset it from the repository root (this discards changes made inside "
+    "src/ThirdParty/RmlUi):\n"
+    "  git submodule update --init --force -- src/ThirdParty/RmlUi")
 endif()
 
 # RmlUi -- static link, no bundled samples/Lua bindings. We supply our own
