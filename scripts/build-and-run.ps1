@@ -26,6 +26,10 @@
   it detached and return immediately.
 
 .EXAMPLE
+  ./scripts/build-and-run.ps1 -Config Release -BuildOnly
+  Configure and build without launching Main.exe (for local setup scripts).
+
+.EXAMPLE
   ./scripts/build-and-run.ps1 -Arch x86 -Config Release -Editor
   Build+run the x86 Release MuEditor client.
 
@@ -65,6 +69,7 @@ param(
     [switch]$Editor,
     [switch]$Clean,
     [switch]$NoBuild,
+    [switch]$BuildOnly,
     [switch]$Detached,
     [switch]$CompileShaders,
 
@@ -209,6 +214,11 @@ else {
 
 if (-not (Test-Path $exePath)) {
     throw "Main.exe not found at '$exePath'. Run without -NoBuild first."
+}
+
+if ($BuildOnly) {
+    Write-Host "Build ready: $exePath"
+    return
 }
 
 if ($GpuDriver) {

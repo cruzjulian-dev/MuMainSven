@@ -12,8 +12,8 @@ Windowed=1
 SoundVolume=5
 MusicVolume=5
 [CONNECTION SETTINGS]
-ServerIP=localhost
-ServerPort=44406
+ServerIP=127.127.127.127
+ServerPort=44506
 [UI]
 Locale=en
 TranslateItemNames=1
