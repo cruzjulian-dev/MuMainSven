@@ -84,8 +84,10 @@ body {
 
 .text-row { position: absolute; width: 600px; text-align: center; white-space: nowrap; pointer-events: none; }
 
-/* The name right-aligned on the bar's end, on its band. */
-.pet-name-box { position: absolute; left: 0; top: 0; width: 54px; height: 0; }
+/* The name right-aligned on the bar's end, on its band. Its box reaches far to the left of the
+   frame, so a name wider than the bar grows leftwards, whole, rather than past the bar's end (an
+   absolute element's auto width is capped at its containing block's). */
+.pet-name-box { position: absolute; left: -546px; top: 0; width: 600px; height: 0; }
 .pet-name {
 	position: absolute;
 	right: 0;
