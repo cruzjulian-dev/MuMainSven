@@ -42,6 +42,20 @@ in `legacy`:
   each character starts with whispering off (`WhisperStartsOff=1`), the ear grey and the
   recipient field red; F3 or the ear turns it gold and the field takes the name. There are no
   chat-type buttons: start a message with ~ (party), @ (guild) or $ (Gens).
+- **The side panels' frame** (`docked_panel_frame.rcss`): the 0.97k panel (`Item_Back01` over
+  `Item_Back02`) and its 24x24 exit for the character, party, quest and pet windows. The panel
+  keeps its 429 units; the art reaches 4 more onto the bar, as in the 0.97k client. The corner
+  close mark of the Sven frame is gone.
+- **The inventory** (`my_inventory.rml/.rcss`, `item_grid.rcss`): the 0.97k equipment boxes at
+  their 0.97k places and sizes, the 0.97k grid cells (`Item_box`, `InventoryBox2` under an item,
+  no frame), the money box with "Zen" and the 0.97k exit and repair buttons. The 0.97k cells are
+  every item grid's, so storage, trade, the shops and the mix show them on their `legacy` panels
+  until their phase. Sven's personal-shop and expansion buttons stay beside the 0.97k ones.
+- **The character window** (`character_info.rcss`): the level and each attribute in a
+  `Level_box`, the derived lines on black bands under it, the 0.97k point buttons, the points to
+  spend on an orange band. The value stands beside its box: the 0.97k client wrote both in it
+  ("Fuerza: 28"), which a longer label doesn't fit. Sven's fruit-probability line is hidden; the quest, pet and master-level shortcuts stay
+  beside the exit.
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 

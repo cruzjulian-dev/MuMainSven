@@ -1,0 +1,170 @@
+/* The 97k theme's CCharacterInfoWindow: the 0.97k client's RenderCharacterInfoWindow(). The frame
+   and the exit are docked_panel_frame.rcss's. Each attribute sits in a Level_box (75x21) every 60
+   units from 56, its label and value inside; the derived lines go under it on black bands 130 wide,
+   and the point button (Level_01, Level_02 pressed) stands right of the box. Text is counter-scaled
+   from the RML, as in legacy, so no rule here sets a font size. Coordinates are reference px.
+
+   Sven shows more than the 0.97k client: the fruit probability line has no place in the 0.97k
+   layout and is hidden; the fruit points take the 0.97k reset-points line. The quest, pet and
+   master-level shortcuts the 0.97k client didn't have stay, at the 0.97k buttons' height. */
+@spritesheet chainfo97-box-sheet        { src: "../../../../Interface97/Level_box.jpg"; chainfo97-box: 0px 0px 75px 21px; }
+@spritesheet chainfo97-stat-btn-sheet   { src: "../../../../Interface97/Level_01.jpg"; chainfo97-stat-btn: 0px 0px 24px 24px; }
+@spritesheet chainfo97-stat-press-sheet { src: "../../../../Interface97/Level_02.jpg"; chainfo97-stat-press: 0px 0px 24px 24px; }
+@spritesheet chainfo-btn-quest-sheet { src: "../../../newui_chainfo_btn_quest.tga"; chainfo-btn-quest: 0px 0px 36px 29px; }
+@spritesheet chainfo-btn-pet-sheet { src: "../../../newui_chainfo_btn_pet.tga"; chainfo-btn-pet: 0px 0px 36px 29px; }
+@spritesheet chainfo-btn-masterlevel-sheet { src: "../../../newui_chainfo_btn_master.tga"; chainfo-btn-masterlevel: 0px 0px 36px 29px; }
+
+/* Name in the title band (35,12 in a 120-wide box), class and server crossfading under it (22,22
+   in a 150-wide box): both centred on the panel. */
+#name, #classname, #servername {
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: 190px;
+	text-align: center;
+	transform-origin: center top;
+	font-weight: bold;
+	pointer-events: none;
+}
+#classname, #servername { top: 26px; color: #ffffff; }
+
+/* Legacy's summary box: the 0.97k client drew the level in a Level_box like the attributes', so
+   its fill is that box and the rest goes. */
+.summary-fill {
+	position: absolute;
+	left: 13px;
+	top: 56px;
+	width: 75px;
+	height: 21px;
+	decorator: image(chainfo97-box);
+	pointer-events: none;
+}
+.summary-corner, .summary-edge { display: none; }
+
+.level-text, .levelup-point-text, .exp-text, .point-probability-text, .point-text {
+	display: block;
+	position: absolute;
+	transform-origin: left top;
+	white-space: nowrap;
+	pointer-events: none;
+}
+/* The level, centred in the first box (14,60 in a 70-wide box). */
+.level-text { left: 14px; top: 60px; width: 70px; text-align: center; transform-origin: center top; color: #e6e6e6; font-weight: bold; }
+/* Points to spend: black on an orange band, centred at 95,49 in an 80-wide box. */
+.levelup-point-text {
+	left: 95px;
+	top: 49px;
+	width: 80px;
+	text-align: center;
+	transform-origin: center top;
+	color: #000000;
+	background-color: rgb(200, 110, 30);
+	font-weight: bold;
+}
+/* Experience and the fruit points under the level, on black bands (24,80 and 24,95). */
+.exp-text { left: 24px; top: 80px; color: #ffffff; background-color: rgba(0, 0, 0, 128); }
+.point-text { left: 24px; top: 95px; color: rgb(100, 150, 255); background-color: rgba(0, 0, 0, 128); font-weight: bold; }
+.point-probability-text { display: none; }
+
+/* The attributes' boxes, every 60 from 116 (the level's is at 56). */
+.attr-textbox {
+	position: absolute;
+	left: 13px;
+	width: 75px;
+	height: 21px;
+	decorator: image(chainfo97-box);
+	pointer-events: none;
+}
+.attr-textbox-str { top: 116px; }
+.attr-textbox-agi { top: 176px; }
+.attr-textbox-vit { top: 236px; }
+.attr-textbox-ene { top: 296px; }
+.attr-textbox-cmd { top: 356px; }
+
+/* The label centred in the box (14 to 84), the value between the box and the button (88 to 125):
+   the 0.97k client wrote both in the box ("Fuerza: 28"), which a longer label doesn't fit. Both in
+   the 0.97k stats' gold. */
+.attr-label, .attr-value {
+	display: block;
+	position: absolute;
+	font-weight: bold;
+	white-space: nowrap;
+	pointer-events: none;
+	color: rgb(223, 204, 102);
+}
+.attr-label { left: 14px; width: 70px; text-align: center; transform-origin: center top; }
+.attr-value { left: 88px; width: 37px; text-align: center; transform-origin: center top; }
+.attr-label-str, .attr-value-str { top: 120px; }
+.attr-label-agi, .attr-value-agi { top: 180px; }
+.attr-label-vit, .attr-value-vit { top: 240px; }
+.attr-label-ene, .attr-value-ene { top: 300px; }
+.attr-label-cmd, .attr-value-cmd { top: 360px; }
+
+/* The derived lines, 15 apart from 20 under the box, each on a black band 130 wide. */
+.attr-lines { position: absolute; left: 24px; transform-origin: left top; pointer-events: none; }
+.attr-lines span { display: block; white-space: nowrap; color: #ffffff; background-color: rgba(0, 0, 0, 128); }
+.attr-lines-str { top: 140px; }
+.attr-lines-agi { top: 200px; }
+.attr-lines-vit { top: 260px; }
+.attr-lines-ene { top: 320px; }
+
+.stat-btn {
+	position: absolute;
+	left: 125px;
+	width: 24px;
+	height: 24px;
+	decorator: image(chainfo97-stat-btn);
+	cursor: pointer;
+	pointer-events: auto;
+}
+.stat-btn:active { decorator: image(chainfo97-stat-press); }
+.stat-btn-str { top: 115px; }
+.stat-btn-agi { top: 175px; }
+.stat-btn-vit { top: 235px; }
+.stat-btn-ene { top: 295px; }
+.stat-btn-cmd { top: 355px; }
+
+/* Sven's shortcuts beside the exit, in the 0.97k buttons' row and height. */
+.info-btn {
+	position: absolute;
+	top: 395px;
+	width: 30px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+}
+.info-btn:hover { filter: brightness(1.25); }
+.info-btn.locked { filter: brightness(0.6); }
+.info-btn-quest { left: 60px; decorator: image(chainfo-btn-quest fill); }
+.info-btn-pet { left: 95px; decorator: image(chainfo-btn-pet fill); }
+.info-btn-masterlevel { left: 130px; decorator: image(chainfo-btn-masterlevel fill); }
+
+/* data-class-hidden on display:block leaves: base.rcss's .hidden has the same specificity as the
+   leaf rules above and loses to them, so it is repeated here with the leaf class. */
+.levelup-point-text.hidden, .attr-label.hidden, .attr-value.hidden { display: none; }
+
+/* Outlaw level, from the model's pk_level (UI::Chat::SetPlayerColor()'s palette). */
+#name.pk-0 { color: rgb(150, 255, 240); }
+#name.pk-1 { color: rgb(100, 120, 255); }
+#name.pk-2 { color: rgb(140, 180, 255); }
+#name.pk-3 { color: rgb(200, 220, 255); }
+#name.pk-4 { color: rgb(255, 150, 60); }
+#name.pk-5 { color: rgb(255, 80, 30); }
+#name.pk-6 { color: rgb(255, 0, 0); }
+
+/* Where an attribute's total comes from (the model's *_value_source), as in legacy. */
+.attr-value.attr-boosted, .attr-label.attr-boosted { color: rgb(100, 150, 255); }
+.attr-value.attr-potion,  .attr-label.attr-potion  { color: rgb(255, 120, 0); }
+.attr-lines span.boosted { color: rgb(100, 150, 255); }
+.attr-lines span.buffed { color: rgb(255, 0, 240); }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
+#name { width: calc(100% * var(--root-scale)); margin-left: calc(50% - 50% * var(--root-scale)); }
+#classname { width: calc(100% * var(--root-scale)); margin-left: calc(50% - 50% * var(--root-scale)); }
+#servername { width: calc(100% * var(--root-scale)); margin-left: calc(50% - 50% * var(--root-scale)); }
+.level-text { width: calc(70px * var(--root-scale)); margin-left: calc(35px - 35px * var(--root-scale)); }
+.levelup-point-text { width: calc(80px * var(--root-scale)); margin-left: calc(40px - 40px * var(--root-scale)); }
+.exp-text, .point-text { min-width: calc(130px * var(--root-scale)); }
+.attr-label { width: calc(70px * var(--root-scale)); margin-left: calc(35px - 35px * var(--root-scale)); }
+.attr-value { width: calc(37px * var(--root-scale)); margin-left: calc(18.5px - 18.5px * var(--root-scale)); }
+.attr-lines span { min-width: calc(130px * var(--root-scale)); height: calc(15px * var(--root-scale)); }
