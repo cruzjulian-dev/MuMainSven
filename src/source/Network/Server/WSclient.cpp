@@ -7298,6 +7298,14 @@ void ReceivePartyList(const BYTE* ReceiveBuffer)
         p->y = Data2->y;
         p->currHP = Data2->currHP;
         p->maxHP = Data2->maxHP;
+        // The list's health as the health bars' tenths (ReceivePartyInfo()'s stepHP): the server
+        // sends those only when someone's health changes, so a party just formed, or a member who
+        // just moved to another slot, would show an empty or another member's bar until then.
+        if (p->maxHP > 0)
+        {
+            const long long tenths = static_cast<long long>(p->currHP) * 10 / p->maxHP;
+            p->stepHP = static_cast<BYTE>(std::clamp<long long>(tenths, 0, 10));
+        }
         Offset += sizeof(PRECEIVE_PARTY_LIST);
     }
 
