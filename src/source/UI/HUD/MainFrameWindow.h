@@ -88,8 +88,11 @@ namespace mu::ui::window
         void RmlClickMyInven() { m_bRmlMyInvenClicked = true; }
         void RmlClickFriend() { m_bRmlFriendClicked = true; }
         void RmlClickWindow() { m_bRmlWindowClicked = true; }
+        void RmlClickParty() { m_bRmlPartyClicked = true; }
+        void RmlClickGuild() { m_bRmlGuildClicked = true; }
 
     private:
+        void ProcessButtonClicks();
         void SyncRmlModel();
         void BuildRmlUi();
 
@@ -131,6 +134,10 @@ namespace mu::ui::window
             // Corner buttons: "Open" mirrors SetBtnState()'s bStateDown; tooltips are static strings pushed once.
             bool cShopOpen = false, chaInfoOpen = false, myInvenOpen = false, friendOpen = false, windowOpen = false;
             Rml::String cShopTooltip, chaInfoTooltip, myInvenTooltip, friendTooltip, windowTooltip;
+            // Party and guild buttons, shown only by themes that have them (97k); "Open" follows
+            // the windows' own visibility.
+            bool partyOpen = false, guildOpen = false;
+            Rml::String partyTooltip, guildTooltip;
 
             // Alert-blink dots: bound boolean + CSS dot, computed each frame from the same state
             // the legacy blink read.
@@ -188,6 +195,8 @@ namespace mu::ui::window
         bool m_bRmlMyInvenClicked = false;
         bool m_bRmlFriendClicked = false;
         bool m_bRmlWindowClicked = false;
+        bool m_bRmlPartyClicked = false;
+        bool m_bRmlGuildClicked = false;
 
     public:
         // Gates the RmlUi doc's Show()/Hide() on IsVisible() && sceneAllowsShow, same as CMuHelperBar/CBuffStrip.

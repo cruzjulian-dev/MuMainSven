@@ -2,9 +2,10 @@
    fills use real legacy gauge textures; numeric readouts are plain text; buttons use their sheet's
    own hover frame, as native does. */
 
-/* The modern theme's flat backing, and the readout variant this theme doesn't use. */
+/* The modern theme's flat backing, the readout variant this theme doesn't use, and the 0.97k
+   HUD's corner pieces and party and guild buttons (the original has none of them). */
 #gauge_fill_left, #gauge_fill_right, #item_band_fill, #skill_band_fill, #gauge_frame,
-.gauge-num.value-full {
+.gauge-num.value-full, #frame_corner_left, #frame_corner_right, #btn_party, #btn_guild {
 	display: none;
 }
 

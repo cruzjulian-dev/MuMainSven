@@ -23,6 +23,9 @@
 		<div id="frame_left" class="frame-art"></div>
 		<div id="frame_middle" class="frame-art"></div>
 		<div id="frame_right" class="frame-art"></div>
+		<!-- The 0.97k HUD's raised corner pieces, above both ends of the strip. -->
+		<div id="frame_corner_left" class="frame-art"></div>
+		<div id="frame_corner_right" class="frame-art"></div>
 		<div id="gauge_fill_left"></div>
 		<div id="gauge_fill_right"></div>
 		<div id="item_band_fill" class="slot-fill"></div>
@@ -80,6 +83,13 @@
 		</div>
 		<div id="btn_window" class="frame-btn slot-frame slot-fill" data-class-open="window_open" data-event-click="mainframe_window_click" data-attr-data-hint="window_tooltip">
 			<span class="btn-icon-label">MENU</span>
+		</div>
+		<!-- Party and guild: the 0.97k HUD's buttons. Themes without them hide them. -->
+		<div id="btn_party" class="frame-btn slot-frame slot-fill" data-class-open="party_open" data-event-click="mainframe_party_click" data-attr-data-hint="party_tooltip">
+			<span class="btn-icon-label">PARTY</span>
+		</div>
+		<div id="btn_guild" class="frame-btn slot-frame slot-fill" data-class-open="guild_open" data-event-click="mainframe_guild_click" data-attr-data-hint="guild_tooltip">
+			<span class="btn-icon-label">GUILD</span>
 		</div>
 	</div>
 
