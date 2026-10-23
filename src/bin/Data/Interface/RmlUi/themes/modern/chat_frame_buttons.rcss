@@ -1,3 +1,3 @@
-/* This theme hides the chat log's frame when typing ends (no ChatLogModes), so the frame's
-   buttons never show over a closed input box: chat_input.rcss draws them while typing. */
+/* This theme has no ChatLogModes, so this document never shows: chat_input.rcss draws the
+   chat's buttons while typing. */
 #panel { display: none; }

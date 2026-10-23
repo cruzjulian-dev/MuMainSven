@@ -197,6 +197,14 @@ bool mu::ui::window::CChatInputBox::UpdateKeyEvent()
 {
     if (mu::ui::window::IsPress(VK_F2))
     {
+        // With the 0.97k modes (ChatLogModes) F2 is the show-chat button's key, as in the 0.97k
+        // client.
+        if (UI::RmlBridge::ThemeHasChatLogModes())
+        {
+            ToggleChatLog();
+            return false;
+        }
+
         m_bShowMessageElseNormal = !m_bShowMessageElseNormal;
 
         if (m_bShowMessageElseNormal)
@@ -515,15 +523,7 @@ void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, C
         });
 
     c.BindEventCallback("chat_toggle_chatlog",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
-        {
-            m_bShowChatLog = !m_bShowChatLog;
-            if (m_bShowChatLog)
-                m_pNewUIChatLogWnd->ShowChatLog();
-            else
-                m_pNewUIChatLogWnd->HideChatLog();
-            PlayBuffer(SOUND_CLICK01);
-        });
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { ToggleChatLog(); });
 
     c.BindEventCallback("chat_toggle_frame",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
@@ -547,9 +547,23 @@ void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, C
     c.BindEventCallback("chat_alpha_step",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
         {
+            // The transparency is the box's: with the 0.97k modes (ChatLogModes) the history
+            // turns into the box first.
+            if (UI::RmlBridge::ThemeHasChatLogModes() && !m_pNewUIChatLogWnd->IsShowFrame())
+                m_pNewUIChatLogWnd->ShowFrame();
             m_pNewUIChatLogWnd->SetBackAlphaAuto();
             PlayBuffer(SOUND_CLICK01);
         });
+}
+
+void mu::ui::window::CChatInputBox::ToggleChatLog()
+{
+    m_bShowChatLog = !m_bShowChatLog;
+    if (m_bShowChatLog)
+        m_pNewUIChatLogWnd->ShowChatLog();
+    else
+        m_pNewUIChatLogWnd->HideChatLog();
+    PlayBuffer(SOUND_CLICK01);
 }
 
 void mu::ui::window::CChatInputBox::OnRmlReloaded()
@@ -581,12 +595,13 @@ void mu::ui::window::CChatInputBox::SyncRmlModel()
 
     ChatInputRmlModel& model = m_RmlView.GetModel();
 
-    // The frame's buttons over the closed box: shown while the frame stays and nobody types, which
-    // only a theme with the 0.97k modes (ChatLogModes) lets happen. Shown without the focus, so
-    // the game keeps its keys; the theme lays out where the pointer brings the buttons up.
+    // The chat's buttons over the closed box, in both of the 0.97k modes (ChatLogModes): shown
+    // while nobody types, hidden or not the log, so the show-chat button can bring it back. Shown
+    // without the focus, so the game keeps its keys; the theme lays out where the pointer brings
+    // the buttons up.
     Rml::ElementDocument* frameButtons = m_RmlView.Document(1);
-    UI::RmlBridge::SyncDocumentVisibilityInFront(
-        frameButtons, !IsVisible() && m_pNewUIChatLogWnd && m_pNewUIChatLogWnd->IsShowFrame());
+    UI::RmlBridge::SyncDocumentVisibilityInFront(frameButtons,
+                                                 !IsVisible() && UI::RmlBridge::ThemeHasChatLogModes());
     Rml::Element* revealZone = frameButtons ? frameButtons->GetElementById("reveal_zone") : nullptr;
     const bool pointerNear = UI::RmlBridge::IsPointerWithin(revealZone);
     if (model.frameButtonsNear != pointerNear)

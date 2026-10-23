@@ -86,6 +86,10 @@ namespace mu::ui::window
 
         void Init();
 
+        // Shows or hides the chat log, in either mode (the show-chat button, and F2 with the 0.97k
+        // modes).
+        void ToggleChatLog();
+
         void SetInputMsgType(int iInputMsgType);
         int GetInputMsgType() const;
 

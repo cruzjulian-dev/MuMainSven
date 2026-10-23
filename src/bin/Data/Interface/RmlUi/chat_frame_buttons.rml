@@ -4,10 +4,10 @@
 	<link type="text/rcss" href="base.rcss"/>
 	<link type="text/rcss" href="chat_frame_buttons.rcss"/>
 </head>
-<!-- The chat log frame's buttons (show chat, size, transparency) while the frame stays up and the
-     input box is closed: CChatInputBox shows this document only then, which only a theme declaring
-     ChatLogModes lets happen. The pointer inside #reveal_zone brings the buttons up (.near).
-     Same model as chat_input.rml, whose own copies of the buttons show while typing. -->
+<!-- The chat's buttons (show chat, size, transparency) over the closed input box, in both of
+     the 0.97k chat modes: CChatInputBox shows this document while nobody types, only for a theme
+     declaring ChatLogModes. The pointer inside #reveal_zone brings the buttons up (.near). Same
+     model as chat_input.rml, whose own copies of the buttons show while typing. -->
 <body data-model="chat_input">
 	<div id="panel" data-class-near="frame_buttons_near">
 		<div id="reveal_zone"></div>

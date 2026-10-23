@@ -29,8 +29,11 @@ in `legacy`:
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):
   - **History**: the log on the left without a frame, as in `legacy`.
   - **Box**: the 0.97k frame over the input box, down to the bar, with its scrollbar and resize
-    grip. It stays up when typing ends; then moving the pointer over the bar's middle brings up the
-    show-chat, size and transparency buttons over the closed input box.
+    grip. It stays up when typing ends.
+
+  While nobody types, in either mode, moving the pointer over the bar's middle brings up three
+  buttons over the closed input box: show or hide the chat (F2), the current mode's height (F4)
+  and the box's transparency (from the history it switches to the box first).
 
   F5 switches the modes and F4 cycles the current one's height (3, 6, 9, 12 or 15 lines), typing
   or not; each mode keeps its own height, so switching brings back the one it had. Lines are 13

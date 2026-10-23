@@ -325,9 +325,10 @@ ChatLogModes=1
 gives the log the 0.97k client's two modes instead: the history (no frame) and the box (the
 frame). F5 switches them and F4 cycles the current mode's height (3 to 15 lines in steps of 3),
 whether or not the player types; each mode keeps its own height, so switching brings back the
-one it had. The box stays up when typing ends. While it is up and the input box is closed,
-`chat_frame_buttons.rml` shows over the box: the show-chat, size and transparency buttons, on the
-`chat_input` model. The theme's `chat_frame_buttons.rcss` places them and an `#reveal_zone`; while
+one it had. The box stays up when typing ends, and F2 shows or hides the chat. While the input
+box is closed, in either mode, `chat_frame_buttons.rml` shows over it: the show-chat, size and
+transparency buttons, on the `chat_input` model (transparency switches the history to the box
+first). The theme's `chat_frame_buttons.rcss` places them and an `#reveal_zone`; while
 the pointer is inside that zone, `#panel` carries `.near`, which the theme uses to bring the
 buttons up. The zone only measures the pointer, so give it `pointer-events: none`. A theme without
 the capability never shows the document; `legacy` and `modern` hide its panel. The `97k` theme

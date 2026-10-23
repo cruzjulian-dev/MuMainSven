@@ -75,8 +75,9 @@ namespace UI::RmlBridge
     bool ThemeUsesNearestFiltering();
     // Whether the chat log has the 0.97k client's two modes (ChatLogModes=1): the history without
     // its frame and the box with it. F5 switches them and F4 cycles the current one's height
-    // whether or not the player types, each mode keeps its own height, and the box stays up when
-    // typing ends, its buttons over the closed input box (chat_frame_buttons.rml).
+    // whether or not the player types, each mode keeps its own height, the box stays up when
+    // typing ends, F2 shows or hides the chat, and while nobody types the chat's buttons sit over
+    // the closed input box (chat_frame_buttons.rml).
     bool ThemeHasChatLogModes();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.

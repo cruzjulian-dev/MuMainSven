@@ -1,8 +1,10 @@
-/* MU 0.97k theme: the chat frame's three buttons over the closed input box, as the 0.97k client
-   drew them while its frame stayed up -- Nis_btnchat, Nis_btnsize and Nis_btnalpha, 16x16 at x
-   295/313/331, y 417. They fade in while the pointer is over the bar's middle (x 160 to 480, below
-   y 416) and fade out when it leaves. The panel is that strip of the original's 640x480 frame, in
-   HUD units like the bar under it (one unit is --hud-scale px), centred on the screen's bottom. */
+/* MU 0.97k theme: the chat's three buttons over the closed input box, as the 0.97k client drew
+   them in both chat modes -- Nis_btnchat (show or hide the chat, F2), Nis_btnsize (the current
+   mode's height, F4) and Nis_btnalpha (the box's transparency; from the history it switches to the
+   box first), 16x16 at x 295/313/331, y 417. They fade in while the pointer is over the bar's
+   middle (x 160 to 480, below y 416) and fade out when it leaves. The panel is that strip of the
+   original's 640x480 frame, in HUD units like the bar under it (one unit is --hud-scale px),
+   centred on the screen's bottom. */
 
 @spritesheet cfb-show-sheet  { src: "../../../../Interface97/Nis_btnchat.jpg";  cfb-show: 0px 0px 16px 16px; }
 @spritesheet cfb-size-sheet  { src: "../../../../Interface97/Nis_btnsize.jpg";  cfb-size: 0px 0px 16px 16px; }
