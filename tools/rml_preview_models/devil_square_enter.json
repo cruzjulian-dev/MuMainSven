@@ -5,24 +5,51 @@
  "exit_tooltip": "Close",
  "lines": [
   {
-   "text": "Choose the square that matches your level. You need an invitation."
+   "text": "You've been given a chance to prove your bravery."
+  },
+  {
+   "text": "No one has ever entered the Devil Square yet."
+  },
+  {
+   "text": "No human has ever gone there."
+  },
+  {
+   "text": "Do not believe anything you see in there."
+  },
+  {
+   "text": "Only trust your bravery and strength"
+  },
+  {
+   "text": "Only your bravery and strength will protect you."
   }
  ],
  "buttons": [
   {
-   "label": "Square 1 (Lv 15-130)",
+   "label": "The 1 Square (15-110 level)",
    "enabled": false
   },
   {
-   "label": "Square 2 (Lv 131-180)",
+   "label": "The 2 Square (111-160 level)",
+   "enabled": false
+  },
+  {
+   "label": "The 3 Square (161-210 level)",
    "enabled": true
   },
   {
-   "label": "Square 3 (Lv 181-230)",
+   "label": "The 4 Square (211-260 level)",
    "enabled": false
   },
   {
-   "label": "Square 4 (Lv 231-280)",
+   "label": "The 5 Square (261-310 level)",
+   "enabled": false
+  },
+  {
+   "label": "The 6 Square (311-400 level)",
+   "enabled": false
+  },
+  {
+   "label": "Square no. 7 (Master Level)",
    "enabled": false
   }
  ]

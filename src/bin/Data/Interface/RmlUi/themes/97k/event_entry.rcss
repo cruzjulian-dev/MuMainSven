@@ -1,18 +1,22 @@
 /* The 97k theme's Devil Square and Blood Castle entries (devil_square_enter, blood_castle_enter):
-   the 0.97k panel and exit are docked_panel_frame.rcss's. The 0.97k client chose the level in a
-   window of its own art-less bands, so each level is a black band edged in the 0.97k gold
-   (0.722,0.592,0.380), grey under the pointer while it can be entered and the label grey while
-   it can't. The text panes keep legacy's places and wrapping. */
+   the 0.97k event window, measured from the 0.97k client. The panel and the exit are
+   docked_panel_frame.rcss's. The title is on the 0.97k title band (0xFF141414 at half strength),
+   120 wide at 35,12; the description lines are centred, one line each, 20 apart from 82; each level is a 140x35
+   button at 24 with the 0.97k Message_box art stretched over it and its label in the 0.97k red,
+   45 apart from 211. Where Sven has more text or levels than the window holds, its pane scrolls
+   with the 0.97k chat's scrollbar (Nis_back, Nis_bar, Nis_btnarrow). The panes' places are each
+   document's own .rcss. */
 #panel { pointer-events: auto; }
 
 #title {
     display: block;
     position: absolute;
-    left: 8px;
+    left: 35px;
     top: 12px;
-    --flow-w: 154px;
+    --flow-w: 120px;
     font-weight: bold;
-    line-height: 1.1;
+    line-height: 1;
+    background-color: rgba(20, 20, 20, 128);
     text-align: center;
     white-space: normal;
     word-break: break-word;
@@ -25,36 +29,34 @@
     --flow-w: 178px;
 }
 .entry-lines {
-    top: 55px;
-    line-height: 1.1;
+    line-height: calc(20px * var(--root-scale));
     text-align: center;
 }
 .entry-line {
+    /* One line per row, as the 0.97k client wrote them; a longer one runs out of the pane. */
     display: block;
-    white-space: normal;
-    word-break: break-word;
-    /* A line that fills the pane keeps its glyphs' side bearings inside the pane's clip. */
-    padding: 0 2px;
+    white-space: nowrap;
     pointer-events: none;
 }
-.entry-line + .entry-line { margin-top: 0.25em; }
+
 
 .entry-buttons {
     font-weight: bold;
     line-height: 1.1;
 }
 .entry-btn {
-    /* The label centres on the band when the band's minimum height is the taller. */
+    /* The label centres on the button. */
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
     box-sizing: border-box;
-    min-height: calc(29px * var(--root-scale));
-    padding: calc(6px * var(--root-scale)) calc(4px * var(--root-scale));
+    width: calc(140px * var(--root-scale));
+    min-height: calc(35px * var(--root-scale));
+    padding: 0 calc(6px * var(--root-scale));
     pointer-events: auto;
 }
-.entry-btn + .entry-btn { margin-top: calc(4px * var(--root-scale)); }
+.entry-btn + .entry-btn { margin-top: calc(10px * var(--root-scale)); }
 .entry-btn-art {
     position: absolute;
     left: 0;
@@ -67,27 +69,42 @@
     display: block;
     position: relative;
     text-align: center;
-    white-space: normal;
-    word-break: break-word;
+    white-space: nowrap;
     pointer-events: none;
 }
 
-/* The pane is already physical-sized. Its descendants must not counter-scale again. */
+/* The 0.97k chat's scrollbar. The panes are already physical-sized, so their lengths are reference
+   px times the panel's scale. */
+@spritesheet entry97-rail-sheet  { src: "../../../../Interface97/Nis_back.jpg";     entry97-rail: 0px 0px 13px 1px; }
+@spritesheet entry97-thumb-sheet { src: "../../../../Interface97/Nis_bar.jpg";      entry97-thumb: 0px 0px 11px 1px; }
+@spritesheet entry97-arrow-sheet { src: "../../../../Interface97/Nis_btnarrow.jpg"; entry97-arrow: 0px 0px 13px 13px; }
 .entry-lines scrollbarvertical, .entry-buttons scrollbarvertical {
-    width: calc(15px * var(--root-scale));
+    width: calc(13px * var(--root-scale));
+}
+.entry-lines scrollbarvertical slidertrack, .entry-buttons scrollbarvertical slidertrack {
+    decorator: image(entry97-rail fill);
 }
 .entry-lines scrollbarvertical sliderbar, .entry-buttons scrollbarvertical sliderbar {
-    height: calc(30px * var(--root-scale));
+    height: auto;
+    min-height: calc(8px * var(--root-scale));
+    margin-left: calc(1px * var(--root-scale));
+    margin-right: calc(1px * var(--root-scale));
+    decorator: image(entry97-thumb fill);
 }
+.entry-lines scrollbarvertical sliderarrowdec, .entry-lines scrollbarvertical sliderarrowinc,
+.entry-buttons scrollbarvertical sliderarrowdec, .entry-buttons scrollbarvertical sliderarrowinc {
+    height: calc(13px * var(--root-scale));
+    pointer-events: auto;
+    cursor: pointer;
+}
+.entry-lines scrollbarvertical sliderarrowdec, .entry-buttons scrollbarvertical sliderarrowdec { decorator: image(entry97-arrow); }
+.entry-lines scrollbarvertical sliderarrowinc, .entry-buttons scrollbarvertical sliderarrowinc { decorator: image(entry97-arrow flip-vertical); }
 
 #title, .entry-line { color: #ffffff; }
-#title { color: rgb(220, 220, 220); }
-.entry-btn-art {
-    background-color: rgba(0, 0, 0, 160);
-    border: 1px rgba(184, 151, 97, 160);
-}
-.entry-btn.enabled:hover .entry-btn-art { background-color: rgba(128, 128, 128, 160); }
-.entry-btn.enabled:active .entry-btn-art { background-color: rgba(40, 40, 150, 200); }
-.entry-label { color: #969696; }
-.entry-btn.enabled .entry-label { color: #ffffff; }
+@spritesheet entry97-btn-sheet { src: "../../../../Interface97/Message_box.jpg"; entry97-btn: 0px 0px 213px 64px; }
+.entry-btn-art { decorator: image(entry97-btn fill); }
+.entry-btn.enabled:active .entry-btn-art { image-color: rgb(200, 200, 200); }
+/* The 0.97k red; a level the hero can't enter is the same red, dimmed. */
+.entry-label { color: rgb(110, 40, 30); }
+.entry-btn.enabled .entry-label { color: rgb(180, 30, 10); }
 .entry-exit-glyph { display: none; }

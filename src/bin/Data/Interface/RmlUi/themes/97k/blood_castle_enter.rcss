@@ -1,0 +1,15 @@
+/* The 97k theme's places for the Blood Castle entry's panes (event_entry.rcss): the description from
+   82, its lines centred 20 apart, down to the first level at 211; the levels from 211 at 24,
+   140-wide buttons 45 apart, four in view down to the exit row. Beyond that each pane scrolls. */
+.entry-lines {
+    left: 15px;
+    top: 78px;
+    --flow-w: 160px;
+    height: calc(130px * var(--root-scale));
+}
+.entry-buttons {
+    left: 24px;
+    top: 211px;
+    --flow-w: 155px;
+    height: calc(175px * var(--root-scale));
+}
