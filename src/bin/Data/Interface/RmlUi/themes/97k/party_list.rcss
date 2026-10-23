@@ -37,7 +37,9 @@
 .card.defense .card-tint { display: block; background-color: rgba(51, 255, 51, 51); }
 .card.selected .card-select { display: block; background-color: rgba(128, 128, 128, 204); }
 .card.absent .card-tint { display: block; background-color: rgba(77, 0, 0, 128); }
-.card-flag { display: none; position: absolute; left: 38px; top: 2px; width: 9px; height: 10px; decorator: image(plist-flag); }
+/* The leader's flag at the card's right end, 1 in from its gold side (the leave button's place is
+   free), right after the 48 units C++ shrinks the leader's name to (from 2), so it covers none of it. */
+.card-flag { display: none; position: absolute; left: 50px; top: 2px; width: 9px; height: 10px; decorator: image(plist-flag); }
 .card.leader .card-flag { display: block; }
 
 .card-name {
