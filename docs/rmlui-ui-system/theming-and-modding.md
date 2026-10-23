@@ -334,6 +334,10 @@ buttons up. The zone only measures the pointer, so give it `pointer-events: none
 the capability never shows the document; `legacy` and `modern` hide its panel. The `97k` theme
 uses it.
 
+`WhisperStartsOff=1` starts each character with whispering off, as in the 0.97k client: the
+recipient field takes no typing until F3 (or a button bound to `chat_toggle_whisper_send`)
+switches it on. Without it whispering starts on.
+
 ## Restacking a document: `[Stacking]`
 
 Each document draws at the depth of the original window it replaces (`RmlStackingOrder.cpp`). A
@@ -445,7 +449,7 @@ their element's drawn size; choose their scaling deliberately.
   window declares one.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
   theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
-  `NearestFiltering` and `ChatLogModes` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  `NearestFiltering`, `ChatLogModes` and `WhisperStartsOff` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

@@ -79,6 +79,9 @@ namespace UI::RmlBridge
     // typing ends, F2 shows or hides the chat, and while nobody types the chat's buttons sit over
     // the closed input box (chat_frame_buttons.rml).
     bool ThemeHasChatLogModes();
+    // Whether whispering starts switched off (WhisperStartsOff=1), as in the 0.97k client: F3
+    // switches it on, and until then the recipient field takes no typing.
+    bool ThemeWhisperStartsOff();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

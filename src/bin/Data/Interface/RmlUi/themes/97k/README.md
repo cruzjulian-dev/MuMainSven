@@ -38,9 +38,10 @@ in `legacy`:
   F5 switches the modes and F4 cycles the current one's height (3, 6, 9, 12 or 15 lines), typing
   or not; each mode keeps its own height, so switching brings back the one it had. Lines are 13
   units apart and the box is 40 units per 3 lines plus 10, as in the 0.97k client. The input box,
-  shown while typing, draws over the bar (`[Stacking]` in `theme.ini`); the ear in it blocks
-  whispers. There are no chat-type buttons: start a message with ~ (party), @ (guild) or
-  $ (Gens).
+  shown while typing, draws over the bar (`[Stacking]` in `theme.ini`). Its ear is F3's switch:
+  each character starts with whispering off (`WhisperStartsOff=1`), the ear grey and the
+  recipient field red; F3 or the ear turns it gold and the field takes the name. There are no
+  chat-type buttons: start a message with ~ (party), @ (guild) or $ (Gens).
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 

@@ -89,6 +89,8 @@ bool mu::ui::window::CChatInputBox::Create(
     // Both text fields, their tab pairing, their colours/limits and every button's hit box now
     // come from chat_input.rml/.rcss -- nothing to construct here.
     SetInputMsgType(INPUT_CHAT_MESSAGE);
+    // Created on entering the game, so each character starts with the theme's whisper state.
+    m_bWhisperSend = !UI::RmlBridge::ThemeWhisperStartsOff();
 
     Show(false);
 

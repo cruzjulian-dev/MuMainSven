@@ -29,8 +29,8 @@
 
 		<!-- Independent toggles. -->
 		<!-- rml-contract-optional-callback: chat_toggle_whisper_block: the 0.97k ear is F3's switch; whispers from others are not blocked from here -->
-		<!-- 97k: the ear is F3's switch, as in the 0.97k client: gold while whispering is off. -->
-		<div id="btn_whisper" class="cib-btn cib-btn-whisper" data-class-on="!whisper_send"
+		<!-- 97k: the ear is F3's switch, as in the 0.97k client: gold while whispering is on. -->
+		<div id="btn_whisper" class="cib-btn cib-btn-whisper" data-class-on="whisper_send"
 		     data-event-click="chat_toggle_whisper_send" data-attr-data-hint="hint_4"></div>
 		<div id="btn_system" class="cib-btn cib-btn-system" data-class-on="show_system"
 		     data-event-click="chat_toggle_system" data-attr-data-hint="hint_5"></div>

@@ -131,6 +131,11 @@ namespace UI::RmlBridge
         return HasChatLogModesStorage();
     }
 
+    bool ThemeWhisperStartsOff()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "WhisperStartsOff");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);

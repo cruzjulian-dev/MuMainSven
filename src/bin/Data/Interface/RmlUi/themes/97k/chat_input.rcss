@@ -1,7 +1,7 @@
 /* MU 0.97k theme for CChatInputBox: the 0.97k input box (Dialogue1 + Dialogue2, 133x29 each,
    drawn 134 wide, chat_input.rml) that shows while typing, over the bar at x 186, y 415. The message goes in the dark well at (191, 422),
    180 wide; the whisper target in the grey well at (376, 422), 50 wide; the ear at (432, 420) is
-   F3's switch, gold while whispering is off. The 0.97k client had no chat-type buttons: a message starts with ~ for the party, @ for
+   F3's switch, gold while whispering is on. The 0.97k client had no chat-type buttons: a message starts with ~ for the party, @ for
    the guild ($ for Gens), which this client also reads. Its show-chat, size and transparency
    buttons only showed while not typing, over the closed box: chat_frame_buttons.rcss draws them.
    The system-message switch has no 0.97k button; F5 still shows the chat frame. */
