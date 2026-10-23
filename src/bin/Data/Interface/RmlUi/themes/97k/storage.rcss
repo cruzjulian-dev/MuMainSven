@@ -3,9 +3,9 @@
    stored zen 10 into an Item_Money box at 50,353 with "Zen" 30 left of it on its band, and the
    withdrawal fee at 50,374 (its amount 70 further on), as the 0.97k client drew them. The 0.97k
    buttons are on the 390 row: Money_01 to put zen in at 26 and to take it out at 76, the lock at
-   126 (Lock_01 open, Lock_03 locked, the next one pressed). The 0.97k panel has no corner close:
-   storage.rml's fork adds the 0.97k exit, at 151 after the lock, and Sven's expansion takes the
-   gap at 101. The workspace places #panel, so coordinates are reference px. */
+   126 (Lock_01 open, Lock_03 locked, the next one pressed). The 0.97k storage has no exit of its own:
+   the inventory's closes both (its corner close goes too). Sven's expansion takes the gap at
+   101. The workspace places #panel, so coordinates are reference px. */
 
 #panel {
 	position: absolute;
@@ -94,8 +94,6 @@
 	pointer-events: none;
 }
 
-@spritesheet stor97-exit-sheet          { src: "../../../../Interface97/Exit_01.jpg";  stor97-exit:          0px 0px 24px 24px; }
-@spritesheet stor97-exit-press-sheet    { src: "../../../../Interface97/Exit_02.jpg";  stor97-exit-press:    0px 0px 24px 24px; }
 @spritesheet stor97-money-btn-sheet     { src: "../../../../Interface97/Money_01.jpg"; stor97-money-btn:     0px 0px 24px 24px; }
 @spritesheet stor97-money-press-sheet   { src: "../../../../Interface97/Money_02.jpg"; stor97-money-press:   0px 0px 24px 24px; }
 @spritesheet stor97-lock-open-sheet     { src: "../../../../Interface97/Lock_01.jpg";  stor97-lock-open:     0px 0px 24px 24px; }
@@ -112,8 +110,6 @@
 	pointer-events: auto;
 }
 .stor-btn.hidden { display: none; }
-.stor-btn-exit   { left: 151px; decorator: image(stor97-exit); }
-.stor-btn-exit:active { decorator: image(stor97-exit-press); }
 .stor-btn-insert, .stor-btn-take { decorator: image(stor97-money-btn); }
 .stor-btn-insert:active, .stor-btn-take:active { decorator: image(stor97-money-press); }
 .stor-btn-insert { left: 26px; }

@@ -64,8 +64,9 @@ in `legacy`:
 - **The NPC shop** (`npc_shop.rml/.rcss`), **the storage** (`storage.rml/.rcss`) and **the chaos
   mix** (`mix_inventory.rml/.rcss`): the 0.97k panel and cells, their amounts in `Item_Money`
   boxes and the 0.97k buttons (`Repair_01`; `Money_01` and the lock, `Lock_01`/`Lock_03`;
-  `Mix_button1`). The 0.97k panel has no corner close, so each fork of the markup adds only the
-  0.97k exit; Sven's own buttons (repair all, storage expansion) take 0.97k art or keep theirs
+  `Mix_button1`). The 0.97k panel has no corner close: the shop's and the mix's forks of the
+  markup add the 0.97k exit, and the storage has none, as in the 0.97k client (the inventory's
+  exit closes it); Sven's own buttons (repair all, storage expansion) take 0.97k art or keep theirs
   beside the 0.97k ones.
 - **The party** (`party_info.rcss`, `party_list.rcss`): the window lists each member as the 0.97k
   client did (the leader's name on a dark red band, the 0.97k health bar, the kick as the 0.97k

@@ -6,9 +6,8 @@
 	<link type="text/rcss" href="storage.rcss"/>
 </head>
 <body data-model="storage">
-	<!-- 97k fork of legacy's storage.rml: adds #btn_exit, the 0.97k exit, since the 0.97k panel has
-	     no corner close, and #zen_label, the "Zen" the 0.97k client wrote left of the money box;
-	     keep the rest in step with it. -->
+	<!-- 97k fork of legacy's storage.rml: adds #zen_label, the "Zen" the 0.97k client wrote left of the
+	     money box; keep the rest in step with it. -->
 	<!-- CStorageInventory (StorageInventory.h): the frame, the item grid, the items C++ draws live
 	     into #item_view, the stack counts, title, money and buttons. -->
 	<div id="panel" data-style---text-px="text_px + 'px'">
@@ -48,8 +47,6 @@
 		      data-class-gold-ten-million="zen_tier == 'ten-million'">{{zen_text}}</span>
 		<span class="sharp-text" id="fee_label" data-style-font-size="text_px + 'px'">{{fee_label}}</span>
 		<span class="sharp-text sharp-right" id="fee_value" data-style-font-size="text_px + 'px'">{{fee_value}}</span>
-
-		<div id="btn_exit" class="stor-btn stor-btn-exit" data-event-click="window_close"></div>
 
 		<div id="btn_insert" class="stor-btn stor-btn-insert" data-event-click="storage_insert_click" data-attr-data-hint="insert_tooltip"></div>
 
