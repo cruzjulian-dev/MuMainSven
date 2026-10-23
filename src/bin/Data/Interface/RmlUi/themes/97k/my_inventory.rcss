@@ -1,0 +1,179 @@
+/* The 97k theme's CMyInventory: the 0.97k client's RenderInventoryWindow(). The panel is
+   Item_Back01 over Item_Back02 (433 units; the panel keeps its 429, the art reaches onto the bar as
+   in the 0.97k client), the equipment boxes are RenderEquipmentBox()'s at their 0.97k places and
+   sizes, the money box is Item_Money, and the exit and repair are the 0.97k 24x24 buttons at 25 and
+   60 on the 395 row. The item grid is item_grid.rcss's, at 15,200 as in the 0.97k client. The
+   workspace places #panel, so coordinates are reference px.
+
+   Sven's personal-shop and expansion buttons, which the 0.97k client didn't have, stay in the same
+   row at its height. */
+
+@spritesheet inv97-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; inv97-back-top: 0px 0px 190px 256px; }
+@spritesheet inv97-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; inv97-back-bottom: 0px 0px 190px 177px; }
+
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom {
+	position: absolute;
+	pointer-events: none;
+}
+.bg-fill   { left: 0; top: 0;     width: 190px; height: 256px; decorator: image(inv97-back-top); }
+.bg-bottom { left: 0; top: 256px; width: 190px; height: 177px; decorator: image(inv97-back-bottom); }
+.bg-top, .bg-left, .bg-right { display: none; }
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	font-family: "token(font-body)";
+}
+
+/* The 0.97k panel draws no close mark in its corner, so the corner's hit box goes. */
+#frame_corner_close { display: none; }
+
+.native-text { white-space: nowrap; pointer-events: none; }
+
+/* Drag handle (MyInventory.cpp): the title band. */
+#title {
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: 190px;
+	height: 15px;
+	cursor: move;
+}
+.title-text {
+	display: block;
+	width: 190px;
+	text-align: center;
+	transform-origin: center top;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+/* The money box at 50,368 (the 0.97k 367.7), "Zen" 30 left of it and the amount 10 into it, both
+   3 below its top. The amount's colours are the 0.97k tiers: pale under 100,000, green under a
+   million, yellow above. */
+@spritesheet inv97-money-sheet { src: "../../../../Interface97/Item_money.jpg"; inv97-money: 0px 0px 113px 18px; }
+#gold_bg {
+	position: absolute;
+	left: 50px;
+	top: 368px;
+	width: 113px;
+	height: 18px;
+	decorator: image(inv97-money);
+	pointer-events: none;
+}
+#gold_label, #gold_text {
+	position: absolute;
+	top: 371px;
+	transform-origin: left top;
+	font-weight: bold;
+}
+#gold_label { left: 20px; color: rgb(255, 220, 150); }
+#gold_text { left: 60px; }
+#gold_text.gold-base             { color: rgb(255, 220, 150); }
+#gold_text.gold-hundred-thousand { color: rgb(0, 201, 24); }
+#gold_text.gold-million          { color: rgb(255, 255, 31); }
+#gold_text.gold-ten-million      { color: rgb(255, 255, 31); }
+
+@spritesheet inv97-exit-sheet          { src: "../../../../Interface97/Exit_01.jpg";   inv97-exit:          0px 0px 24px 24px; }
+@spritesheet inv97-exit-press-sheet    { src: "../../../../Interface97/Exit_02.jpg";   inv97-exit-press:    0px 0px 24px 24px; }
+@spritesheet inv97-repair-sheet        { src: "../../../../Interface97/Repair_01.jpg"; inv97-repair:        0px 0px 24px 24px; }
+@spritesheet inv97-repair-press-sheet  { src: "../../../../Interface97/Repair_02.jpg"; inv97-repair-press:  0px 0px 24px 24px; }
+@spritesheet inv-btn-expand-sheet      { src: "../../../newui_expansion_btn.tga";  inv-btn-expand:  0px 0px 36px 29px; }
+@spritesheet inv-btn-myshop-open-sheet  { src: "../../../newui_Bt_openshop.tga";  inv-btn-myshop-open:  0px 0px 36px 29px; }
+@spritesheet inv-btn-myshop-close-sheet { src: "../../../newui_Bt_closeshop.tga"; inv-btn-myshop-close: 0px 0px 36px 29px; }
+
+.inv-btn {
+	position: absolute;
+	top: 395px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+}
+.inv-btn.hidden { display: none; }
+.inv-btn.locked { pointer-events: none; filter: brightness(0.6); }
+
+.inv-btn-exit   { left: 25px; decorator: image(inv97-exit); }
+.inv-btn-exit:active { decorator: image(inv97-exit-press); }
+.inv-btn-repair { left: 60px; decorator: image(inv97-repair); }
+.inv-btn-repair:active { decorator: image(inv97-repair-press); }
+/* Sven's own, at the row's height. */
+.inv-btn-myshop, .inv-btn-expand { width: 30px; }
+.inv-btn-myshop:hover, .inv-btn-expand:hover { filter: brightness(1.25); }
+.inv-btn-myshop { left: 95px; decorator: image(inv-btn-myshop-open fill); }
+.inv-btn-myshop.close-mode { decorator: image(inv-btn-myshop-close fill); }
+.inv-btn-expand { left: 130px; decorator: image(inv-btn-expand fill); }
+
+/* Set/Socket option header (Sven's): one centred line between the title band and the equipment,
+   gray by default, yellow when that bonus is active. */
+.option-labels {
+	position: absolute;
+	left: 0;
+	top: 31px;
+	width: 190px;
+	text-align: center;
+	transform-origin: center top;
+	font-weight: bold;
+}
+.option-label { color: #646464; }
+.option-label.active { color: #ffcc19; }
+.option-label + .option-label { margin-left: 0.3em; }
+.option-hover {
+	position: absolute;
+	top: 29px;
+	width: 95px;
+	height: 15px;
+	pointer-events: auto;
+	cursor: default;
+}
+.option-hover-set { left: 0; }
+.option-hover-socket { left: 95px; }
+
+/* RenderEquipmentBox()'s boxes, at the 0.97k places and sizes. The slot names are Sven's: its
+   weapon_right is the 0.97k left-hand box (Item_Weapon01), weapon_left the right-hand one. */
+@spritesheet inv97-slot-helper-sheet  { src: "../../../../Interface97/Item_fairy.jpg";    inv97-slot-helper:  0px 0px 40px 40px; }
+@spritesheet inv97-slot-helm-sheet    { src: "../../../../Interface97/Item_cap.jpg";      inv97-slot-helm:    0px 0px 40px 40px; }
+@spritesheet inv97-slot-wing-sheet    { src: "../../../../Interface97/Item_wing.jpg";     inv97-slot-wing:    0px 0px 60px 40px; }
+@spritesheet inv97-slot-weapon1-sheet { src: "../../../../Interface97/Item_weapon01.jpg"; inv97-slot-weapon1: 0px 0px 40px 60px; }
+@spritesheet inv97-slot-weapon2-sheet { src: "../../../../Interface97/Item_weapon02.jpg"; inv97-slot-weapon2: 0px 0px 40px 60px; }
+@spritesheet inv97-slot-armor-sheet   { src: "../../../../Interface97/Item_upper.jpg";    inv97-slot-armor:   0px 0px 40px 60px; }
+@spritesheet inv97-slot-pants-sheet   { src: "../../../../Interface97/Item_lower.jpg";    inv97-slot-pants:   0px 0px 40px 40px; }
+@spritesheet inv97-slot-gloves-sheet  { src: "../../../../Interface97/Item_gloves.jpg";   inv97-slot-gloves:  0px 0px 40px 40px; }
+@spritesheet inv97-slot-boots-sheet   { src: "../../../../Interface97/Item_boots.jpg";    inv97-slot-boots:   0px 0px 40px 40px; }
+@spritesheet inv97-slot-amulet-sheet  { src: "../../../../Interface97/Item_necklace.jpg"; inv97-slot-amulet:  0px 0px 20px 20px; }
+@spritesheet inv97-slot-ring-sheet    { src: "../../../../Interface97/Item_ring.jpg";     inv97-slot-ring:    0px 0px 20px 20px; }
+
+/* Where CMyInventory places the slots, the grid and the option tooltip, in #panel's units: a
+   slot's box is its hit and drop area. */
+.native-anchor { position: absolute; pointer-events: none; }
+#slot_helper       { left: 15px;  top: 46px;  width: 40px; height: 40px; decorator: image(inv97-slot-helper); }
+#slot_helm         { left: 75px;  top: 46px;  width: 40px; height: 40px; decorator: image(inv97-slot-helm); }
+#slot_wing         { left: 115px; top: 46px;  width: 60px; height: 40px; decorator: image(inv97-slot-wing); }
+#slot_weapon_right { left: 15px;  top: 89px;  width: 40px; height: 60px; decorator: image(inv97-slot-weapon1); }
+#slot_armor        { left: 75px;  top: 89px;  width: 40px; height: 60px; decorator: image(inv97-slot-armor); }
+#slot_weapon_left  { left: 134px; top: 89px;  width: 40px; height: 60px; decorator: image(inv97-slot-weapon2); }
+#slot_gloves       { left: 15px;  top: 152px; width: 40px; height: 40px; decorator: image(inv97-slot-gloves); }
+#slot_pants        { left: 75px;  top: 152px; width: 40px; height: 40px; decorator: image(inv97-slot-pants); }
+#slot_boots        { left: 134px; top: 152px; width: 40px; height: 40px; decorator: image(inv97-slot-boots); }
+#slot_amulet       { left: 55px;  top: 89px;  width: 20px; height: 20px; decorator: image(inv97-slot-amulet); }
+#slot_ring_right   { left: 55px;  top: 152px; width: 20px; height: 20px; decorator: image(inv97-slot-ring); }
+#slot_ring_left    { left: 115px; top: 152px; width: 20px; height: 20px; decorator: image(inv97-slot-ring); }
+
+/* A slot's state (CMyInventory::SyncSlotStates()): no-art where the class wears nothing there; the
+   item's wear or unfitness as a tint over the whole box; refused while the item on the cursor
+   cannot go in. */
+.equip-slot.no-art { decorator: none; }
+.equip-slot-item { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.equip-slot.broken .equip-slot-item, .equip-slot.unequipable .equip-slot-item { background-color: rgba(255, 0, 0, 64); }
+.equip-slot.durability-20 .equip-slot-item { background-color: rgba(255, 38, 0, 64); }
+.equip-slot.durability-30 .equip-slot-item { background-color: rgba(255, 128, 0, 64); }
+.equip-slot.durability-50 .equip-slot-item { background-color: rgba(255, 255, 0, 64); }
+.equip-slot.refused .equip-slot-item { background-color: rgba(230, 26, 26, 102); }
+#item_grid, #item_grid_counts { left: 15px; top: 200px; width: calc(8 * var(--item-cell)); height: calc(8 * var(--item-cell)); }
+#option_tooltip_anchor { left: 95px; top: 40px; }
+
+/* The grid's clicks are native (CInventoryCtrl), so the placed panel takes no pointer events; its
+   controls take their own. */
+#panel.slot-placed { pointer-events: none; }

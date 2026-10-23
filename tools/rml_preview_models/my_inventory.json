@@ -1,0 +1,354 @@
+{
+ "text_px": 12,
+ "title": "Inventory",
+ "gold_text": "1,234,567",
+ "gold_tier": "million",
+ "repair_visible": true,
+ "repair_tooltip": "Repair",
+ "myshop_visible": true,
+ "myshop_mode_open": true,
+ "myshop_locked": false,
+ "myshop_tooltip": "Personal store",
+ "exit_tooltip": "Close",
+ "expand_tooltip": "Expand",
+ "set_option_label": "Set Option",
+ "set_option_active": false,
+ "socket_option_label": "Socket Option",
+ "socket_option_active": false,
+ "slot_states": [
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  ""
+ ],
+ "grid_cells": [
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-durability-80",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": "3"
+  },
+  {
+   "tint": "",
+   "drop": "drop-free",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "drop-free",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  }
+ ]
+}
