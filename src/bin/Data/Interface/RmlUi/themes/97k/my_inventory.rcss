@@ -108,30 +108,9 @@
 .inv-btn-myshop.close-mode { decorator: image(inv-btn-myshop-close fill); }
 .inv-btn-expand { left: 130px; decorator: image(inv-btn-expand fill); }
 
-/* Set/Socket option header (Sven's): one centred line between the title band and the equipment,
-   gray by default, yellow when that bonus is active. */
-.option-labels {
-	position: absolute;
-	left: 0;
-	top: 31px;
-	width: 190px;
-	text-align: center;
-	transform-origin: center top;
-	font-weight: bold;
-}
-.option-label { color: #646464; }
-.option-label.active { color: #ffcc19; }
-.option-label + .option-label { margin-left: 0.3em; }
-.option-hover {
-	position: absolute;
-	top: 29px;
-	width: 95px;
-	height: 15px;
-	pointer-events: auto;
-	cursor: default;
-}
-.option-hover-set { left: 0; }
-.option-hover-socket { left: 95px; }
+/* Sven's Set/Socket option header and its hover areas: the 0.97k client had neither kind of item,
+   so neither shows (with no hover area, no option tooltip opens). */
+.option-labels, .option-hover { display: none; }
 
 /* RenderEquipmentBox()'s boxes, at the 0.97k places and sizes. The slot names are Sven's: its
    weapon_right is the 0.97k left-hand box (Item_Weapon01), weapon_left the right-hand one. */

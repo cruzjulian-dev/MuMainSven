@@ -49,7 +49,8 @@ in `legacy`:
 - **The inventory** (`my_inventory.rml/.rcss`, `item_grid.rcss`): the 0.97k equipment boxes at
   their 0.97k places and sizes, the 0.97k grid cells (`Item_box`, `InventoryBox2` under an item,
   no frame), the money box with "Zen" and the 0.97k exit and repair buttons. The 0.97k cells are
-  every item grid's. Sven's personal-shop and expansion buttons stay beside the 0.97k ones.
+  every item grid's. Sven's personal-shop and expansion buttons stay beside the 0.97k ones; its
+  set and socket option header is hidden (the 0.97k client had no such items).
 - **The character window** (`character_info.rml/.rcss`): the name and class on the 0.97k title
   bands, the level and each attribute written in a `Level_box` ("Fuerza: 28"), each derived line
   on its own black band as tall as the text, the 0.97k point buttons, the points to spend on the
