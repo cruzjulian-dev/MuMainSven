@@ -968,6 +968,9 @@ def find_browser(explicit):
 def screenshot(browser, page, png, width, height, pixel_ratio):
     arguments = [browser, "--headless", "--hide-scrollbars", "--disable-gpu",
                  f"--window-size={width},{height}", f"--force-device-scale-factor={pixel_ratio}",
+                 # Without a time budget the shot can come before a page with many sprites has
+                 # decoded them, and they are missing from it.
+                 "--virtual-time-budget=5000",
                  f"--screenshot={png}", page.resolve().as_uri()]
     if platform.system() == "Linux" and hasattr(os, "geteuid") and os.geteuid() == 0:
         arguments.insert(1, "--no-sandbox")
