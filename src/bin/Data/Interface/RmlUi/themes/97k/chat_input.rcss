@@ -1,5 +1,5 @@
-/* MU 0.97k theme for CChatInputBox: the 0.97k input box (Dialogue1 + Dialogue2, 133x29 each) that
-   shows while typing, over the bar at x 186, y 415. The message goes in the dark well at (191, 422),
+/* MU 0.97k theme for CChatInputBox: the 0.97k input box (Dialogue1 + Dialogue2, 133x29 each,
+   drawn 134 wide, chat_input.rml) that shows while typing, over the bar at x 186, y 415. The message goes in the dark well at (191, 422),
    180 wide; the whisper target in the grey well at (376, 422), 50 wide; the ear at (432, 420) blocks
    whispers. The 0.97k client had no chat-type buttons: a message starts with ~ for the party, @ for
    the guild ($ for Gens), which this client also reads. Its show-chat, size and transparency
@@ -17,14 +17,18 @@
 	/* 36 = 480 - 444, the box's lower edge, 12 units into the bar. */
 	bottom: 36dp;
 	margin-left: -134dp;
-	width: 266dp;
+	width: 268dp;
 	height: 29dp;
-	decorator: image(chat97-left scale-none left top), image(chat97-right scale-none right top);
 	font-family: "token(font-body)";
 	font-size: 1rem;
 	/* The box takes the pointer, so a click on it never walks the character. */
 	pointer-events: auto;
 }
+
+/* Each half 134 wide, its 133 texels stretched, so the box ends at x 454 as the original's. */
+.box-art { position: absolute; top: 0; width: 134dp; height: 29dp; pointer-events: none; }
+#box_left  { left: 0;     decorator: image(chat97-left fill); }
+#box_right { left: 134dp; decorator: image(chat97-right fill); }
 
 /* Not in the 0.97k box. */
 #btn_type_0, #btn_type_1, #btn_type_2, #btn_type_3, #btn_system, #btn_frame,
