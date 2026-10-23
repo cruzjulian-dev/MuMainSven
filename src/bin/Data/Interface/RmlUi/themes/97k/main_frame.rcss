@@ -178,6 +178,8 @@
 	pointer-events: none;
 }
 #pet_skill_row { top: -38dp; }
+/* The rule above outranks base.rcss's .hidden, which closes the list. */
+#skill_grid.hidden, #pet_skill_row.hidden { display: none; }
 .skill-cell {
 	position: relative;
 	width: 32dp;
