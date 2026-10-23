@@ -1,11 +1,11 @@
 /* The 97k theme's CStorageInventory: the 0.97k client's RenderWarehouse(). The panel is
    Item_Back01 over Item_Back02, the 8x15 grid of 0.97k cells from 15,50 (item_grid.rcss), the
-   stored zen in an Item_Money box at 50,353 and the withdrawal fee under it at 374, as the 0.97k
-   client drew them. Its buttons are the 0.97k ones, Money_01 to put zen in and to take it out and
-   the lock (Lock_01 open, Lock_03 locked, the next one pressed), on the 390 row; with the 0.97k
-   exit at 25 (storage.rml's fork adds it: the 0.97k panel has no corner close) and Sven's
-   expansion after them, the row steps by 32 instead of the 0.97k 50. The workspace places #panel,
-   so coordinates are reference px. */
+   stored zen 10 into an Item_Money box at 50,353 with "Zen" 30 left of it on its band, and the
+   withdrawal fee at 50,374 (its amount 70 further on), as the 0.97k client drew them. The 0.97k
+   buttons are on the 390 row: Money_01 to put zen in at 26 and to take it out at 76, the lock at
+   126 (Lock_01 open, Lock_03 locked, the next one pressed). The 0.97k panel has no corner close:
+   storage.rml's fork adds the 0.97k exit, at 151 after the lock, and Sven's expansion takes the
+   gap at 101. The workspace places #panel, so coordinates are reference px. */
 
 #panel {
 	position: absolute;
@@ -41,27 +41,43 @@
 	decorator: image(stor97-money);
 	pointer-events: none;
 }
-/* The amount right-aligned in its box, 3 below its top. */
+/* "Zen" and the amount 3 below the box's top: the word 30 left of the box on the 0.97k text band
+   (0xFF282828 at half strength) the size of the word, the amount 10 into the box. */
+#zen_label {
+	position: absolute;
+	left: 20px;
+	top: 356px;
+	color: rgb(255, 220, 150);
+	background-color: rgba(40, 40, 40, 128);
+	font-weight: bold;
+	font-size: 1em;
+	white-space: nowrap;
+	pointer-events: none;
+}
 #zen_text {
 	position: absolute;
-	right: 32px;
+	left: 60px;
 	top: 356px;
 	font-weight: bold;
 	font-size: 1em;
 	white-space: nowrap;
 	pointer-events: none;
 }
-/* The 0.97k warehouse's zen tiers: pale under 100,000, green under a million, then blue. */
+/* Both amounts stand from their left edge, so they scale back around it (the markup's sharp-right
+   anchors them by the right). */
+#zen_text, #fee_value { transform-origin: left top; }
+/* The 0.97k warehouse's zen tiers: pale under 100,000, green under a million, then orange, red. */
 .gold-amount.gold-base             { color: rgb(255, 220, 150); }
 .gold-amount.gold-hundred-thousand { color: rgb(0, 201, 24); }
 .gold-amount.gold-million          { color: rgb(255, 150, 0); }
 .gold-amount.gold-ten-million      { color: rgb(255, 0, 0); }
-/* The fee across the panel: the label 15 in, the amount ending 22 from the panel's edge. */
+/* The fee label at 50,374 in red on the text band, its amount 70 further on in the pale zen. */
 #fee_label {
 	position: absolute;
-	left: 15px;
+	left: 50px;
 	top: 374px;
 	color: rgb(255, 0, 0);
+	background-color: rgba(40, 40, 40, 128);
 	font-weight: bold;
 	font-size: 1em;
 	white-space: nowrap;
@@ -69,7 +85,7 @@
 }
 #fee_value {
 	position: absolute;
-	right: 22px;
+	left: 120px;
 	top: 374px;
 	color: rgb(255, 220, 150);
 	font-weight: bold;
@@ -96,18 +112,18 @@
 	pointer-events: auto;
 }
 .stor-btn.hidden { display: none; }
-.stor-btn-exit   { left: 25px; decorator: image(stor97-exit); }
+.stor-btn-exit   { left: 151px; decorator: image(stor97-exit); }
 .stor-btn-exit:active { decorator: image(stor97-exit-press); }
 .stor-btn-insert, .stor-btn-take { decorator: image(stor97-money-btn); }
 .stor-btn-insert:active, .stor-btn-take:active { decorator: image(stor97-money-press); }
-.stor-btn-insert { left: 57px; }
-.stor-btn-take   { left: 89px; }
-.stor-btn-lock   { left: 121px; decorator: image(stor97-lock-open); }
+.stor-btn-insert { left: 26px; }
+.stor-btn-take   { left: 76px; }
+.stor-btn-lock   { left: 126px; decorator: image(stor97-lock-open); }
 .stor-btn-lock:active { decorator: image(stor97-lock-open-press); }
 .stor-btn-lock.locked-mode { decorator: image(stor97-lock-shut); }
 .stor-btn-lock.locked-mode:active { decorator: image(stor97-lock-shut-press); }
 /* Sven's own, which the 0.97k client didn't have, at the row's height. */
-.stor-btn-expand { left: 153px; decorator: image(stor-btn-expand fill); }
+.stor-btn-expand { left: 101px; decorator: image(stor-btn-expand fill); }
 .stor-btn-expand:hover { filter: brightness(1.25); }
 
 /* Native item grid: the first cell's top-left, in #panel's units. */

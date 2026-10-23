@@ -69,7 +69,8 @@
 	transform-origin: left top;
 	font-weight: bold;
 }
-#gold_label { left: 20px; color: rgb(255, 220, 150); }
+/* "Zen" on the 0.97k text band (0xFF282828 at half strength), the size of the word. */
+#gold_label { left: 20px; color: rgb(255, 220, 150); background-color: rgba(40, 40, 40, 128); }
 #gold_text { left: 60px; }
 #gold_text.gold-base             { color: rgb(255, 220, 150); }
 #gold_text.gold-hundred-thousand { color: rgb(0, 201, 24); }

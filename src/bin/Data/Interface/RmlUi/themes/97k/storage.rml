@@ -7,7 +7,8 @@
 </head>
 <body data-model="storage">
 	<!-- 97k fork of legacy's storage.rml: adds #btn_exit, the 0.97k exit, since the 0.97k panel has
-	     no corner close; keep the rest in step with it. -->
+	     no corner close, and #zen_label, the "Zen" the 0.97k client wrote left of the money box;
+	     keep the rest in step with it. -->
 	<!-- CStorageInventory (StorageInventory.h): the frame, the item grid, the items C++ draws live
 	     into #item_view, the stack counts, title, money and buttons. -->
 	<div id="panel" data-style---text-px="text_px + 'px'">
@@ -39,6 +40,7 @@
 		<span class="sharp-text" id="title" data-class-locked="title_locked" data-style-font-size="text_px + 'px'">{{title}}</span>
 
 		<div id="money_bg"></div>
+		<span id="zen_label" class="sharp-text" data-style-font-size="text_px + 'px'">Zen</span>
 		<span id="zen_text" class="sharp-text sharp-right gold-amount" data-style-font-size="text_px + 'px'"
 		      data-class-gold-base="zen_tier == 'base'"
 		      data-class-gold-hundred-thousand="zen_tier == 'hundred-thousand'"
