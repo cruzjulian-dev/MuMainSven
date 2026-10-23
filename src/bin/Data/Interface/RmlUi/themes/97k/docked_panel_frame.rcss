@@ -1,0 +1,81 @@
+/* The 97k theme's frame for the right-docked windows (character_info, my_quest_info, pet_info,
+   party_info): the 0.97k client's panel, Item_Back01 (190x256) over Item_Back02 (190x177), the
+   433 units RenderInventoryInterface() drew from the panel's top. The panel keeps its 429 units, so
+   the art reaches 4 below it, onto the bar, as in the 0.97k client (the bar starts at 432). The
+   window's own .rcss links after this one, as in legacy. The group boxes (.gbox-*) keep legacy's
+   sprites: the 0.97k client had none. */
+
+@spritesheet docked-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; docked-back-top: 0px 0px 190px 256px; }
+@spritesheet docked-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; docked-back-bottom: 0px 0px 190px 177px; }
+
+@spritesheet docked-corner-tl-sheet { src: "../../../newui_item_table01(L).tga"; docked-corner-tl: 0px 0px 14px 14px; }
+@spritesheet docked-corner-tr-sheet { src: "../../../newui_item_table01(R).tga"; docked-corner-tr: 0px 0px 14px 14px; }
+@spritesheet docked-corner-bl-sheet { src: "../../../newui_item_table02(L).tga"; docked-corner-bl: 0px 0px 14px 14px; }
+@spritesheet docked-corner-br-sheet { src: "../../../newui_item_table02(R).tga"; docked-corner-br: 0px 0px 14px 14px; }
+@spritesheet docked-edge-top-sheet    { src: "../../../newui_item_table03(Up).tga"; docked-edge-top:    0px 0px 1px 14px; }
+@spritesheet docked-edge-bottom-sheet { src: "../../../newui_item_table03(Dw).tga"; docked-edge-bottom: 0px 0px 1px 14px; }
+@spritesheet docked-edge-left-sheet   { src: "../../../newui_item_table03(L).tga";  docked-edge-left:   0px 0px 14px 1px; }
+@spritesheet docked-edge-right-sheet  { src: "../../../newui_item_table03(R).tga";  docked-edge-right:  0px 0px 14px 1px; }
+
+@spritesheet docked-exit-sheet       { src: "../../../../Interface97/Exit_01.jpg"; docked-exit: 0px 0px 24px 24px; }
+@spritesheet docked-exit-press-sheet { src: "../../../../Interface97/Exit_02.jpg"; docked-exit-press: 0px 0px 24px 24px; }
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	font-family: "token(font-body)";
+}
+
+/* The two halves. A window's own .rcss picks legacy's top (".frame-top { decorator: ... }"); the
+   id makes these win over it. */
+.frame-piece { position: absolute; pointer-events: none; }
+#panel .frame-top    { left: 0; top: 0;     width: 190px; height: 256px; decorator: image(docked-back-top); }
+#panel .frame-bottom { left: 0; top: 256px; width: 190px; height: 177px; decorator: image(docked-back-bottom); }
+#panel .frame-left, #panel .frame-right { display: none; }
+
+/* Group-box corner-bracket-and-fill technique -- reproduces RenderGroupBox()'s 9-slice tiling as 4
+   corner sprites + 2 flat fills. Image decorators now support sprite repetition; these frames
+   retain the fill treatment established by character_info.rcss's .summary-fill/.summary-corner. Shape/color only here -- each window's own per-instance class (e.g.
+   ".gbox-dh-corner-tl") supplies left/top and picks which corner sprite via
+   image(docked-corner-tl/tr/bl/br). */
+.gbox-corner { position: absolute; width: 14px; height: 14px; pointer-events: none; }
+/* RenderGroupBox()'s edge strips (the table03 sprites stretched along each side), drawn after the
+   corners; each window supplies left/top and the free length. */
+.gbox-edge { position: absolute; pointer-events: none; }
+.gbox-edge-top { height: 14px; decorator: image(docked-edge-top); }
+.gbox-edge-bottom { height: 14px; decorator: image(docked-edge-bottom); }
+.gbox-edge-left { width: 14px; decorator: image(docked-edge-left); }
+.gbox-edge-right { width: 14px; decorator: image(docked-edge-right); }
+.gbox-title-fill { position: absolute; background-color: token(surface-panel-title); pointer-events: none; }
+.gbox-content-fill { position: absolute; background-color: token(surface-panel-content); pointer-events: none; }
+.gbox-title-text {
+	display: block;
+	position: absolute;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1em;
+	color: token(text-heading);
+	pointer-events: none;
+}
+
+/* The 0.97k client's exit, 24x24 at 25,395, pressed while held. */
+#btn_exit {
+	position: absolute;
+	left: 25px;
+	top: 395px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(docked-exit);
+}
+#btn_exit:active { decorator: image(docked-exit-press); }
+.btn-exit-label { display: none; }
+
+/* The 0.97k panel draws no close mark in its corner, so the corner's hit box goes. */
+#frame_corner_close { display: none; }
+
+/* A theme's data-fit="fill" slot sizes #panel (class fill-placement), its border included. */
+#panel.fill-placement { box-sizing: border-box; }
