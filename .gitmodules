@@ -8,3 +8,4 @@
 	path = src/ThirdParty/RmlUi
 	url = https://github.com/nitoygo/RmlUi.git
 	branch = integration/sdl-gpu-parity
+	ignore = dirty
