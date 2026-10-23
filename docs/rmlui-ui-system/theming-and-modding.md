@@ -312,6 +312,23 @@ the windows the theme inherits included. Text and the item, character and previe
 game draws into windows stay smooth. The setting follows the theme: switching to a theme without
 it brings linear filtering back right away. The `97k` theme uses it.
 
+## A chat frame that stays: `KeepsChatFrame`
+
+The chat log's frame (F5 while typing) normally goes away when typing ends. A theme that declares
+
+```ini
+[Capabilities]
+KeepsChatFrame=1
+```
+
+keeps it up until F5 is pressed again, typing or not. While it is up and the input box is closed,
+`chat_frame_buttons.rml` shows over the box: the show-chat, size and transparency buttons, on the
+`chat_input` model. The theme's `chat_frame_buttons.rcss` places them and an `#reveal_zone`; while
+the pointer is inside that zone, `#panel` carries `.near`, which the theme uses to bring the
+buttons up. The zone only measures the pointer, so give it `pointer-events: none`. A theme without
+the capability never shows the document; `legacy` and `modern` hide its panel. The `97k` theme
+uses it.
+
 ## Optional system fonts
 
 List font files in `theme.ini`'s `[Fonts]` section, with one file per key. For example:
@@ -408,8 +425,8 @@ their element's drawn size; choose their scaling deliberately.
 - **Every themed document belongs to a `ThemedView`**, so `$theme` covers all of them; a new
   window declares one.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
-  theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize` and
-  `NearestFiltering` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
+  `NearestFiltering` and `KeepsChatFrame` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

@@ -73,6 +73,9 @@ namespace UI::RmlBridge
     // Whether the active theme wants its images drawn with nearest instead of linear filtering
     // (NearestFiltering=1), for pixel art that should stay sharp when the UI is scaled.
     bool ThemeUsesNearestFiltering();
+    // Whether the chat log's frame stays shown when typing ends (KeepsChatFrame=1), as the 0.97k
+    // client kept it; its buttons then sit over the closed input box (chat_frame_buttons.rml).
+    bool ThemeKeepsChatFrame();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

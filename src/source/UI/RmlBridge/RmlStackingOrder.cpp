@@ -105,6 +105,7 @@ constexpr DocumentPlacement Placements[] = {
     {"system_log.rml", 6.05f, MainScene},
     {"chat_log.rml", 6.1f, MainScene},
     {"chat_input.rml", 6.2f, MainScene},
+    {"chat_frame_buttons.rml", 6.2f, MainScene},
     {"item_explanation.rml", 6.5f, MainScene},
     {"set_item_explanation.rml", 6.6f, MainScene},
     // CSlideWindow::GetLayerDepth() is 1.91 -- it sits under the windows, as the band did.

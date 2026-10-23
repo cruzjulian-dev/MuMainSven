@@ -36,6 +36,8 @@ namespace mu::ui::window
         bool showChatLog = true;
         bool showFrame = false;
         bool whisperSend = true;
+        // The pointer is in chat_frame_buttons.rml's #reveal_zone, which brings its buttons up.
+        bool frameButtonsNear = false;
 
         // The buttons' hints, in the button row's order.
         std::array<Rml::String, 10> buttonHints;
@@ -100,7 +102,8 @@ namespace mu::ui::window
         void OnRmlReloaded();
         UI::RmlBridge::ThemedView<ChatInputRmlModel> m_RmlView{"chat_input",
             [this](Rml::DataModelConstructor& c, ChatInputRmlModel& model) { BindRmlModel(c, model); },
-            {{"Data/Interface/RmlUi/chat_input.rml"}}, {.afterReload = [this] { OnRmlReloaded(); }}};
+            {{"Data/Interface/RmlUi/chat_input.rml"}, {"Data/Interface/RmlUi/chat_frame_buttons.rml"}},
+            {.afterReload = [this] { OnRmlReloaded(); }}};
         // Set by OpenningProcess(), consumed once the document is actually visible. CSystem::Show()
         // runs OpenningProcess() BEFORE ShowInterface(), so IsVisible() is still false there and
         // focusing the field at that point lands on a hidden document and is lost. It also has to

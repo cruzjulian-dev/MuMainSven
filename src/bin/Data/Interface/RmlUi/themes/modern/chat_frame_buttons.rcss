@@ -1,0 +1,3 @@
+/* This theme hides the chat log's frame when typing ends (no KeepsChatFrame), so the frame's
+   buttons never show over a closed input box: chat_input.rcss draws them while typing. */
+#panel { display: none; }

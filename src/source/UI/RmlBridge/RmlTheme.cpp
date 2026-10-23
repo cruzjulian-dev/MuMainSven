@@ -119,6 +119,11 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "NearestFiltering");
     }
 
+    bool ThemeKeepsChatFrame()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "KeepsChatFrame");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);

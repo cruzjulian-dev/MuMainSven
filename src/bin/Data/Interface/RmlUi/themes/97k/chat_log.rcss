@@ -1,21 +1,37 @@
 /* MU 0.97k theme for CChatLogWindow: legacy's lines (the 0.97k client used the very same per-type
-   colours) in the 0.97k chat frame -- 268 wide over the 0.97k input box, a 5-unit gold top edge
+   colours). Without its frame the log stands on the left, where legacy puts it. With the frame (F5)
+   it is the 0.97k chat frame: 268 wide over the 0.97k input box, a 5-unit gold top edge
    (Message_box2), 5-unit sides (Nis_vframe), the Nis scrollbar with its two arrows, and the resize
    grip at the top right (Nis_rsframe). The panel's height comes from C++ (15 * showing lines + 10),
    since the user resizes it in 3-line steps. */
 
-#panel.workspace-placed { bottom: auto; margin-left: 0; transform-origin: left top; }
+/* Frame off: on the left. 97 = 480 - 383, native's own bottom edge for the log, as legacy. */
 #panel {
 	position: absolute;
-	left: 50%;
-	margin-left: -134dp;
-	/* 60 = 480 - 420, the 0.97k log's bottom edge; it grows upward from the input box. */
-	bottom: 60dp;
+	left: 0;
+	bottom: 97dp;
 	width: 268dp;
 	font-family: "token(font-body)";
 	font-size: 1rem;
 	pointer-events: none;
 }
+/* Frame on: over the input box. 60 = 480 - 420, the 0.97k log's bottom edge. */
+#panel.framed {
+	left: 50%;
+	margin-left: -134dp;
+	bottom: 60dp;
+}
+/* The workspace's slot is the framed place (workspace.rcss); without the frame the log moves from
+   there to the screen's left edge and up to y 383, in HUD units like the slot. The game sets only
+   left/top, so a margin carries the move; the resize, the one thing that reads the slot, only
+   happens with the frame. */
+#panel.workspace-placed {
+	bottom: auto;
+	margin-left: calc(134px * var(--hud-scale) - 50vw);
+	margin-top: calc(-37px * var(--hud-scale));
+	transform-origin: left top;
+}
+#panel.framed.workspace-placed { margin-left: 0; margin-top: 0; }
 
 /* The window fill, split three ways: whether it paints at all is frame state (.framed, native's
    own RenderBackground() m_bShowFrame guard), how opaque it is comes from the user's cycled

@@ -1,0 +1,7 @@
+{
+  "states": {
+    "near": {"frame_buttons_near": true, "show_chat_log": true, "hint_6": "Chat log on/off", "hint_8": "Size", "hint_9": "Transparency"},
+    "chat_off": {"frame_buttons_near": true, "show_chat_log": false},
+    "away": {"frame_buttons_near": false, "show_chat_log": true}
+  }
+}

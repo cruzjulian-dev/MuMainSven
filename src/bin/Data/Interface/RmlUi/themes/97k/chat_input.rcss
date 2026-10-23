@@ -3,15 +3,12 @@
    180 wide; the whisper target in the grey well at (376, 422), 50 wide; the ear at (432, 420) blocks
    whispers. The 0.97k client had no chat-type buttons: a message starts with ~ for the party, @ for
    the guild ($ for Gens), which this client also reads. Its show-chat, size and transparency
-   buttons (Nis_btnchat/size/alpha) showed only while not typing, over the message; this box shows
-   only while typing, so they sit in a row right of it instead. The system-message switch has no 0.97k button; F5 still shows the chat frame. */
+   buttons only showed while not typing, over the closed box: chat_frame_buttons.rcss draws them.
+   The system-message switch has no 0.97k button; F5 still shows the chat frame. */
 
 @spritesheet chat97-left-sheet  { src: "../../../../Interface97/Dialogue1.jpg";   chat97-left: 0px 0px 133px 29px; }
 @spritesheet chat97-right-sheet { src: "../../../../Interface97/Dialogue2.jpg";   chat97-right: 0px 0px 133px 29px; }
 @spritesheet chat97-ear-sheet   { src: "../../../../Interface97/Dialogue2_1.jpg"; chat97-ear: 0px 0px 15px 16px; }
-@spritesheet chat97-show-sheet  { src: "../../../../Interface97/Nis_btnchat.jpg";  chat97-show: 0px 0px 16px 16px; }
-@spritesheet chat97-size-sheet  { src: "../../../../Interface97/Nis_btnsize.jpg";  chat97-size: 0px 0px 16px 16px; }
-@spritesheet chat97-alpha-sheet { src: "../../../../Interface97/Nis_btnalpha.jpg"; chat97-alpha: 0px 0px 16px 16px; }
 
 #panel.workspace-placed { bottom: auto; margin-left: 0; transform-origin: left top; }
 #panel {
@@ -30,7 +27,8 @@
 }
 
 /* Not in the 0.97k box. */
-#btn_type_0, #btn_type_1, #btn_type_2, #btn_type_3, #btn_system, #btn_frame {
+#btn_type_0, #btn_type_1, #btn_type_2, #btn_type_3, #btn_system, #btn_frame,
+#btn_chatlog, #btn_size, #btn_transparency {
 	display: none;
 }
 
@@ -45,14 +43,6 @@
 /* The ear is painted into the box; blocked whispers lay Dialogue2_1 over it. */
 #btn_whisper { left: 246dp; top: 5dp; width: 15dp; height: 16dp; }
 #btn_whisper.on { decorator: image(chat97-ear); }
-
-/* Show chat, size and transparency, 18 apart as in the original, right of the box. Size and
-   transparency only apply to the frame, so they show with it. */
-#btn_chatlog, #btn_size, #btn_transparency { top: 6dp; width: 16dp; height: 16dp; }
-#btn_chatlog      { left: 270dp; decorator: image(chat97-show); filter: brightness(0.7); }
-#btn_chatlog.on   { filter: none; }
-#btn_size         { left: 288dp; decorator: image(chat97-size); }
-#btn_transparency { left: 306dp; decorator: image(chat97-alpha); }
 
 .cib-chat-field, .cib-whisper-field {
 	position: absolute;

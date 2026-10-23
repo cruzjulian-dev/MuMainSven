@@ -1,0 +1,22 @@
+<rml>
+<head>
+	<title>Chat Frame Buttons</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="chat_frame_buttons.rcss"/>
+</head>
+<!-- The chat log frame's buttons (show chat, size, transparency) while the frame stays up and the
+     input box is closed: CChatInputBox shows this document only then, which only a theme declaring
+     KeepsChatFrame lets happen. The pointer inside #reveal_zone brings the buttons up (.near).
+     Same model as chat_input.rml, whose own copies of the buttons show while typing. -->
+<body data-model="chat_input">
+	<div id="panel" data-class-near="frame_buttons_near">
+		<div id="reveal_zone"></div>
+		<div id="frame_btn_chatlog" class="cfb-btn" data-class-on="show_chat_log"
+		     data-event-click="chat_toggle_chatlog" data-attr-data-hint="hint_6"></div>
+		<div id="frame_btn_size" class="cfb-btn"
+		     data-event-click="chat_size_step" data-attr-data-hint="hint_8"></div>
+		<div id="frame_btn_transparency" class="cfb-btn"
+		     data-event-click="chat_alpha_step" data-attr-data-hint="hint_9"></div>
+	</div>
+</body>
+</rml>

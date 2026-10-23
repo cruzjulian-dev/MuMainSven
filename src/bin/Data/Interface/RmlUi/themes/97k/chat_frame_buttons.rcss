@@ -1,0 +1,53 @@
+/* MU 0.97k theme: the chat frame's three buttons over the closed input box, as the 0.97k client
+   drew them while its frame stayed up -- Nis_btnchat, Nis_btnsize and Nis_btnalpha, 16x16 at x
+   295/313/331, y 417. They fade in while the pointer is over the bar's middle (x 160 to 480, below
+   y 416) and fade out when it leaves. The panel is that strip of the original's 640x480 frame, in
+   HUD units like the bar under it (one unit is --hud-scale px), centred on the screen's bottom. */
+
+@spritesheet cfb-show-sheet  { src: "../../../../Interface97/Nis_btnchat.jpg";  cfb-show: 0px 0px 16px 16px; }
+@spritesheet cfb-size-sheet  { src: "../../../../Interface97/Nis_btnsize.jpg";  cfb-size: 0px 0px 16px 16px; }
+@spritesheet cfb-alpha-sheet { src: "../../../../Interface97/Nis_btnalpha.jpg"; cfb-alpha: 0px 0px 16px 16px; }
+
+#panel {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	margin-left: calc(-320px * var(--hud-scale));
+	width: calc(640px * var(--hud-scale));
+	/* 64 = 480 - 416. */
+	height: calc(64px * var(--hud-scale));
+	pointer-events: none;
+}
+
+/* Only measured (CChatInputBox::SyncRmlModel()); it takes no pointer, so the bar under it keeps
+   its clicks. */
+#reveal_zone {
+	position: absolute;
+	left: calc(160px * var(--hud-scale));
+	top: 0;
+	width: calc(320px * var(--hud-scale));
+	height: 100%;
+	pointer-events: none;
+}
+
+.cfb-btn {
+	position: absolute;
+	top: calc(1px * var(--hud-scale));
+	width: calc(16px * var(--hud-scale));
+	height: calc(16px * var(--hud-scale));
+	opacity: 0;
+	pointer-events: none;
+	cursor: pointer;
+	transition: opacity 0.15s linear-in-out;
+}
+#panel.near .cfb-btn { opacity: 1; pointer-events: auto; }
+/* The original lit a hovered button with a 10% white wash and sank a pressed one. */
+.cfb-btn:hover  { filter: brightness(1.2); }
+.cfb-btn:active { filter: brightness(0.8); }
+
+/* Show chat: greyed while the chat is off. */
+#frame_btn_chatlog      { left: calc(295px * var(--hud-scale)); decorator: image(cfb-show); filter: brightness(0.7); }
+#frame_btn_chatlog.on   { filter: none; }
+#frame_btn_chatlog.on:hover { filter: brightness(1.2); }
+#frame_btn_size         { left: calc(313px * var(--hud-scale)); decorator: image(cfb-size); }
+#frame_btn_transparency { left: calc(331px * var(--hud-scale)); decorator: image(cfb-alpha); }

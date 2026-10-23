@@ -58,12 +58,14 @@ body {
 }
 
 /* The chat over the HUD's middle, as the 0.97k client drew it (in HUD units, like the event HUDs):
-   the input box from x 186, its lower edge 12 units into the bar, and the log's lower edge 5 units
-   into the box. */
+   the input box from x 186, y 415, and the framed log's lower edge 5 units into the box. The input
+   slot is CChatInputBox's own 47 units high and the 0.97k box fills its top 29, so the slot's
+   lower edge is 30 units into the 48-unit bar (480 - 415 - 47 = 18 units above the screen's
+   bottom). Without its frame the log stands on the left (chat_log.rcss). */
 .chat-stack {
 	left: 50%;
 	margin-left: calc(-134px * var(--hud-scale));
-	bottom: calc(-12px * var(--hud-scale));
+	bottom: calc(-30px * var(--hud-scale));
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;

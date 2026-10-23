@@ -246,7 +246,9 @@ bool mu::ui::window::CChatInputBox::UpdateKeyEvent()
 
     if (mu::ui::window::IsPress(VK_F5))
     {
-        if (g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_CHATINPUTBOX))
+        // A frame that stays after typing (KeepsChatFrame) also goes away without typing.
+        if (g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_CHATINPUTBOX) ||
+            (m_pNewUIChatLogWnd->IsShowFrame() && UI::RmlBridge::ThemeKeepsChatFrame()))
         {
             if (m_pNewUIChatLogWnd->IsShowFrame())
             {
@@ -480,6 +482,7 @@ void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, C
     c.Bind("show_chat_log", &model.showChatLog);
     c.Bind("show_frame", &model.showFrame);
     c.Bind("whisper_send", &model.whisperSend);
+    c.Bind("frame_buttons_near", &model.frameButtonsNear);
     for (size_t i = 0; i < model.buttonHints.size(); ++i)
         c.Bind("hint_" + std::to_string(i), &model.buttonHints[i]);
 
@@ -549,6 +552,9 @@ void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, C
 
 void mu::ui::window::CChatInputBox::OnRmlReloaded()
 {
+    // A frame left up by the previous theme goes with it.
+    if (!IsVisible() && m_pNewUIChatLogWnd && !UI::RmlBridge::ThemeKeepsChatFrame())
+        m_pNewUIChatLogWnd->HideFrame();
     UI::Placement::Invalidate();
 }
 
@@ -572,6 +578,20 @@ void mu::ui::window::CChatInputBox::SyncRmlModel()
     }
 
     ChatInputRmlModel& model = m_RmlView.GetModel();
+
+    // The frame's buttons over the closed box: shown while the frame stays and nobody types, which
+    // only a theme that keeps the frame (KeepsChatFrame) lets happen. Shown without the focus, so
+    // the game keeps its keys; the theme lays out where the pointer brings the buttons up.
+    Rml::ElementDocument* frameButtons = m_RmlView.Document(1);
+    UI::RmlBridge::SyncDocumentVisibilityInFront(
+        frameButtons, !IsVisible() && m_pNewUIChatLogWnd && m_pNewUIChatLogWnd->IsShowFrame());
+    Rml::Element* revealZone = frameButtons ? frameButtons->GetElementById("reveal_zone") : nullptr;
+    const bool pointerNear = UI::RmlBridge::IsPointerWithin(revealZone);
+    if (model.frameButtonsNear != pointerNear)
+    {
+        model.frameButtonsNear = pointerNear;
+        m_RmlView.MarkDirty("frame_buttons_near");
+    }
 
     auto syncBool = [&](bool ChatInputRmlModel::* field, const char* name, bool value)
     {
@@ -662,7 +682,8 @@ void mu::ui::window::CChatInputBox::OpenningProcess()
 
 void mu::ui::window::CChatInputBox::ClosingProcess()
 {
-    m_pNewUIChatLogWnd->HideFrame();
+    if (!UI::RmlBridge::ThemeKeepsChatFrame())
+        m_pNewUIChatLogWnd->HideFrame();
 
     m_bFocusPending = false;
     if (Rml::Element* field = GetField("chat_field")) field->Blur();
