@@ -42,13 +42,13 @@
 .gold-bg-your { top: 160px; }
 .gold-bg-my   { top: 360px; }
 
-/* "Zen" left of each box, on the 0.97k text band (0xFF282828 at half strength) the size of the
-   word. trade.rml's fork adds the labels. */
+/* "Zen" left of each box, on a half-black band (0x80000000, darker than the 0.97k 0xFF282828
+   one) the size of the word. trade.rml's fork adds the labels. */
 .gold-label {
 	position: absolute;
 	left: 20px;
 	color: rgb(255, 220, 150);
-	background-color: rgba(40, 40, 40, 128);
+	background-color: rgba(0, 0, 0, 128);
 	font-weight: bold;
 	font-size: 1em;
 	white-space: nowrap;

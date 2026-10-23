@@ -6,14 +6,15 @@
  "arrows": "",
  "pets": [
   {
-   "name": "Imp",
+   "name": "Dark Horse",
    "bar_width": 49
   },
   {
-   "name": "Dark Horse",
-   "bar_width": 25
+   "name": "Dark Raven",
+   "bar_width": 30
   }
  ],
  "icons": [],
- "tooltip": ""
+ "tooltip": "",
+ "party": true
 }

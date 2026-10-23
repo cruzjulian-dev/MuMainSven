@@ -12,6 +12,7 @@
 #include "Character/CharacterManager.h"
 #include "Data/GameData/ItemData/ItemModelSlots.h"
 #include "GameLogic/Items/ItemCategories.h"
+#include "Engine/Object/ZzzInventory.h"
 #include "Core/Utilities/StringUtils.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
 #include "UI/RmlBridge/RmlDocumentVisibility.h"
@@ -348,6 +349,7 @@ void mu::ui::window::CItemEnduranceInfo::BindRmlModel(Rml::DataModelConstructor&
     pet.RegisterMember("name", &PetFrameEntry::name);
     c.RegisterArray<std::vector<PetFrameEntry>>();
     c.Bind("pets", &model.pets);
+    c.Bind("party", &model.party);
 
     auto icon = c.RegisterStruct<DurabilityIconEntry>();
     icon.RegisterMember("cell", &DurabilityIconEntry::cell);
@@ -427,6 +429,7 @@ void mu::ui::window::CItemEnduranceInfo::SyncLeftColumn()
     }
 
     SyncItemEnduranceField(m_RmlView.Binder(), &ItemEnduranceRmlModel::pets, "pets", std::move(pets));
+    SyncItemEnduranceField(m_RmlView.Binder(), &ItemEnduranceRmlModel::party, "party", PartyNumber > 0);
 }
 
 const char* mu::ui::window::CItemEnduranceInfo::DurabilityIconImage(int imageIndex)

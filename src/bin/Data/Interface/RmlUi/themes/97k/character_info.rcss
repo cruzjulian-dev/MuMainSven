@@ -1,7 +1,8 @@
 /* The 97k theme's CCharacterInfoWindow: the 0.97k client's RenderCharacterInfoWindow(). The frame
    and the exit are docked_panel_frame.rcss's. The name and the class or server are on the 0.97k
    title bands (0xFF141414 at half strength), 120 wide at 35,12 and 150 wide at 22 under it. The
-   level and each attribute are written in a Level_box (75x21) every 60 units from 56, label and
+   level and each attribute are written in a Level_box (75x21) every 60 units from 56 (stamina's
+   15 lower, see below), label and
    value together ("Fuerza: 28", character_info.rml's fork joins them), centred in 70 from 14. Each
    derived line is on its own black band (0x80000000) 130 wide at 24, as tall as the text, 15
    apart from 20 under the box. The point button (Level_01, Level_02 pressed) stands at 125, and the
@@ -9,7 +10,8 @@
    as in legacy, so no rule here sets a font size; it keeps these places whatever its length.
    Coordinates are reference px.
 
-   Sven shows more than the 0.97k client: the fruit probability line has no place in the 0.97k
+   Sven shows more than the 0.97k client: agility has a third derived line, so the stamina box,
+   its button and its line stand one line (15) lower than the 0.97k ones, clear of it. The fruit probability line has no place in the 0.97k
    layout and is hidden; the fruit points take the 0.97k reset-points line. The quest, pet and
    master-level shortcuts the 0.97k client didn't have stay, at the 0.97k buttons' height. */
 @spritesheet chainfo97-box-sheet        { src: "../../../../Interface97/Level_box.jpg"; chainfo97-box: 0px 0px 75px 21px; }
@@ -75,7 +77,7 @@
 .point-text { left: 24px; top: 95px; line-height: 1; color: rgb(100, 150, 255); background-color: rgba(0, 0, 0, 128); font-weight: bold; }
 .point-probability-text { display: none; }
 
-/* The attributes' boxes, every 60 from 116 (the level's is at 56). */
+/* The attributes' boxes, every 60 from 116 (the level's is at 56), stamina's 15 lower. */
 .attr-textbox {
 	position: absolute;
 	left: 13px;
@@ -86,7 +88,7 @@
 }
 .attr-textbox-str { top: 116px; }
 .attr-textbox-agi { top: 176px; }
-.attr-textbox-vit { top: 236px; }
+.attr-textbox-vit { top: 251px; }
 .attr-textbox-ene { top: 296px; }
 .attr-textbox-cmd { top: 356px; }
 
@@ -104,7 +106,7 @@
 .attr-value { display: none; }
 .attr-label-str, .attr-value-str { top: 120px; }
 .attr-label-agi, .attr-value-agi { top: 180px; }
-.attr-label-vit, .attr-value-vit { top: 240px; }
+.attr-label-vit, .attr-value-vit { top: 255px; }
 .attr-label-ene, .attr-value-ene { top: 300px; }
 .attr-label-cmd, .attr-value-cmd { top: 360px; }
 
@@ -114,7 +116,7 @@
 .attr-lines span { display: block; white-space: nowrap; line-height: 1; color: #ffffff; background-color: rgba(0, 0, 0, 128); }
 .attr-lines-str { top: 140px; }
 .attr-lines-agi { top: 200px; }
-.attr-lines-vit { top: 260px; }
+.attr-lines-vit { top: 275px; }
 .attr-lines-ene { top: 320px; }
 
 .stat-btn {
@@ -129,7 +131,7 @@
 .stat-btn:active { decorator: image(chainfo97-stat-press); }
 .stat-btn-str { top: 115px; }
 .stat-btn-agi { top: 175px; }
-.stat-btn-vit { top: 235px; }
+.stat-btn-vit { top: 250px; }
 .stat-btn-ene { top: 295px; }
 .stat-btn-cmd { top: 355px; }
 

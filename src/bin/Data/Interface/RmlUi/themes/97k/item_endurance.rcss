@@ -1,7 +1,8 @@
 /* The 97k theme's CItemEnduranceInfo. The pet and summon frames are the 0.97k client's
-   RenderEquipedHelperLife(), at its place: at the top right, beside the party list (party_list.rcss),
-   their bar ending 12 left of the list's cards, one under the other 23 apart (a Dark Lord's second
-   pet under the first). Each is the name right-aligned over the bar's end on the 0.97k text band
+   RenderEquipedHelperLife(), at its place: at the top right corner, their bar ending 4 in from the
+   uncovered world's edge, or, in a party (the model's `party`), beside the party list
+   (party_list.rcss), their bar ending 12 left of its cards; one under the other 23 apart (a Dark
+   Lord's raven under the horse). Each is the name right-aligned over the bar's end on the 0.97k text band
    (0x80000000) the size of the name, and RenderBar() 12 lower: its half-black shadow 1 down and
    right, the box 54x6 and the life 2 high, 2 in. The 0.97k client added the box and the life onto
    the world (additive blending); here the box is a translucent teal and the life the bright aqua
@@ -30,17 +31,18 @@ body {
 }
 
 #pets, #icons { position: absolute; width: 0; height: 0; transform-origin: left top; pointer-events: none; }
-/* The frames on the dock, at its scale: 130 left of the uncovered world's right edge (the party
-   list's cards start 64 left of it, so the bar ends 12 before them) and 4 below the workspace's top,
-   where the list starts 2 below it. Their texts are scaled back by the dock's scale on both axes
+/* The frames on the dock, at its scale: 58 left of the uncovered world's right edge, or 130 in a
+   party (the list's cards start 64 left of it, so the bar ends 12 before them), and 4 below the
+   workspace's top, where the list starts 2 below it. Their texts are scaled back by the dock's scale on both axes
    (base.rcss's .counter-scaled-xy). */
 #pets {
-	left: calc(var(--world-right, 100%) - 130px * var(--dock-scale, 1));
+	left: calc(var(--world-right, 100%) - 58px * var(--dock-scale, 1));
 	top: max(calc(var(--workspace-top, 0px) + 4px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 419px * var(--dock-scale, 1)));
 	transform: scale(var(--dock-scale, 1));
 	--root-scale: var(--dock-scale, 1);
 	--root-scale-y: var(--dock-scale, 1);
 }
+#pets.party { left: calc(var(--world-right, 100%) - 130px * var(--dock-scale, 1)); }
 /* RenderEquipedHelperLife() starts at 24 instead of 4 while the arrow count shows. */
 #pet_column { position: absolute; left: 0; top: 0; }
 #arrows_row { height: 20px; white-space: nowrap; pointer-events: none; }
@@ -52,8 +54,9 @@ body {
 	transform: scale(var(--dock-scale, 1));
 }
 
-/* The frames 23 apart. */
-.pet { position: relative; width: 54px; height: 23px; }
+/* The frames 23 apart. A data-for <div> is inline in this build unless the rule says display: block,
+   and inline the frames (all absolute inside) would sit on each other. */
+.pet { display: block; position: relative; width: 54px; height: 23px; }
 /* RenderBar(): the shadow, the box, then the life. */
 .pet-fill  { position: absolute; left: 1px; top: 13px; width: 54px; height: 6px; background-color: rgba(0, 0, 0, 128); }
 .pet-frame { position: absolute; left: 0; top: 12px; width: 54px; height: 6px; background-color: rgba(20, 120, 110, 120); }

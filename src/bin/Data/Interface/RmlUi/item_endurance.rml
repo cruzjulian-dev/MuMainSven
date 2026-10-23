@@ -9,12 +9,13 @@
 <body data-model="item_endurance">
 	<!-- The item endurance HUD (CItemEnduranceInfo). Left column: the pet / summon HP frames in the
 	     screen's stretch (#pets, reference px inside; the theme places #pet_column), the elf's
-	     arrow count line at its top and each frame's name, counter-scaled out of the stretch.
+	     arrow count line at its top and each frame's name, counter-scaled out of the stretch;
+	     `party` while the party list shows, for a theme that places the column beside it.
 	     Right: the durability warning icons of worn gear on the dock (#icons, reference px inside;
 	     the theme places the column). The hovered icon's tooltip is in window pixels at the
 	     pointer. Behind the other documents of its context (the original drew it at layer depth
 	     3.5, under the panels). Takes no pointer events: C++ hit-tests the drawn frames and icons. -->
-	<div id="pets">
+	<div id="pets" data-class-party="party">
 		<div id="pet_column">
 			<div id="arrows_row" data-if="arrows != ''">
 				<span id="arrows" class="counter-scaled-xy" data-style-font-size="text_px + 'px'"

@@ -2,31 +2,25 @@
    down the right side, 19 apart: a dark card (rgba 0.1,0.1,0.1,0.7; grey 0.5,0.5,0.5,0.8 under
    the pointer), the name 3 in and 2 down in white, and under it the 0.97k health bar, a dark red
    strip 43x4 holding ten red steps 3 wide, 4 apart. Gold lines (0.722,0.592,0.380,0.5) run down
-   both sides of each card, and the list has the 0.97k gold cap (Message_box2) 3 high above and
-   below its cards. The 0.97k card is 50 wide; this one is 62, so the name keeps the box C++
-   shrinks it to. Sven's leave button, flag and defence and absence tints stay. Reference px inside
-   #panel (at the dock's scale). */
+   both sides of each card, and the list has the 0.97k gold cap above and below its cards: the
+   whole Message_box2 (213x5) squeezed to 3 high and 2 past each side of the cards, as the 0.97k
+   client stretched it (party_list.rml's fork adds the two caps). The 0.97k card is 50 wide; this
+   one is 62, so the name keeps the box C++ shrinks it to. The 0.97k list had no leave button (the
+   party is left from the P window), so Sven's goes; its flag and defence and absence tints stay.
+   Reference px inside #panel (at the dock's scale). */
 
 @spritesheet plist-flag-sheet { src: "../../../newui_party_flag.tga"; plist-flag: 0px 0px 9px 10px; }
-@spritesheet plist-leave-sheet
-{
-	src: "../../../newui_party_x.tga";
-	plist-leave-up: 0px 0px 11px 11px;
-	plist-leave-down: 0px 11px 11px 11px;
-}
 
-@spritesheet plist97-cap-sheet { src: "../../../../Interface97/Message_box2.jpg"; plist97-cap: 0px 1px 62px 3px; }
+@spritesheet plist97-cap-sheet { src: "../../../../Interface97/Message_box2.jpg"; plist97-cap: 0px 0px 213px 5px; }
 
 #panel {
 	position: absolute;
 	transform-origin: left top;
 	width: 62px;
-	padding: 3px 0;
 	font-family: "token(font-body)";
 	pointer-events: none;
-	decorator: image(plist97-cap scale-none left top), image(plist97-cap scale-none left bottom);
 }
-#panel:empty { decorator: none; }
+.cap { display: block; width: 66px; height: 3px; margin-left: -2px; decorator: image(plist97-cap fill); }
 
 .card {
 	display: block;
@@ -73,16 +67,7 @@
 	decorator: repeating-linear-gradient(90deg, rgb(250, 10, 0) 0px 5.175px, transparent 5.175px 6.9px);
 }
 
-.card-leave {
-	position: absolute;
-	left: 48px;
-	top: 1px;
-	width: 11px;
-	height: 11px;
-	decorator: image(plist-leave-up);
-	pointer-events: auto;
-}
-.card-leave:active { decorator: image(plist-leave-down); }
+.card-leave { display: none; }
 
 /* The cap 2 below the workspace's top edge, the cards from 5, as the 0.97k list. */
 #panel {

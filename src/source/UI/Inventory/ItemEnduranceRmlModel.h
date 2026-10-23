@@ -48,6 +48,9 @@ struct ItemEnduranceRmlModel
     Rml::String arrows;
 
     std::vector<PetFrameEntry> pets;
+    // In a party, while the party list shows down the right side: a theme may place the frames
+    // beside it.
+    bool party = false;
     std::vector<DurabilityIconEntry> icons;
 
     // The hovered icon's tooltip, centred on tooltipCentreX, window pixels; empty when none.
