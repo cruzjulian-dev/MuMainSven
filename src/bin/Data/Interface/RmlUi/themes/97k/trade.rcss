@@ -20,13 +20,17 @@
 /* The 0.97k panel draws no close mark in its corner, so the corner's hit box goes. */
 #frame_corner_close { display: none; }
 
+/* The title centred at the top in white bold, as the other panels' (Inventory, Party, Guild). It
+   scales back around its centre: .sharp-text's left-top origin would leave the margin below pulling
+   it left of the centre. */
 #title {
 	position: absolute;
 	left: 0;
 	top: 12px;
 	width: calc(100% * var(--root-scale));
 	text-align: center;
-	color: rgb(220, 220, 220);
+	transform-origin: center top;
+	color: #ffffff;
 	font-weight: bold;
 	font-size: 1em;
 	pointer-events: none;
