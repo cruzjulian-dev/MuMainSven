@@ -1,0 +1,28 @@
+<rml>
+	<!-- bound-geometry: panel and well heights follow the user resize, in dp -->
+<head>
+	<title>Chat Log</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="chat_log.rcss"/>
+</head>
+<!-- 97k override of chat_log.rml: legacy's (the lines drawn like the original's RenderMessages()),
+     plus the 0.97k frame's top edge and two sides, drawn while the frame is shown. Keep the rest
+     in step with themes/legacy/chat_log.rml. -->
+<body data-model="chat_log">
+	<div id="panel" data-class-framed="show_frame" data-style-height="panel_height + 'dp'">
+		<div id="chat_backdrop" data-style-opacity="back_alpha"></div>
+		<div id="frame_top" class="chat-frame"></div>
+		<div id="frame_left" class="chat-frame"></div>
+		<div id="frame_right" class="chat-frame"></div>
+		<div id="resize_handle" data-class-hidden="!show_frame"
+		     data-event-drag="chat_resize_drag"></div>
+
+		<div id="lines" class="scroll-pane" data-style-height="client_height + 'dp'"
+		     data-style---line-px="line_px + 'px'" data-style---row-px="row_px + 'px'">
+			<div data-for="line : lines"
+			     data-attr-class="'chat-line chat-line--' + line.kind + (line.has_id ? ' chat-line--has-id' : '') + (it_index == pointed_index ? ' chat-line--pointed' : '')"
+			     data-style-font-size="text_px + 'px'">{{line.text}}</div>
+		</div>
+	</div>
+</body>
+</rml>

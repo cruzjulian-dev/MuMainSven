@@ -1,0 +1,25 @@
+{
+  "states": {
+    "framed": {
+      "show_frame": true, "panel_height": 100, "client_height": 90, "back_alpha": 0.6,
+      "text_px": 20, "line_px": 24, "row_px": 30, "pointed_index": -1,
+      "lines": [
+        {"kind": "system", "text": "Welcome to Lorencia", "has_id": false},
+        {"kind": "chat", "text": "Torino : hola", "has_id": true},
+        {"kind": "whisper", "text": "Kayito : vamos a devias?", "has_id": true},
+        {"kind": "party", "text": "Torino : ya voy", "has_id": true},
+        {"kind": "guild", "text": "Sven : guild war a las 9", "has_id": true},
+        {"kind": "error", "text": "You cannot do that here.", "has_id": false}
+      ]
+    },
+    "plain": {
+      "show_frame": false, "panel_height": 100, "client_height": 90, "back_alpha": 0.6,
+      "text_px": 20, "line_px": 24, "row_px": 30, "pointed_index": -1,
+      "lines": [
+        {"kind": "system", "text": "Welcome to Lorencia", "has_id": false},
+        {"kind": "chat", "text": "Torino : hola", "has_id": true},
+        {"kind": "whisper", "text": "Kayito : vamos a devias?", "has_id": true}
+      ]
+    }
+  }
+}

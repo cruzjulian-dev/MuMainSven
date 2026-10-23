@@ -1,0 +1,15 @@
+{
+  "states": {
+    "typing": {
+      "input_msg_type": 0, "block_whisper": false, "show_system": true, "show_chat_log": true,
+      "show_frame": true, "whisper_send": true,
+      "whisper_id": "Torino", "chat_text": "~vamos a Devias",
+      "hint_4": "Block whispers", "hint_6": "Chat log", "hint_8": "Chat window size", "hint_9": "Transparency"
+    },
+    "blocked": {
+      "input_msg_type": 0, "block_whisper": true, "show_system": true, "show_chat_log": false,
+      "show_frame": false, "whisper_send": false,
+      "whisper_id": "Torino", "chat_text": ""
+    }
+  }
+}

@@ -1,0 +1,81 @@
+/* MU 0.97k theme for CChatInputBox: the 0.97k input box (Dialogue1 + Dialogue2, 133x29 each) that
+   shows while typing, over the bar at x 186, y 415. The message goes in the dark well at (191, 422),
+   180 wide; the whisper target in the grey well at (376, 422), 50 wide; the ear at (432, 420) blocks
+   whispers. The 0.97k client had no chat-type buttons: a message starts with ~ for the party, @ for
+   the guild ($ for Gens), which this client also reads. Its show-chat, size and transparency
+   buttons (Nis_btnchat/size/alpha) showed only while not typing, over the message; this box shows
+   only while typing, so they sit in a row right of it instead. The system-message switch has no 0.97k button; F5 still shows the chat frame. */
+
+@spritesheet chat97-left-sheet  { src: "../../../../Interface97/Dialogue1.jpg";   chat97-left: 0px 0px 133px 29px; }
+@spritesheet chat97-right-sheet { src: "../../../../Interface97/Dialogue2.jpg";   chat97-right: 0px 0px 133px 29px; }
+@spritesheet chat97-ear-sheet   { src: "../../../../Interface97/Dialogue2_1.jpg"; chat97-ear: 0px 0px 15px 16px; }
+@spritesheet chat97-show-sheet  { src: "../../../../Interface97/Nis_btnchat.jpg";  chat97-show: 0px 0px 16px 16px; }
+@spritesheet chat97-size-sheet  { src: "../../../../Interface97/Nis_btnsize.jpg";  chat97-size: 0px 0px 16px 16px; }
+@spritesheet chat97-alpha-sheet { src: "../../../../Interface97/Nis_btnalpha.jpg"; chat97-alpha: 0px 0px 16px 16px; }
+
+#panel.workspace-placed { bottom: auto; margin-left: 0; transform-origin: left top; }
+#panel {
+	position: absolute;
+	left: 50%;
+	/* 36 = 480 - 444, the box's lower edge, 12 units into the bar. */
+	bottom: 36dp;
+	margin-left: -134dp;
+	width: 266dp;
+	height: 29dp;
+	decorator: image(chat97-left scale-none left top), image(chat97-right scale-none right top);
+	font-family: "token(font-body)";
+	font-size: 1rem;
+	/* The box takes the pointer, so a click on it never walks the character. */
+	pointer-events: auto;
+}
+
+/* Not in the 0.97k box. */
+#btn_type_0, #btn_type_1, #btn_type_2, #btn_type_3, #btn_system, #btn_frame {
+	display: none;
+}
+
+.cib-btn {
+	position: absolute;
+	pointer-events: auto;
+	cursor: pointer;
+}
+.cib-btn:hover { filter: brightness(1.2); }
+.cib-btn:active { filter: brightness(0.75); }
+
+/* The ear is painted into the box; blocked whispers lay Dialogue2_1 over it. */
+#btn_whisper { left: 246dp; top: 5dp; width: 15dp; height: 16dp; }
+#btn_whisper.on { decorator: image(chat97-ear); }
+
+/* Show chat, size and transparency, 18 apart as in the original, right of the box. Size and
+   transparency only apply to the frame, so they show with it. */
+#btn_chatlog, #btn_size, #btn_transparency { top: 6dp; width: 16dp; height: 16dp; }
+#btn_chatlog      { left: 270dp; decorator: image(chat97-show); filter: brightness(0.7); }
+#btn_chatlog.on   { filter: none; }
+#btn_size         { left: 288dp; decorator: image(chat97-size); }
+#btn_transparency { left: 306dp; decorator: image(chat97-alpha); }
+
+.cib-chat-field, .cib-whisper-field {
+	position: absolute;
+	top: 7dp;
+	height: 14dp;
+	font-size: 1rem;
+	background-color: transparent;
+	border: 0 transparent;
+}
+.cib-chat-field    { left: 5dp;   width: 180dp; color: rgb(255, 230, 210); }
+.cib-whisper-field { left: 190dp; width: 50dp;  color: rgb(200, 200, 200); }
+
+/* Whispering off (F3): the target stays readable, dimmed under a red wash over the grey well. */
+.cib-whisper-field:disabled {
+	color: rgba(255, 255, 255, 100);
+	background-color: transparent;
+}
+#whisper_block {
+	position: absolute;
+	left: 187dp;
+	top: 5dp;
+	width: 57dp;
+	height: 18dp;
+	background-color: rgba(128, 51, 51, 51);
+	pointer-events: none;
+}

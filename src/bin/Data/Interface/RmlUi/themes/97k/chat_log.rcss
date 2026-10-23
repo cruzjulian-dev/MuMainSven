@@ -1,0 +1,180 @@
+/* MU 0.97k theme for CChatLogWindow: legacy's lines (the 0.97k client used the very same per-type
+   colours) in the 0.97k chat frame -- 268 wide over the 0.97k input box, a 5-unit gold top edge
+   (Message_box2), 5-unit sides (Nis_vframe), the Nis scrollbar with its two arrows, and the resize
+   grip at the top right (Nis_rsframe). The panel's height comes from C++ (15 * showing lines + 10),
+   since the user resizes it in 3-line steps. */
+
+#panel.workspace-placed { bottom: auto; margin-left: 0; transform-origin: left top; }
+#panel {
+	position: absolute;
+	left: 50%;
+	margin-left: -134dp;
+	/* 60 = 480 - 420, the 0.97k log's bottom edge; it grows upward from the input box. */
+	bottom: 60dp;
+	width: 268dp;
+	font-family: "token(font-body)";
+	font-size: 1rem;
+	pointer-events: none;
+}
+
+/* The window fill, split three ways: whether it paints at all is frame state (.framed, native's
+   own RenderBackground() m_bShowFrame guard), how opaque it is comes from the user's cycled
+   transparency setting as a bound opacity, and its whole appearance is this rule's. #chat_backdrop sits
+   behind #lines so the fade never touches the text.
+
+   Flat black here because that is what the original drew -- not a constraint. A theme can make this
+   a gradient, a ninepatch or a sprite by changing this one rule; `decorator` works, and the bound
+   opacity fades a decorator exactly as it fades a colour (see themes/modern/chat_log.rcss, which
+   does use a gradient). */
+#chat_backdrop {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
+	background-color: rgb(0, 0, 0);
+}
+#panel.framed #chat_backdrop { display: block; }
+/* Above the backdrop, and unfaded. */
+#lines { position: relative; z-index: 1; }
+
+/* The frame: the top edge across the width and a side on each edge, only while it is shown. */
+@spritesheet chat97-edge-sheet { src: "../../../../Interface97/Message_box2.jpg"; chat97-edge: 0px 0px 213px 5px; }
+@spritesheet chat97-side-sheet { src: "../../../../Interface97/Nis_vframe.jpg";   chat97-side: 0px 0px 5px 40px; }
+.chat-frame { display: none; position: absolute; z-index: 1; pointer-events: none; }
+#panel.framed .chat-frame { display: block; }
+#frame_top   { left: 0; top: 0; right: 0; height: 5dp; decorator: image(chat97-edge fill); }
+#frame_left  { left: 0; top: 5dp; bottom: 0; width: 5dp; decorator: image(chat97-side repeat-y); }
+#frame_right { right: 0; top: 5dp; bottom: 0; width: 5dp; decorator: image(chat97-side repeat-y); }
+
+/* Drag target for the 3-line-step resize: the 0.97k grip, 22x12, at the top right. */
+@spritesheet chat-resize-sheet {
+	src: "../../../../Interface97/Nis_rsframe.tga";
+	chat-resize: 0px 0px 22px 12px;
+}
+#resize_handle {
+	position: absolute;
+	z-index: 2;
+	right: 6dp;
+	top: -4dp;
+	width: 22dp;
+	height: 12dp;
+	decorator: image(chat-resize);
+	cursor: move;
+	drag: drag;
+	pointer-events: auto;
+}
+#resize_handle:active { filter: brightness(0.7); }
+
+/* Messages stack from the BOTTOM up: with fewer lines than the window shows, native pushed the
+   text down by (showingLines - endLine - 1) line heights (RenderMessages()), so the first message
+   sits on the bottom row and earlier ones ride upward as new ones arrive. A flex column plus an
+   auto top margin on the first line reproduces that exactly, and degrades correctly once the list
+   overflows -- an auto margin absorbs free space when there is any and resolves to 0 when there
+   isn't, so it never pushes content out of the scrollable area the way justify-content:flex-end
+   would. */
+#lines {
+	position: absolute;
+	left: 8dp;
+	top: 6dp;
+	right: 8dp;
+	font-size: 1rem;
+	display: flex;
+	flex-direction: column;
+	/* Lines hug their own text rather than stretching to the pane: native passed no box width to
+	   RenderText(), so the text renderer fell back to the MEASURED width for its background quad
+	   (CUIRenderTextSDLTtf.cpp -- `if (layout.boxWidth == 0) boxWidth = measuredWidth`). Flex
+	   defaults to align-items:stretch, which made every line a full-width bar instead. */
+	align-items: flex-start;
+}
+.chat-line:first-child { margin-top: auto; }
+
+/* The message well must NOT be a hover target. Core::Input::IsMouseOverUI() gates click-to-move
+   on Rml::Context::IsMouseInteracting(), which is true for ANY pointer-events:auto element under
+   the cursor -- clicked or not -- so leaving .scroll-pane's own `pointer-events: auto` in place
+   here turned the whole chat area into a wall the player could not walk through. Native let world
+   clicks pass straight through this window (its UpdateMouseEvent() only consumed on the single
+   hover-transition frame), so nothing here may claim the cursor except the two controls that
+   genuinely need it. */
+#lines { pointer-events: none; }
+.chat-line { pointer-events: none; }
+
+/* The scrollbar is the exception, and it has to opt back in explicitly at every level: its
+   generated children inherit pointer-events from #lines, which is now `none`. */
+#lines scrollbarvertical,
+#lines scrollbarvertical slidertrack,
+#lines scrollbarvertical sliderbar { pointer-events: auto; }
+
+/* Native's RenderFrame() draws the scrollbar AND the resize handle only while the frame is
+   shown, so hiding the frame (F5) takes the scrollbar with it. Width 0 rather than
+   overflow:hidden: native still scrolls on the wheel with the frame hidden (its wheel branch is
+   gated on hover, not on m_bShowFrame), and overflow:hidden would kill that too. */
+#lines scrollbarvertical { width: 0; }
+#panel.framed #lines scrollbarvertical { width: 13dp; }
+
+/* The 0.97k scrollbar: Nis_back's rail and Nis_bar's thumb, both stretched, and a 13x13 arrow at
+   each end (Nis_btnarrow, flipped for the lower one) that scrolls a line. */
+@spritesheet chat97-rail-sheet  { src: "../../../../Interface97/Nis_back.jpg";     chat97-rail: 0px 0px 13px 1px; }
+@spritesheet chat97-thumb-sheet { src: "../../../../Interface97/Nis_bar.jpg";      chat97-thumb: 0px 0px 11px 1px; }
+@spritesheet chat97-arrow-sheet { src: "../../../../Interface97/Nis_btnarrow.jpg"; chat97-arrow: 0px 0px 13px 13px; }
+#lines scrollbarvertical slidertrack { decorator: image(chat97-rail fill); }
+#lines scrollbarvertical sliderbar {
+	height: auto;
+	min-height: 8dp;
+	margin-left: 1dp;
+	margin-right: 1dp;
+	decorator: image(chat97-thumb fill);
+}
+#lines scrollbarvertical sliderarrowdec,
+#lines scrollbarvertical sliderarrowinc {
+	height: 13dp;
+	pointer-events: auto;
+	cursor: pointer;
+	opacity: 0.6;
+}
+#lines scrollbarvertical sliderarrowdec:hover,
+#lines scrollbarvertical sliderarrowinc:hover { opacity: 1; }
+#lines scrollbarvertical sliderarrowdec { decorator: image(chat97-arrow); }
+#lines scrollbarvertical sliderarrowinc { decorator: image(chat97-arrow flip-vertical); }
+
+/* No padding: native's background quad is exactly the measured text (RenderText() without a box).
+   Text size, height and the 15-unit row pitch come from chat_log.rml's bindings. flex-shrink 0:
+   with an explicit height, a flex item would otherwise shrink to fit a full well and the rows
+   would crowd together instead of scrolling. */
+/* A line is the native renderer's line height, and the next starts a row pitch below it. */
+.chat-line {
+	display: block;
+	white-space: nowrap;
+	flex-shrink: 0;
+	height: var(--line-px, 0px);
+	line-height: var(--line-px, 0px);
+	margin-bottom: calc(var(--row-px, 0px) - var(--line-px, 0px));
+}
+
+/* Per-type colours -- native's SetBgColor/SetTextColor pairs, verbatim. */
+.chat-line--chat    { background-color: rgba(0, 0, 0, 150);      color: rgb(205, 220, 239); }
+.chat-line--whisper { background-color: rgba(255, 200, 50, 150); color: rgb(0, 0, 0); }
+.chat-line--system  { background-color: rgba(0, 0, 0, 150);      color: rgb(100, 150, 255); }
+.chat-line--error   { background-color: rgba(0, 0, 0, 150);      color: rgb(255, 30, 0); }
+.chat-line--party   { background-color: rgba(0, 200, 255, 150);  color: rgb(0, 0, 0); }
+.chat-line--guild   { background-color: rgba(0, 255, 150, 200);  color: rgb(0, 0, 0); }
+.chat-line--union   { background-color: rgba(200, 200, 0, 200);  color: rgb(0, 0, 0); }
+.chat-line--gens    { background-color: rgba(150, 200, 100, 200); color: rgb(0, 0, 0); }
+.chat-line--gm      { background-color: rgba(30, 30, 30, 200);   color: rgb(250, 200, 50); font-weight: bold; }
+
+/* With the frame shown the 0.97k client dropped every black line background, leaving the frame's
+   own fill behind the text. */
+#panel.framed .chat-line--chat,
+#panel.framed .chat-line--system,
+#panel.framed .chat-line--error { background-color: transparent; }
+
+/* Native's pointed-message highlight. NOT a :hover rule -- these lines are pointer-events:none
+   so world clicks pass through, which also means they never receive hover. C++ resolves the
+   pointed line itself and pushes its index, exactly as native's own
+   m_bPointedMessage/m_iPointedMessageIndex pair did. */
+.chat-line--pointed {
+	background-color: rgba(30, 30, 30, 180);
+	color: rgb(255, 128, 255);
+}
