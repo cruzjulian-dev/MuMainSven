@@ -43,6 +43,9 @@ build-linux/
 !src/bin/Data/Interface/
 !src/bin/Data/Interface/RmlUi/
 !src/bin/Data/Interface/RmlUi/**
+# The MU 0.97k interface art the `97k` UI theme draws (Data/Interface97/README.md).
+!src/bin/Data/Interface97/
+!src/bin/Data/Interface97/**
 # Item data (JSON, written by the item editor) is source-controlled.
 !src/bin/Data/Items/
 !src/bin/Data/Items/**
