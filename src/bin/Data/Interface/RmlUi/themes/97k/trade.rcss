@@ -1,10 +1,13 @@
-/* The 97k theme's CTrade: the 0.97k client's RenderTrade(). The panel is Item_Back01 over
-   Item_Back02 with Trading_line across it (RenderInventoryInterface()'s Flag drew it at 225; here
-   it sits 15 lower, at 240, so Sven's warning and notices fit above it), the partner's offer above it from 15,70 and the hero's below it from 15,270, both 8x4 grids of the
-   0.97k cells (item_grid.rcss). The bottom row is the 0.97k trade's three 24x24 buttons on the 390
-   row: zen at 26, accept at 97 (Accept_box01, Accept_box02 once pressed) and the third at 137,
-   which here is the exit. The gold amounts sit in Item_Money boxes. The workspace places #panel,
-   so coordinates are reference px. */
+/* The 97k theme's CTrade: the 0.97k client's RenderTrade(), measured from the 0.97k client. The
+   panel is Item_Back01 over Item_Back02 with Trading_line across it at 225
+   (RenderInventoryInterface()'s Flag). The partner's half: the name 20,50 in the big font on a
+   dark band the size of the text, the level at 140,50, the offer from 15,70, "Zen" at 20,163 on its
+   own band and the amount 10 into an Item_Money box at 50,160, then the warning and the three
+   notice lines from 185, 15 apart, with the partner's accept box (24x24) at 142,185 over them. The
+   hero's half: the name at 20,250, the offer from 15,270 and the money box at 50,360. The bottom
+   row is the 0.97k trade's three 24x24 buttons on the 390 row: zen at 26, accept at 97
+   (Accept_box01, Accept_box02 once pressed) and the exit at 137. The text keeps these places
+   whatever its length. The workspace places #panel, so coordinates are reference px. */
 
 #panel {
 	position: absolute;
@@ -36,13 +39,28 @@
 @spritesheet trade97-line-sheet  { src: "../../../../Interface97/Trading_line.jpg"; trade97-line:  0px 0px 190px 10px; }
 
 .gold-bg { position: absolute; left: 50px; width: 113px; height: 18px; decorator: image(trade97-money); pointer-events: none; }
-.gold-bg-your { top: 152px; }
-.gold-bg-my   { top: 352px; }
+.gold-bg-your { top: 160px; }
+.gold-bg-my   { top: 360px; }
+
+/* "Zen" left of each box, on the 0.97k text band (0xFF282828 at half strength) the size of the
+   word. trade.rml's fork adds the labels. */
+.gold-label {
+	position: absolute;
+	left: 20px;
+	color: rgb(255, 220, 150);
+	background-color: rgba(40, 40, 40, 128);
+	font-weight: bold;
+	font-size: 1em;
+	white-space: nowrap;
+	pointer-events: none;
+}
+.gold-label-your { top: 163px; }
+.gold-label-my   { top: 363px; }
 
 #divider {
 	position: absolute;
 	left: 0;
-	top: 240px;
+	top: 225px;
 	width: 190px;
 	height: 10px;
 	decorator: image(trade97-line);
@@ -50,15 +68,15 @@
 }
 
 .id-text { position: absolute; color: rgb(210, 230, 255); white-space: nowrap; pointer-events: none; }
-/* native g_hFontBig: its size, big_text_px, bound in trade.rml (text layer); a long name shrinks to
-   end before "Lv." at 134. */
-.id-text-your { left: 20px; top: 46px; width: calc(110px * var(--root-scale)); font-weight: bold; }
-.id-text-my   { left: 20px; top: 254px; font-size: 1em; font-weight: bold; }
+/* The partner's name in the big font (big_text_px, bound in trade.rml) on the 0.97k name band
+   (0xFF141414 at half strength) the size of the text; the hero's in the normal font, no band. */
+.id-text-your { left: 20px; top: 50px; font-weight: bold; background-color: rgba(20, 20, 20, 128); }
+.id-text-my   { left: 20px; top: 250px; font-size: 1em; font-weight: bold; }
 
 .guild-name {
 	position: absolute;
 	left: 20px;
-	top: 31px;
+	top: 34px;
 	color: rgb(220, 220, 220);
 	font-weight: bold;
 	font-size: 1em;
@@ -66,29 +84,30 @@
 	pointer-events: none;
 }
 
+/* The level at 140,50, wrapping in the 45 left to the panel's edge as the 0.97k
+   "Nivel / Aproximado 300". */
 .level-text {
 	position: absolute;
-	left: 134px;
-	top: 49px;
+	left: 140px;
+	top: 50px;
+	width: calc(45px * var(--root-scale));
 	font-weight: bold;
 	font-size: 1em;
-	white-space: nowrap;
+	white-space: normal;
 	pointer-events: none;
 }
 
-/* The amount right-aligned in its box, 3 below its top as the 0.97k client wrote it. */
+/* The amount 10 into its box and 3 below its top, as the 0.97k client wrote it. */
 .gold-text {
 	position: absolute;
-	left: 50px;
-	width: 105px;
-	text-align: right;
+	left: 60px;
 	font-weight: bold;
 	font-size: 1em;
 	white-space: nowrap;
 	pointer-events: none;
 }
-.gold-text-your { top: 155px; }
-.gold-text-my   { top: 355px; }
+.gold-text-your { top: 163px; }
+.gold-text-my   { top: 363px; }
 /* The 0.97k zen tiers (RenderInventoryWindow()): pale under 100,000, green under a million,
    yellow above. */
 .gold-amount.gold-base             { color: rgb(255, 220, 150); }
@@ -111,12 +130,12 @@
 }
 .checkbox-box.checked { decorator: image(trade-confirm-checked); }
 
-/* The partner's confirmation stands left of the partner's money box (15,149), out of the notice
-   flow it is written in; the flow is counter-scaled, so its offsets follow the panel scale. */
+/* The partner's confirmation at 142,185, over the notice lines as in the 0.97k client; it sits in
+   the counter-scaled notice flow (at 20,185), so its offsets follow the panel scale. */
 .confirm-your {
 	position: absolute;
-	left: calc(-1px * var(--root-scale));
-	top: calc(-24px * var(--root-scale));
+	left: calc(122px * var(--root-scale));
+	top: 0;
 	width: calc(24px * var(--root-scale));
 	height: calc(24px * var(--root-scale));
 	cursor: default;
@@ -145,25 +164,34 @@
 .trade-btn-exit { left: 137px; decorator: image(trade97-exit); }
 .trade-btn-exit:active { decorator: image(trade97-exit-press); }
 
-/* One counter-scaled flow keeps the warning and translated notice fragments apart, between the
-   partner's money and the line. */
+/* The warning and the notices at the 0.97k places, inside one counter-scaled layer at 20,185: the
+   warning first, cut where the first notice starts (the 0.97k "Adve"), that notice at 46, the
+   other two under it, 15 apart. */
 #trade_help {
 	position: absolute;
-	left: 16px;
-	top: 173px;
+	left: 20px;
+	top: 185px;
 	--flow-w: 160px;
-	line-height: 1.05;
-	white-space: normal;
+	white-space: nowrap;
 	pointer-events: none;
 }
 .warning-label {
-	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: calc(26px * var(--root-scale));
+	overflow: hidden;
 	color: #d20000;
 	font-weight: bold;
 }
 .notice-line {
-	color: rgb(210, 230, 255);
+	position: absolute;
+	color: rgb(255, 230, 210);
+	font-weight: bold;
 }
+#notice_line1 { left: calc(26px * var(--root-scale)); top: 0; }
+#notice_line2 { left: 0; top: calc(15px * var(--root-scale)); }
+#notice_line3 { left: 0; top: calc(30px * var(--root-scale)); }
 
 /* Former RenderWarningArrow()'s "Warning" text badge -- left/top/width come live from C++ per
    entry (item_warning_badges). */
@@ -206,8 +234,6 @@
 
 /* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
 #title { margin-left: calc(50% - 50% * var(--root-scale)); }
-#your_gold_text { width: calc(105px * var(--root-scale)); }
-#my_gold_text { width: calc(105px * var(--root-scale)); }
 /* A badge is counter-scaled: its item's width in reference px at the panel's scale. */
 .item-warning-badge { width: calc(var(--badge-width, 0px) * var(--root-scale)); }
 
