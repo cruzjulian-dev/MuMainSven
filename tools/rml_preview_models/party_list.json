@@ -1,0 +1,48 @@
+{
+ "cards": [
+  {
+   "index": 0,
+   "name": "Leader",
+   "leader": true,
+   "absent": false,
+   "defense_buff": false,
+   "selected": false,
+   "name_text_px": 12,
+   "health_length": 69,
+   "show_leave": true
+  },
+  {
+   "index": 1,
+   "name": "Elfita",
+   "leader": false,
+   "absent": false,
+   "defense_buff": true,
+   "selected": false,
+   "name_text_px": 12,
+   "health_length": 41.4,
+   "show_leave": false
+  },
+  {
+   "index": 2,
+   "name": "Far",
+   "leader": false,
+   "absent": true,
+   "defense_buff": false,
+   "selected": false,
+   "name_text_px": 12,
+   "health_length": 20.7,
+   "show_leave": false
+  },
+  {
+   "index": 3,
+   "name": "Wizz",
+   "leader": false,
+   "absent": false,
+   "defense_buff": false,
+   "selected": true,
+   "name_text_px": 12,
+   "health_length": 55.2,
+   "show_leave": false
+  }
+ ]
+}

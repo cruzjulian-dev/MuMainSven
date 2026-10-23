@@ -1,0 +1,90 @@
+/* The 97k theme's CPartyListWindow: the 0.97k client's RenderParty() list, one card per member
+   down the right side, 19 apart: a dark card (rgba 0.1,0.1,0.1,0.7; grey 0.5,0.5,0.5,0.8 under
+   the pointer), the name 3 in and 2 down in white, and under it the 0.97k health bar, a dark red
+   strip 43x4 holding ten red steps 3 wide, 4 apart. Gold lines (0.722,0.592,0.380,0.5) run down
+   both sides of each card. The 0.97k card is 50 wide; this one is 62, so the name keeps the box C++
+   shrinks it to. Sven's leave button, flag and defence and absence tints stay. Reference px inside
+   #panel (at the dock's scale). */
+
+@spritesheet plist-flag-sheet { src: "../../../newui_party_flag.tga"; plist-flag: 0px 0px 9px 10px; }
+@spritesheet plist-leave-sheet
+{
+	src: "../../../newui_party_x.tga";
+	plist-leave-up: 0px 0px 11px 11px;
+	plist-leave-down: 0px 11px 11px 11px;
+}
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 62px;
+	font-family: "token(font-body)";
+	pointer-events: none;
+}
+
+.card {
+	display: block;
+	position: relative;
+	width: 62px;
+	height: 19px;
+	border-left: 1px rgba(184, 151, 97, 128);
+	border-right: 1px rgba(184, 151, 97, 128);
+	box-sizing: border-box;
+}
+.card-fill, .card-tint, .card-select { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.card-fill { background-color: rgba(26, 26, 26, 179); }
+.card-tint, .card-select { display: none; }
+.card.defense .card-tint { display: block; background-color: rgba(51, 255, 51, 51); }
+.card.selected .card-select { display: block; background-color: rgba(128, 128, 128, 204); }
+.card.absent .card-tint { display: block; background-color: rgba(77, 0, 0, 128); }
+.card-flag { display: none; position: absolute; left: 38px; top: 2px; width: 9px; height: 10px; decorator: image(plist-flag); }
+.card.leader .card-flag { display: block; }
+
+.card-name {
+	display: block;
+	position: absolute;
+	left: 2px;
+	top: 2px;
+	white-space: nowrap;
+	color: #ffffff;
+}
+.card.absent .card-name { color: #808080; }
+.card.leader .card-name { color: #ff9416; }
+.card.leader.absent .card-name { color: #804b0b; }
+
+/* The 0.97k bar's dark strip, then the steps. C++ gives the width in Sven's 69-unit bar (6.9 a
+   step); the steps are drawn 6.9 apart and the bar is scaled to 40/69, so each lands 4 apart and
+   3 wide as in the 0.97k client. */
+/* card-back, legacy's card art, is the dark strip here. */
+.card-back { position: absolute; left: 1px; top: 12px; width: 43px; height: 4px; background-color: rgb(50, 10, 0); }
+.card-health {
+	position: absolute;
+	left: 1px;
+	top: 13px;
+	height: 2px;
+	transform: scaleX(0.5797);
+	transform-origin: left top;
+	decorator: repeating-linear-gradient(90deg, rgb(250, 10, 0) 0px 5.175px, transparent 5.175px 6.9px);
+}
+
+.card-leave {
+	position: absolute;
+	left: 48px;
+	top: 1px;
+	width: 11px;
+	height: 11px;
+	decorator: image(plist-leave-up);
+	pointer-events: auto;
+}
+.card-leave:active { decorator: image(plist-leave-down); }
+
+/* Keep the dock's preferred offset where it fits; the workspace's top edge clears the shell
+   header. */
+#panel {
+	left: calc(var(--world-right, 100%) - 64px * var(--dock-scale, 1));
+	top: max(calc(var(--workspace-top, 0px) + 5px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 418px * var(--dock-scale, 1)));
+	transform: scale(var(--dock-scale, 1));
+	--root-scale: var(--dock-scale, 1);
+}
+/* A card takes the pointer: its hover is the skill target, and a click on it never walks. */
+.card { pointer-events: auto; }

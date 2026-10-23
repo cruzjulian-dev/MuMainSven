@@ -1,0 +1,114 @@
+/* The 97k theme's CPartyInfoWindow: the 0.97k client's RenderParty() panel. #panel, the 0.97k
+   panel art and the exit come from docked_panel_frame.rcss (linked before this file). A member's
+   row follows RenderParty()'s: the name 20 in, on a dark blue band for the leader (the 0.97k
+   0xFF962828 back colour, the name white) and pale otherwise; under it a second line (the map 40
+   in, the coordinates at 120), the 0.97k health bar 92x5 at 39 (dark red, the fill red) and the
+   health text under the bar. The kick is the 0.97k exit at 140, beside the bar rather than by the
+   name, where the coordinates run. The 0.97k rows were 35 apart in its small font; at Sven's text
+   size they are 48. Sven's group boxes and leader flag go. */
+
+#title {
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: calc(190px * var(--root-scale));
+	text-align: center;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+	pointer-events: none;
+}
+
+/* The empty-party help, 20 in from 50, 15 apart as RenderParty() wrote it. */
+.party-empty-msg {
+	position: absolute;
+	left: 20px;
+	top: 48px;
+	width: calc(160px * var(--root-scale));
+	color: rgb(230, 230, 230);
+	font-size: 1em;
+	text-align: left;
+}
+.party-empty-msg span { display: block; }
+.party-empty-msg span.paragraph { margin-top: calc(5px * var(--root-scale)); }
+
+.party-list { position: absolute; left: 0; top: 50px; width: 190px; }
+.party-row { position: relative; display: block; width: 190px; height: 48px; }
+
+.party-row .gbox-title-fill, .party-row .gbox-content-fill, .party-row .gbox-corner, .party-row .gbox-edge,
+.party-flag { display: none; }
+
+.party-name {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 0;
+	white-space: nowrap;
+	font-weight: bold;
+	font-size: 1em;
+	color: rgb(210, 230, 255);
+	pointer-events: none;
+}
+.party-name.leader { color: rgb(255, 255, 255); background-color: rgb(40, 40, 150); }
+
+.party-map, .party-coord {
+	display: block;
+	position: absolute;
+	top: 14px;
+	white-space: nowrap;
+	font-size: 1em;
+	color: rgb(255, 230, 210);
+	pointer-events: none;
+}
+.party-map   { left: 40px; width: calc(78px * var(--root-scale)); overflow: hidden; }
+.party-coord { left: 120px; }
+
+.party-hp-bar {
+	position: absolute;
+	left: 39px;
+	top: 29px;
+	width: 92px;
+	height: 5px;
+	background-color: rgb(51, 0, 0);
+	pointer-events: none;
+}
+.party-hp-fill {
+	position: absolute;
+	left: 1px;
+	top: 0;
+	width: 0%;
+	max-width: 90px;
+	height: 3px;
+	background-color: rgb(225, 15, 0);
+	pointer-events: none;
+}
+.party-hp-text {
+	display: block;
+	position: absolute;
+	left: 39px;
+	top: 34px;
+	width: calc(92px * var(--root-scale));
+	text-align: center;
+	font-size: 1em;
+	color: rgb(255, 255, 255);
+	pointer-events: none;
+}
+
+@spritesheet party97-kick-sheet       { src: "../../../../Interface97/Exit_01.jpg"; party97-kick:       0px 0px 24px 24px; }
+@spritesheet party97-kick-press-sheet { src: "../../../../Interface97/Exit_02.jpg"; party97-kick-press: 0px 0px 24px 24px; }
+.party-kick-btn {
+	position: absolute;
+	left: 140px;
+	top: 25px;
+	width: 24px;
+	height: 24px;
+	decorator: image(party97-kick);
+	cursor: pointer;
+	pointer-events: auto;
+}
+.party-kick-btn:active { decorator: image(party97-kick-press); }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
+.party-empty-msg { line-height: calc(15px * var(--root-scale)); }
+/* The native text size, counter-scaled out of the panel's scale. */
+#panel { font-size: calc(var(--text-px) / var(--root-scale)); }

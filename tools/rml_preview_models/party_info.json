@@ -1,0 +1,39 @@
+{
+ "text_px": 12,
+ "has_party": true,
+ "window_title": "Party",
+ "exit_tooltip": "Close",
+ "empty_state_lines": [],
+ "members": [
+  {
+   "index": 0,
+   "name": "Leader",
+   "map_text": "Lorencia",
+   "coord_text": "(135, 120)",
+   "hp_text": "850 / 1000",
+   "hp_percent": 85,
+   "is_leader": true,
+   "show_kick": false
+  },
+  {
+   "index": 1,
+   "name": "Elfita",
+   "map_text": "Devias",
+   "coord_text": "(210, 40)",
+   "hp_text": "300 / 900",
+   "hp_percent": 33,
+   "is_leader": false,
+   "show_kick": true
+  },
+  {
+   "index": 2,
+   "name": "Wizz",
+   "map_text": "Noria",
+   "coord_text": "(170, 105)",
+   "hp_text": "1200 / 1200",
+   "hp_percent": 100,
+   "is_leader": false,
+   "show_kick": true
+  }
+ ]
+}
