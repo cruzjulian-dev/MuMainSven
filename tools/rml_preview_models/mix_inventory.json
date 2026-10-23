@@ -1,0 +1,198 @@
+{
+ "text_px": 12,
+ "title": "Chaos Goblin",
+ "show_tax_rate": true,
+ "tax_rate_text": "Tax rate 3%",
+ "tax_rate_fit": 1,
+ "grid_cells": [
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  }
+ ],
+ "show_recipe": true,
+ "recipe_line1": "Chaos Weapon",
+ "recipe_line2": "",
+ "recipe_ready": true,
+ "show_recipe_line2": false,
+ "show_success_rate": true,
+ "success_rate_text": "Success rate: 60%",
+ "success_boosted": false,
+ "show_required_zen": true,
+ "required_zen_text": "Required zen: 25,000",
+ "show_socket_prompt": false,
+ "show_prediction": true,
+ "prediction_text": "Result: Chaos weapon",
+ "source_lines": [
+  {
+   "text": "Jewel of Chaos 1/1",
+   "kind": "ready"
+  }
+ ],
+ "status_lines": [],
+ "advice_lines": [],
+ "description_lines": [],
+ "descriptions_lowered": false,
+ "show_socket_list": false,
+ "socket_lines": [],
+ "mix_visible": true,
+ "mix_locked": false,
+ "mix_tooltip": "Mix",
+ "socket_prompt_text": ""
+}
