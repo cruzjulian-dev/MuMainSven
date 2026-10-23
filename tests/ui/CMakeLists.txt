@@ -9,6 +9,13 @@ add_test(
     COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/check_rml_rcss_syntax.py"
 )
 
+# Every image a theme names is on disk as the OZT/OZJ the client reads; a missing one draws nothing
+# and logs nothing.
+add_test(
+    NAME theme_assets
+    COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/check_theme_assets.py"
+)
+
 add_test(
     NAME rml_preview
     COMMAND "${Python3_EXECUTABLE}"

@@ -1108,6 +1108,16 @@ add_custom_target(CheckRmlRcssSyntax ALL
 add_dependencies(Main CheckRmlRcssSyntax)
 
 # No OUTPUT means this target is always considered out-of-date and re-runs every build. See
+# tools/check_theme_assets.py's own docstring for why a missing theme image is worth a guard.
+add_custom_target(CheckThemeAssets ALL
+  COMMAND "${Python3_EXECUTABLE}" "${REPO_ROOT}/tools/check_theme_assets.py"
+          --asset-root "${ASSETS_DIR}/Data/Interface/RmlUi"
+  COMMENT "Checking that every image a theme names is on disk"
+  VERBATIM
+)
+add_dependencies(Main CheckThemeAssets)
+
+# No OUTPUT means this target is always considered out-of-date and re-runs every build. See
 # tools/check_rml_rcss_drift.py's own docstring for what it does and doesn't check.
 add_custom_target(CheckRmlRcssDrift ALL
   COMMAND "${Python3_EXECUTABLE}" "${REPO_ROOT}/tools/check_rml_rcss_drift.py"
