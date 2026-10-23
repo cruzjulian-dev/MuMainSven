@@ -7,6 +7,11 @@
 
 @spritesheet docked-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; docked-back-top: 0px 0px 190px 256px; }
 @spritesheet docked-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; docked-back-bottom: 0px 0px 190px 177px; }
+/* Legacy's window stylesheets pick their top as ".frame-top { decorator: image(docked-bg-top-a); }"
+   (or -b); the #panel rule below wins over them, but the names they ask for are defined so no
+   rule names a missing sprite. */
+@spritesheet docked-bg-top-a-sheet { src: "../../../../Interface97/Item_back01.jpg"; docked-bg-top-a: 0px 0px 190px 256px; }
+@spritesheet docked-bg-top-b-sheet { src: "../../../../Interface97/Item_back01.jpg"; docked-bg-top-b: 0px 0px 190px 256px; }
 
 @spritesheet docked-corner-tl-sheet { src: "../../../newui_item_table01(L).tga"; docked-corner-tl: 0px 0px 14px 14px; }
 @spritesheet docked-corner-tr-sheet { src: "../../../newui_item_table01(R).tga"; docked-corner-tr: 0px 0px 14px 14px; }
