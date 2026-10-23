@@ -1,0 +1,214 @@
+/* MU 0.97k theme for main_frame.rml: the 0.97k bottom bar (Data/Interface97). Every position
+   below is the 0.97k client's own, in its 640x480 frame: a part's margin-left is its x minus 320
+   and its bottom is 480 minus its lower edge, so the bar docks at the bottom centre like legacy.
+   The buttons, the potion boxes and the current-skill box are painted into the bar's art; their
+   elements here are the hit areas and the pressed or count overlays the original drew on top. */
+
+/* What the 0.97k bar doesn't have: modern's flat backing, the full current/max readouts, SD, the
+   skill hotkey row, the fourth potion box and the shop, friend and menu buttons. Those stay on
+   their keys (R, the number keys, F, U). */
+#gauge_fill_left, #gauge_fill_right, #item_band_fill, #skill_band_fill, #gauge_frame,
+.gauge-num.value-full, .gauge-fill-horizontal, .exp-frame, .btn-icon-label, .slot-hotkey-label,
+#bar_sd, #skill_list_highlight,
+#skill_slot_0, #skill_slot_1, #skill_slot_2, #skill_slot_3, #skill_slot_4, #item_slot_3,
+#btn_cshop, #btn_friend, #btn_window {
+	display: none;
+}
+
+/* The bar is 48 high; the corner pieces rise 45 above it without claiming that space. */
+#hud_layout { position: absolute; left: 50%; bottom: 0; margin-left: -320dp;
+    width: 640dp; height: 48dp; overflow: visible; pointer-events: none; }
+#hud_layout.workspace-placed { margin-left: 0; bottom: auto; transform-origin: left top; }
+.hud-part {
+	position: absolute;
+	left: 50%;
+	font-family: "token(font-body)";
+	font-size: 9dp;
+}
+#hud_strip    { margin-left: -320dp; bottom: 0dp;  width: 640dp; height: 48dp; pointer-events: auto; }
+#gauges_left  { margin-left: -223dp; bottom: 0dp;  width: 53dp;  height: 48dp; }
+#gauges_right { margin-left: 169dp;  bottom: 0dp;  width: 77dp;  height: 48dp; }
+#buttons      { margin-left: 28dp;   bottom: 3dp;  width: 286dp; height: 25dp; }
+#exp          { margin-left: -101dp; bottom: 35dp; width: 202dp; height: 6dp; pointer-events: auto; }
+#item_slots   { margin-left: -112dp; bottom: 6dp;  width: 82dp;  height: 20dp; }
+#skill_slots  { margin-left: -16dp;  bottom: 0dp;  width: 32dp;  height: 36dp; }
+#skill_list   { margin-left: -320dp; bottom: 74dp; width: 640dp; height: 36dp; }
+
+/* The bar: Menu01_new, Menu02 and Menu03_new side by side, and Menu04 over each end, mirrored on
+   the right. */
+@spritesheet hud97-menu01-sheet { src: "../../../../Interface97/Menu01_new.jpg"; hud97-menu01: 0px 0px 256px 48px; }
+@spritesheet hud97-menu02-sheet { src: "../../../../Interface97/Menu02.jpg";     hud97-menu02: 0px 0px 128px 48px; }
+@spritesheet hud97-menu03-sheet { src: "../../../../Interface97/Menu03_new.jpg"; hud97-menu03: 0px 0px 256px 48px; }
+@spritesheet hud97-menu04-sheet { src: "../../../../Interface97/Menu04.tga";     hud97-corner: 0px 0px 108px 45px; }
+.frame-art { position: absolute; top: 0dp; height: 48dp; pointer-events: none; }
+#frame_left   { left: 0dp;   width: 256dp; decorator: image(hud97-menu01); }
+#frame_middle { left: 256dp; width: 128dp; decorator: image(hud97-menu02); }
+#frame_right  { left: 384dp; width: 256dp; decorator: image(hud97-menu03); }
+#frame_corner_left, #frame_corner_right { top: -45dp; width: 108dp; height: 45dp; }
+#frame_corner_left  { left: 0dp;   decorator: image(hud97-corner); }
+#frame_corner_right { left: 532dp; decorator: image(hud97-corner flip-horizontal); }
+
+/* HP and MP orbs, and the AG column right of MP. Each drains from the top, uncovering the empty
+   socket painted into the bar, as the original moved its quad's top and texture rows together. */
+.gauge-slot { position: absolute; pointer-events: auto; }
+#bar_hp { left: 0dp;  top: 0dp; width: 53dp; height: 48dp; }
+#bar_mp { left: 0dp;  top: 0dp; width: 53dp; height: 48dp; }
+#bar_ag { left: 62dp; top: 5dp; width: 15dp; height: 36dp; }
+@spritesheet hud97-hp-sheet  { src: "../../../../Interface97/Menu_red.jpg";      hud97-hp: 0px 0px 53px 48px; }
+@spritesheet hud97-hpp-sheet { src: "../../../../Interface97/Menu_green.jpg";    hud97-hp-poisoned: 0px 0px 53px 48px; }
+@spritesheet hud97-mp-sheet  { src: "../../../../Interface97/Menu_blue.jpg";     hud97-mp: 0px 0px 53px 48px; }
+@spritesheet hud97-ag-sheet  { src: "../../../../Interface97/Menu03_new_ag.jpg"; hud97-ag: 0px 0px 15px 36px; }
+.gauge-fill { position: absolute; left: 0; bottom: 0; width: 100%; }
+.gauge-fill-hp { decorator: image(hud97-hp cover left bottom); }
+.gauge-fill-hp.poisoned { decorator: image(hud97-hp-poisoned cover left bottom); }
+.gauge-fill-mp { decorator: image(hud97-mp cover left bottom); }
+.gauge-fill-ag { decorator: image(hud97-ag cover left bottom); }
+
+/* The current values, centred where the original's digits were: HP on x 100, MP on 540, AG on
+   571, their tops at y 467. */
+.gauge-num {
+	position: absolute;
+	z-index: 1;
+	width: 60dp;
+	font-size: 10dp;
+	line-height: 10dp;
+	text-align: center;
+	color: #fff2bf;
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	white-space: nowrap;
+	pointer-events: none;
+}
+#bar_hp .gauge-num { left: -27dp; top: 35dp; }
+#bar_mp .gauge-num { left: 21dp;  top: 35dp; }
+#bar_ag .gauge-num { left: -10dp; top: 30dp; color: token(text-primary); }
+
+/* Party, Character and Inventory at x 348/379/410, y 452, and Guild at 582/459. At rest the bar
+   shows them; an open window lays the pressed picture over its button. */
+@spritesheet hud97-btn-party-sheet     { src: "../../../../Interface97/Menu_party.jpg";     hud97-btn-party: 0px 0px 24px 24px; }
+@spritesheet hud97-btn-character-sheet { src: "../../../../Interface97/Menu_character.jpg"; hud97-btn-character: 0px 0px 24px 24px; }
+@spritesheet hud97-btn-inventory-sheet { src: "../../../../Interface97/Menu_inventory.jpg"; hud97-btn-inventory: 0px 0px 24px 24px; }
+@spritesheet hud97-btn-guild-sheet     { src: "../../../../Interface97/Guild.jpg";          hud97-btn-guild: 0px 0px 52px 18px; }
+.frame-btn {
+	position: absolute;
+	top: 0dp;
+	width: 24dp;
+	height: 24dp;
+	cursor: pointer;
+	pointer-events: auto;
+}
+#btn_party   { left: 0dp; }
+#btn_chainfo { left: 31dp; }
+#btn_myinven { left: 62dp; }
+#btn_guild   { left: 234dp; top: 7dp; width: 52dp; height: 18dp; }
+#btn_party.open   { decorator: image(hud97-btn-party); }
+#btn_chainfo.open { decorator: image(hud97-btn-character); }
+#btn_myinven.open { decorator: image(hud97-btn-inventory); }
+#btn_guild.open   { decorator: image(hud97-btn-guild); }
+
+/* Quest available: a dot on the character button (not in the 0.97k client, which had no
+   quests to announce). */
+.alert-dot {
+	position: absolute;
+	top: -2dp;
+	right: -2dp;
+	width: 6dp;
+	height: 6dp;
+	border-radius: 3dp;
+	background-color: #ffd700;
+	pointer-events: none;
+}
+
+/* EXP: a plain 198x4 gold fill at x 221, y 439, inside the slot painted into the bar, and the
+   tenth being filled centred on x 425 at y 434. The box is the original's hover area. */
+#exp_track { position: absolute; left: 2dp; top: 0dp; width: 198dp; height: 4dp; }
+#exp_fill { position: absolute; left: 0; top: 0; height: 100%; background-color: #ebcc57; }
+#exp_digit {
+	position: absolute;
+	left: 206dp;
+	top: -5dp;
+	transform: translateX(-50%);
+	color: #e8cf99;
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	font-family: "token(font-body)";
+	font-size: 10dp;
+	line-height: 10dp;
+	pointer-events: none;
+}
+
+/* Potions: the Q, W and E boxes painted into the bar, the item's 20x20 picture at x 208 + 31 per
+   box, y 454, and its count centred 18 to the right of the box's left edge, 7 above it. */
+#item_slot_0 { position: absolute; left: 0dp;  top: 0dp; width: 20dp; height: 20dp; }
+#item_slot_1 { position: absolute; left: 31dp; top: 0dp; width: 20dp; height: 20dp; }
+#item_slot_2 { position: absolute; left: 62dp; top: 0dp; width: 20dp; height: 20dp; }
+.item-icon { position: absolute; left: 0; top: 0; width: 20dp; height: 20dp; pointer-events: none; }
+#item_slot_0, #item_slot_1, #item_slot_2 { pointer-events: auto; cursor: pointer; }
+.item-stack-label {
+	position: absolute;
+	left: 18dp;
+	top: -7dp;
+	transform: translateX(-50%);
+	color: #fff2bf;
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	font-size: 10dp;
+	line-height: 10dp;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+/* The current skill in the 32x36 box painted at x 304, y 444, its 20x28 icon in the middle; the
+   hint anchors on the icon (CMainFrameWindow's skill_current_hover). */
+#current_skill_slot { position: absolute; left: 0dp; top: 0dp; width: 32dp; height: 36dp;
+    pointer-events: auto; cursor: pointer; }
+.skill-icon { position: absolute; left: 6dp; top: 4dp; width: 20dp; height: 28dp; pointer-events: none; }
+
+/* The skill list the current skill opens: one row of 32x36 cells at y 370, centred on the
+   screen whatever its length, the current skill full bright and the rest dimmed, as the original
+   tinted them. The pet's commands (not in the 0.97k client) take a row above it. */
+#skill_grid, #pet_skill_row {
+	position: absolute;
+	left: 0dp;
+	top: 0dp;
+	width: 640dp;
+	height: 36dp;
+	display: flex;
+	justify-content: center;
+	pointer-events: none;
+}
+#pet_skill_row { top: -38dp; }
+.skill-cell {
+	position: relative;
+	width: 32dp;
+	height: 36dp;
+	pointer-events: auto;
+	cursor: pointer;
+}
+.skill-cell .skill-icon { opacity: 0.7; }
+.skill-cell.selected .skill-icon, .skill-cell:hover .skill-icon { opacity: 1; }
+
+/* Cooldown: the same translucent wipe as legacy, shrinking top-down. */
+.cooldown-wipe {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: rgba(255, 128, 128, 128);
+	pointer-events: none;
+}
+
+/* The key a skill is on, bottom left as the original drew it. */
+.skill-hotkey-label {
+	position: absolute;
+	left: 1dp;
+	bottom: 1dp;
+	color: token(text-primary);
+	font-family: "token(font-body)";
+	font-weight: bold;
+	font-effect: outline(1px #000000);
+	font-size: 10dp;
+	line-height: 10dp;
+	white-space: nowrap;
+	pointer-events: none;
+}
