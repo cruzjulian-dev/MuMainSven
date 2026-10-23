@@ -1407,6 +1407,22 @@ SDL_WindowID ActionWindowId(const SDL_Event& event)
     }
 }
 
+// Whether the game holds a physical mouse button: pressed where the UI let the press through.
+bool LegacyHoldsMouseButton(Uint8 button)
+{
+    switch (button)
+    {
+    case SDL_BUTTON_LEFT:
+        return MouseLButton;
+    case SDL_BUTTON_RIGHT:
+        return MouseRButton;
+    case SDL_BUTTON_MIDDLE:
+        return MouseMButton;
+    default:
+        return false;
+    }
+}
+
 // Physical and scripted input share UI-first routing. Scripted input owns its
 // own legacy held state; it never acquires the OS pointer or replays SDL events.
 bool RouteActionInput(SDL_Event& event, bool synthetic, bool& propagates)
@@ -1427,7 +1443,10 @@ bool RouteActionInput(SDL_Event& event, bool synthetic, bool& propagates)
         if (!synthetic && event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
             Core::Input::Synthetic::CancelForPhysicalButton(event.button.button);
         propagates = Core::Input::RouteToUi(event, g_sdlWindow);
-        if (propagates && !synthetic)
+        // A release the UI took still ends a press the game holds (pressed in the world, released
+        // over a window or a button); without it the game would go on seeing the button held.
+        if (!synthetic && (propagates || (event.type == SDL_EVENT_MOUSE_BUTTON_UP &&
+                                          LegacyHoldsMouseButton(event.button.button))))
             HandleMouseButton(event);
         // A press the UI took never reaches MouseLButton; the cursor still shows it as pressed.
         if (!synthetic && event.button.button == SDL_BUTTON_LEFT)
