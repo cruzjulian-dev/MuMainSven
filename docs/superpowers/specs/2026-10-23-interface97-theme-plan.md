@@ -140,6 +140,29 @@ Hecho así:
   caja del PIN del baúl, no de la mascota, y `Back1..3` no se usan en el código 0.97k.
 - El marco 97k define `docked-bg-top-a/b` (con `Item_Back01`), que piden los `.rcss` de legacy.
 
+## Pendiente después de la Fase 4 (relevamiento)
+
+Lo que todavía se ve con estética Sven o sólo a medias en el tema `97k`, con la función 0.97k de
+referencia (`Mu-97k-Client-Source/src/Render/HUD_Pass*.cpp`):
+
+| Interfaz | Documento(s) Sven | Qué falta, según la 0.97k |
+|---|---|---|
+| Guild (G) | `guild_info.rcss` | Toma el panel 0.97k por el marco acoplado, pero el contenido es el de Sven. `RenderGuildList()`: título en la banda, avisos de guild centrados en 44/58, lista de miembros. Decidir si entra (el spec la excluía). |
+| Creación de guild | `guild_make.rcss` (+ `.rml` si hace falta) | `RenderGuildCreation()`: nombre en una caja `Item_Money` con su etiqueta a la izquierda, grilla de la marca 8x8 (celdas de 15 desde 50,100), paleta de 16 colores (celdas de 20 desde 15,260), vista previa de la marca en 16,231 con dos líneas de texto, botones `Ok`/`Cancel` de 70x21 (cancelar en 100,350). |
+| Cajas de mensaje y menú ESC | `generic_confirm_dialog`, `generic_menu_dialog`, `msg_win`, `message_box_view`, `reconnect_dialog`, `sys_menu` | `Message_box` (tapa), `Message_box1` (cuerpo repetible), `Message_box2` (base), 213 de ancho; botones `Ok/Ok2`, `Cancel/Cancel2` 70x21. |
+| División de servidor | (ventana de Sven equivalente) | `RenderServerDivision()`: texto en 8 líneas desde 50, casilla `Accept_box` 16x16 en 25,240, botones de 120x24 en 35,320 y 35,350. |
+| Avisos | `notices`, `slide_notice`, `server_msg` | `RenderNotices()`: 6 líneas centradas desde y=300, paso 13, fondo negro semitransparente, parpadeo. |
+| Texto de sistema | `system_log` | Texto de sistema de la 0.97k. |
+| Durabilidad | `item_endurance` (los íconos) | `RenderBrokenItem()`: los avisos de equipo gastado. |
+| Tooltips | `tooltip`, `item_help` | `RenderTipText()`: caja negra con borde, texto blanco. |
+| Marcador de guerra de guild / soccer | `battle_soccer_score`, `match_status` | `Render_CharInfoPanel()`. |
+| Nombres y vida sobre personajes | `world_labels` | `Render_CharNameTags()`, `Render_HPBars()`. |
+| Contador de flechas del elfo | `item_endurance` (`#arrows`) | `RenderNumArrow()`. |
+| Texto de carga de mapa | `map_name` | `Render_MapLoadText()`. |
+| Minimapa, buffs | `mini_map`, `buff_strip` | No existen en la 0.97k: decidir si se ocultan en el tema. |
+| Login, servidores, personajes, carga | `login*`, `server_select`, `char_sel_main`, `char_make`, `loading`, `title_scene` | Fase 6. |
+| Ventanas que la 0.97k no tenía | MU Helper, Gens, quests, Master Level, In-Game Shop, amigos, castillo, eventos posteriores | Fase 8 opcional: marco y botones 0.97k genéricos. |
+
 ## Fase 5 — Carteles, avisos y diálogos
 
 1. Cajas de mensaje: `Message_box` (tapa), `Message_box1` (cuerpo, `repeat-y`),
