@@ -94,6 +94,12 @@
 		</div>
 	</div>
 
+	<!-- The hero's map position, for a theme that shows it on the bar (the 0.97k bar's left box). -->
+	<div id="hero_position" class="hud-part">
+		<span id="hero_x" class="pos-num">{{hero_x}}</span>
+		<span id="hero_y" class="pos-num">{{hero_y}}</span>
+	</div>
+
 	<!-- EXP bar, with the original art's bottom strip behind it (.exp-frame). exp_fraction is
 	     progress within the current decile, not overall level. -->
 	<div id="exp" class="hud-part" data-attr-data-hint="exp_tooltip">

@@ -22,7 +22,9 @@
       "current_skill_hotkey": "1",
       "skill_grid_open": false,
       "skill_grid_cells": [],
-      "pet_skill_cells": []
+      "pet_skill_cells": [],
+      "hero_x": "143",
+      "hero_y": "135"
     },
     "open": {
       "hp_fraction": 0.3,
@@ -81,7 +83,9 @@
           "hotkey": ""
         }
       ],
-      "pet_skill_cells": []
+      "pet_skill_cells": [],
+      "hero_x": "143",
+      "hero_y": "135"
     },
     "grid_closed": {
       "hp_fraction": 0.3,
@@ -140,7 +144,9 @@
           "hotkey": ""
         }
       ],
-      "pet_skill_cells": []
+      "pet_skill_cells": [],
+      "hero_x": "143",
+      "hero_y": "135"
     }
   }
 }

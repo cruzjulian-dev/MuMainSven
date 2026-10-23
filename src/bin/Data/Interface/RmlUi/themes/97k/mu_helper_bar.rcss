@@ -1,0 +1,4 @@
+/* MU 0.97k theme for CMuHelperBar: the 0.97k client had neither the MU Helper nor the top-left
+   map and position box. The position shows on the bar (main_frame.rcss's #hero_position); the MU
+   Helper keeps its own window and key. */
+#panel { display: none; }

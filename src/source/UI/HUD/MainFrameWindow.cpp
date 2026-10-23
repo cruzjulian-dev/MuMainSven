@@ -149,6 +149,8 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("party_open", &model.partyOpen);
     c.Bind("guild_open", &model.guildOpen);
     c.Bind("right_docked", &model.rightDocked);
+    c.Bind("hero_x", &model.heroX);
+    c.Bind("hero_y", &model.heroY);
     c.Bind("cshop_tooltip", &model.cShopTooltip);
     c.Bind("chainfo_tooltip", &model.chaInfoTooltip);
     c.Bind("myinven_tooltip", &model.myInvenTooltip);
@@ -536,6 +538,8 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
     syncFloat(&MainFrameRmlModel::hpFraction, "hp_fraction", wLifeMax > 0 ? wLife / (float)wLifeMax : 0.f);
     syncFloat(&MainFrameRmlModel::mpFraction, "mp_fraction", wManaMax > 0 ? wMana / (float)wManaMax : 0.f);
     syncBool(&MainFrameRmlModel::poisoned, "poisoned", g_isCharacterBuff((&Hero->Object), eDeBuff_Poison));
+    syncText(&MainFrameRmlModel::heroX, "hero_x", std::to_string(Hero->PositionX));
+    syncText(&MainFrameRmlModel::heroY, "hero_y", std::to_string(Hero->PositionY));
 
     // "X / Y" (current/max), not just "X" -- shared model field, both themes.
     wchar_t szNum[32] = {};

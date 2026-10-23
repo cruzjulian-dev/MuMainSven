@@ -141,6 +141,24 @@
 	pointer-events: none;
 }
 
+/* The hero's map position in the box at the bar's left end, as the 0.97k client drew it: x and y
+   centred on x 24 and 48, their tops at y 462, grey (0.6). */
+#hero_position { margin-left: -320dp; bottom: 9dp; width: 72dp; height: 9dp; }
+.pos-num {
+	position: absolute;
+	top: 0;
+	width: 24dp;
+	font-size: 9dp;
+	line-height: 9dp;
+	text-align: center;
+	color: rgb(153, 153, 153);
+	font-weight: bold;
+	white-space: nowrap;
+	pointer-events: none;
+}
+#hero_x { left: 12dp; }
+#hero_y { left: 36dp; }
+
 /* Potions: the Q, W and E boxes painted into the bar, the item's 20x20 picture at x 208 + 31 per
    box, y 454, and its count centred 18 to the right of the box's left edge, 7 above it. */
 #item_slot_0 { position: absolute; left: 0dp;  top: 0dp; width: 20dp; height: 20dp; }

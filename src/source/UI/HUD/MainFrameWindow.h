@@ -141,6 +141,8 @@ namespace mu::ui::window
             // An open window docked at the screen's right edge covers the world there
             // (UI::Placement::UncoveredWorldRight()); a theme hides HUD art that would draw over it.
             bool rightDocked = false;
+            // The hero's map position (tile x, y), for a theme that shows it on the bar (97k).
+            Rml::String heroX, heroY;
 
             // Alert-blink dots: bound boolean + CSS dot, computed each frame from the same state
             // the legacy blink read.
