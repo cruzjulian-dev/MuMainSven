@@ -4022,7 +4022,11 @@ void RenderCursor()
     }
     else
     {
-        if (!MouseLButton)
+        // A press on a RmlUi control never sets MouseLButton (the UI takes it), so it is read
+        // apart: the pressed cursor shows on buttons, lists and resize grips too.
+        if (Core::Input::IsLeftButtonHeldByUi())
+            RenderBitmap(BITMAP_CURSOR + 1, (float)MouseX - 2.f, (float)MouseY - 2.f, 24.f, 24.f);
+        else if (!MouseLButton)
             RenderBitmap(BITMAP_CURSOR, (float)MouseX - 2.f, (float)MouseY - 2.f, 24.f, 24.f);
         else
         {

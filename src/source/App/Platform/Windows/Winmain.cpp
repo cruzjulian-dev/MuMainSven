@@ -1204,6 +1204,7 @@ void HandleFocusChange(bool active)
             g_bWndActive = false;
         // Release the cursor when losing focus so input can route elsewhere.
         ClipCursor(nullptr);
+        Core::Input::SetLeftButtonHeldByUi(false);
 
         if (g_bUseWindowMode == FALSE && !g_HasInactiveFpsOverride)
         {
@@ -1428,6 +1429,9 @@ bool RouteActionInput(SDL_Event& event, bool synthetic, bool& propagates)
         propagates = Core::Input::RouteToUi(event, g_sdlWindow);
         if (propagates && !synthetic)
             HandleMouseButton(event);
+        // A press the UI took never reaches MouseLButton; the cursor still shows it as pressed.
+        if (!synthetic && event.button.button == SDL_BUTTON_LEFT)
+            Core::Input::SetLeftButtonHeldByUi(event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !propagates);
         return true;
     case SDL_EVENT_TEXT_INPUT:
         propagates = Core::Input::RouteToUi(event, g_sdlWindow);

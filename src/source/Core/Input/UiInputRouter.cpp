@@ -6,6 +6,7 @@ namespace Core::Input
     namespace
     {
         IUiInputConsumer* g_pUiInputConsumer = nullptr;
+        bool g_bLeftButtonHeldByUi = false;
     }
 
     void SetUiInputConsumer(IUiInputConsumer* consumer)
@@ -32,5 +33,15 @@ namespace Core::Input
     bool IsMouseOverUI()
     {
         return g_pUiInputConsumer && g_pUiInputConsumer->IsMouseOverUI();
+    }
+
+    void SetLeftButtonHeldByUi(bool held)
+    {
+        g_bLeftButtonHeldByUi = held;
+    }
+
+    bool IsLeftButtonHeldByUi()
+    {
+        return g_bLeftButtonHeldByUi;
     }
 }

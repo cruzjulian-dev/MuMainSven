@@ -44,4 +44,10 @@ namespace Core::Input
 
     // True if the registered UI consumer reports the mouse is over UI. False if none registered.
     bool IsMouseOverUI();
+
+    // The left button pressed on the UI and not released yet. The UI took that press, so the
+    // game's MouseLButton never saw it; the game's cursor shows its pressed sprite for it too
+    // (RenderCursor()). Kept by the event pump.
+    void SetLeftButtonHeldByUi(bool held);
+    bool IsLeftButtonHeldByUi();
 }
