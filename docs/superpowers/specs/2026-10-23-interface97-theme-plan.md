@@ -118,14 +118,27 @@ Cada uno sobre el marco de la Fase 3:
 
 | Ventana | Archivos | Assets |
 |---|---|---|
-| Party | `party_info.rcss`, `party_list.rcss` | marco, `Bar` para HP de miembros |
-| Comercio | `trade.rml/.rcss` | `Trading_line`, `Accept_box01/02`, `Money_01/02` |
-| Tienda NPC | `npc_shop.rml/.rcss` | `Buy_01/02`, `Sell_01/02`, `Repair_01/02` |
-| Baúl | `storage.rml/.rcss` | `Lock_01..04`, `Money_01/02` |
-| Chaos Mix | `mix_inventory.rml/.rcss` | `Mix_button1/2` |
-| Golden Archer | `gold_bowman*.rcss` | marco, `Ok/Cancel` |
-| Entrada a eventos | `devil_square_enter.rcss`, `blood_castle_enter.rcss`, `event_entry.rcss` | marco, `Ok/Cancel` |
-| Mascota / ayudante | `pet_info.rcss`, `hud_status.rcss` | `Bar`, `Back1..3` |
+| Party | `party_info.rcss`, `party_list.rcss` | marco, barra de HP 0.97k (colores de `RenderParty()`, sin textura) |
+| Comercio | `trade.rcss` | `Trading_line`, `Accept_box01/02`, `Money_01/02`, `Item_Money` |
+| Tienda NPC | `npc_shop.rml/.rcss` | `Repair_01/02`, `Item_Money`, `Exit_01/02` |
+| Baúl | `storage.rml/.rcss` | `Lock_01..04`, `Money_01/02`, `Item_Money`, `Exit_01/02` |
+| Chaos Mix | `mix_inventory.rml/.rcss` | `Mix_button1/2`, `Exit_01/02` |
+| Golden Archer | `gold_bowman.rcss` | marco, `Ok/Ok2`, `Exit_01/02` |
+| Entrada a eventos | `event_entry.rcss` (Devil Square y Blood Castle) | marco; bandas negras con borde dorado |
+| Mascota / ayudante | `item_endurance.rcss` (los recuadros de mascota) | colores de `RenderBar()` |
+
+Hecho así:
+
+- Los grids nativos leen su posición del RCSS (`FollowGridPx`), así que van donde los dibujaba la
+  0.97k: comercio en 15,70 y 15,270; tienda y baúl en 15,50; mix en 15,110.
+- El panel 0.97k no tiene cierre en la esquina y la tienda, el baúl y el mix de Sven no tenían
+  botón de salir: cada uno tiene un fork del `.rml` que sólo agrega `#btn_exit` (`window_close`).
+- En el comercio la `Trading_line` baja de 225 a 240 para que entren el aviso y las notas de Sven.
+- La barra de vida de la mascota de la 0.97k (`RenderEquipedHelperLife()`) es la que en Sven dibuja
+  `CItemEnduranceInfo`, no `pet_info` ni `hud_status`: `pet_info` ya toma el panel 0.97k por el
+  marco de la Fase 3 y la barra de macro de `hud_status` ya era la de `RenderBar()`. `Bar` es la
+  caja del PIN del baúl, no de la mascota, y `Back1..3` no se usan en el código 0.97k.
+- El marco 97k define `docked-bg-top-a/b` (con `Item_Back01`), que piden los `.rcss` de legacy.
 
 ## Fase 5 — Carteles, avisos y diálogos
 

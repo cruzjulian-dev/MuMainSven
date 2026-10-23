@@ -49,13 +49,32 @@ in `legacy`:
 - **The inventory** (`my_inventory.rml/.rcss`, `item_grid.rcss`): the 0.97k equipment boxes at
   their 0.97k places and sizes, the 0.97k grid cells (`Item_box`, `InventoryBox2` under an item,
   no frame), the money box with "Zen" and the 0.97k exit and repair buttons. The 0.97k cells are
-  every item grid's, so storage, trade, the shops and the mix show them on their `legacy` panels
-  until their phase. Sven's personal-shop and expansion buttons stay beside the 0.97k ones.
+  every item grid's. Sven's personal-shop and expansion buttons stay beside the 0.97k ones.
 - **The character window** (`character_info.rcss`): the level and each attribute in a
   `Level_box`, the derived lines on black bands under it, the 0.97k point buttons, the points to
   spend on an orange band. The value stands beside its box: the 0.97k client wrote both in it
   ("Fuerza: 28"), which a longer label doesn't fit. Sven's fruit-probability line is hidden; the quest, pet and master-level shortcuts stay
   beside the exit.
+- **Trade** (`trade.rcss`): the 0.97k panel with `Trading_line` across it, the partner's offer
+  above and the hero's below in the 0.97k cells, both amounts in `Item_Money` boxes, and the
+  0.97k zen, accept (`Accept_box01`, `Accept_box02` once accepted) and exit buttons on one row.
+  The line sits a little lower than in the 0.97k client so Sven's warning and notices fit above
+  it; the partner's accept box stands beside the partner's money.
+- **The NPC shop** (`npc_shop.rml/.rcss`), **the storage** (`storage.rml/.rcss`) and **the chaos
+  mix** (`mix_inventory.rml/.rcss`): the 0.97k panel and cells, their amounts in `Item_Money`
+  boxes and the 0.97k buttons (`Repair_01`; `Money_01` and the lock, `Lock_01`/`Lock_03`;
+  `Mix_button1`). The 0.97k panel has no corner close, so each fork of the markup adds only the
+  0.97k exit; Sven's own buttons (repair all, storage expansion) take 0.97k art or keep theirs
+  beside the 0.97k ones.
+- **The party** (`party_info.rcss`, `party_list.rcss`): the window lists each member as the 0.97k
+  client did (the leader's name on a blue band, the 0.97k health bar, the kick as the 0.97k
+  exit); the list down the right side is the 0.97k one, dark cards with gold sides and a health
+  bar of ten red steps.
+- **The Golden Archer** (`gold_bowman.rcss`): the 0.97k exit, and Register as the 0.97k dialog's
+  Ok. **The Devil Square and Blood Castle entries** (`event_entry.rcss`): each level a black band
+  edged in the 0.97k gold.
+- **The pet and summon life** (`item_endurance.rcss`): the name on a half-black band over the
+  0.97k teal-and-green bar. The durability icons keep the `legacy` look until their phase.
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 
