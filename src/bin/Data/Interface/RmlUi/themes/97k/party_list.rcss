@@ -2,7 +2,8 @@
    down the right side, 19 apart: a dark card (rgba 0.1,0.1,0.1,0.7; grey 0.5,0.5,0.5,0.8 under
    the pointer), the name 3 in and 2 down in white, and under it the 0.97k health bar, a dark red
    strip 43x4 holding ten red steps 3 wide, 4 apart. Gold lines (0.722,0.592,0.380,0.5) run down
-   both sides of each card. The 0.97k card is 50 wide; this one is 62, so the name keeps the box C++
+   both sides of each card, and the list has the 0.97k gold cap (Message_box2) 3 high above and
+   below its cards. The 0.97k card is 50 wide; this one is 62, so the name keeps the box C++
    shrinks it to. Sven's leave button, flag and defence and absence tints stay. Reference px inside
    #panel (at the dock's scale). */
 
@@ -14,13 +15,18 @@
 	plist-leave-down: 0px 11px 11px 11px;
 }
 
+@spritesheet plist97-cap-sheet { src: "../../../../Interface97/Message_box2.jpg"; plist97-cap: 0px 1px 62px 3px; }
+
 #panel {
 	position: absolute;
 	transform-origin: left top;
 	width: 62px;
+	padding: 3px 0;
 	font-family: "token(font-body)";
 	pointer-events: none;
+	decorator: image(plist97-cap scale-none left top), image(plist97-cap scale-none left bottom);
 }
+#panel:empty { decorator: none; }
 
 .card {
 	display: block;
@@ -78,11 +84,10 @@
 }
 .card-leave:active { decorator: image(plist-leave-down); }
 
-/* Keep the dock's preferred offset where it fits; the workspace's top edge clears the shell
-   header. */
+/* The cap 2 below the workspace's top edge, the cards from 5, as the 0.97k list. */
 #panel {
 	left: calc(var(--world-right, 100%) - 64px * var(--dock-scale, 1));
-	top: max(calc(var(--workspace-top, 0px) + 5px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 418px * var(--dock-scale, 1)));
+	top: max(calc(var(--workspace-top, 0px) + 2px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 421px * var(--dock-scale, 1)));
 	transform: scale(var(--dock-scale, 1));
 	--root-scale: var(--dock-scale, 1);
 }

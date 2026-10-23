@@ -7,11 +7,11 @@
  "pets": [
   {
    "name": "Imp",
-   "bar_width": 40
+   "bar_width": 49
   },
   {
    "name": "Dark Horse",
-   "bar_width": 20
+   "bar_width": 25
   }
  ],
  "icons": [],

@@ -1,11 +1,11 @@
 /* The 97k theme's CPartyInfoWindow: the 0.97k client's RenderParty() panel. #panel, the 0.97k
    panel art and the exit come from docked_panel_frame.rcss (linked before this file). A member's
-   row follows RenderParty()'s: the name 20 in, on a dark blue band for the leader (the 0.97k
-   0xFF962828 back colour, the name white) and pale otherwise; under it a second line (the map 40
-   in, the coordinates at 120), the 0.97k health bar 92x5 at 39 (dark red, the fill red) and the
-   health text under the bar. The kick is the 0.97k exit at 140, beside the bar rather than by the
-   name, where the coordinates run. The 0.97k rows were 35 apart in its small font; at Sven's text
-   size they are 48. Sven's group boxes and leader flag go. */
+   row follows RenderParty()'s: the name 20 in, on a dark red band for the leader (the 0.97k
+   0xFF962828 back colour, ARGB, the name white) and pale otherwise; under it a second line (the
+   map 40 in, the coordinates at 120), the 0.97k health bar 92x5 at 39 (dark red, the fill red)
+   and the health text under the bar. The kick is the 0.97k exit at 140, beside the bar rather
+   than by the name, where the coordinates run. The 0.97k rows were 35 apart in its small font; at
+   Sven's text size they are 48. Sven's group boxes and leader flag go. */
 
 #title {
 	position: absolute;
@@ -49,7 +49,7 @@
 	color: rgb(210, 230, 255);
 	pointer-events: none;
 }
-.party-name.leader { color: rgb(255, 255, 255); background-color: rgb(40, 40, 150); }
+.party-name.leader { color: rgb(255, 255, 255); background-color: rgb(150, 40, 40); }
 
 .party-map, .party-coord {
 	display: block;

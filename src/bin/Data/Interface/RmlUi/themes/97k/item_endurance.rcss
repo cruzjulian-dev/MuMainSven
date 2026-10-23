@@ -1,9 +1,12 @@
-/* The 97k theme's CItemEnduranceInfo. The pet and summon frames take the 0.97k client's
-   RenderEquipedHelperLife() look: no frame art, the name in white on a half-black band (its
-   0x80000000 back colour) and under it RenderBar()'s bar, a dark teal box 54x6 (0, 0.2, 0.2)
-   with the green life (0, 0.784, 0.196) 2 high, 2 in. Each frame keeps legacy's place and 57x23
-   box, which C++ hit-tests. The durability icons, the elf's arrow line and the tooltip are
-   legacy's. */
+/* The 97k theme's CItemEnduranceInfo. The pet and summon frames are the 0.97k client's
+   RenderEquipedHelperLife(), at its place: at the top right, beside the party list (party_list.rcss),
+   their bar ending 12 left of the list's cards, one under the other 23 apart (a Dark Lord's second
+   pet under the first). Each is the name right-aligned over the bar's end on the 0.97k text band
+   (0x80000000) the size of the name, and RenderBar() 12 lower: its half-black shadow 1 down and
+   right, the box 54x6 and the life 2 high, 2 in. The 0.97k client added the box and the life onto
+   the world (additive blending); here the box is a translucent teal and the life the bright aqua
+   it showed. The frames sit on the dock, at its scale, as the party list does; C++ hit-tests them
+   where they are drawn. The durability icons, the elf's arrow line and the tooltip are legacy's. */
 
 @spritesheet endurance-boots-sheet { src: "../../../newui_durable_boots.tga"; endurance-boots: 0px 0px 23px 23px; }
 @spritesheet endurance-cap-sheet { src: "../../../newui_durable_cap.tga"; endurance-cap: 0px 0px 23px 23px; }
@@ -27,16 +30,20 @@ body {
 }
 
 #pets, #icons { position: absolute; width: 0; height: 0; transform-origin: left top; pointer-events: none; }
-/* The left column in the screen's stretch, at the original's (2, 26) in it; its texts are scaled
-   back out of the stretch (base.rcss's .counter-scaled-xy). */
+/* The frames on the dock, at its scale: 130 left of the uncovered world's right edge (the party
+   list's cards start 64 left of it, so the bar ends 12 before them) and 4 below the workspace's top,
+   where the list starts 2 below it. Their texts are scaled back by the dock's scale on both axes
+   (base.rcss's .counter-scaled-xy). */
 #pets {
-	left: 0;
-	top: 0;
-	transform: scale(var(--overlay-scale-x, 1), var(--overlay-scale-y, 1));
-	--root-scale: var(--overlay-scale-x, 1);
-	--root-scale-y: var(--overlay-scale-y, 1);
+	left: calc(var(--world-right, 100%) - 130px * var(--dock-scale, 1));
+	top: max(calc(var(--workspace-top, 0px) + 4px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 419px * var(--dock-scale, 1)));
+	transform: scale(var(--dock-scale, 1));
+	--root-scale: var(--dock-scale, 1);
+	--root-scale-y: var(--dock-scale, 1);
 }
-#pet_column { position: absolute; left: 2px; top: 26px; }
+/* RenderEquipedHelperLife() starts at 24 instead of 4 while the arrow count shows. */
+#pet_column { position: absolute; left: 0; top: 0; }
+#arrows_row { height: 20px; white-space: nowrap; pointer-events: none; }
 /* The icons on the dock: the column's first cell two dock units clear of the uncovered world's
    right edge, 140 below the dock's top (the bottom HUD's top less the dock's 432 units). */
 #icons {
@@ -45,13 +52,14 @@ body {
 	transform: scale(var(--dock-scale, 1));
 }
 
-/* The original's stack: the elf's arrow line 11 high, then the frames 24 apart. */
-.pet { position: relative; width: 57px; height: 23px; margin-bottom: 1px; }
-.pet-fill { position: absolute; left: 2px; top: 14px; width: 54px; height: 6px; background-color: rgb(0, 51, 51); }
-.pet-frame { position: absolute; left: 2px; top: 2px; width: 53px; height: 12px; background-color: rgba(0, 0, 0, 128); }
+/* The frames 23 apart. */
+.pet { position: relative; width: 54px; height: 23px; }
+/* RenderBar(): the shadow, the box, then the life. */
+.pet-fill  { position: absolute; left: 1px; top: 13px; width: 54px; height: 6px; background-color: rgba(0, 0, 0, 128); }
+.pet-frame { position: absolute; left: 0; top: 12px; width: 54px; height: 6px; background-color: rgba(20, 120, 110, 120); }
 /* The <img> of legacy's bar texture (item_endurance.rml), its width the life: the texture is
-   cleared and its box filled with the 0.97k green. */
-.pet-bar { position: absolute; left: 4px; top: 16px; height: 2px; image-color: rgba(0, 0, 0, 0); background-color: rgb(0, 200, 50); }
+   cleared and its box filled with the aqua. */
+.pet-bar { position: absolute; left: 2px; top: 14px; height: 2px; image-color: rgba(0, 0, 0, 0); background-color: rgb(57, 248, 179); }
 
 .icon { position: absolute; width: 23px; height: 23px; }
 .icon-art { position: absolute; left: 0; top: 0; width: 23px; height: 23px; }
@@ -72,20 +80,18 @@ body {
 .icon-tint--zero { background-color: rgba(255, 0, 0, 128); }
 
 .text-row { position: absolute; width: 600px; text-align: center; white-space: nowrap; pointer-events: none; }
-#arrows_row { height: 11px; white-space: nowrap; pointer-events: none; }
 
-/* The name centred on the frame, 5 below its top. */
-.pet-name-box { position: absolute; left: 0; top: 5px; width: 57px; height: 0; }
+/* The name right-aligned on the bar's end, on its band. */
+.pet-name-box { position: absolute; left: 0; top: 0; width: 54px; height: 0; }
 .pet-name {
 	position: absolute;
-	left: 50%;
+	right: 0;
 	top: 0;
-	width: 2000px;
-	margin-left: -1000px;
-	text-align: center;
+	text-align: right;
 	white-space: nowrap;
 	color: #ffffff;
-	transform-origin: center top;
+	background-color: rgba(0, 0, 0, 128);
+	transform-origin: right top;
 }
 #arrows {
 	display: inline-block;
