@@ -1,7 +1,7 @@
 /* MU 0.97k theme for CChatInputBox: the 0.97k input box (Dialogue1 + Dialogue2, 133x29 each,
    drawn 134 wide, chat_input.rml) that shows while typing, over the bar at x 186, y 415. The message goes in the dark well at (191, 422),
-   180 wide; the whisper target in the grey well at (376, 422), 50 wide; the ear at (432, 420) blocks
-   whispers. The 0.97k client had no chat-type buttons: a message starts with ~ for the party, @ for
+   180 wide; the whisper target in the grey well at (376, 422), 50 wide; the ear at (432, 420) is
+   F3's switch, gold while whispering is off. The 0.97k client had no chat-type buttons: a message starts with ~ for the party, @ for
    the guild ($ for Gens), which this client also reads. Its show-chat, size and transparency
    buttons only showed while not typing, over the closed box: chat_frame_buttons.rcss draws them.
    The system-message switch has no 0.97k button; F5 still shows the chat frame. */
@@ -44,7 +44,8 @@
 .cib-btn:hover { filter: brightness(1.2); }
 .cib-btn:active { filter: brightness(0.75); }
 
-/* The ear is painted into the box; blocked whispers lay Dialogue2_1 over it. */
+/* The ear is painted into the box; with whispering off (F3, or a click on it) Dialogue2_1 lays
+   its gold over it. */
 #btn_whisper { left: 246dp; top: 5dp; width: 15dp; height: 16dp; }
 #btn_whisper.on { decorator: image(chat97-ear); }
 
@@ -59,17 +60,18 @@
 .cib-chat-field    { left: 5dp;   width: 180dp; color: rgb(255, 230, 210); }
 .cib-whisper-field { left: 190dp; width: 50dp;  color: rgb(200, 200, 200); }
 
-/* Whispering off (F3): the target stays readable, dimmed under a red wash over the grey well. */
+/* Whispering off (F3): the target stays readable, dimmed under a red wash over the grey well
+   (Dialogue2's texels 55 to 110, 6 to 20, stretched like the half: x 189 to 246, y 6 to 21). */
 .cib-whisper-field:disabled {
 	color: rgba(255, 255, 255, 100);
 	background-color: transparent;
 }
 #whisper_block {
 	position: absolute;
-	left: 187dp;
-	top: 5dp;
+	left: 189dp;
+	top: 6dp;
 	width: 57dp;
-	height: 18dp;
+	height: 15dp;
 	background-color: rgba(128, 51, 51, 51);
 	pointer-events: none;
 }

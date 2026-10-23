@@ -20,6 +20,7 @@
 		<div id="btn_type_3" class="cib-btn cib-btn-gens" data-class-on="input_msg_type == 3"
 		     data-event-click="chat_set_type(3)" data-attr-data-hint="hint_3"></div>
 
+		<!-- rml-contract-optional-callback: chat_toggle_whisper_send: the ear as F3's switch, for a theme that forks this (97k) -->
 		<!-- Independent toggles. -->
 		<div id="btn_whisper" class="cib-btn cib-btn-whisper" data-class-on="block_whisper"
 		     data-event-click="chat_toggle_whisper_block" data-attr-data-hint="hint_4"></div>

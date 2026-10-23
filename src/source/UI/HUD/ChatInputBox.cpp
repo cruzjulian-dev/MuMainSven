@@ -222,21 +222,7 @@ bool mu::ui::window::CChatInputBox::UpdateKeyEvent()
 
     if (mu::ui::window::IsPress(VK_F3))
     {
-        if (m_bWhisperSend == false)
-        {
-            m_bWhisperSend = true;
-        }
-        else
-        {
-            m_bWhisperSend = false;
-            // RmlUi disables the recipient field through its binding. Keep typing in the
-            // message field when whispering is switched off.
-            if (g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_CHATINPUTBOX))
-            {
-                FocusField("chat_field");
-            }
-        }
-
+        ToggleWhisperSend();
         return false;
     }
 
@@ -511,6 +497,14 @@ void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, C
             PlayBuffer(SOUND_CLICK01);
         });
 
+    // F3's switch, for a theme whose ear button shows it (97k).
+    c.BindEventCallback("chat_toggle_whisper_send",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
+        {
+            ToggleWhisperSend();
+            PlayBuffer(SOUND_CLICK01);
+        });
+
     c.BindEventCallback("chat_toggle_system",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
         {
@@ -554,6 +548,15 @@ void mu::ui::window::CChatInputBox::BindRmlModel(Rml::DataModelConstructor& c, C
             m_pNewUIChatLogWnd->SetBackAlphaAuto();
             PlayBuffer(SOUND_CLICK01);
         });
+}
+
+void mu::ui::window::CChatInputBox::ToggleWhisperSend()
+{
+    m_bWhisperSend = !m_bWhisperSend;
+    // RmlUi disables the recipient field through its binding. Keep typing in the message field
+    // when whispering is switched off.
+    if (!m_bWhisperSend && g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_CHATINPUTBOX))
+        FocusField("chat_field");
 }
 
 void mu::ui::window::CChatInputBox::ToggleChatLog()

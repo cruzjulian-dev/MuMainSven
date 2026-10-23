@@ -89,6 +89,8 @@ namespace mu::ui::window
         // Shows or hides the chat log, in either mode (the show-chat button, and F2 with the 0.97k
         // modes).
         void ToggleChatLog();
+        // F3: sends to the whisper target or not (the target field is disabled while not).
+        void ToggleWhisperSend();
 
         void SetInputMsgType(int iInputMsgType);
         int GetInputMsgType() const;

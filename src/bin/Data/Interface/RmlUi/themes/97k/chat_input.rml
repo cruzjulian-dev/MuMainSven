@@ -5,7 +5,8 @@
 	<link type="text/rcss" href="chat_input.rcss"/>
 </head>
 <!-- 97k override of chat_input.rml: the shared markup plus the 0.97k box's two halves as
-     elements, so each can be stretched on its own. Keep the rest in step with chat_input.rml. -->
+     elements, so each can be stretched on its own, and the ear as F3's switch. Keep the rest in
+     step with chat_input.rml. -->
 <body class="native-text" data-model="chat_input">
 	<!-- Bottom-left chat bar: a button row across the top and two text fields below it. The
 	     background art already contains every button's OFF state, so each button here is a
@@ -27,8 +28,10 @@
 		     data-event-click="chat_set_type(3)" data-attr-data-hint="hint_3"></div>
 
 		<!-- Independent toggles. -->
-		<div id="btn_whisper" class="cib-btn cib-btn-whisper" data-class-on="block_whisper"
-		     data-event-click="chat_toggle_whisper_block" data-attr-data-hint="hint_4"></div>
+		<!-- rml-contract-optional-callback: chat_toggle_whisper_block: the 0.97k ear is F3's switch; whispers from others are not blocked from here -->
+		<!-- 97k: the ear is F3's switch, as in the 0.97k client: gold while whispering is off. -->
+		<div id="btn_whisper" class="cib-btn cib-btn-whisper" data-class-on="!whisper_send"
+		     data-event-click="chat_toggle_whisper_send" data-attr-data-hint="hint_4"></div>
 		<div id="btn_system" class="cib-btn cib-btn-system" data-class-on="show_system"
 		     data-event-click="chat_toggle_system" data-attr-data-hint="hint_5"></div>
 		<div id="btn_chatlog" class="cib-btn cib-btn-chatlog" data-class-on="show_chat_log"
