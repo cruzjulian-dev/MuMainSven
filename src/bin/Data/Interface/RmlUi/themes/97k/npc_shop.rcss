@@ -1,0 +1,113 @@
+/* The 97k theme's CNPCShop: the 0.97k client's RenderShopInterface(). The panel is Item_Back01
+   over Item_Back02, the 8x15 grid of 0.97k cells from 15,50 (item_grid.rcss), and the 0.97k
+   24x24 buttons on the 395 row: the exit at 25 (npc_shop.rml's fork adds it: the 0.97k panel
+   has no corner close), then Sven's repair and repair-all as Repair_01 at 60 and 95. The repair
+   cost sits in an Item_Money box. The workspace places #panel, so coordinates are reference px. */
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	font-family: "token(font-body)";
+}
+
+/* The 0.97k panel draws no close mark in its corner, so the corner's hit box goes. */
+#frame_corner_close { display: none; }
+
+#title {
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: calc(100% * var(--root-scale));
+	text-align: center;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+}
+/* Sven's tax line, under the title band. */
+#tax_rate {
+	position: absolute;
+	left: 0;
+	top: 31px;
+	width: calc(100% * var(--root-scale));
+	text-align: center;
+	color: rgb(210, 230, 255);
+	font-weight: bold;
+	font-size: 1em;
+}
+
+@spritesheet shop97-exit-sheet         { src: "../../../../Interface97/Exit_01.jpg";   shop97-exit:         0px 0px 24px 24px; }
+@spritesheet shop97-exit-press-sheet   { src: "../../../../Interface97/Exit_02.jpg";   shop97-exit-press:   0px 0px 24px 24px; }
+@spritesheet shop97-repair-sheet       { src: "../../../../Interface97/Repair_01.jpg"; shop97-repair:       0px 0px 24px 24px; }
+@spritesheet shop97-repair-press-sheet { src: "../../../../Interface97/Repair_02.jpg"; shop97-repair-press: 0px 0px 24px 24px; }
+.shop-btn {
+	position: absolute;
+	top: 395px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(shop97-repair);
+}
+.shop-btn:active { decorator: image(shop97-repair-press); }
+.shop-btn.hidden { display: none; }
+
+.shop-btn-exit       { left: 25px; decorator: image(shop97-exit); }
+.shop-btn-exit:active { decorator: image(shop97-exit-press); }
+.shop-btn-repair     { left: 60px; }
+.shop-btn-repair-all { left: 95px; }
+
+/* The repair cost in an Item_Money box stretched to 160 at 15,360 (the 113 of the 0.97k box
+   doesn't hold Sven's label and the amount side by side): the label 7 into it, the amount
+   right-aligned 8 from its end, both 3 below its top. */
+@spritesheet shop97-money-sheet { src: "../../../../Interface97/Item_money.jpg"; shop97-money: 0px 0px 113px 18px; }
+.repair-money {
+	position: absolute;
+	left: 15px;
+	top: 360px;
+	width: 160px;
+	height: 18px;
+	pointer-events: none;
+	decorator: image(shop97-money);
+}
+.repair-money.hidden { display: none; }
+
+.repair-money-label, .repair-money-value {
+	position: absolute;
+	top: 363px;
+	font-weight: bold;
+	font-size: 1em;
+	white-space: nowrap;
+	pointer-events: none;
+}
+.repair-money-label { left: 22px; color: rgb(255, 220, 150); }
+.repair-money-value { left: 22px; width: calc(145px * var(--root-scale)); text-align: right; }
+.repair-money-label.hidden, .repair-money-value.hidden { display: none; }
+/* The 0.97k zen tiers (RenderInventoryWindow()): pale under 100,000, green under a million,
+   yellow above. */
+.gold-amount.gold-base             { color: rgb(255, 220, 150); }
+.gold-amount.gold-hundred-thousand { color: rgb(0, 201, 24); }
+.gold-amount.gold-million          { color: rgb(255, 255, 31); }
+.gold-amount.gold-ten-million      { color: rgb(255, 255, 31); }
+
+/* Native item grid: the first cell's top-left, in #panel's units. */
+.native-anchor { position: absolute; pointer-events: none; }
+#item_grid, #item_grid_counts { left: 15px; top: 50px; width: calc(8 * var(--item-cell)); height: calc(15 * var(--item-cell)); }
+
+/* The frame: the 0.97k panel. */
+@spritesheet shop97-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; shop97-back-top:    0px 0px 190px 256px; }
+@spritesheet shop97-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; shop97-back-bottom: 0px 0px 190px 177px; }
+
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom {
+	position: absolute;
+	pointer-events: none;
+}
+.bg-fill   { left: 0; top: 0;     width: 190px; height: 256px; decorator: image(shop97-back-top); }
+.bg-bottom { left: 0; top: 256px; width: 190px; height: 177px; decorator: image(shop97-back-bottom); }
+.bg-top, .bg-left, .bg-right { display: none; }
+
+/* The grid's clicks are native (CInventoryCtrl), so the placed panel takes no pointer events; its
+   controls take their own. */
+#panel.slot-placed { pointer-events: none; }
+#panel { font-size: calc(var(--text-px, 12px) / var(--root-scale)); }

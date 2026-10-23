@@ -1,0 +1,613 @@
+{
+ "text_px": 12,
+ "title": "Weapons Merchant",
+ "tax_rate_text": "Tax rate 3% (changes in real time)",
+ "grid_cells": [
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  }
+ ],
+ "repair_visible": true,
+ "repair_tooltip": "Repair",
+ "repair_all_tooltip": "Repair all",
+ "repair_all_label": "Repair All",
+ "repair_gold_text": "35,200",
+ "repair_gold_tier": "base"
+}
