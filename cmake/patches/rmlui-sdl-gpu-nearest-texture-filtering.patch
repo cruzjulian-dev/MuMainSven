@@ -1,0 +1,100 @@
+diff --git a/Backends/RmlUi_Renderer_SDL_GPU.cpp b/Backends/RmlUi_Renderer_SDL_GPU.cpp
+index 025a92c..e83573b 100644
+--- a/Backends/RmlUi_Renderer_SDL_GPU.cpp
++++ b/Backends/RmlUi_Renderer_SDL_GPU.cpp
+@@ -918,7 +918,15 @@ RenderInterface_SDL_GPU::RenderInterface_SDL_GPU(SDL_GPUDevice* device, SDL_Wind
+ 	info.address_mode_w = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
+ 	clamp_sampler = SDL_CreateGPUSampler(device, &info);
+ 
+-	if (!linear_sampler || !clamp_sampler)
++	info.min_filter = SDL_GPU_FILTER_NEAREST;
++	info.mag_filter = SDL_GPU_FILTER_NEAREST;
++	info.mipmap_mode = SDL_GPU_SAMPLERMIPMAPMODE_NEAREST;
++	info.address_mode_u = SDL_GPU_SAMPLERADDRESSMODE_REPEAT;
++	info.address_mode_v = SDL_GPU_SAMPLERADDRESSMODE_REPEAT;
++	info.address_mode_w = SDL_GPU_SAMPLERADDRESSMODE_REPEAT;
++	nearest_sampler = SDL_CreateGPUSampler(device, &info);
++
++	if (!linear_sampler || !clamp_sampler || !nearest_sampler)
+ 		Log::Message(Log::LT_ERROR, "Failed to create sampler: %s", SDL_GetError());
+ }
+ 
+@@ -957,6 +965,10 @@ void RenderInterface_SDL_GPU::Shutdown()
+ 	if (clamp_sampler)
+ 		SDL_ReleaseGPUSampler(device, clamp_sampler);
+ 	clamp_sampler = nullptr;
++	if (nearest_sampler)
++		SDL_ReleaseGPUSampler(device, nearest_sampler);
++	nearest_sampler = nullptr;
++	nearest_textures.clear();
+ 
+ 	// Anything RmlUi has not given back is still alive on the device, so report it rather than leaking silently.
+ 	if (live_geometry || live_textures || live_shaders || live_filters)
+@@ -1508,6 +1520,8 @@ void RenderInterface_SDL_GPU::RenderGeometry(CompiledGeometryHandle handle, Vect
+ 	state.stencil = GetClipMaskMode();
+ 	state.stencil_reference = stencil_test_value;
+ 	state.texture = reinterpret_cast<SDL_GPUTexture*>(texture);
++	if (state.texture && nearest_textures.count(state.texture) != 0)
++		state.sampler = nearest_sampler;
+ 	state.translation = translation;
+ 	DrawGeometry(*geometry, state);
+ }
+@@ -1665,12 +1679,24 @@ TextureHandle RenderInterface_SDL_GPU::GenerateTexture(Span<const byte> source,
+ 
+ void RenderInterface_SDL_GPU::ReleaseTexture(TextureHandle texture_handle)
+ {
++	nearest_textures.erase(reinterpret_cast<SDL_GPUTexture*>(texture_handle));
+ 	SDL_ReleaseGPUTexture(device, reinterpret_cast<SDL_GPUTexture*>(texture_handle));
+ 	live_textures -= 1;
+ 	if (reinterpret_cast<SDL_GPUTexture*>(texture_handle) == bound_texture)
+ 		bound_texture = nullptr;
+ }
+ 
++void RenderInterface_SDL_GPU::SetTextureNearestFiltering(TextureHandle texture_handle, bool nearest)
++{
++	SDL_GPUTexture* texture = reinterpret_cast<SDL_GPUTexture*>(texture_handle);
++	if (!texture)
++		return;
++	if (nearest)
++		nearest_textures.insert(texture);
++	else
++		nearest_textures.erase(texture);
++}
++
+ // -- State -------------------------------------------------------------------
+ 
+ void RenderInterface_SDL_GPU::EnableScissorRegion(bool enable)
+diff --git a/Backends/RmlUi_Renderer_SDL_GPU.h b/Backends/RmlUi_Renderer_SDL_GPU.h
+index fdb64f4..6600543 100644
+--- a/Backends/RmlUi_Renderer_SDL_GPU.h
++++ b/Backends/RmlUi_Renderer_SDL_GPU.h
+@@ -3,6 +3,7 @@
+ #include <RmlUi/Core/RenderInterface.h>
+ #include <RmlUi/Core/Types.h>
+ #include <SDL3/SDL.h>
++#include <unordered_set>
+ 
+ // How many samples the layers are rendered with; one turns multisampling off. A device that does not offer exactly
+ // this many gets the nearest it does, preferring more to fewer. See SelectSampleCount().
+@@ -37,6 +38,11 @@ public:
+ 	Rml::TextureHandle GenerateTexture(Rml::Span<const Rml::byte> source, Rml::Vector2i source_dimensions) override;
+ 	void ReleaseTexture(Rml::TextureHandle texture_handle) override;
+ 
++	// Samples `texture` with nearest filtering, for pixel art that should stay sharp when scaled, or with the default
++	// linear filtering again. ReleaseTexture() forgets the setting; a texture freed by its owner instead must be set
++	// back to linear first.
++	void SetTextureNearestFiltering(Rml::TextureHandle texture, bool nearest);
++
+ 	void EnableScissorRegion(bool enable) override;
+ 	void SetScissorRegion(Rml::Rectanglei region) override;
+ 
+@@ -518,6 +524,9 @@ private:
+ 	// would come back from the opposite edge.
+ 	SDL_GPUSampler* linear_sampler = nullptr;
+ 	SDL_GPUSampler* clamp_sampler = nullptr;
++	// Repeats like linear_sampler, for the textures SetTextureNearestFiltering() names.
++	SDL_GPUSampler* nearest_sampler = nullptr;
++	std::unordered_set<SDL_GPUTexture*> nearest_textures;
+ 
+ 	SDL_GPUCommandBuffer* command_buffer = nullptr;
+ 	SDL_GPUTexture* swapchain_texture = nullptr;

@@ -297,6 +297,21 @@ token in one theme purely for cosmetic cross-theme symmetry — a real naming in
 fixing, a theme's own genuinely distinct concept (an accent family the other theme doesn't have)
 just gets its own name.
 
+## Sharp pixel art: `NearestFiltering`
+
+Images are drawn with linear filtering, which smooths them when the UI scale or the window size
+stretches them. A theme whose art should stay sharp, pixel by pixel, declares
+
+```ini
+[Capabilities]
+NearestFiltering=1
+```
+
+in its `theme.ini`. Every image a document loads from a file is then drawn with nearest filtering,
+the windows the theme inherits included. Text and the item, character and preview pictures the
+game draws into windows stay smooth. The setting follows the theme: switching to a theme without
+it brings linear filtering back right away. The `97k` theme uses it.
+
 ## Optional system fonts
 
 List font files in `theme.ini`'s `[Fonts]` section, with one file per key. For example:
@@ -393,8 +408,8 @@ their element's drawn size; choose their scaling deliberately.
 - **Every themed document belongs to a `ThemedView`**, so `$theme` covers all of them; a new
   window declares one.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
-  theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize` is the
-  one in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize` and
+  `NearestFiltering` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

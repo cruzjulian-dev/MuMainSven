@@ -51,6 +51,13 @@ void RmlUiRuntime::RefreshScale()
     ApplyScale(contexts, m_Hooks);
 }
 
+void RmlUiRuntime::SetFileTextureNearestFiltering(bool nearest)
+{
+    m_NearestFileTextures = nearest;
+    if (m_RenderInterface)
+        m_RenderInterface->SetFileTextureNearestFiltering(nearest);
+}
+
 void RmlUiRuntime::AfterUpdate(Rml::Context* context)
 {
     if (m_Hooks.afterUpdate)
@@ -123,6 +130,7 @@ void RmlUiRuntime::Create(int windowWidth, int windowHeight)
     m_RenderInterface = std::make_unique<RmlUiRenderInterface>(device, window);
     m_RenderInterface->SetTextureSourceResolver(m_Hooks.resolveTexture);
     m_RenderInterface->SetTextureFileResolver(m_Hooks.resolveTextureFile);
+    m_RenderInterface->SetFileTextureNearestFiltering(m_NearestFileTextures);
     m_SystemInterface = std::make_unique<RmlUiSystemInterface>(window);
     if (m_Hooks.createFileInterface)
         m_FileInterface = m_Hooks.createFileInterface();

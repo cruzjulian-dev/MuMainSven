@@ -91,7 +91,15 @@ Rml::TextureHandle RmlUiRenderInterface::LoadTexture(Rml::Vector2i& texture_dime
     texture_dimensions = { static_cast<int>(bmp->Width), static_cast<int>(bmp->Height) };
     const auto handle = reinterpret_cast<Rml::TextureHandle>(rawTexture);
     m_FileBackedBitmapIndexByHandle.emplace(handle, static_cast<std::uint32_t>(bitmapIndex));
+    SetTextureNearestFiltering(handle, m_NearestFileTextures);
     return handle;
+}
+
+void RmlUiRenderInterface::SetFileTextureNearestFiltering(bool nearest)
+{
+    m_NearestFileTextures = nearest;
+    for (const auto& [handle, bitmapIndex] : m_FileBackedBitmapIndexByHandle)
+        SetTextureNearestFiltering(handle, nearest);
 }
 
 void RmlUiRenderInterface::ReleaseTexture(Rml::TextureHandle texture_handle)
@@ -106,6 +114,7 @@ void RmlUiRenderInterface::ReleaseTexture(Rml::TextureHandle texture_handle)
         // teardown path) only once every other reference has also released it. Must NOT also
         // queue the base class's SDL_ReleaseGPUTexture command below -- that texture is owned
         // by this engine's shared cache, not by this RenderInterface.
+        SetTextureNearestFiltering(texture_handle, false);
         Bitmaps.UnloadImage(static_cast<GLuint>(it->second), /*bForce=*/false);
         m_FileBackedBitmapIndexByHandle.erase(it);
         return;

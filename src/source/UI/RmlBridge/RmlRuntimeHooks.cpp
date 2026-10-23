@@ -67,5 +67,6 @@ void InstallRuntimeHooks()
     };
 
     RmlUiRuntime::Instance().SetHooks(std::move(hooks));
+    RmlUiRuntime::Instance().SetFileTextureNearestFiltering(ThemeUsesNearestFiltering());
 }
 } // namespace UI::RmlBridge

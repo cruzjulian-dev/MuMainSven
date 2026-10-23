@@ -66,11 +66,16 @@ namespace UI::RmlBridge
             return name;
         }
 
-        bool ComputeUsesNativeTextSize(const std::string& themeName)
+        bool HasCapability(const std::string& themeName, const char* capability)
         {
             const ThemeInheritance theme(std::filesystem::path("Data/Interface/RmlUi/themes") / themeName);
-            const auto setting = theme.GetSetting("Capabilities", "NativeTextSize");
+            const auto setting = theme.GetSetting("Capabilities", capability);
             return setting && std::strtol(setting->value.c_str(), nullptr, 10) != 0;
+        }
+
+        bool ComputeUsesNativeTextSize(const std::string& themeName)
+        {
+            return HasCapability(themeName, "NativeTextSize");
         }
 
         bool& UsesNativeTextSizeStorage()
@@ -109,10 +114,16 @@ namespace UI::RmlBridge
         return UsesNativeTextSizeStorage();
     }
 
+    bool ThemeUsesNearestFiltering()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "NearestFiltering");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);
         UsesNativeTextSizeStorage() = ComputeUsesNativeTextSize(ActiveThemeNameStorage());
+        RmlUiRuntime::Instance().SetFileTextureNearestFiltering(ThemeUsesNearestFiltering());
 
         // Both themes deliberately reuse the same <template name="..."> for a shared concept
         // (e.g. "window_shell_bg") in their own themes/<theme>/ copy. Rml::TemplateCache caches a

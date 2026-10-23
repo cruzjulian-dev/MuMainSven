@@ -27,7 +27,12 @@ public:
     using TextureFileResolver = std::function<Rml::String(const Rml::String&)>;
     void SetTextureFileResolver(TextureFileResolver resolver) { m_ResolveTextureFile = std::move(resolver); }
 
+    // Nearest instead of linear filtering for every image loaded from a file, now and from now on.
+    // Font atlases and render targets keep linear filtering.
+    void SetFileTextureNearestFiltering(bool nearest);
+
 private:
+    bool m_NearestFileTextures = false;
     TextureFileResolver m_ResolveTextureFile;
     TextureSourceResolver m_ResolveTextureSource;
     // RmlUi's own TextureHandle IS the raw SDL_GPUTexture* (see RenderInterface_SDL_GPU.cpp) --

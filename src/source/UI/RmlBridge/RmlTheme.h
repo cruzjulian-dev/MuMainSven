@@ -70,6 +70,9 @@ namespace UI::RmlBridge
     // Whether the active theme sizes opted-in documents' text like the original client's
     // (NativeTextSize=1) -- see RmlNativeText.h.
     bool ThemeUsesNativeTextSize();
+    // Whether the active theme wants its images drawn with nearest instead of linear filtering
+    // (NearestFiltering=1), for pixel art that should stay sharp when the UI is scaled.
+    bool ThemeUsesNearestFiltering();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

@@ -64,6 +64,10 @@ public:
     // What RefreshScale() does to each non-null context in `contexts`.
     static void ApplyScale(std::span<Rml::Context* const> contexts, const RmlUiRuntimeHooks& hooks);
 
+    // Nearest filtering for the images documents load from files (a theme capability); kept
+    // until changed, including across Create().
+    void SetFileTextureNearestFiltering(bool nearest);
+
     void Update();
     void Render();
 
@@ -139,6 +143,7 @@ private:
     void AfterUpdate(Rml::Context* context);
 
     RmlUiRuntimeHooks m_Hooks;
+    bool m_NearestFileTextures = false;
 
     RmlUiRuntime(const RmlUiRuntime&) = delete;
     RmlUiRuntime& operator=(const RmlUiRuntime&) = delete;

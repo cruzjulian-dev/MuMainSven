@@ -68,6 +68,19 @@ mu_ensure_submodule("ThirdParty/RmlUi"
   INDICATOR "CMakeLists.txt"
   URL "https://github.com/nitoygo/RmlUi.git")
 
+# Nearest filtering for chosen textures in the SDL_GPU renderer (a theme's NearestFiltering
+# capability, theming-and-modding.md). Applied to the checkout at configure time and recognised
+# once already applied, like the SDL_ttf patches; drop it once the fork carries the change.
+execute_process(
+  COMMAND "${CMAKE_COMMAND}"
+          "-DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/RmlUi"
+          "-DPATCH_FILE=${REPO_ROOT}/cmake/patches/rmlui-sdl-gpu-nearest-texture-filtering.patch"
+          -P "${REPO_ROOT}/cmake/ApplyGitPatch.cmake"
+  RESULT_VARIABLE rmlui_patch_result)
+if(NOT rmlui_patch_result EQUAL 0)
+  message(FATAL_ERROR "Could not apply cmake/patches/rmlui-sdl-gpu-nearest-texture-filtering.patch to ThirdParty/RmlUi")
+endif()
+
 # RmlUi -- static link, no bundled samples/Lua bindings. We supply our own
 # Rml::RenderInterface/SystemInterface (source/Render/RmlUi/) targeting this branch's
 # IMuRenderer/SDL_GPU renderer instead of one of RmlUi's stock backends -- except for the
