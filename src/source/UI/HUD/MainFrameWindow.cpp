@@ -148,6 +148,7 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("window_open", &model.windowOpen);
     c.Bind("party_open", &model.partyOpen);
     c.Bind("guild_open", &model.guildOpen);
+    c.Bind("right_docked", &model.rightDocked);
     c.Bind("cshop_tooltip", &model.cShopTooltip);
     c.Bind("chainfo_tooltip", &model.chaInfoTooltip);
     c.Bind("myinven_tooltip", &model.myInvenTooltip);
@@ -670,6 +671,8 @@ void mu::ui::window::CMainFrameWindow::SyncRmlModel()
     // Read from the windows themselves: nothing else opens or closes them through this HUD.
     syncBool(&MainFrameRmlModel::partyOpen, "party_open", g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_PARTY));
     syncBool(&MainFrameRmlModel::guildOpen, "guild_open", g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_GUILDINFO));
+    syncBool(&MainFrameRmlModel::rightDocked, "right_docked",
+             UI::Placement::UncoveredWorldRight() < static_cast<float>(WindowWidth) - 1.f);
 #ifdef PBG_ADD_INGAMESHOP_UI_MAINFRAME
     syncWide(&MainFrameRmlModel::cShopTooltip, "cshop_tooltip", I18N::Game::MUItemShopX);
 #endif //defined PBG_ADD_INGAMESHOP_UI_MAINFRAME

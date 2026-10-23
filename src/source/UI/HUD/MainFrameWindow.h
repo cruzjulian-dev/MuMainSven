@@ -138,6 +138,9 @@ namespace mu::ui::window
             // the windows' own visibility.
             bool partyOpen = false, guildOpen = false;
             Rml::String partyTooltip, guildTooltip;
+            // An open window docked at the screen's right edge covers the world there
+            // (UI::Placement::UncoveredWorldRight()); a theme hides HUD art that would draw over it.
+            bool rightDocked = false;
 
             // Alert-blink dots: bound boolean + CSS dot, computed each frame from the same state
             // the legacy blink read.

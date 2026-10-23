@@ -47,6 +47,9 @@
 #frame_corner_left, #frame_corner_right { top: -45dp; width: 108dp; height: 45dp; }
 #frame_corner_left  { left: 0dp;   decorator: image(hud97-corner); }
 #frame_corner_right { left: 532dp; decorator: image(hud97-corner flip-horizontal); }
+/* The HUD draws over the windows, and the windows docked at the right edge stand on the bar: the
+   right piece would cover the lowest 45 units of them. In the 0.97k client they covered it. */
+#frame_corner_right.covered { display: none; }
 
 /* HP and MP orbs, and the AG column right of MP. Each drains from the top, uncovering the empty
    socket painted into the bar, as the original moved its quad's top and texture rows together. */

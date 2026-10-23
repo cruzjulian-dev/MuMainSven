@@ -23,9 +23,10 @@
 		<div id="frame_left" class="frame-art"></div>
 		<div id="frame_middle" class="frame-art"></div>
 		<div id="frame_right" class="frame-art"></div>
-		<!-- The 0.97k HUD's raised corner pieces, above both ends of the strip. -->
+		<!-- The 0.97k HUD's raised corner pieces, above both ends of the strip. The right one is
+		     .covered while a window is docked at the right edge, where it would draw over it. -->
 		<div id="frame_corner_left" class="frame-art"></div>
-		<div id="frame_corner_right" class="frame-art"></div>
+		<div id="frame_corner_right" class="frame-art" data-class-covered="right_docked"></div>
 		<div id="gauge_fill_left"></div>
 		<div id="gauge_fill_right"></div>
 		<div id="item_band_fill" class="slot-fill"></div>
