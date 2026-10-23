@@ -1,0 +1,351 @@
+{
+ "text_px": 12,
+ "big_text_px": 14,
+ "title": "Trade",
+ "partner_cells": [
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  }
+ ],
+ "grid_cells": [
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "tint-normal",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  },
+  {
+   "tint": "",
+   "drop": "",
+   "count": ""
+  }
+ ],
+ "your_guild_name": "[Guild] Knights",
+ "your_guild_visible": true,
+ "your_id_text": "PartnerName",
+ "your_level_text": "Lv. 150",
+ "your_level_bucket": 200,
+ "your_gold_text": "250,000",
+ "your_gold_tier": "hundred-thousand",
+ "my_id_text": "MyHero",
+ "my_gold_text": "12,500",
+ "my_gold_tier": "base",
+ "my_confirm_checked": false,
+ "my_confirm_waiting": false,
+ "your_confirm_checked": true,
+ "close_tooltip": "Close",
+ "zen_tooltip": "Zen",
+ "warning_label": "Warning!",
+ "warning_opacity": 1,
+ "notice_line1": "Check the items carefully.",
+ "notice_line2": "Items above +6 and Excellent",
+ "notice_line3": "items blink in red.",
+ "item_warning_badges": [],
+ "item_warning_text": "Warning"
+}

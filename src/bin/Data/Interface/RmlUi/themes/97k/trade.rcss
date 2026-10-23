@@ -1,0 +1,217 @@
+/* The 97k theme's CTrade: the 0.97k client's RenderTrade(). The panel is Item_Back01 over
+   Item_Back02 with Trading_line across it (RenderInventoryInterface()'s Flag drew it at 225; here
+   it sits 15 lower, at 240, so Sven's warning and notices fit above it), the partner's offer above it from 15,70 and the hero's below it from 15,270, both 8x4 grids of the
+   0.97k cells (item_grid.rcss). The bottom row is the 0.97k trade's three 24x24 buttons on the 390
+   row: zen at 26, accept at 97 (Accept_box01, Accept_box02 once pressed) and the third at 137,
+   which here is the exit. The gold amounts sit in Item_Money boxes. The workspace places #panel,
+   so coordinates are reference px. */
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	font-family: "token(font-body)";
+}
+
+/* The 0.97k panel draws no close mark in its corner, so the corner's hit box goes. */
+#frame_corner_close { display: none; }
+
+#title {
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: calc(100% * var(--root-scale));
+	text-align: center;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+	pointer-events: none;
+}
+
+/* The 0.97k trade had no name strips: the names stand on the panel. */
+.nick-bg { display: none; }
+
+@spritesheet trade97-money-sheet { src: "../../../../Interface97/Item_money.jpg";    trade97-money: 0px 0px 113px 18px; }
+@spritesheet trade97-line-sheet  { src: "../../../../Interface97/Trading_line.jpg"; trade97-line:  0px 0px 190px 10px; }
+
+.gold-bg { position: absolute; left: 50px; width: 113px; height: 18px; decorator: image(trade97-money); pointer-events: none; }
+.gold-bg-your { top: 152px; }
+.gold-bg-my   { top: 352px; }
+
+#divider {
+	position: absolute;
+	left: 0;
+	top: 240px;
+	width: 190px;
+	height: 10px;
+	decorator: image(trade97-line);
+	pointer-events: none;
+}
+
+.id-text { position: absolute; color: rgb(210, 230, 255); white-space: nowrap; pointer-events: none; }
+/* native g_hFontBig: its size, big_text_px, bound in trade.rml (text layer); a long name shrinks to
+   end before "Lv." at 134. */
+.id-text-your { left: 20px; top: 46px; width: calc(110px * var(--root-scale)); font-weight: bold; }
+.id-text-my   { left: 20px; top: 254px; font-size: 1em; font-weight: bold; }
+
+.guild-name {
+	position: absolute;
+	left: 20px;
+	top: 31px;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+.level-text {
+	position: absolute;
+	left: 134px;
+	top: 49px;
+	font-weight: bold;
+	font-size: 1em;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+/* The amount right-aligned in its box, 3 below its top as the 0.97k client wrote it. */
+.gold-text {
+	position: absolute;
+	left: 50px;
+	width: 105px;
+	text-align: right;
+	font-weight: bold;
+	font-size: 1em;
+	white-space: nowrap;
+	pointer-events: none;
+}
+.gold-text-your { top: 155px; }
+.gold-text-my   { top: 355px; }
+/* The 0.97k zen tiers (RenderInventoryWindow()): pale under 100,000, green under a million,
+   yellow above. */
+.gold-amount.gold-base             { color: rgb(255, 220, 150); }
+.gold-amount.gold-hundred-thousand { color: rgb(0, 201, 24); }
+.gold-amount.gold-million          { color: rgb(255, 255, 31); }
+.gold-amount.gold-ten-million      { color: rgb(255, 255, 31); }
+
+/* The confirmations are the 0.97k accept box: Accept_box01, Accept_box02 once accepted. */
+@spritesheet trade97-accept-sheet  { src: "../../../../Interface97/Accept_box01.jpg"; trade-confirm-unchecked: 0px 0px 24px 24px; }
+@spritesheet trade97-accepted-sheet { src: "../../../../Interface97/Accept_box02.jpg"; trade-confirm-checked:  0px 0px 24px 24px; }
+.checkbox-row {
+	position: absolute;
+	width: 24px;
+	height: 24px;
+}
+.checkbox-box {
+	width: 24px;
+	height: 24px;
+	decorator: image(trade-confirm-unchecked);
+}
+.checkbox-box.checked { decorator: image(trade-confirm-checked); }
+
+/* The partner's confirmation stands left of the partner's money box (15,149), out of the notice
+   flow it is written in; the flow is counter-scaled, so its offsets follow the panel scale. */
+.confirm-your {
+	position: absolute;
+	left: calc(-1px * var(--root-scale));
+	top: calc(-24px * var(--root-scale));
+	width: calc(24px * var(--root-scale));
+	height: calc(24px * var(--root-scale));
+	cursor: default;
+	pointer-events: none;
+}
+.confirm-your .checkbox-box { width: 100%; height: 100%; }
+/* The hero's own -- clickable (trade_my_confirm_click), red while the wait after a change runs
+   (CNewUITrade::RenderBackImage()'s RGBA(255, 0, 0, 255)). */
+.confirm-my { left: 97px; top: 390px; cursor: pointer; pointer-events: auto; }
+.confirm-my.waiting .checkbox-box { image-color: rgb(255, 0, 0); }
+
+@spritesheet trade97-exit-sheet       { src: "../../../../Interface97/Exit_01.jpg";  trade97-exit:       0px 0px 24px 24px; }
+@spritesheet trade97-exit-press-sheet { src: "../../../../Interface97/Exit_02.jpg";  trade97-exit-press: 0px 0px 24px 24px; }
+@spritesheet trade97-zen-sheet        { src: "../../../../Interface97/Money_01.jpg"; trade97-zen:        0px 0px 24px 24px; }
+@spritesheet trade97-zen-press-sheet  { src: "../../../../Interface97/Money_02.jpg"; trade97-zen-press:  0px 0px 24px 24px; }
+.trade-btn {
+	position: absolute;
+	top: 390px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+}
+.trade-btn-zen  { left: 26px;  decorator: image(trade97-zen); }
+.trade-btn-zen:active { decorator: image(trade97-zen-press); }
+.trade-btn-exit { left: 137px; decorator: image(trade97-exit); }
+.trade-btn-exit:active { decorator: image(trade97-exit-press); }
+
+/* One counter-scaled flow keeps the warning and translated notice fragments apart, between the
+   partner's money and the line. */
+#trade_help {
+	position: absolute;
+	left: 16px;
+	top: 173px;
+	--flow-w: 160px;
+	line-height: 1.05;
+	white-space: normal;
+	pointer-events: none;
+}
+.warning-label {
+	display: inline-block;
+	color: #d20000;
+	font-weight: bold;
+}
+.notice-line {
+	color: rgb(210, 230, 255);
+}
+
+/* Former RenderWarningArrow()'s "Warning" text badge -- left/top/width come live from C++ per
+   entry (item_warning_badges). */
+.item-warning-badge {
+	position: absolute;
+	background-color: rgba(210, 0, 0, 255);
+	color: token(text-primary);
+	font-weight: bold;
+	font-size: 1em;
+	text-align: center;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+/* Trade partner's level by bucket (CTrade::ConvertYourLevel(); the RML toggles
+   .level-bucket-<N>). The original client's colors. */
+.level-text.level-bucket-10  { color: #ff0000; }
+.level-text.level-bucket-50  { color: #ff9600; }
+.level-text.level-bucket-100 { color: #00c918; }
+.level-text.level-bucket-200 { color: #d2e6ff; }
+.level-text.level-bucket-300 { color: #ff99ff; }
+.level-text.level-bucket-400 { color: #ff9999; }
+
+/* Native item grids: the first cell's top-left, in #panel's units. CTrade reads them each frame. */
+.native-anchor { position: absolute; pointer-events: none; }
+#partner_grid, #partner_grid_counts { left: 15px; top: 70px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+#item_grid, #item_grid_counts { left: 15px; top: 270px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+
+/* The frame: the 0.97k panel. */
+@spritesheet trade97-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; trade97-back-top:    0px 0px 190px 256px; }
+@spritesheet trade97-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; trade97-back-bottom: 0px 0px 190px 177px; }
+
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom {
+	position: absolute;
+	pointer-events: none;
+}
+.bg-fill   { left: 0; top: 0;     width: 190px; height: 256px; decorator: image(trade97-back-top); }
+.bg-bottom { left: 0; top: 256px; width: 190px; height: 177px; decorator: image(trade97-back-bottom); }
+.bg-top, .bg-left, .bg-right { display: none; }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
+#title { margin-left: calc(50% - 50% * var(--root-scale)); }
+#your_gold_text { width: calc(105px * var(--root-scale)); }
+#my_gold_text { width: calc(105px * var(--root-scale)); }
+/* A badge is counter-scaled: its item's width in reference px at the panel's scale. */
+.item-warning-badge { width: calc(var(--badge-width, 0px) * var(--root-scale)); }
+
+/* The grid's clicks are native (CInventoryCtrl), so the placed panel takes no pointer events; its
+   controls take their own. */
+#panel.slot-placed { pointer-events: none; }
+#panel { font-size: calc(var(--text-px, 12px) / var(--root-scale)); }
