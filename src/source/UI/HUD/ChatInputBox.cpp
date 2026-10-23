@@ -598,6 +598,19 @@ void mu::ui::window::CChatInputBox::SyncRmlModel()
         FocusField("chat_field");
     }
 
+    // As in the 0.97k client, the open box keeps the keys: a press on the HUD or on the box's own
+    // buttons, or a window opening, takes the focus only to something else that types or takes
+    // keys (a window's field, a slider). Anything else gives it back to the field last typed in.
+    if (IsVisible() && m_RmlView.Document()->IsVisible())
+    {
+        if (IsFieldFocused("whisper_field"))
+            m_bWhisperFieldLast = true;
+        else if (IsFieldFocused("chat_field"))
+            m_bWhisperFieldLast = false;
+        else if (RmlUiRuntime::Instance().GetKeyOwningDocument() == nullptr)
+            FocusField(m_bWhisperFieldLast && m_bWhisperSend ? "whisper_field" : "chat_field");
+    }
+
     ChatInputRmlModel& model = m_RmlView.GetModel();
 
     // The chat's buttons over the closed box, in both of the 0.97k modes (ChatLogModes): shown

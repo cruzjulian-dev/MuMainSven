@@ -116,6 +116,8 @@ namespace mu::ui::window
         // happen after SyncDocumentVisibility()'s own Show(), which defaults to FocusFlag::Auto and
         // would blur the field again.
         bool m_bFocusPending = false;
+        // The field the open box gives the keys back to (SyncRmlModel()).
+        bool m_bWhisperFieldLast = false;
 
     public:
         CChatInputBox();
