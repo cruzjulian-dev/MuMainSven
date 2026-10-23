@@ -161,8 +161,9 @@ La escena 3D de fondo sigue siendo la de Sven.
 1. Documentación de uso: sección "Tema MU 0.97k" en
    `docs/rmlui-ui-system/theming-and-modding.md` (cómo elegirlo, qué hereda de
    legacy, botones del HUD ocultos y su atajo de teclado).
-2. Opcional: dejar `97k` como tema por defecto de este fork (`config.ini`
-   `[UI] RmlTheme=97k` en el que se distribuye); el fallback a `legacy` ya existe.
+2. Dejar `97k` como tema por defecto de este fork (`[UI] RmlTheme=97k` en el
+   `config.ini` que se distribuye y en el valor por defecto de
+   `GameConfig::GetRmlTheme()`); el fallback a `legacy` ya existe.
 3. Barrido completo de la verificación común con todas las ventanas.
 4. **Opcional, fase 8:** aplicar el marco 97k genérico (Fase 3/5) a ventanas
    posteriores a la 0.97k (MU Helper, Gens, quests, Kanturu…) para unificar la
@@ -180,12 +181,12 @@ La escena 3D de fondo sigue siendo la de Sven.
 | Herramientas | chequeo de assets de tema + entrada en CTest |
 | Docs | `theming-and-modding.md`, README del tema y de `Interface97` |
 
-## Decisiones abiertas
+## Decisiones tomadas
 
-1. **Nombre del tema**: `97k` (propuesto). Alternativas: `classic97`, `season0`.
-2. **Botón Guild del HUD**: el plan lo incluye con arte 97k abriendo la Guild de
-   Sven. Si se prefiere no tocar nada de Guild, se oculta y queda la tecla G.
-3. **Login/selección**: incluido como Fase 6; si "todas" se refería sólo al juego,
-   se puede omitir sin afectar el resto.
-4. **Tema por defecto**: dejar `legacy` y que el jugador elija, o distribuir con
-   `97k` seleccionado.
+1. **Nombre del tema**: `97k`.
+2. **Botón Guild del HUD**: se incluye con el arte 97k (`Guild`) y abre la ventana
+   de Guild de Sven.
+3. **Login y selección de personaje**: incluidos (Fase 6), con las texturas 2D de
+   la 97k.
+4. **Tema por defecto**: `97k`. La Fase 7 deja `[UI] RmlTheme=97k` como valor por
+   defecto del fork; si el tema no está disponible, el cliente vuelve a `legacy`.
