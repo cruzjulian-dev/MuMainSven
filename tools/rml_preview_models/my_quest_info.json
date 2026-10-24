@@ -1,0 +1,24 @@
+{
+  "states": {
+    "job_change": {
+      "text_px": 12,
+      "active_tab": 0,
+      "quest_list_empty": true,
+      "empty_quest_lines": [],
+      "quests": [],
+      "contents": [],
+      "tab_quest_label": "Quest",
+      "tab_jobchange_label": "Change class",
+      "tab_castletemple_label": "Castle/Temple",
+      "jobchange_title": "Scroll of Emperor",
+      "jobchange_lines": [
+        { "text": "Bring the Scroll of Emperor" },
+        { "text": "to Sebina the Priest" },
+        { "text": "in Lost Tower." }
+      ],
+      "jobchange_state_lines": [ { "text": "The quest is in progress." } ],
+      "castle_title": "", "castle_line0": "", "castle_line1": "",
+      "temple_title": "", "temple_line0": "", "temple_line1": ""
+    }
+  }
+}

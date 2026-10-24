@@ -516,7 +516,8 @@ void mu::ui::window::CMyQuestInfoWindow::SyncRmlModel()
         m_RmlView.MarkDirty("jobchange_title");
     }
 
-    if (m_eTabBtnIndex == TAB_JOB_CHANGE)
+    // Whatever tab is open: a theme may show the job-change page on its own (97k, as the Season 3
+    // client's quest window).
     {
         const BYTE byState = g_csQuest.getCurrQuestState();
         int nStateTextIndex = 930;

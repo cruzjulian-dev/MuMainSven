@@ -13,8 +13,9 @@ The `97k` theme dresses MuMainSven in the interface of the MU Online 0.97k clien
 The theme inherits `legacy` (`theme.ini`). A window this folder doesn't restyle looks exactly as
 in `legacy`:
 
-- Windows the 0.97k client never had (MU Helper, Gens, Master Level, the in-game shop, quests and
-  later events) keep the Sven look.
+- Windows the 0.97k client never had (MU Helper, Gens, Master Level, the in-game shop, the NPC
+  quests and later events) keep the Sven look; the quest and pet windows are the Season 3
+  client's (below).
 
 ## Restyled so far
 
@@ -76,6 +77,10 @@ in `legacy`:
   exit); the list down the right side is the 0.97k one, dark cards with gold sides, its gold caps
   (`party_list.rml`'s fork adds them) and a health bar of ten red steps, without Sven's leave
   button: the party is left from the window.
+- **The quest window** (`my_quest_info.rml/.rcss`): the Season 3 client's, the class-change quest
+  alone: its name in bold (150, 255, 240) at 35,12, its lines centred on x 100, 18 apart, on the
+  seven rows from 66, its state under them in (223, 191, 103), `Trading_line` across at 225.
+  Sven's tabs, quest list and castle/temple page have no place in it and are hidden.
 - **The guild window (G)** (`guild_info.rcss`): the classic window of the Season 3 client, which
   already had Sven's three tabs (`docs/superpowers/specs/2026-10-24-guild-s3-classic-design.md`):
   the `win_button` tabs, the open one taller and bright; the gold group boxes round the mark, the

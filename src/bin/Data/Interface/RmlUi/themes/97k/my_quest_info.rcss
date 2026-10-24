@@ -1,0 +1,49 @@
+/* The 97k theme's CMyQuestInfoWindow: the Season 3 client's quest window (FUN_004a4c49 and
+   FUN_004a44c0 in its main.exe), the class-change quest alone. The frame and the exit are
+   docked_panel_frame.rcss's (Item_Back01 over Item_Back02, the 24x24 exit at 25,395). On it: the
+   quest's name, 120 wide at 35,12 in bold (150, 255, 240); its lines centred on x 100, 18 apart,
+   in (255, 230, 210), the block centred on the seven rows from 66 (the client started it at
+   (7 - lines) * 9 + 66), the quest's state under them in (223, 191, 103); Trading_line across the
+   panel at 225 (190x10). Sven's tabs, quest list, open and give-up buttons and castle/temple page
+   have no place in it and are hidden (my_quest_info.rml's fork keeps them for the contract).
+   Reference px inside #panel. */
+@spritesheet quest97-line-sheet { src: "../../../../Interface97/Trading_line.jpg"; quest97-line: 0px 0px 190px 10px; }
+
+#title, .tab-row, .quest-tab, .castletemple-tab, .quest-btn, .quest-popup-anchor { display: none; }
+.btn-exit-label { display: none; }
+
+.jobchange-tab { position: absolute; left: 0; top: 0; width: 190px; height: 429px; }
+.jobchange-title {
+	position: absolute;
+	left: 35px;
+	top: 12px;
+	text-align: center;
+	white-space: nowrap;
+	color: rgb(150, 255, 240);
+	font-weight: bold;
+	font-size: 1em;
+}
+.jobchange-contents {
+	position: absolute;
+	left: 10px;
+	top: 66px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	color: rgb(255, 230, 210);
+	font-size: 1em;
+}
+.jobchange-contents span { display: block; white-space: nowrap; }
+.jobchange-contents .jobchange-state-line { color: rgb(223, 191, 103); }
+.jobchange-state { display: none; }
+.quest-divider { position: absolute; left: 0; width: 190px; height: 10px; decorator: image(quest97-line); }
+.jobchange-divider { top: 225px; }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
+.jobchange-title { width: calc(120px * var(--root-scale)); line-height: calc(18px * var(--root-scale)); }
+.jobchange-contents { width: calc(180px * var(--root-scale)); height: calc(126px * var(--root-scale)); }
+.jobchange-contents span { height: calc(18px * var(--root-scale)); line-height: calc(18px * var(--root-scale)); }
+
+/* The native text size, counter-scaled out of the panel's scale. */
+#panel { font-size: calc(var(--text-px) / var(--root-scale)); }
