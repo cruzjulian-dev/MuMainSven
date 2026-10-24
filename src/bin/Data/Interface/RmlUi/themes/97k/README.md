@@ -83,6 +83,8 @@ in `legacy`:
   0.97k menu button (`Message_box`) for every other button; the ESC menu is the 0.97k one, its
   buttons 120x22 centred on the screen, 30 apart from 60, with no box. The login scene's boxes
   keep legacy's until its phase.
+- **The tooltips** (`tooltip.rml/.rcss`): legacy's box is already the 0.97k one (80% black in a
+  1-unit black frame); a button's hover text takes it too, as in the 0.97k client.
 - **The Golden Archer** (`gold_bowman.rcss`): the 0.97k exit, and Register as the 0.97k dialog's
   Ok. **The Devil Square and Blood Castle entries** (`event_entry.rcss`,
   `devil_square_enter.rcss`, `blood_castle_enter.rcss`): the 0.97k event window, each level a
