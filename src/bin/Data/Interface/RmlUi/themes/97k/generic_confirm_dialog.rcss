@@ -3,8 +3,9 @@
    text lines centred 9 and 21 below it, 12 apart, a single line at 15. A box with more text grows
    (Message_box stretched over it); a title is on the box itself, without Sven's title banner. OK and
    Cancel are the 0.97k Ok and Cancel (70x21) 38 below the top, alone at 71 or at 21 and 121 of the
-   box, Ok2 and Cancel2 pressed; any other button is the 0.97k menu button (Message_box stretched
-   over it, its label white). The rest is legacy's layout. */
+   box, Ok2 and Cancel2 while the pointer is on them; any other button is the 0.97k menu button
+   (Message_box stretched over it, its label white), brightened warm under the pointer as the 0.97k
+   menu buttons. The rest is legacy's layout. */
 #panel {
 	/* The 0.97k box: centred horizontally, top edge at y=60, 64 tall for up to two lines and
 	   growing with each further line -- so no centering transform and no fixed height: the flowing
@@ -295,7 +296,7 @@
 	color: #ffffff;
 	decorator: image(btn97 fill);
 }
-.btn.gcd-btn-primary:hover, .btn.gcd-btn-secondary:hover, .btn.gcd-btn-cancel:hover { decorator: image(btn97 fill); }
+.btn.gcd-btn-primary:hover, .btn.gcd-btn-secondary:hover, .btn.gcd-btn-cancel:hover { decorator: image(btn97 fill); filter: sepia(0.6) brightness(1.5); }
 .btn.gcd-btn-primary:active, .btn.gcd-btn-secondary:active, .btn.gcd-btn-cancel:active { decorator: image(btn97 fill); image-color: rgb(200, 200, 200); }
 
 /* The stock OK/Cancel buttons use native's own lettered art (newui_button_ok/cancel.tga: three
@@ -310,11 +311,9 @@
 	msgbox-max-active: 0px 60px 54px 30px;
 }
 .btn.gcd-btn-primary.stock-ok { decorator: image(ok97); color: rgba(0, 0, 0, 0); }
-.btn.gcd-btn-primary.stock-ok:hover { decorator: image(ok97); }
-.btn.gcd-btn-primary.stock-ok:active { decorator: image(ok97-down); image-color: #ffffff; }
+.btn.gcd-btn-primary.stock-ok:hover, .btn.gcd-btn-primary.stock-ok:active { decorator: image(ok97-down); image-color: #ffffff; filter: none; }
 .btn.gcd-btn-cancel.stock-cancel { decorator: image(cancel97); color: rgba(0, 0, 0, 0); }
-.btn.gcd-btn-cancel.stock-cancel:hover { decorator: image(cancel97); }
-.btn.gcd-btn-cancel.stock-cancel:active { decorator: image(cancel97-down); image-color: #ffffff; }
+.btn.gcd-btn-cancel.stock-cancel:hover, .btn.gcd-btn-cancel.stock-cancel:active { decorator: image(cancel97-down); image-color: #ffffff; filter: none; }
 .btn.gcd-btn-secondary.stock-max { decorator: image(msgbox-max-idle); color: rgba(0, 0, 0, 0); }
 .btn.gcd-btn-secondary.stock-max:hover { decorator: image(msgbox-max-hover); }
 .btn.gcd-btn-secondary.stock-max:active { decorator: image(msgbox-max-active); }

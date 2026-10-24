@@ -4,7 +4,7 @@
    55,60, its label 38 left of it and the text 5 into it, both 2 below its top; the 8x8 mark grid of
    15-unit cells from 50,100 with no frame round it, the palette's two rows of 20-unit cells from
    15,260, the selected colour at 16,231 and the two hints at 50,230 and 50,245; and the 0.97k
-   buttons, Ok (Ok2 pressed) at 20,350 and Cancel (Cancel2 pressed) at 100,350, 70x21, whose art
+   buttons, Ok (Ok2 under the pointer) at 20,350 and Cancel (Cancel2 under the pointer) at 100,350, 70x21, whose art
    carries their labels. Sven asks first and shows the finished mark after: those pages keep their
    text on the same panel, the question's button is the 0.97k Message_box button of the event
    windows (its label in the 0.97k red), the exit is the panel's, and the result page has the same
@@ -52,9 +52,9 @@
 .gm-btn-big .gm-label { color: rgb(180, 30, 10); font-weight: bold; }
 .gm-btn-small { top: 350px; width: 70px; height: 21px; }
 #btn_next { left: 20px; decorator: image(gm97-ok); }
-#btn_next:active { decorator: image(gm97-ok-down); }
+#btn_next:hover, #btn_next:active { decorator: image(gm97-ok-down); } /* Ok2 under the pointer */
 #btn_back { left: 100px; decorator: image(gm97-cancel); }
-#btn_back:active { decorator: image(gm97-cancel-down); }
+#btn_back:hover, #btn_back:active { decorator: image(gm97-cancel-down); } /* Cancel2 under the pointer */
 .gm-btn-small .gm-label { display: none; }
 .gm-label { left: 0; text-align: center; color: #ffffff; }
 #btn_exit { pointer-events: auto; }

@@ -3,7 +3,7 @@
    art: Message_box1 stretched over the whole box (the 0.97k box tiled it in 40-unit rows; this
    build cannot repeat an image) with Message_box2's gold cap at its top and bottom, 213 wide
    centred in the box's 230. A button is the 0.97k menu button (Message_box stretched over it, its
-   label white, grey when disabled); OK is the 0.97k Ok (70x21, Ok2 pressed), centred where
+   label white, grey when disabled); OK is the 0.97k Ok (70x21, Ok2 under the pointer), centred where
    legacy's stood. The progress bar keeps legacy's art. Reference px inside #panel. */
 
 @spritesheet box97-cap-sheet { src: "../../../../Interface97/Message_box2.jpg"; box97-cap: 0px 0px 213px 5px; }
@@ -42,15 +42,16 @@
 /* pre: RenderText() keeps leading and repeated spaces (the result tables' padded numbers). */
 
 .box-btn { display: block; position: absolute; decorator: image(btn97 fill); pointer-events: auto; }
+.box-btn:hover { filter: sepia(0.6) brightness(1.5); }
 .box-btn:active { image-color: rgb(200, 200, 200); }
-.box-btn.disabled, .box-btn.disabled:hover, .box-btn.disabled:active { image-color: #99999999; }
+.box-btn.disabled, .box-btn.disabled:hover, .box-btn.disabled:active { image-color: #99999999; filter: none; }
 .box-label { color: #ffffff; }
 .box-btn.disabled .box-label { color: #808080; }
 
 /* The 0.97k Ok, 70x21, centred on legacy's 54x30 box (8 further left, 4.5 higher off the bottom); the art is
-   lettered, so the label is hidden. */
+   lettered, so the label is hidden. Ok2 while the pointer is on it, as the 0.97k box. */
 .box-btn.ok-art { decorator: image(ok97); margin-left: -8px; margin-bottom: 4.5px; }
-.box-btn.ok-art:active { decorator: image(ok97-down); image-color: #ffffff; }
+.box-btn.ok-art:hover, .box-btn.ok-art:active { decorator: image(ok97-down); image-color: #ffffff; filter: none; }
 .box-btn.ok-art .box-label { display: none; }
 
 /* The jewel list keeps native text metrics while RmlUi handles scrolling. */

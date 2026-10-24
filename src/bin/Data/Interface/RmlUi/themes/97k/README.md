@@ -79,8 +79,10 @@ in `legacy`:
   `Cancel` at 20,350 and 100,350; Sven's question page has the 0.97k `Message_box` button.
 - **The message boxes and the ESC menu** (`window_shell.rcss`, `generic_menu_dialog.rcss`,
   `generic_confirm_dialog.rcss`, `message_box_view.rcss`): the 0.97k box (`Message_box2` caps
-  over `Message_box1`, 213 wide), the 0.97k `Ok`/`Cancel` where the 0.97k box had them and the
-  0.97k menu button (`Message_box`) for every other button; the ESC menu is the 0.97k one, its
+  over `Message_box1`, 213 wide; a confirm box such as the trade request is the 0.97k
+  `Message_box`, 213x64 from y 60, its lines 12 apart), the 0.97k `Ok`/`Cancel` where the 0.97k
+  box had them (`Ok2`/`Cancel2` under the pointer) and the 0.97k menu button (`Message_box`) for
+  every other button; the ESC menu is the 0.97k one, its
   buttons 120x22 centred on the screen, 30 apart from 60, with no box. The login scene's boxes
   keep legacy's until its phase.
 - **The tooltips** (`tooltip.rml/.rcss`): legacy's box is already the 0.97k one (80% black in a
