@@ -16,12 +16,8 @@
 @spritesheet btn97-sheet { src: "../../../../Interface97/Message_box.jpg"; btn97: 0px 0px 213px 64px; }
 @spritesheet ok97-sheet { src: "../../../../Interface97/Ok.jpg"; ok97: 0px 0px 70px 21px; }
 @spritesheet ok97-down-sheet { src: "../../../../Interface97/Ok2.jpg"; ok97-down: 0px 0px 70px 21px; }
-@spritesheet win97-btn-sheet
-{
-	src: "../../../../Interface97/win_button.tga";
-	win97-btn: 0px 0px 49px 16px;
-	win97-btn-held: 0px 0px 48px 15px;
-}
+@spritesheet cancel97-sheet { src: "../../../../Interface97/Cancel.jpg"; cancel97: 0px 0px 70px 21px; }
+@spritesheet cancel97-down-sheet { src: "../../../../Interface97/Cancel2.jpg"; cancel97-down: 0px 0px 70px 21px; }
 @spritesheet gold97-h-sheet { src: "../../../../Interface97/Trading_line.jpg"; gold97-h: 10px 5px 170px 2px; }
 @spritesheet gold97-v-sheet { src: "../../../../Interface97/Item_back01.jpg"; gold97-v: 1px 80px 2px 125px; }
 
@@ -157,15 +153,15 @@
 #panel .box-btn.ok-art { width: 70px; height: 21px; }
 
 /* The guild appointment is the Season 3 client's (FUN_004532a4, FUN_0045d047 in its main.exe): the
-   0.97k box at 80%, 150 tall from y 55 -- Message_box2's 5-unit cap, Message_box1 in 40-unit rows
+   0.97k box, opaque, 150 tall from y 55 -- Message_box2's 5-unit cap, Message_box1 in 40-unit rows
    (three and the top half of a fourth: one element per strip, since this build cannot repeat an
    image) and the cap again. In it, the two appointments as framed rows 170x20 at (20, 19) and
    (20, 39), the classic group box of Trading_line and Item_Back01 strips 2 units thick, the chosen
    one filled (146, 144, 141, 200), their label white and centred; the question from 75, 18 apart;
-   OK and Close as the classic 50x18 win_button at (55, 117) and (110, 117), 80% and white under the
-   pointer, 60% while held, their label (230, 220, 200). Box coordinates are 8.5 right of #panel's. */
+   OK and Close as the 0.97k Ok and Cancel (70x21, Ok2 and Cancel2 under the pointer) at (21, 115)
+   and (121, 115), as in the theme's other boxes. Box coordinates are 8.5 right of #panel's. */
 #panel[data-kind="guild-appoint"] { top: 55px; }
-#panel[data-kind="guild-appoint"] #frame { decorator: none; opacity: 0.8; }
+#panel[data-kind="guild-appoint"] #frame { decorator: none; }
 #panel[data-kind="guild-appoint"] #box_top, #panel[data-kind="guild-appoint"] #box_bottom { height: 5px; }
 #panel[data-kind="guild-appoint"] .box-strip--middle { height: 40px; decorator: image(box97-body); }
 #panel[data-kind="guild-appoint"] .box-strip--middle:nth-child(5) { height: 20px; decorator: image(box97-body-half); }
@@ -184,9 +180,9 @@
 #panel[data-kind="guild-appoint"] .box-btn-edge--right { left: 170px; top: 0; width: 2px; height: 20px; decorator: image(gold97-v fill); }
 #panel[data-kind="guild-appoint"] .box-btn.selected .box-btn-fill { display: block; position: absolute; left: 0; top: 0; width: 170px; height: 20px; background-color: rgba(146, 144, 141, 200); }
 
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3) { top: 117px; width: 50px; height: 18px; decorator: image(win97-btn fill); image-color: rgb(204, 204, 204); filter: none; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(3) { left: 63.5px; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(4) { left: 118.5px; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3):hover { image-color: #ffffff; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3):active { decorator: image(win97-btn-held fill); image-color: rgb(153, 153, 153); }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3) .box-label { color: rgb(230, 220, 200); }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3) { top: 115px; width: 70px; height: 21px; margin: 0; filter: none; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(3) { left: 29.5px; decorator: image(ok97); }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(4) { left: 129.5px; decorator: image(cancel97); }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(3):hover, #panel[data-kind="guild-appoint"] .box-btn:nth-child(3):active { decorator: image(ok97-down); }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(4):hover, #panel[data-kind="guild-appoint"] .box-btn:nth-child(4):active { decorator: image(cancel97-down); }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3) .box-label { display: none; }
