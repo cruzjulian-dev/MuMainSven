@@ -1,21 +1,21 @@
-/* The 97k theme's generic confirm dialog: the 0.97k client's message box. Its frame is Message_box2's
-   gold cap at the top and bottom with Message_box1 between (the 0.97k box tiled it in 40-unit rows;
-   this build cannot repeat an image, so it is one stretched fill), 213 wide centred in the
-   dialog's 230; a title is on the box itself, without Sven's title banner. OK and Cancel are the
-   0.97k Ok and Cancel (70x21, Ok2 and Cancel2 pressed), where the 0.97k box had them: alone at 71,
-   or at 21 and 121, of the box; any other button is the 0.97k menu button (Message_box stretched
+/* The 97k theme's generic confirm dialog: the 0.97k client's message box (RenderErrorMessage()'s
+   default box, e.g. the trade request): Message_box, 213x64, centred with its top edge at 60, the
+   text lines centred 9 and 21 below it, 12 apart, a single line at 15. A box with more text grows
+   (Message_box stretched over it); a title is on the box itself, without Sven's title banner. OK and
+   Cancel are the 0.97k Ok and Cancel (70x21) 38 below the top, alone at 71 or at 21 and 121 of the
+   box, Ok2 and Cancel2 pressed; any other button is the 0.97k menu button (Message_box stretched
    over it, its label white). The rest is legacy's layout. */
 #panel {
-	/* Native CCommonMessageBox: centred horizontally, top edge at y=100, 117 tall for up to two
-	   lines and growing with each further line -- so no centering transform and no fixed height:
-	   the flowing .gcd-body below sizes it. Native counts y=100 from its 640x480 canvas top: the
-	   markup adds that canvas's offset (canvas_top, RmlDialogCanvas.h) as margin-top. */
-	top: 100dp;
+	/* The 0.97k box: centred horizontally, top edge at y=60, 64 tall for up to two lines and
+	   growing with each further line -- so no centering transform and no fixed height: the flowing
+	   .gcd-body below sizes it. y=60 counts from the 640x480 canvas top: the markup adds that
+	   canvas's offset (canvas_top, RmlDialogCanvas.h) as margin-top. */
+	top: 60dp;
 	left: 50%;
 	margin-left: -115dp;
 	transform: none;
 	width: 230dp;
-	min-height: 117dp;
+	min-height: 64dp;
 	font-family: "token(font-body)";
 	font-size: 1rem;
 	color: token(text-primary);
@@ -27,8 +27,6 @@
 	min-height: 240dp;
 }
 
-@spritesheet box97-cap-sheet { src: "../../../../Interface97/Message_box2.jpg"; box97-cap: 0px 0px 213px 5px; }
-@spritesheet box97-body-sheet { src: "../../../../Interface97/Message_box1.jpg"; box97-body: 0px 0px 213px 40px; }
 @spritesheet btn97-sheet { src: "../../../../Interface97/Message_box.jpg"; btn97: 0px 0px 213px 64px; }
 @spritesheet ok97-sheet { src: "../../../../Interface97/Ok.jpg"; ok97: 0px 0px 70px 21px; }
 @spritesheet ok97-down-sheet { src: "../../../../Interface97/Ok2.jpg"; ok97-down: 0px 0px 70px 21px; }
@@ -40,11 +38,9 @@
 	right: 8.5dp;
 	pointer-events: none;
 }
-.gcd-sprite-back { display: none; }
-.gcd-sprite-top { top: 0; height: 5dp; decorator: image(box97-cap fill); }
-/* A single stretched fill, not native's tiled repeat. */
-.gcd-sprite-middle { top: 5dp; bottom: 5dp; decorator: image(box97-body fill); }
-.gcd-sprite-bottom { bottom: 0; height: 5dp; decorator: image(box97-cap fill); }
+.gcd-sprite-back, .gcd-sprite-top, .gcd-sprite-bottom { display: none; }
+/* Message_box over the whole box: exact at 64, stretched in a taller one. */
+.gcd-sprite-middle { top: 0; bottom: 0; decorator: image(btn97 fill); }
 /* The overlay-portrait box is native's CDuelMsgBox/CDuelResultMsgBox: top edge at y=70, 67 + 7*15 +
    50 = 222 tall, the 148x138 crest drawn at y+15 behind the text. The text block ends right
    above the buttons (last line at y+151 in both boxes), with the bold caption one 20 row above
@@ -54,9 +50,11 @@
 	min-height: 222dp;
 }
 #panel.portrait .gcd-body {
+	margin: 35dp 23dp 56dp 23dp;
 	height: 131dp; /* 222 - 35 top - 56 button blank: ends just above the buttons */
 	align-items: stretch;
 }
+#panel.portrait .btn.gcd-btn-primary, #panel.portrait .btn.gcd-btn-secondary, #panel.portrait .btn.gcd-btn-cancel { bottom: 20dp; }
 #panel.portrait .gcd-text-col {
 	justify-content: flex-end;
 	overflow: visible; /* a fixed native box never scrolls */
@@ -113,6 +111,9 @@
 	pointer-events: none;
 }
 .gcd-header-title.warning { color: token(semantic-warning); }
+/* A titled box: the title on the first row (at 9), the text from the second. */
+.gcd-header-title { top: 6dp; line-height: 12dp; }
+.gcd-header-title:not(.hidden) ~ .gcd-body { margin-top: 22dp; }
 .gcd-header-title.error { color: token(semantic-danger); }
 
 /* Text floats transparently over the sprite composite below it (painted by the background
@@ -131,7 +132,10 @@
 	   for the buttons below. Native wraps message text at MSGBOX_TEXT_MAXWIDTH (180); this
 	   renderer's glyphs run about 2% wider than native's, so the text column gets 184 (23 each
 	   side) to break lines where native does. */
-	margin: 35dp 23dp 56dp 23dp;
+	/* The 0.97k text: two lines at 9 and 21, one at 15 (centred in the two rows), then the 26
+	   left for the buttons (38 + 21 + 5 = 64). */
+	margin: 8dp 23dp 32dp 23dp;
+	min-height: 24dp;
 	/* Positioned so it paints above the sprite composite, which comes first in the markup. */
 	position: relative;
 	display: flex;
@@ -159,8 +163,8 @@
 	width: 100%;
 	text-align: center;
 	white-space: normal;
-	line-height: 1.6;
-	min-height: 1.6em; /* a blank line (" ") keeps its row, as native's AddMsg(L" ") does */
+	line-height: 12dp;
+	min-height: 12dp; /* a blank line (" ") keeps its row, as native's AddMsg(L" ") does */
 	color: token(text-primary);
 }
 .gcd-line.bold { font-weight: bold; }
@@ -284,7 +288,7 @@
    always renders solo or paired (primary+cancel), never triple. */
 /* Bottom-anchored (native MSGBOX_BTN_BOTTOM_BLANK 20) so they follow the growing panel. */
 .btn.gcd-btn-primary, .btn.gcd-btn-secondary, .btn.gcd-btn-cancel {
-	bottom: 20dp;
+	bottom: 5dp;
 	width: 70dp;
 	height: 21dp;
 	line-height: 21dp;
