@@ -77,6 +77,12 @@ in `legacy`:
 - **The guild creation** (`guild_make.rcss`): the 0.97k editor (the name in an `Item_Money` box,
   the 8x8 mark grid with no frame, the palette, the selected colour) with the 0.97k `Ok` and
   `Cancel` at 20,350 and 100,350; Sven's question page has the 0.97k `Message_box` button.
+- **The message boxes and the ESC menu** (`window_shell.rcss`, `generic_menu_dialog.rcss`,
+  `generic_confirm_dialog.rcss`, `message_box_view.rcss`): the 0.97k box (`Message_box2` caps
+  over `Message_box1`, 213 wide), the 0.97k `Ok`/`Cancel` where the 0.97k box had them and the
+  0.97k menu button (`Message_box`) for every other button; the ESC menu is the 0.97k one, its
+  buttons 120x22 centred on the screen, 30 apart from 60, with no box. The login scene's boxes
+  keep legacy's until its phase.
 - **The Golden Archer** (`gold_bowman.rcss`): the 0.97k exit, and Register as the 0.97k dialog's
   Ok. **The Devil Square and Blood Castle entries** (`event_entry.rcss`,
   `devil_square_enter.rcss`, `blood_castle_enter.rcss`): the 0.97k event window, each level a

@@ -1,0 +1,136 @@
+/* The 97k theme's window shell (window_shell.rml's template, the generic menus' frame): the 0.97k
+   client's message box, Message_box2's gold cap at its top and bottom and Message_box1 between
+   (the 0.97k box tiled it in 40-unit rows; this build cannot repeat an image, so it is one
+   stretched fill), 213 wide centred in the shell's 230. A title is white bold on the box, without
+   Sven's title banner. The rest is legacy's. */
+
+@spritesheet box97-cap-sheet { src: "../../../../Interface97/Message_box2.jpg"; box97-cap: 0px 0px 213px 5px; }
+@spritesheet box97-body-sheet { src: "../../../../Interface97/Message_box1.jpg"; box97-body: 0px 0px 213px 40px; }
+.window-shell-sprite-back {
+	display: none;
+	position: absolute;
+	left: 4dp;
+	right: 4dp;
+	top: 5dp;
+	bottom: 5dp;
+	pointer-events: none;
+}
+.window-shell-sprite-top {
+	position: absolute;
+	left: 8.5dp;
+	right: 8.5dp;
+	top: 0;
+	height: 5dp;
+	pointer-events: none;
+	decorator: image(box97-cap fill);
+}
+/* Single stretched fill (not tiled), as the confirm dialog's .gcd-sprite-middle. */
+.window-shell-sprite-middle {
+	position: absolute;
+	left: 8.5dp;
+	right: 8.5dp;
+	top: 5dp;
+	bottom: 5dp;
+	pointer-events: none;
+	decorator: image(box97-body fill);
+}
+.window-shell-sprite-bottom {
+	position: absolute;
+	left: 8.5dp;
+	right: 8.5dp;
+	bottom: 0;
+	height: 5dp;
+	pointer-events: none;
+	decorator: image(box97-cap fill);
+}
+
+/* Sven's title banner: the 0.97k box had none, the title stands on the box itself. */
+.window-shell-header-rail {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 67dp;
+	pointer-events: none;
+	display: none;
+}
+.window-shell-header-rail.hidden { display: none; } /* cascade-tie fix, same as every other data-class-hidden toggle here */
+.window-shell-header-title {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 10dp;
+	text-align: center;
+	/* No token() here: design tokens are only substituted in a document's own linked stylesheets,
+	   not in a template's, so an unresolved font-family left this text with no font (height 0,
+	   never drawn). The font is inherited from the consumer's #panel; native's menu titles are
+	   white (a few boxes, e.g. the chaos-mix menu, draw theirs orange). */
+	font-weight: bold;
+	color: #ffffff;
+	pointer-events: none;
+}
+.window-shell-header-title.hidden { display: none; }
+
+/* Content slot -- the consumer's own markup lands inside this element (RmlUi template `content`
+   target). left/right kept a bit wider than native's own MSGBOX_TEXT_MAXWIDTH margin so content
+   doesn't crowd the panel edges; top/bottom leave room for the sprite caps. Untitled consumers keep
+   justify-content:center -- with no banner competing for space, a short stack centered in the panel
+   reads fine. When titled, .window-shell-content.has-title switches to flex-start instead:
+   reserving the banner's own space as padding-top, then ALSO centering the remainder would produce
+   a large, content-amount-dependent gap above the first line/button whenever the actual content is
+   shorter than the panel's own fixed height -- native itself always top-anchors content right after
+   the title, never centers it a second time underneath. */
+.window-shell-content {
+	position: absolute;
+	left: 32dp;
+	right: 32dp;
+	top: 20dp;
+	bottom: 28dp;
+	pointer-events: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+/* Toggled by window_shell.rml's data-class-window-shell-positioned -- cancels .center-both's own
+   transform:translate(-50%,-50%) for a consumer that supplies an already-final real-pixel
+   top-left via root_x/root_y instead of wanting the self-centering shift. See window_shell.rml's
+   own comment for why this is a class toggle, not a raw data-style-transform override. */
+.window-shell-positioned {
+	transform: none;
+}
+
+/* Footer anchor, sibling of #content -- see window_shell.rml's own comment. Matches #content's own
+   28dp bottom inset so a consumer moving its close button here (via
+   UI::RmlBridge::PromoteToWindowShellFooter()) sees no visual shift. pointer-events:none on the
+   anchor itself (it has no visual/hit-test purpose of its own) -- a moved-in .btn already carries
+   its own pointer-events:auto.
+
+   Explicit height, not left as auto against a bare `bottom` offset -- `bottom` alone leaves this
+   box's own height indeterminate, and a .btn moved in here (height:30dp on the BUTTON itself)
+   would then resolve its own bottom:0 against a footer box of uncertain height, landing somewhere
+   unreliable. 30dp matches .btn's own height so bottom:0 on a moved-in close button sits flush
+   with this box's own bottom edge. */
+.window-shell-footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 30dp;
+	bottom: 28dp;
+	pointer-events: none;
+}
+
+.window-shell-content.has-title {
+	/* .window-shell-content's own top:20dp is meant for the untitled case; reset to 0 here so
+	   padding-top below is the ONLY offset. */
+	top: 0;
+	/* Not "67dp banner height + 4dp gap" -- the banner sprite is 67dp tall but most of that is
+	   decorative fade/gradient below the actual title text, which itself sits at
+	   .window-shell-header-title's own top:10dp. generic_confirm_dialog.rcss's legacy theme already
+	   proves the right number for this exact same banner asset/size (newui_Message_03.tga, same
+	   230x67 slot): its own .gcd-body uses a flat top:35dp regardless of title, i.e. content starts
+	   35dp from the panel's top edge, clearing the title text by a modest, already-tested gap
+	   without waiting out the rest of the sprite. Mirrored here. */
+	padding-top: 35dp;
+	justify-content: flex-start;
+}

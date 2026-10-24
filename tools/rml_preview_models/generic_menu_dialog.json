@@ -1,0 +1,66 @@
+{
+ "is_system_menu": true,
+ "highlight_title": false,
+ "kind": "system-menu",
+ "canvas_top": 0,
+ "lines": [],
+ "title": "",
+ "has_title": false,
+ "buttons": [
+  {
+   "label": "Exit game",
+   "compact": false,
+   "has_lines": false,
+   "cols2": false,
+   "lines_below": false,
+   "lines": [],
+   "enabled": true,
+   "narrow": false,
+   "tooltip": ""
+  },
+  {
+   "label": "Select server",
+   "compact": false,
+   "has_lines": false,
+   "cols2": false,
+   "lines_below": false,
+   "lines": [],
+   "enabled": true,
+   "narrow": false,
+   "tooltip": ""
+  },
+  {
+   "label": "Switch character",
+   "compact": false,
+   "has_lines": false,
+   "cols2": false,
+   "lines_below": false,
+   "lines": [],
+   "enabled": true,
+   "narrow": false,
+   "tooltip": ""
+  },
+  {
+   "label": "Option",
+   "compact": false,
+   "has_lines": false,
+   "cols2": false,
+   "lines_below": false,
+   "lines": [],
+   "enabled": true,
+   "narrow": false,
+   "tooltip": ""
+  },
+  {
+   "label": "Close",
+   "compact": false,
+   "has_lines": false,
+   "cols2": false,
+   "lines_below": false,
+   "lines": [],
+   "enabled": true,
+   "narrow": false,
+   "tooltip": ""
+  }
+ ]
+}
