@@ -7,12 +7,16 @@
    right, the box 54x6 and the life 2 high, 2 in. The 0.97k client added the box and the life onto
    the world (additive blending); here the box is a translucent teal and the life the bright aqua
    it showed. The frames sit on the dock, at its scale, as the party list does; C++ hit-tests them
-   where they are drawn. The elf's arrow line is legacy's.
+   where they are drawn.
+
+   The elf's arrow count is the 0.97k client's RenderNumArrow(): a line of text right-aligned in the
+   column of the worn items below (10 in from the uncovered world's edge, 74 in a party), on the
+   0.97k text band, white, the worn items starting one line under it.
 
    The worn items at most half durable are the 0.97k client's RenderBrokenItem(): no icons, a line
    of text each, "name (durability/max)", on the 0.97k text band (0x80000000), 12 apart and
-   right-aligned 10 in from the uncovered world's edge (60 further in while the party list shows,
-   the 0.97k client's 50 past the list), below the pets; yellow (0xFF00E4FF) at half, orange
+   right-aligned 10 in from the uncovered world's edge (64 further in while the party list shows,
+   the 0.97k client's 50 past the list), below the pets and the arrow count's line; yellow (0xFF00E4FF) at half, orange
    (0xFF009CFF) at 30%, red (0xFF0A0AFF) at 20%, and white on the 0.97k blue band (0x800A0AFF, ARGB)
    once worn out. */
 
@@ -42,7 +46,7 @@ body {
 #broken {
 	position: absolute;
 	left: calc(var(--world-right, 100%) - 10px * var(--dock-scale, 1));
-	top: max(calc(var(--workspace-top, 0px) + 54px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 369px * var(--dock-scale, 1)));
+	top: max(calc(var(--workspace-top, 0px) + 66px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 357px * var(--dock-scale, 1)));
 	width: 0;
 	height: 0;
 	transform: scale(var(--dock-scale, 1));
@@ -79,9 +83,20 @@ body {
 	--root-scale-y: var(--dock-scale, 1);
 }
 #pets.party { left: calc(var(--world-right, 100%) - 130px * var(--dock-scale, 1)); }
-/* RenderEquipedHelperLife() starts at 24 instead of 4 while the arrow count shows. */
 #pet_column { position: absolute; left: 0; top: 0; }
-#arrows_row { height: 20px; white-space: nowrap; pointer-events: none; }
+/* The arrow count out of the pets' column, right-aligned on the worn items' edge (in #pets' units:
+   48 = 58 - 10, 56 = 130 - 74) and 50 below the pets' top, where the worn items' column starts. */
+#arrows_row {
+	position: absolute;
+	left: -552px;
+	top: 50px;
+	width: 600px;
+	height: 12px;
+	text-align: right;
+	white-space: nowrap;
+	pointer-events: none;
+}
+#pets.party #arrows_row { left: -544px; }
 /* The icons on the dock: the column's first cell two dock units clear of the uncovered world's
    right edge, 140 below the dock's top (the bottom HUD's top less the dock's 432 units). */
 #icons {
@@ -137,9 +152,9 @@ body {
 #arrows {
 	display: inline-block;
 	white-space: nowrap;
-	color: rgb(255, 160, 0);
-	background-color: rgba(0, 0, 0, 180);
-	transform-origin: left top;
+	color: #ffffff;
+	background-color: rgba(0, 0, 0, 128);
+	transform-origin: right top;
 }
 
 .durability-tip { display: inline-block; white-space: nowrap; font-weight: bold; background-color: rgba(0, 0, 0, 128); }
