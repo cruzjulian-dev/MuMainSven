@@ -84,7 +84,6 @@
 @spritesheet inv97-repair-press-sheet  { src: "../../../../Interface97/Repair_02.jpg"; inv97-repair-press:  0px 0px 24px 24px; }
 @spritesheet inv97-myshop-sheet        { src: "../../../../Interface97/btn_pshop.jpg";  inv97-myshop:        0px 0px 24px 24px; }
 @spritesheet inv97-myshop-open-sheet   { src: "../../../../Interface97/btn_pshop2.jpg"; inv97-myshop-open:   0px 0px 24px 24px; }
-@spritesheet inv97-expand-sheet        { src: "../../../../Interface97/Menu_inventory.jpg"; inv97-expand:    0px 0px 24px 24px; }
 
 .inv-btn {
 	position: absolute;
@@ -103,10 +102,10 @@
 .inv-btn-repair:active { decorator: image(inv97-repair-press); }
 /* The Season 3 client's personal shop button (btn_pshop, 24x24), btn_pshop2 while the shop is
    open or the button is held, one step after the repair. The expansion had no button there; it
-   takes the classic inventory button's art (Menu_Inventory, 24x24), one step further, held darker. */
+   takes the same art for now, one step further, held darker. */
 .inv-btn-myshop { left: 95px; decorator: image(inv97-myshop); }
 .inv-btn-myshop.close-mode, .inv-btn-myshop:active { decorator: image(inv97-myshop-open); }
-.inv-btn-expand { left: 130px; decorator: image(inv97-expand); }
+.inv-btn-expand { left: 130px; decorator: image(inv97-myshop); }
 .inv-btn-expand:active { image-color: rgb(153, 153, 153); }
 
 /* Sven's Set/Socket option header and its hover areas: the 0.97k client had neither kind of item,
