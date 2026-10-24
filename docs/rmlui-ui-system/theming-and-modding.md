@@ -342,6 +342,10 @@ switches it on. Without it whispering starts on.
 text in the tooltip box 15 above the bar (`RenderTipText()`), and no health bar under the selected
 monster's name. Without it the hover text is plain, 6 above the bar, and the bar shows.
 
+`NoMasterSkillTree=1` takes the master skill tree away, as in the clients before it: the A key no
+longer opens it, and the theme's character window leaves out its shortcut. Without it a master
+level hero opens it with A.
+
 ## Restacking a document: `[Stacking]`
 
 Each document draws at the depth of the original window it replaces (`RmlStackingOrder.cpp`). A
@@ -453,7 +457,7 @@ their element's drawn size; choose their scaling deliberately.
   window declares one.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
   theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
-  `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff` and `ClassicWorldHud` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff`, `ClassicWorldHud` and `NoMasterSkillTree` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

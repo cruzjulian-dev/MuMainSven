@@ -148,6 +148,11 @@ namespace UI::RmlBridge
         return HasClassicWorldHudStorage();
     }
 
+    bool ThemeHasNoMasterSkillTree()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "NoMasterSkillTree");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);

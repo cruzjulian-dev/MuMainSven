@@ -15,7 +15,9 @@
 
 `win_button.OZT` and `win_scrollbar.OZJ` come from the Season 3 client's `Data/Interface/`
 instead, for the theme's guild window (the 0.97k client had no such art); both are
-byte-identical to the MuMainSven ones.
+byte-identical to the MuMainSven ones. So do `btn_pshop.OZJ`, `btn_pshop2.OZJ` (the inventory's
+personal shop button), `Quest1.OZJ`, `Quest2.OZJ`, `pet1.OZJ` and `pet2.OZJ` (the character
+window's shortcuts), which MuMainSven does not have.
 
 File names are the 0.97k ones; only the extensions are written `.OZJ`/`.OZT`, like the rest of
 `Data/`. The client reads them without regard to case.

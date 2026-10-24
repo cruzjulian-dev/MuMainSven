@@ -48,14 +48,17 @@ in `legacy`:
 - **The inventory** (`my_inventory.rml/.rcss`, `item_grid.rcss`): the 0.97k equipment boxes at
   their 0.97k places and sizes, the 0.97k grid cells (`Item_box`, `InventoryBox2` under an item,
   no frame), the money box with "Zen" and the 0.97k exit and repair buttons. The 0.97k cells are
-  every item grid's. Sven's personal-shop and expansion buttons stay beside the 0.97k ones; its
-  set and socket option header is hidden (the 0.97k client had no such items).
+  every item grid's. The personal shop button is the Season 3 client's (`btn_pshop`, `btn_pshop2`
+  while the shop is open) beside the 0.97k ones, and the expansion takes the classic inventory
+  button's art (`Menu_Inventory`); Sven's set and socket option header is hidden (the 0.97k client
+  had no such items).
 - **The character window** (`character_info.rml/.rcss`): the name and class on the 0.97k title
   bands, the level and each attribute written in a `Level_box` ("Fuerza: 28"), each derived line
   on its own black band as tall as the text, the 0.97k point buttons, the points to spend on the
   0.97k blue band. Stamina stands one line lower than in the 0.97k client, clear of agility's
-  third line. Sven's fruit-probability line is hidden; the quest, pet and master-level
-  shortcuts stay beside the exit.
+  third line. Sven's fruit-probability line is hidden; the quest and pet shortcuts beside the
+  exit are the Season 3 client's (`Quest1`, `pet1`). Season 3 had no master skill tree, so the
+  theme leaves out its shortcut and takes the A key away (`NoMasterSkillTree=1` in `theme.ini`).
 - **Trade** (`trade.rcss`): the 0.97k panel with `Trading_line` across it, the partner's offer
   above and the hero's below in the 0.97k cells, both amounts in `Item_Money` boxes, and the
   0.97k zen, accept (`Accept_box01`, `Accept_box02` once accepted) and exit buttons on one row,

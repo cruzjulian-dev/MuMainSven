@@ -86,6 +86,9 @@ namespace UI::RmlBridge
     // hover text in the tooltip box above the bar (RenderTipText()), and no health bar under the
     // selected monster's name.
     bool ThemeHasClassicWorldHud();
+    // Whether the theme takes the master skill tree away (NoMasterSkillTree=1), as the clients
+    // before it had none: the A key does not open it.
+    bool ThemeHasNoMasterSkillTree();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

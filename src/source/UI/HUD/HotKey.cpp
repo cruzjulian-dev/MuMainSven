@@ -26,6 +26,7 @@
 
 #include "MUHelper/MuHelper.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
+#include "UI/RmlBridge/RmlTheme.h"
 
 using namespace SEASON3B;
 using namespace mu::ui::window;
@@ -236,7 +237,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         PlayBuffer(SOUND_CLICK01);
         return false;
     }
-    else if (mu::ui::window::IsPress('A'))
+    else if (mu::ui::window::IsPress('A') && !UI::RmlBridge::ThemeHasNoMasterSkillTree())
     {
         if (gCharacterManager.IsMasterLevel(Hero->Class) == true
             && Hero->Class != CLASS_TEMPLENIGHT)
