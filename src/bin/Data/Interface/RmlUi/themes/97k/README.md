@@ -81,6 +81,11 @@ in `legacy`:
   alone: its name in bold (150, 255, 240) at 35,12, its lines centred on x 100, 18 apart, on the
   seven rows from 66, its state under them in (223, 191, 103), `Trading_line` across at 225.
   Sven's tabs, quest list and castle/temple page have no place in it and are hidden.
+- **The pet window** (`pet_info.rml/.rcss`): the Season 3 client's, the Dark Horse and Dark
+  Spirit tabs as `win_button` (the open one taller and bright), `Trading_line` at 80 and 380 with a
+  thin gold frame between them, the pet's level on a `Level_box`, its life over the S3 red bar and
+  each other line 15 apart on a black band. The raven's commands keep Sven's slots under their own
+  `Level_box`; Sven's group boxes are hidden.
 - **The guild window (G)** (`guild_info.rcss`): the classic window of the Season 3 client, which
   already had Sven's three tabs (`docs/superpowers/specs/2026-10-24-guild-s3-classic-design.md`):
   the `win_button` tabs, the open one taller and bright; the gold group boxes round the mark, the

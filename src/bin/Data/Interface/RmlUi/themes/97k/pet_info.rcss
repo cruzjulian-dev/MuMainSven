@@ -1,0 +1,142 @@
+/* The 97k theme's CPetInfoWindow: the Season 3 client's pet window (FUN_004ac446, FUN_004acc78 and
+   FUN_0049f240 in its main.exe). The frame and the exit are docked_panel_frame.rcss's (Item_Back01
+   over Item_Back02, the 24x24 exit at 25,395). On it: the title, 120 wide at 35,12 in bold
+   (220, 220, 220); the Dark Horse and Dark Spirit tabs as win_button, 49 wide at 15 and 60, the
+   open one 20 tall from 63 at full brightness, the other 16 tall from 67 at 60%, their labels bold
+   (220, 220, 220); Trading_line across the panel at 80 and 380 and a 1-unit (230, 230, 153) frame
+   between them at 12 and 178. A pet's level is on a Level_box (75x21) at 13,96 in (223, 191, 103);
+   its lines 145 wide at 24 on 50% black from 120, 15 apart, the life bar (145x8, (51, 0, 0) under
+   a (224, 15, 0) fill) at 135 between the life and the rest. The Dark Spirit's commands keep
+   Sven's slots under their own Level_box; Sven's group boxes have no place and are hidden.
+   Reference px inside #panel. */
+@spritesheet pet97-tab-sheet { src: "../../../../Interface97/win_button.tga"; pet97-tab: 0px 0px 49px 16px; }
+@spritesheet pet97-line-sheet { src: "../../../../Interface97/Trading_line.jpg"; pet97-line: 0px 0px 190px 10px; }
+@spritesheet pet97-box-sheet { src: "../../../../Interface97/Level_box.jpg"; pet97-box: 0px 0px 75px 21px; }
+@spritesheet petinfo-skillbox-sheet { src: "../../../newui_skillbox.jpg"; petinfo-skillbox: 0px 0px 32px 38px; }
+@spritesheet petinfo-skillicon-0-sheet { src: "../../../newui_command.jpg"; petinfo-skillicon-0: 1px 0px 19px 27px; }
+@spritesheet petinfo-skillicon-1-sheet { src: "../../../newui_command.jpg"; petinfo-skillicon-1: 21px 0px 19px 27px; }
+@spritesheet petinfo-skillicon-2-sheet { src: "../../../newui_command.jpg"; petinfo-skillicon-2: 41px 0px 19px 27px; }
+@spritesheet petinfo-skillicon-3-sheet { src: "../../../newui_command.jpg"; petinfo-skillicon-3: 61px 0px 19px 27px; }
+
+#title {
+	position: absolute;
+	left: 35px;
+	top: 12px;
+	text-align: center;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+	pointer-events: none;
+}
+
+.tab-row { position: absolute; left: 15px; top: 63px; width: 94px; height: 20px; }
+.tab-btn {
+	position: absolute;
+	text-align: center;
+	font-size: 1em;
+	font-weight: bold;
+	color: rgb(220, 220, 220);
+	cursor: pointer;
+	pointer-events: auto;
+	white-space: nowrap;
+	overflow: hidden;
+	decorator: image(pet97-tab fill);
+	image-color: rgb(153, 153, 153);
+}
+.tab-btn.active { image-color: #ffffff; }
+.tab-btn-darkhorse { left: 0; }
+.tab-btn-darkspirit { left: 45px; }
+
+.pet97-line { position: absolute; left: 0; width: 190px; height: 10px; decorator: image(pet97-line); pointer-events: none; }
+.pet97-line-top { top: 80px; }
+.pet97-line-bottom { top: 380px; }
+.pet97-box { position: absolute; left: 12px; top: 90px; width: 165px; height: 290px; border: 1px rgb(230, 230, 153); pointer-events: none; }
+
+.pet-tab { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+/* No pet: one line centred on the panel at 220. */
+.pet-no-pet-msg {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 220px;
+	text-align: center;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 1em;
+}
+.pet-no-pet-msg.hidden { display: none; }
+.pet-subtitle { display: none; }
+
+.gbox-corner, .gbox-content-fill { display: none; }
+.gbox-title-fill { position: absolute; left: 13px; width: 75px; height: 21px; decorator: image(pet97-box); pointer-events: none; }
+.gbox-dh-title-fill, .gbox-ds1-title-fill { top: 96px; }
+.gbox-ds2-title-fill { top: 200px; }
+.gbox-title-text {
+	display: block;
+	position: absolute;
+	left: 13px;
+	text-align: center;
+	white-space: nowrap;
+	color: rgb(223, 191, 103);
+	font-size: 1em;
+	pointer-events: none;
+}
+.gbox-dh-title-text, .gbox-ds1-title-text { top: 96px; }
+.gbox-ds2-title-text { top: 200px; }
+
+.pet-stat-text {
+	display: block;
+	position: absolute;
+	left: 24px;
+	font-size: 1em;
+	color: rgb(230, 230, 230);
+	background-color: rgba(0, 0, 0, 128);
+	white-space: nowrap;
+	pointer-events: none;
+}
+.pet-dh-life-text, .pet-ds-life-text { top: 120px; }
+.pet-dh-exp-text, .pet-ds-exp-text { top: 150px; }
+.pet-dh-dmg-text, .pet-ds-dmg-text { top: 165px; }
+.pet-dh-atkspeed-text, .pet-ds-atkspeed-text { top: 180px; }
+.pet-ds-charisma-text { top: 195px; }
+/* The life bar: the fill's width is bound as a percentage of the bar. */
+.hp-bar { position: absolute; left: 24px; top: 135px; width: 145px; height: 8px; background-color: rgb(51, 0, 0); pointer-events: none; }
+.hp-bar-fill { position: absolute; left: 1px; top: 1px; width: 0%; max-width: 143px; height: 6px; background-color: rgb(224, 15, 0); pointer-events: none; }
+
+/* The Dark Spirit's commands under their Level_box at 200, one slot every 36 from 226. */
+.skill-slot { position: absolute; left: 22px; width: 32px; height: 38px; decorator: image(petinfo-skillbox); pointer-events: none; }
+.skill-slot-0 { top: 226px; }
+.skill-slot-1 { top: 262px; }
+.skill-slot-2 { top: 298px; }
+.skill-slot-3 { top: 334px; }
+.skill-icon { position: absolute; left: 29px; width: 19px; height: 27px; pointer-events: none; }
+.skill-icon-0 { top: 232px; decorator: image(petinfo-skillicon-0); }
+.skill-icon-1 { top: 268px; decorator: image(petinfo-skillicon-1); }
+.skill-icon-2 { top: 304px; decorator: image(petinfo-skillicon-2); }
+.skill-icon-3 { top: 340px; decorator: image(petinfo-skillicon-3); }
+.skill-label {
+	display: block;
+	position: absolute;
+	left: 60px;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 1em;
+	color: rgb(230, 230, 230);
+	pointer-events: none;
+}
+.skill-label-0 { top: 238px; }
+.skill-label-1 { top: 274px; }
+.skill-label-2 { top: 310px; }
+.skill-label-3 { top: 346px; }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
+#title { width: calc(120px * var(--root-scale)); }
+.tab-btn { top: calc(4px * var(--root-scale)); width: calc(49px * var(--root-scale)); height: calc(16px * var(--root-scale)); line-height: calc(16px * var(--root-scale)); }
+.tab-btn.active { top: 0; height: calc(20px * var(--root-scale)); padding-top: calc(0px * var(--root-scale)); line-height: calc(24px * var(--root-scale)); }
+.pet-no-pet-msg { width: calc(190px * var(--root-scale)); }
+.gbox-title-text { width: calc(75px * var(--root-scale)); line-height: calc(21px * var(--root-scale)); }
+.pet-stat-text { width: calc(145px * var(--root-scale)); height: calc(13px * var(--root-scale)); line-height: calc(13px * var(--root-scale)); }
+.skill-label { width: calc(110px * var(--root-scale)); }
+
+/* The native text size, counter-scaled out of the panel's scale. */
+#panel { font-size: calc(var(--text-px) / var(--root-scale)); }
