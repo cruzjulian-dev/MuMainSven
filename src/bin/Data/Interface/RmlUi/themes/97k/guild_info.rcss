@@ -1,0 +1,241 @@
+/* The 97k theme's CGuildInfoWindow: the classic guild window (G) of the MU Season 3 client
+   (main.exe, its pre-NewUI interface), measured in Ghidra (docs/superpowers/specs/
+   2026-10-24-guild-s3-classic-design.md). The panel and the exit are docked_panel_frame.rcss's:
+   Item_Back01 over Item_Back02, the 24x24 exit at 25,395. On it: the title, 120 wide at 35,12 in
+   bold (220, 220, 220); the guild's name and score 120 wide at 35,53 in (200, 255, 100); three
+   win_button tabs 52 wide from 15, 54 apart, the open one 18 tall from 73 at full brightness, the
+   others 16 tall from 75 at 60% with a 1-unit (146, 144, 141) line under them; each tab's page.
+   Boxes are the classic group box, Trading_line strips across and Item_Back01 strips down, 2
+   units thick. Lists are 40% black under their rows, with the win_scrollbar arrows, the two
+   (106, 97, 88) rails and the win_scrollbar thumb; rows are 13 units, (230, 220, 200), the
+   selected one under 50% white in black. Buttons are 50x18 win_button art at 80%, white under
+   the pointer, 60% while held, their label in (230, 220, 200). Reference px inside #panel. */
+
+@spritesheet gi97-tab-sheet { src: "../../../../Interface97/win_button.tga"; gi97-tab: 0px 0px 48px 15px; }
+@spritesheet gi97-btn-sheet
+{
+	src: "../../../../Interface97/win_button.tga";
+	gi97-btn: 0px 0px 49px 16px;
+	gi97-btn-held: 0px 0px 48px 15px;
+}
+@spritesheet gi97-gold-h-sheet { src: "../../../../Interface97/Trading_line.jpg"; gi97-gold-h: 10px 5px 170px 2px; }
+@spritesheet gi97-gold-v-sheet { src: "../../../../Interface97/Item_back01.jpg"; gi97-gold-v: 1px 80px 2px 125px; }
+@spritesheet gi97-scroll-sheet
+{
+	src: "../../../../Interface97/win_scrollbar.jpg";
+	gi97-arrow-up: 0px 3px 13px 13px;
+	gi97-arrow-down: 0px 16px 13px 13px;
+	gi97-thumb: 0px 0px 11px 3px;
+	gi97-thumb-inner: 0px 1px 11px 1px;
+}
+
+/* The list lines are hit-tested by their own rows, the tabs by their own areas. */
+#panel { pointer-events: none; }
+
+/* Sven's tab strip and announcement head: the classic window draws each tab on its own. */
+#tab_list, #tab_point, #tab_head { display: none; }
+
+.sharp-text { display: block; position: absolute; white-space: nowrap; text-align: left; pointer-events: none; }
+.gi-page { position: static; }
+.gi-line, .gi-note, .gi-figure, .gi-header { position: absolute; }
+.gi-line { text-align: center; }
+
+/* The header, the same on every page. */
+#gi_hint_title, #gi_title { left: 35px; top: 12px; font-weight: bold; color: rgb(220, 220, 220); }
+#gi_name { left: 35px; top: 53px; font-weight: bold; color: rgb(200, 255, 100); }
+
+/* No guild: three lines from 20,50, 15 apart. */
+.gi-note { color: rgb(230, 230, 230); }
+#gi_hint_1 { left: 20px; top: 50px; }
+#gi_hint_2 { left: 20px; top: 65px; }
+#gi_hint_3 { left: 20px; top: 80px; }
+
+/* The tabs. Each one is its own hit area and art; the line under a closed tab is its border. */
+.gi-tab-hit {
+	position: absolute;
+	top: 75px;
+	width: 52px;
+	height: 16px;
+	border-bottom: 1px rgb(146, 144, 141);
+	decorator: image(gi97-tab fill);
+	image-color: rgb(153, 153, 153);
+	pointer-events: auto;
+	cursor: pointer;
+}
+.gi-tab-hit.current { top: 73px; height: 18px; border-bottom: 0; image-color: #ffffff; }
+#gi_tab_hit_0 { left: 15px; }
+#gi_tab_hit_1 { left: 69px; }
+#gi_tab_hit_2 { left: 123px; }
+.gi-tab-label { top: 79px; font-weight: bold; color: #ffffff; }
+.gi-tab-label.current { top: 78px; }
+#gi_tab_info { left: 15px; }
+#gi_tab_members { left: 69px; }
+#gi_tab_union { left: 123px; }
+
+/* The group box: a strip along each side, the bottom one a unit longer. The corners are the
+   strips' own ends. */
+.t-corner { display: none; }
+.t-edge-top, .t-edge-bottom, .t-edge-left, .t-edge-right { position: absolute; }
+.t-edge-top, .t-edge-bottom { height: 2px; decorator: image(gi97-gold-h fill); }
+.t-edge-left, .t-edge-right { width: 2px; decorator: image(gi97-gold-v fill); }
+
+/* The Guild page: the mark's box (69,104 53x53), the mark 48x48 in it. */
+.mark-edge-top { left: 69px; top: 104px; width: 53px; }
+.mark-edge-bottom { left: 69px; top: 157px; width: 54px; }
+.mark-edge-left { left: 69px; top: 104px; height: 53px; }
+.mark-edge-right { left: 122px; top: 104px; height: 53px; }
+#guild_mark { position: absolute; left: 72px; top: 107px; width: 48px; height: 48px; }
+.mark-cell { float: left; width: 6px; height: 6px; }
+
+/* The figures' box (25,170 140x62), its four lines from 30,178, 13 apart, in bold white. */
+.figures-edge-top { left: 25px; top: 170px; width: 140px; }
+.figures-edge-bottom { left: 25px; top: 232px; width: 141px; }
+.figures-edge-left { left: 25px; top: 170px; height: 62px; }
+.figures-edge-right { left: 165px; top: 170px; height: 62px; }
+.gi-figure { left: 30px; font-weight: bold; color: #ffffff; }
+#gi_created { top: 178px; }
+#gi_score { top: 191px; }
+#gi_member_count { top: 204px; }
+#gi_rival { top: 217px; }
+
+/* The announcement: its label at 30,250 in the box 25,246 140x95, the list 136x80 at 28,260. */
+#gi_notice_label { left: 30px; top: 250px; font-weight: bold; color: #ffffff; text-align: left; }
+.notice-edge-top { left: 25px; top: 246px; width: 140px; }
+.notice-edge-bottom { left: 25px; top: 341px; width: 141px; }
+.notice-edge-left { left: 25px; top: 246px; height: 95px; }
+.notice-edge-right { left: 165px; top: 246px; height: 95px; }
+.notice-fill { left: 27px; top: 259px; width: 137px; height: 82px; }
+#gi_notice_list { position: absolute; left: 28px; top: 260px; transform-origin: left top; overflow: hidden scroll; }
+
+/* The Members page: the list 157x235 from 16,125, its headings 12 above it in bold white. */
+.members-head-fill, .members-edge-top, .members-edge-bottom, .members-edge-left, .members-edge-right { display: none; }
+.members-fill { left: 15px; top: 124px; width: 158px; height: 237px; }
+.gi-header { top: 113px; font-weight: bold; color: #ffffff; }
+#gi_hdr_name { left: 30px; }
+#gi_hdr_position { left: 81px; }
+#gi_hdr_server { left: 122px; }
+#gi_member_list { position: absolute; left: 16px; top: 125px; transform-origin: left top; overflow: hidden scroll; }
+
+/* The Alliance page: the list 160x80 from 15,110, its headings 12 above it. */
+.union-head-fill, .union-edge-top, .union-edge-bottom, .union-edge-left, .union-edge-right { display: none; }
+.union-fill { left: 14px; top: 109px; width: 162px; height: 82px; }
+#gi_hdr_union_name { left: 30px; top: 98px; }
+#gi_hdr_union_members { left: 128px; top: 98px; }
+#gi_union_list { position: absolute; left: 15px; top: 110px; transform-origin: left top; overflow: hidden scroll; }
+
+/* The explanation while the guild is in no alliance: bold white from 25,106; the conditions
+   from the sixth line on a (204, 0, 0) band, as the classic client wrote them. */
+.gi-alliance-note { position: static; }
+.gi-alliance-line { position: absolute; left: 25px; font-weight: bold; color: #ffffff; }
+.gi-alliance-line:nth-child(1) { top: 106px; }
+.gi-alliance-line:nth-child(2) { top: 121px; }
+.gi-alliance-line:nth-child(3) { top: 136px; }
+.gi-alliance-line:nth-child(4) { top: 151px; }
+.gi-alliance-line:nth-child(5) { top: 166px; }
+.gi-alliance-line:nth-child(6) { top: 191px; }
+.gi-alliance-line:nth-child(7) { top: 206px; }
+.gi-alliance-line:nth-child(8) { top: 221px; }
+.gi-alliance-line:nth-child(9) { top: 241px; }
+.gi-alliance-line:nth-child(10) { top: 256px; }
+.gi-alliance-line:nth-child(11) { top: 271px; }
+.gi-alliance-line:nth-child(n+6) { background-color: rgb(204, 0, 0); }
+
+/* The lists' 40% black, drawn a unit round each list. */
+.fill { position: absolute; }
+.notice-fill, .members-fill, .union-fill { background-color: rgba(0, 0, 0, 102); }
+
+/* A list row. The panes are counter-scaled out of #panel's transform (component-catalog.md), so
+   their lengths are reference px times the panel's scale; cell positions are percentages of the
+   row's width. */
+.gi-pane-row { position: relative; display: block; }
+.gi-pane-cell { position: absolute; top: 0; white-space: nowrap; color: rgb(230, 220, 200); }
+.gi-pane-row-back { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.gi-member-row, .gi-union-row { pointer-events: auto; }
+/* Each office's own band, half strength; the selected row is half white over it. */
+.gi-member-row.master .gi-pane-row-back { background-color: rgba(255, 100, 50, 127); }
+.gi-member-row.assistant .gi-pane-row-back { background-color: rgba(255, 150, 80, 127); }
+.gi-member-row.battle-master .gi-pane-row-back { background-color: rgba(255, 200, 100, 127); }
+.gi-member-row.selected .gi-pane-row-back, .gi-union-row.selected .gi-pane-row-back { background-color: rgba(255, 255, 255, 128); }
+.gi-member-row.selected .gi-pane-cell, .gi-union-row.selected .gi-pane-cell { color: #000000; }
+
+/* A member: the name 8 in, the office centred on 70 units from 53, the server from 127. */
+#gi_notice_list .gi-pane-cell { left: 3.252%; }
+.cell-member-name { left: 5.556%; }
+.cell-member-role { left: 61.111%; transform: translateX(-50%); }
+.cell-member-server { left: 88.194%; color: rgb(255, 196, 0); }
+.gi-member-row.selected .cell-member-server { color: rgb(255, 196, 0); }
+/* An allied guild: the mark 8x8 at 4, the name from 16, its member count ending at 142. */
+.gi-union-row .gi-pane-cell { color: rgb(230, 220, 220); }
+.gi-union-row .line-mark { position: absolute; left: 2.721%; top: 0; width: calc(8px * var(--root-scale)); height: calc(8px * var(--root-scale)); }
+.gi-union-row .line-mark-cell { float: left; width: 12.5%; height: 12.5%; }
+.cell-union-name { left: 10.884%; }
+.cell-union-count { right: 3.401%; text-align: right; }
+
+/* The classic scrollbar, 14 units wide down the list's right edge: the 13x13 arrows a unit in
+   (turned round while held), the two rails between them and the 11-wide thumb, sized by how
+   much of the list shows. */
+#gi_notice_list scrollbarvertical, #gi_member_list scrollbarvertical, #gi_union_list scrollbarvertical {
+	width: calc(14px * var(--root-scale));
+	margin: 0;
+}
+#gi_notice_list slidertrack, #gi_member_list slidertrack, #gi_union_list slidertrack {
+	margin-left: calc(1px * var(--root-scale));
+	width: calc(11px * var(--root-scale));
+	border-left: 1px rgb(106, 97, 88);
+	border-right: 1px rgb(106, 97, 88);
+	decorator: none;
+}
+#gi_notice_list sliderbar, #gi_member_list sliderbar, #gi_union_list sliderbar {
+	margin-left: calc(2px * var(--root-scale));
+	width: calc(11px * var(--root-scale));
+	height: auto;
+	min-height: calc(3px * var(--root-scale));
+	decorator: ninepatch(gi97-thumb, gi97-thumb-inner);
+}
+#gi_notice_list sliderbar:active, #gi_member_list sliderbar:active, #gi_union_list sliderbar:active { filter: none; }
+#gi_notice_list sliderarrowdec, #gi_member_list sliderarrowdec, #gi_union_list sliderarrowdec,
+#gi_notice_list sliderarrowinc, #gi_member_list sliderarrowinc, #gi_union_list sliderarrowinc {
+	margin-left: calc(1px * var(--root-scale));
+	width: calc(13px * var(--root-scale));
+	height: calc(13px * var(--root-scale));
+	pointer-events: auto;
+	cursor: pointer;
+}
+#gi_notice_list sliderarrowdec, #gi_member_list sliderarrowdec, #gi_union_list sliderarrowdec { decorator: image(gi97-arrow-up); }
+#gi_notice_list sliderarrowinc, #gi_member_list sliderarrowinc, #gi_union_list sliderarrowinc { decorator: image(gi97-arrow-down); }
+#gi_notice_list sliderarrowdec:active, #gi_member_list sliderarrowdec:active, #gi_union_list sliderarrowdec:active { decorator: image(gi97-arrow-down rotate-180); }
+#gi_notice_list sliderarrowinc:active, #gi_member_list sliderarrowinc:active, #gi_union_list sliderarrowinc:active { decorator: image(gi97-arrow-up rotate-180); }
+
+/* The buttons. */
+.gi-btn {
+	display: block;
+	position: absolute;
+	width: 50px;
+	height: 18px;
+	decorator: image(gi97-btn fill);
+	image-color: rgb(204, 204, 204);
+	pointer-events: auto;
+}
+.gi-btn:hover { image-color: #ffffff; }
+.gi-btn:active { decorator: image(gi97-btn-held fill); image-color: rgb(153, 153, 153); }
+.gi-label { left: 0; text-align: center; color: rgb(230, 220, 200); }
+.gi-btn:active .gi-label { margin-top: 1px; }
+#btn_guild_out { left: 70px; top: 362px; }
+#btn_get_position { left: 18px; top: 365px; }
+#btn_free_position { left: 70px; top: 365px; }
+#btn_get_out { left: 122px; top: 365px; }
+#btn_union_create { left: 70px; top: 220px; }
+#btn_union_out { left: 70px; top: 350px; }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
+#gi_hint_title { width: calc(120px * var(--root-scale)); }
+#gi_title { width: calc(120px * var(--root-scale)); }
+#gi_name { width: calc(120px * var(--root-scale)); }
+#gi_tab_info, #gi_tab_members, #gi_tab_union { width: calc(52px * var(--root-scale)); }
+#gi_notice_list { width: calc(137px * var(--root-scale)); height: calc(80px * var(--root-scale)); }
+#gi_notice_list .gi-pane-row { width: calc(123px * var(--root-scale)); height: calc(13px * var(--root-scale)); }
+#gi_member_list { width: calc(158px * var(--root-scale)); height: calc(235px * var(--root-scale)); }
+.gi-pane-row.gi-member-row { width: calc(144px * var(--root-scale)); height: calc(13px * var(--root-scale)); }
+#gi_union_list { width: calc(161px * var(--root-scale)); height: calc(80px * var(--root-scale)); }
+.gi-pane-row.gi-union-row { width: calc(147px * var(--root-scale)); height: calc(13px * var(--root-scale)); }
+.gi-label { width: calc(50px * var(--root-scale)); }

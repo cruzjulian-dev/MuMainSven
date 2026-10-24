@@ -13,6 +13,10 @@
   The models, skies and other 3D scenery of the 0.97k login are not included: the login scene
   stays the MuMainSven one.
 
+`win_button.OZT` and `win_scrollbar.OZJ` come from the Season 3 client's `Data/Interface/`
+instead, for the theme's guild window (the 0.97k client had no such art); both are
+byte-identical to the MuMainSven ones.
+
 File names are the 0.97k ones; only the extensions are written `.OZJ`/`.OZT`, like the rest of
 `Data/`. The client reads them without regard to case.
 

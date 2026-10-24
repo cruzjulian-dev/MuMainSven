@@ -26,7 +26,8 @@ struct GuildNoticeRow
 };
 
 // One guild member: the name, the office they hold and which server they are on. A member holding
-// an office carries the row backdrop a selected line does, which is what `officer` says.
+// an office carries the row backdrop a selected line does, which is what `officer` says; which
+// office it is lets a theme tint the row per office, as the classic client did.
 struct GuildMemberRow
 {
     Rml::String name;
@@ -35,6 +36,9 @@ struct GuildMemberRow
     Rml::String server;
     bool selected = false;
     bool officer = false;
+    bool master = false;
+    bool assistant = false;
+    bool battleMaster = false;
 
     bool operator==(const GuildMemberRow&) const = default;
 };

@@ -431,6 +431,9 @@ void mu::ui::window::CGuildInfoWindow::BindRmlModel(Rml::DataModelConstructor& c
     memberRow.RegisterMember("server", &GuildMemberRow::server);
     memberRow.RegisterMember("selected", &GuildMemberRow::selected);
     memberRow.RegisterMember("officer", &GuildMemberRow::officer);
+    memberRow.RegisterMember("master", &GuildMemberRow::master);
+    memberRow.RegisterMember("assistant", &GuildMemberRow::assistant);
+    memberRow.RegisterMember("battle_master", &GuildMemberRow::battleMaster);
     c.RegisterArray<std::vector<GuildMemberRow>>();
     c.Bind("member_rows", &model.memberRows);
     auto unionRow = c.RegisterStruct<GuildUnionRow>();
@@ -742,6 +745,9 @@ std::vector<mu::ui::window::GuildMemberRow> mu::ui::window::CGuildInfoWindow::Bu
         }
         row.selected = !m_SelectedMember.empty() && it->name == m_SelectedMember;
         row.officer = role != nullptr;
+        row.master = it->guildStatus == G_MASTER;
+        row.assistant = it->guildStatus == G_SUB_MASTER;
+        row.battleMaster = it->guildStatus == G_BATTLE_MASTER;
         memberRows.push_back(std::move(row));
     }
 

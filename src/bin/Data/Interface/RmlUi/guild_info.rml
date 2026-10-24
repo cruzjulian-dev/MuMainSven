@@ -36,21 +36,22 @@
 		      data-style-font-size="hint_line3.text_px + 'px'">{{hint_line3.text}}</span>
 		</div>
 
-		<!-- The tabs' hit areas: the original's 56-unit columns over the top 90 units. -->
-		<div class="gi-tab-hit" id="gi_tab_hit_0" data-event-mousedown="guild_info_tab(0)"></div>
-		<div class="gi-tab-hit" id="gi_tab_hit_1" data-event-mousedown="guild_info_tab(1)"></div>
-		<div class="gi-tab-hit" id="gi_tab_hit_2" data-event-mousedown="guild_info_tab(2)"></div>
+		<!-- The tabs' hit areas: the original's 56-unit columns over the top 90 units. .current marks
+		     the open tab's, for a theme that draws each tab on its own area. -->
+		<div class="gi-tab-hit" id="gi_tab_hit_0" data-class-current="tab == 0" data-event-mousedown="guild_info_tab(0)"></div>
+		<div class="gi-tab-hit" id="gi_tab_hit_1" data-class-current="tab == 1" data-event-mousedown="guild_info_tab(1)"></div>
+		<div class="gi-tab-hit" id="gi_tab_hit_2" data-class-current="tab == 2" data-event-mousedown="guild_info_tab(2)"></div>
 		<!-- The header every tab shares. -->
 		<div class="gi-page" data-if="!no_guild">
 		<span id="gi_title" class="sharp-text gi-line"
 		      data-style-font-size="title.text_px + 'px'">{{title.text}}</span>
 		<span id="gi_name" class="sharp-text gi-line"
 		      data-style-font-size="guild_name.text_px + 'px'">{{guild_name.text}}</span>
-		<span id="gi_tab_info" class="sharp-text gi-line gi-tab-label"
+		<span id="gi_tab_info" class="sharp-text gi-line gi-tab-label" data-class-current="tab == 0"
 		      data-style-font-size="tab_info.text_px + 'px'">{{tab_info.text}}</span>
-		<span id="gi_tab_members" class="sharp-text gi-line gi-tab-label"
+		<span id="gi_tab_members" class="sharp-text gi-line gi-tab-label" data-class-current="tab == 1"
 		      data-style-font-size="tab_members.text_px + 'px'">{{tab_members.text}}</span>
-		<span id="gi_tab_union" class="sharp-text gi-line gi-tab-label"
+		<span id="gi_tab_union" class="sharp-text gi-line gi-tab-label" data-class-current="tab == 2"
 		      data-style-font-size="tab_union.text_px + 'px'">{{tab_union.text}}</span>
 		</div>
 
@@ -133,6 +134,8 @@
 			     data-style-font-size="text_px + 'px'">
 				<div class="gi-pane-row gi-member-row" data-for="r : member_rows"
 				     data-class-selected="r.selected" data-class-officer="r.officer"
+				     data-class-master="r.master" data-class-assistant="r.assistant"
+				     data-class-battle-master="r.battle_master"
 				     data-event-click="guild_info_select_member(it_index)">
 					<!-- A backgrounded element with children paints an unclosed box in this
 					     build, so the row backdrop is a childless leaf (engine-findings.md). -->
