@@ -128,10 +128,9 @@ bool CStorageInventoryExt::UpdateMouseEvent()
             return false;
         }
 
-        if (IsNone(VK_LBUTTON) == false)
-        {
-            return false;
-        }
+        // As the inventory: the panel holds the pointer with no button down too, so the world behind it
+        // is not hovered (no talk or attack cursor from an NPC under the window).
+        return false;
     }
 
     return true;
