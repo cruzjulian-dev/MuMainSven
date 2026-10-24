@@ -939,6 +939,9 @@
     <value>Repair (L)</value>
     <comment>legacy_id=233</comment>
   </data>
+  <data name="Repair (R)" xml:space="preserve">
+    <value>Repair (R)</value>
+  </data>
   <data name="Storage" xml:space="preserve">
     <value>Storage</value>
     <comment>legacy_id=234,2888</comment>

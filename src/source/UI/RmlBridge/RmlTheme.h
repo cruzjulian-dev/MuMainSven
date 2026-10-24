@@ -95,6 +95,9 @@ namespace UI::RmlBridge
     // Whether the theme takes the friend list away (NoFriends=1): F does not open it and the
     // command window has no Add Friend button.
     bool ThemeHasNoFriends();
+    // Whether R toggles the repair mode (RepairOnR=1) instead of L, for a bar with no fourth potion
+    // box: R no longer uses a potion and Ctrl+R assigns none.
+    bool ThemeRepairsOnR();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

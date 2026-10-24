@@ -78,7 +78,7 @@ bool mu::ui::window::CItemHotKey::UpdateKeyEvent()
     {
         iIndex = GetHotKeyItemIndex(HOTKEY_E);
     }
-    else if (mu::ui::window::IsPress('R') == true)
+    else if (mu::ui::window::IsPress('R') == true && !UI::RmlBridge::ThemeRepairsOnR())
     {
         iIndex = GetHotKeyItemIndex(HOTKEY_R);
     }

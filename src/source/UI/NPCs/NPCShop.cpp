@@ -315,7 +315,8 @@ void mu::ui::window::CNPCShop::SyncRmlModel()
     syncWide(&NPCShopRmlModel::taxRateText, "tax_rate_text", taxRateBuf);
 
     syncBool(&NPCShopRmlModel::repairVisible, "repair_visible", m_bRepairShop);
-    syncWide(&NPCShopRmlModel::repairTooltip, "repair_tooltip", I18N::Game::RepairL);
+    syncWide(&NPCShopRmlModel::repairTooltip, "repair_tooltip",
+             UI::RmlBridge::ThemeRepairsOnR() ? I18N::Game::RepairR : I18N::Game::RepairL);
     syncWide(&NPCShopRmlModel::repairAllTooltip, "repair_all_tooltip", I18N::Game::RepairAllA);
     syncWide(&NPCShopRmlModel::repairAllLabel, "repair_all_label", I18N::Game::RepairAll);
 

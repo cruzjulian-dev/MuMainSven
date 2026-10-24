@@ -163,6 +163,11 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "NoFriends");
     }
 
+    bool ThemeRepairsOnR()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "RepairOnR");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);

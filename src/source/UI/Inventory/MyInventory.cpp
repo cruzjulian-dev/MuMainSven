@@ -749,7 +749,7 @@ bool CMyInventory::UpdateKeyEvent()
         return false;
     }
 
-    if (IsPress('L') == true)
+    if (IsPress(UI::RmlBridge::ThemeRepairsOnR() ? 'R' : 'L') == true)
     {
         if (m_bRepairEnableLevel == true && g_pNewUISystem->IsVisible(INTERFACE_NPCSHOP) == false
             && g_pNewUISystem->IsVisible(INTERFACE_MIXINVENTORY) == false
@@ -808,7 +808,7 @@ bool CMyInventory::UpdateKeyEvent()
         {
             iHotKey = HOTKEY_E;
         }
-        else if (IsPress('R'))
+        else if (IsPress('R') && !UI::RmlBridge::ThemeRepairsOnR())
         {
             iHotKey = HOTKEY_R;
         }
@@ -912,7 +912,8 @@ void CMyInventory::SyncRmlModel()
         || g_pNewUISystem->IsVisible(INTERFACE_STORAGE);
 
     syncBool(&MyInventoryRmlModel::repairVisible, "repair_visible", m_bRepairEnableLevel && !otherWindowOpen);
-    syncWide(&MyInventoryRmlModel::repairTooltip, "repair_tooltip", I18N::Game::RepairL);
+    syncWide(&MyInventoryRmlModel::repairTooltip, "repair_tooltip",
+             UI::RmlBridge::ThemeRepairsOnR() ? I18N::Game::RepairR : I18N::Game::RepairL);
 
     syncBool(&MyInventoryRmlModel::myShopVisible, "myshop_visible", m_bMyShopOpen && !otherWindowOpen);
     syncBool(&MyInventoryRmlModel::myShopModeOpen, "myshop_mode_open", m_MyShopMode == MYSHOP_MODE_OPEN);
