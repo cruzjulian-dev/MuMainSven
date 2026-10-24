@@ -228,8 +228,8 @@ bool mu::ui::window::CGuildInfoWindow::Check_Btn(int button)
                             DeleteIndex = GetGuildMemberIndex(pText->name.c_str());
                             wchar_t szNameText[300];
                             mu_swprintf(szNameText, I18N::Game::CharacterS, GuildList[DeleteIndex].Name);
+                            // The plain question box (no kind), not the guild window's popup.
                             mu::ui::window::GenericDialogConfig cfg;
-                            cfg.kind = "guild";
                             cfg.showCancel = true;
                             cfg.lines = {
                                 { szNameText, true },

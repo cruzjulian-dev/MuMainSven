@@ -99,7 +99,8 @@ in `legacy`:
   `win_button` buttons. Its questions (`generic_confirm_dialog.rcss`, kind `guild`) and the
   appointment box (`message_box_view.rcss`, kind `guild-appoint`) are the Season 3 popup: the 0.97k
   box in 40-unit rows, opaque, its lines 15 apart, the 0.97k `Ok` and `Cancel`, the two
-  appointments as framed rows with the chosen one filled.
+  appointments as framed rows with the chosen one filled. The question that expels a member is
+  the theme's plain 0.97k box instead.
 - **The guild creation** (`guild_make.rcss`): the 0.97k editor (the name in an `Item_Money` box,
   the 8x8 mark grid with no frame, the palette, the selected colour) with the 0.97k `Ok` and
   `Cancel` at 20,350 and 100,350; Sven's question page has the 0.97k `Message_box` button.

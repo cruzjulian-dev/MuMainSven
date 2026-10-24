@@ -114,6 +114,25 @@
       "show_cancel": true,
       "cancel_label": "Cancelar",
       "cancel_is_stock_cancel": true
+    },
+    "guild_kick": {
+      "lines": [
+        {
+          "text": "Personaje: test300Dk",
+          "bold": true,
+          "color": ""
+        },
+        {
+          "text": "¿Quieres expulsarlo?",
+          "bold": true,
+          "color": ""
+        }
+      ],
+      "primary_label": "Aceptar",
+      "primary_is_stock_ok": true,
+      "show_cancel": true,
+      "cancel_label": "Cancelar",
+      "cancel_is_stock_cancel": true
     }
   }
 }
