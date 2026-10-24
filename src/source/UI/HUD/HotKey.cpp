@@ -249,7 +249,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
 
         return false;
     }
-    else if (mu::ui::window::IsPress('U'))
+    else if (mu::ui::window::IsPress('U') && !UI::RmlBridge::ThemeHasNoWindowMenu())
     {
         g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_WINDOW_MENU);
         PlayBuffer(SOUND_CLICK01);
@@ -312,7 +312,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         return false;
     }
 #ifdef PBG_ADD_INGAMESHOP_UI_MAINFRAME
-    else if (mu::ui::window::IsPress('X') == true)
+    else if (mu::ui::window::IsPress('X') == true && !UI::RmlBridge::ThemeHasNoInGameShop())
     {
         g_ConsoleDebug->Write(MCD_NORMAL, L"InGameShopStatue.Txt CallStack - CHotKey.UpdateKeyEvent()");
         if (g_pInGameShop->IsInGameShopOpen() == false)
@@ -353,7 +353,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         return false;
     }
 #endif // PBG_ADD_INGAMESHOP_UI_MAINFRAME
-    else if (mu::ui::window::IsPress('B'))
+    else if (mu::ui::window::IsPress('B') && !UI::RmlBridge::ThemeHasNoGens())
     {
         if (!g_pNewUIGensRanking->SetGensInfo())
             return false;

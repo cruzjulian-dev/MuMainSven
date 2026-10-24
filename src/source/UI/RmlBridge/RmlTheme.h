@@ -98,6 +98,12 @@ namespace UI::RmlBridge
     // Whether R toggles the repair mode (RepairOnR=1) instead of L, for a bar with no fourth potion
     // box: R no longer uses a potion and Ctrl+R assigns none.
     bool ThemeRepairsOnR();
+    // Whether the theme takes the window menu away (NoWindowMenu=1): U does not open it.
+    bool ThemeHasNoWindowMenu();
+    // Whether the theme takes the in-game shop away (NoInGameShop=1): X does not open it.
+    bool ThemeHasNoInGameShop();
+    // Whether the theme takes the Gens ranking away (NoGens=1): B does not open it.
+    bool ThemeHasNoGens();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

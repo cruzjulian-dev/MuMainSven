@@ -23,8 +23,9 @@ in `legacy`:
   orbs (green while poisoned), the AG column, EXP, the Q/W/E potions, the current skill and its
   list above the bar, and the Party, Character, Inventory and Guild buttons. The 0.97k bar has no
   SD gauge, no skill hotkey row, no fourth potion box and no shop, friend or menu buttons; the
-  skills and the menu keep working from their keys (the number keys, U), R repairs instead of L
-  (`RepairOnR=1`), and the theme has no friend list (F does nothing).
+  skills keep working from their keys (the number keys), R repairs instead of L (`RepairOnR=1`),
+  and the theme has no friend list, window menu, in-game shop, Gens ranking or server chat
+  command list: F, U, X, B and J do nothing (`theme.ini`'s `[Capabilities]`).
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):

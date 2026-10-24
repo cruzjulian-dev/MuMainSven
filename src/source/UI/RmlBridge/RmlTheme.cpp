@@ -168,6 +168,21 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "RepairOnR");
     }
 
+    bool ThemeHasNoWindowMenu()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "NoWindowMenu");
+    }
+
+    bool ThemeHasNoInGameShop()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "NoInGameShop");
+    }
+
+    bool ThemeHasNoGens()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "NoGens");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);
