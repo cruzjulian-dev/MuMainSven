@@ -29,9 +29,11 @@
 	pointer-events: none;
 }
 
-.tab-row { position: absolute; left: 15px; top: 63px; width: 94px; height: 20px; }
+/* Over the pages: each page covers the whole panel and would otherwise take the tabs' clicks. */
+.tab-row { position: absolute; left: 15px; top: 63px; width: 94px; height: 20px; z-index: 1; }
 .tab-btn {
 	position: absolute;
+	top: 4px;
 	text-align: center;
 	font-size: 1em;
 	font-weight: bold;
@@ -43,7 +45,7 @@
 	decorator: image(pet97-tab fill);
 	image-color: rgb(153, 153, 153);
 }
-.tab-btn.active { image-color: #ffffff; }
+.tab-btn.active { top: 0; image-color: #ffffff; }
 .tab-btn-darkhorse { left: 0; }
 .tab-btn-darkspirit { left: 45px; }
 
@@ -52,7 +54,7 @@
 .pet97-line-bottom { top: 380px; }
 .pet97-box { position: absolute; left: 12px; top: 90px; width: 165px; height: 290px; border: 1px rgb(230, 230, 153); pointer-events: none; }
 
-.pet-tab { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.pet-tab { position: absolute; left: 0; top: 0; right: 0; bottom: 0; pointer-events: none; }
 /* No pet: one line centred on the panel at 220. */
 .pet-no-pet-msg {
 	display: block;
@@ -131,8 +133,8 @@
 
 /* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
 #title { width: calc(120px * var(--root-scale)); }
-.tab-btn { top: calc(4px * var(--root-scale)); width: calc(49px * var(--root-scale)); height: calc(16px * var(--root-scale)); line-height: calc(16px * var(--root-scale)); }
-.tab-btn.active { top: 0; height: calc(20px * var(--root-scale)); padding-top: calc(0px * var(--root-scale)); line-height: calc(24px * var(--root-scale)); }
+.tab-btn { width: calc(49px * var(--root-scale)); height: calc(16px * var(--root-scale)); line-height: calc(16px * var(--root-scale)); }
+.tab-btn.active { height: calc(20px * var(--root-scale)); line-height: calc(20px * var(--root-scale)); }
 .pet-no-pet-msg { width: calc(190px * var(--root-scale)); }
 .gbox-title-text { width: calc(75px * var(--root-scale)); line-height: calc(21px * var(--root-scale)); }
 .pet-stat-text { width: calc(145px * var(--root-scale)); height: calc(13px * var(--root-scale)); line-height: calc(13px * var(--root-scale)); }
