@@ -67,6 +67,7 @@ void mu::ui::window::MessageBoxView::BindModel(Rml::DataModelConstructor& c, Mes
     button.RegisterMember("index", &MessageBoxViewButtonEntry::index);
     button.RegisterMember("enabled", &MessageBoxViewButtonEntry::enabled);
     button.RegisterMember("ok_art", &MessageBoxViewButtonEntry::okArt);
+    button.RegisterMember("selected", &MessageBoxViewButtonEntry::selected);
     c.RegisterArray<std::vector<MessageBoxViewButtonEntry>>();
     c.Bind("buttons", &model.buttons);
 
@@ -175,7 +176,7 @@ void mu::ui::window::MessageBoxView::Sync(const std::vector<Line>& lines, const 
     std::vector<MessageBoxViewButtonEntry> buttonEntries;
     for (std::size_t i = 0; i < buttons.size(); ++i)
         buttonEntries.push_back({StringUtils::WideToNarrow(buttons[i].label.c_str()), static_cast<int>(i),
-                                 buttons[i].enabled, buttons[i].okArt});
+                                 buttons[i].enabled, buttons[i].okArt, buttons[i].selected});
     SyncField(m_View.Binder(), &MessageBoxViewRmlModel::buttons, "buttons", std::move(buttonEntries));
 }
 

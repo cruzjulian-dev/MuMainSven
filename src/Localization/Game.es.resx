@@ -916,7 +916,7 @@
     <comment>legacy_id=227</comment>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>DE ACUERDO</value>
+    <value>Aceptar</value>
     <comment>legacy_id=228,337,2811</comment>
   </data>
   <data name="Cancel" xml:space="preserve">

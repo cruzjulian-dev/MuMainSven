@@ -331,3 +331,53 @@
 /* #panel.tall's buttons keep the same 20dp bottom margin the default 160dp panel already has
    (110 + 30 + 20 = 160). */
 
+
+/* The guild window's questions (kind "guild": the disband, release and appointment questions, the
+   password entry, the alliance requests) are the Season 3 client's popup (FUN_00465b86 and
+   FUN_0045d047 in its main.exe): the 0.97k box at 80%, 213 wide and centred on y 130 --
+   Message_box2's 5-unit cap, Message_box1 in 40-unit rows (one element per row, the box clipping
+   the last, as the client drew its top part) and the cap again. The lines are white and centred
+   from 20, 15 apart; an entry field sits in an Item_Money box; the buttons stand 9 below them and
+   16 above the bottom, the classic 50x18 win_button with its label in (230, 220, 200): OK at 46 and
+   Cancel at 116 of the box, a lone button at 81. Box coordinates are 8.5 right of #panel's. */
+@spritesheet cap97-sheet { src: "../../../../Interface97/Message_box2.jpg"; cap97: 0px 0px 213px 5px; }
+@spritesheet body97-sheet { src: "../../../../Interface97/Message_box1.jpg"; body97: 0px 0px 213px 40px; }
+@spritesheet money97-sheet { src: "../../../../Interface97/Item_money.jpg"; money97: 0px 0px 113px 18px; }
+@spritesheet win97-btn-sheet
+{
+	src: "../../../../Interface97/win_button.tga";
+	win97-btn: 0px 0px 49px 16px;
+	win97-btn-held: 0px 0px 48px 15px;
+}
+.gcd-sprite-rows { display: none; }
+#panel[data-kind="guild"] { top: 130dp; min-height: 0; transform: translateY(-50%); }
+#panel[data-kind="guild"] .gcd-sprite-middle { display: none; }
+#panel[data-kind="guild"] .gcd-sprite-top, #panel[data-kind="guild"] .gcd-sprite-bottom { display: block; height: 5dp; opacity: 0.8; decorator: image(cap97); }
+#panel[data-kind="guild"] .gcd-sprite-top { top: 0; }
+#panel[data-kind="guild"] .gcd-sprite-bottom { bottom: 0; }
+#panel[data-kind="guild"] .gcd-sprite-rows { display: block; position: absolute; left: 8.5dp; top: 5dp; bottom: 5dp; width: 213dp; overflow: hidden; opacity: 0.8; pointer-events: none; }
+.gcd-sprite-row { display: block; width: 213dp; height: 40dp; decorator: image(body97); }
+
+#panel[data-kind="guild"] .gcd-body { margin: 20dp 23dp 43dp 23dp; min-height: 0; }
+#panel[data-kind="guild"] .gcd-line { line-height: 15dp; min-height: 15dp; color: #ffffff; }
+#panel[data-kind="guild"] .gcd-input-row { margin-top: 7dp; margin-bottom: 1dp; }
+#panel[data-kind="guild"] .gcd-input-field { background-color: transparent; border-width: 0; decorator: image(money97 fill); color: #ffffff; }
+
+#panel[data-kind="guild"] .btn.gcd-btn-primary, #panel[data-kind="guild"] .btn.gcd-btn-secondary,
+#panel[data-kind="guild"] .btn.gcd-btn-cancel {
+	bottom: 16dp;
+	width: 50dp;
+	height: 18dp;
+	line-height: 18dp;
+	color: rgb(230, 220, 200);
+	decorator: image(win97-btn fill);
+	image-color: rgb(204, 204, 204);
+	filter: none;
+}
+#panel[data-kind="guild"] .btn.gcd-btn-primary:hover, #panel[data-kind="guild"] .btn.gcd-btn-secondary:hover,
+#panel[data-kind="guild"] .btn.gcd-btn-cancel:hover { decorator: image(win97-btn fill); image-color: #ffffff; filter: none; }
+#panel[data-kind="guild"] .btn.gcd-btn-primary:active, #panel[data-kind="guild"] .btn.gcd-btn-secondary:active,
+#panel[data-kind="guild"] .btn.gcd-btn-cancel:active { decorator: image(win97-btn-held fill); image-color: rgb(153, 153, 153); padding-top: 1dp; }
+#panel[data-kind="guild"] .gcd-btn-primary { left: 54.5dp; }
+#panel[data-kind="guild"] .gcd-btn-primary.solo { left: 89.5dp; }
+#panel[data-kind="guild"] .gcd-btn-secondary, #panel[data-kind="guild"] .gcd-btn-cancel { left: 124.5dp; }

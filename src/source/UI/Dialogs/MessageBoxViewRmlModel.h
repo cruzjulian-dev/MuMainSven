@@ -36,6 +36,7 @@ struct MessageBoxViewButtonEntry
     int index = 0;
     bool enabled = true;
     bool okArt = false; // newui_button_ok's lettered art, no label
+    bool selected = false; // the option the box currently has chosen
 
     bool operator==(const MessageBoxViewButtonEntry&) const = default;
 };

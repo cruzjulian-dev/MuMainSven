@@ -64,6 +64,11 @@ namespace mu::ui::window
         // title row.
         std::wstring title;
 
+        // Optional: the family of box this is (#panel's data-kind, e.g. "guild" for the guild
+        // window's questions), for a theme that draws one family as its own client did. Empty =
+        // the plain box. Never read by C++.
+        std::string kind;
+
         // Optional severity, purely a look-and-feel hook (border/accent tint) -- does not gate
         // behavior. Normal is visually identical to the plain panel.
         enum class Severity { Normal, Warning, Error };
@@ -233,6 +238,7 @@ namespace mu::ui::window
 
             bool hasTitle = false;
             Rml::String title;
+            Rml::String kind;
             bool severityWarning = false;
             bool severityError = false;
 

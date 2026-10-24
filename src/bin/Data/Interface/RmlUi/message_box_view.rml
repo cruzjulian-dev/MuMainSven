@@ -36,7 +36,14 @@
 
 			<div id="buttons">
 				<div class="box-btn" data-for="b : buttons" data-class-disabled="!b.enabled" data-class-ok-art="b.ok_art"
-				     data-event-click="message_box_button(b.index)">
+				     data-class-selected="b.selected" data-event-click="message_box_button(b.index)">
+					<!-- For a theme that draws a button as a framed row: its fill (a childless leaf,
+					     engine-findings.md) and its four edges. Other themes hide them. -->
+					<div class="box-btn-fill"></div>
+					<div class="box-btn-edge box-btn-edge--top"></div>
+					<div class="box-btn-edge box-btn-edge--bottom"></div>
+					<div class="box-btn-edge box-btn-edge--left"></div>
+					<div class="box-btn-edge box-btn-edge--right"></div>
 					<span class="sharp-text sharp-middle sharp-centre box-label" data-style-font-size="text_px + 'px'">{{b.label}}</span>
 				</div>
 			</div>

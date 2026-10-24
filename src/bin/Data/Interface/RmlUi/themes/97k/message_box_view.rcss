@@ -7,10 +7,23 @@
    legacy's stood. The progress bar keeps legacy's art. Reference px inside #panel. */
 
 @spritesheet box97-cap-sheet { src: "../../../../Interface97/Message_box2.jpg"; box97-cap: 0px 0px 213px 5px; }
-@spritesheet box97-body-sheet { src: "../../../../Interface97/Message_box1.jpg"; box97-body: 0px 0px 213px 40px; }
+@spritesheet box97-body-sheet
+{
+	src: "../../../../Interface97/Message_box1.jpg";
+	box97-body: 0px 0px 213px 40px;
+	box97-body-half: 0px 0px 213px 20px;
+}
 @spritesheet btn97-sheet { src: "../../../../Interface97/Message_box.jpg"; btn97: 0px 0px 213px 64px; }
 @spritesheet ok97-sheet { src: "../../../../Interface97/Ok.jpg"; ok97: 0px 0px 70px 21px; }
 @spritesheet ok97-down-sheet { src: "../../../../Interface97/Ok2.jpg"; ok97-down: 0px 0px 70px 21px; }
+@spritesheet win97-btn-sheet
+{
+	src: "../../../../Interface97/win_button.tga";
+	win97-btn: 0px 0px 49px 16px;
+	win97-btn-held: 0px 0px 48px 15px;
+}
+@spritesheet gold97-h-sheet { src: "../../../../Interface97/Trading_line.jpg"; gold97-h: 10px 5px 170px 2px; }
+@spritesheet gold97-v-sheet { src: "../../../../Interface97/Item_back01.jpg"; gold97-v: 1px 80px 2px 125px; }
 
 @spritesheet box-divider-sheet { src: "../../../newui_Message_Line.tga"; box-divider: 0px 0px 223px 21px; }
 @spritesheet box-separator-sheet { src: "../../../newui_separate_line.jpg"; box-separator: 0px 0px 205px 2px; }
@@ -47,6 +60,8 @@
 .box-btn.disabled, .box-btn.disabled:hover, .box-btn.disabled:active { image-color: #99999999; filter: none; }
 .box-label { color: #ffffff; }
 .box-btn.disabled .box-label { color: #808080; }
+/* The framed-row pieces, drawn only by the guild appointment (below). */
+.box-btn-fill, .box-btn-edge { display: none; }
 
 /* The 0.97k Ok, 70x21, centred on legacy's 54x30 box (8 further left, 4.5 higher off the bottom); the art is
    lettered, so the label is hidden. Ok2 while the pointer is on it, as the 0.97k box. */
@@ -69,19 +84,15 @@
 .list-row { width: calc(168px * var(--root-scale)); height: calc(13px * var(--root-scale)); }
 
 /* The lines, in one counter-scaled flow from the box's text top, centred on the box. The progress
-   notices, the jewel dissolve box and the guild appointment stack each line one native line height
-   + 4 apart (RenderTexts()); the event results space theirs as RenderMatchResult() did. */
+   notices and the jewel dissolve box stack each line one native line height + 4 apart (RenderTexts()); the event results space theirs as RenderMatchResult() did. */
 #lines { left: 0; top: 40px; --flow-w: 230px; text-align: center; }
 .box-line { display: block; white-space: pre; }
 .box-cell { white-space: pre; }
 .box-cell.bold { font-weight: bold; }
 #panel[data-kind="progress"] #lines { top: 35px; }
 #panel[data-kind="gem-disjoint"] #lines { top: 17px; }
-#panel[data-kind="guild-appoint"] #lines { top: 97px; }
-#panel[data-kind="progress"] .box-line, #panel[data-kind="gem-disjoint"] .box-line,
-#panel[data-kind="guild-appoint"] .box-line { height: calc((var(--line-height, 0px) + 4px) * var(--root-scale)); }
-#panel[data-kind="progress"] .box-line.bold, #panel[data-kind="gem-disjoint"] .box-line.bold,
-#panel[data-kind="guild-appoint"] .box-line.bold { height: calc((var(--bold-line-height, 0px) + 4px) * var(--root-scale)); }
+#panel[data-kind="progress"] .box-line, #panel[data-kind="gem-disjoint"] .box-line { height: calc((var(--line-height, 0px) + 4px) * var(--root-scale)); }
+#panel[data-kind="progress"] .box-line.bold, #panel[data-kind="gem-disjoint"] .box-line.bold { height: calc((var(--bold-line-height, 0px) + 4px) * var(--root-scale)); }
 
 /* The Blood Castle and Chaos Castle results: the message 16 apart from 40, the rewards 30 below
    it, 24 apart (Blood Castle) or 20 (Chaos Castle). */
@@ -134,19 +145,48 @@
 #panel[data-kind="devil-square-rank"] .box-separator:nth-child(4) { top: 273px; }
 
 /* The buttons, as each box's SetButtonInfo() placed them: the results' OK centred 20 above the
-   bottom edge; the jewel dissolve box's Close and Dissolve centred, 50 and 85 above it; the guild
-   appointment's two appointments 114 wide at (57, 30) and (57, 57), OK and Close 64 wide at
-   (48, 127) and (112, 127). */
+   bottom edge; the jewel dissolve box's Close and Dissolve centred, 50 and 85 above it. The guild
+   appointment's are at the end of this file. */
 #panel[data-kind="blood-castle-result"] .box-btn, #panel[data-kind="chaos-castle-result"] .box-btn,
 #panel[data-kind="devil-square-rank"] .box-btn { left: 88px; bottom: 20px; width: 54px; height: 30px; }
 #panel[data-kind="gem-disjoint"] .box-btn { left: 83px; width: 64px; height: 29px; }
 #panel[data-kind="gem-disjoint"] .box-btn:nth-child(1) { bottom: 21px; }
 #panel[data-kind="gem-disjoint"] .box-btn:nth-child(2) { bottom: 56px; }
-#panel[data-kind="guild-appoint"] .box-btn { width: 64px; height: 29px; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(1) { left: 57px; top: 30px; width: 114px; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(2) { left: 57px; top: 57px; width: 114px; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(3) { left: 48px; top: 127px; }
-#panel[data-kind="guild-appoint"] .box-btn:nth-child(4) { left: 112px; top: 127px; }
 
 /* The 0.97k Ok's own size, where a box shows it (after the boxes' sizes above). */
 #panel .box-btn.ok-art { width: 70px; height: 21px; }
+
+/* The guild appointment is the Season 3 client's (FUN_004532a4, FUN_0045d047 in its main.exe): the
+   0.97k box at 80%, 150 tall from y 55 -- Message_box2's 5-unit cap, Message_box1 in 40-unit rows
+   (three and the top half of a fourth: one element per strip, since this build cannot repeat an
+   image) and the cap again. In it, the two appointments as framed rows 170x20 at (20, 19) and
+   (20, 39), the classic group box of Trading_line and Item_Back01 strips 2 units thick, the chosen
+   one filled (146, 144, 141, 200), their label white and centred; the question from 75, 18 apart;
+   OK and Close as the classic 50x18 win_button at (55, 117) and (110, 117), 80% and white under the
+   pointer, 60% while held, their label (230, 220, 200). Box coordinates are 8.5 right of #panel's. */
+#panel[data-kind="guild-appoint"] { top: 55px; }
+#panel[data-kind="guild-appoint"] #frame { decorator: none; opacity: 0.8; }
+#panel[data-kind="guild-appoint"] #box_top, #panel[data-kind="guild-appoint"] #box_bottom { height: 5px; }
+#panel[data-kind="guild-appoint"] .box-strip--middle { height: 40px; decorator: image(box97-body); }
+#panel[data-kind="guild-appoint"] .box-strip--middle:nth-child(5) { height: 20px; decorator: image(box97-body-half); }
+#panel[data-kind="guild-appoint"] .box-strip--middle:nth-child(n+6) { display: none; }
+
+#panel[data-kind="guild-appoint"] #lines { top: 75px; }
+#panel[data-kind="guild-appoint"] .box-line, #panel[data-kind="guild-appoint"] .box-line.bold { height: calc(18px * var(--root-scale)); }
+
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(-n+2) { left: 28.5px; width: 170px; height: 20px; decorator: none; filter: none; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(1) { top: 19px; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(2) { top: 39px; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(-n+2) .box-btn-edge { display: block; position: absolute; }
+#panel[data-kind="guild-appoint"] .box-btn-edge--top { left: 0; top: 0; width: 171px; height: 2px; decorator: image(gold97-h fill); }
+#panel[data-kind="guild-appoint"] .box-btn-edge--bottom { left: 0; top: 20px; width: 171px; height: 2px; decorator: image(gold97-h fill); }
+#panel[data-kind="guild-appoint"] .box-btn-edge--left { left: 0; top: 0; width: 2px; height: 20px; decorator: image(gold97-v fill); }
+#panel[data-kind="guild-appoint"] .box-btn-edge--right { left: 170px; top: 0; width: 2px; height: 20px; decorator: image(gold97-v fill); }
+#panel[data-kind="guild-appoint"] .box-btn.selected .box-btn-fill { display: block; position: absolute; left: 0; top: 0; width: 170px; height: 20px; background-color: rgba(146, 144, 141, 200); }
+
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3) { top: 117px; width: 50px; height: 18px; decorator: image(win97-btn fill); image-color: rgb(204, 204, 204); filter: none; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(3) { left: 63.5px; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(4) { left: 118.5px; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3):hover { image-color: #ffffff; }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3):active { decorator: image(win97-btn-held fill); image-color: rgb(153, 153, 153); }
+#panel[data-kind="guild-appoint"] .box-btn:nth-child(n+3) .box-label { color: rgb(230, 220, 200); }

@@ -1,0 +1,86 @@
+{
+  "states": {
+    "guild_appoint": {
+      "kind": "guild-appoint",
+      "strips": [
+        {
+          "kind": "middle"
+        },
+        {
+          "kind": "middle"
+        },
+        {
+          "kind": "middle"
+        },
+        {
+          "kind": "middle"
+        },
+        {
+          "kind": "middle"
+        }
+      ],
+      "line_height": 13,
+      "bold_line_height": 13,
+      "text_px": 12,
+      "bold_text_px": 12,
+      "lines": [
+        {
+          "role": "message",
+          "bold": true,
+          "cells": [
+            {
+              "text": "'test300Dk' como Asistir. METRO.",
+              "bold": true,
+              "color": "rgba(255,128,0,255)",
+              "text_px": 0
+            }
+          ]
+        },
+        {
+          "role": "message",
+          "bold": true,
+          "cells": [
+            {
+              "text": "¿Quieres nombrar?",
+              "bold": true,
+              "color": "rgba(255,128,0,255)",
+              "text_px": 0
+            }
+          ]
+        }
+      ],
+      "buttons": [
+        {
+          "label": "Nombrar como asistente",
+          "index": 0,
+          "enabled": true,
+          "ok_art": false,
+          "selected": true
+        },
+        {
+          "label": "Nombrar maestro de batalla",
+          "index": 1,
+          "enabled": true,
+          "ok_art": false,
+          "selected": false
+        },
+        {
+          "label": "Aceptar",
+          "index": 2,
+          "enabled": true,
+          "ok_art": false,
+          "selected": false
+        },
+        {
+          "label": "Cerrar",
+          "index": 3,
+          "enabled": true,
+          "ok_art": false,
+          "selected": false
+        }
+      ],
+      "progress_shown": false,
+      "list_shown": false
+    }
+  }
+}

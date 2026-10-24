@@ -52,6 +52,23 @@ siendo autocontenido.
 | Alianza | Lista 160x80 en 15,110; títulos en 30,98 y 128,98. Botones en 70,220 y 70,350. Sin alianza: explicación en x 25 desde 106; desde la sexta línea, sobre banda (204,0,0). |
 | Listas | Fondo negro al 40%, una unidad más ancho por lado. Flechas 13x13 de `win_scrollbar`, rieles (106,97,88) y pulgar de 11 de ancho. Texto (230,220,200). |
 
+## Las preguntas de la ventana
+
+Season 3 no usaba la caja 0.97k `Message_box` para las preguntas del guild sino su popup
+(`FUN_004650ae` lo crea, `FUN_00465b86` lo dibuja, `FUN_0045d047` dibuja la caja):
+
+| Pieza | Season 3 |
+|---|---|
+| Caja | 213 de ancho en x 214, al 80%: `Message_box2` (5 de alto) arriba y abajo, `Message_box1` en filas de 40 (la última recortada). Centrada en y 130 (no más arriba de 40). |
+| Popup genérico | Líneas blancas centradas desde 20, 15 de separación; un campo de texto en `Item_Money`; 9 más abajo los botones `win_button` 50x18 (OK en 46 y Cancel en 116 de la caja, uno solo en 81), 16 sobre el borde inferior. Alto = 15 por línea + 63. |
+| Nombramiento (`FUN_004532a4`) | La caja de 150 en y 55. Las dos opciones como cajas de grupo de 170x20 en 20,19 y 20,39, la elegida rellena (146,144,141,200); la pregunta en 75 y 93; OK y Cerrar en 55,117 y 110,117. |
+
+En el tema 97k: la caja de nombramiento es el `MessageBoxView` de tipo `guild-appoint`, y los botones
+de opción marcan cuál está elegida (`selected`). Las demás preguntas de `CGuildInfoWindow`
+(disolver, expulsar, quitar cargo, alianzas, la contraseña) llevan `GenericDialogConfig::kind =
+"guild"`, que el tema dibuja como el popup; `legacy` y `modern` no lo leen. Un OK o Cancel de
+serie lleva la palabra traducida como etiqueta, para un tema que rotula el botón él mismo.
+
 ## Cambios
 
 - `themes/97k/guild_info.rcss`: la presentación completa (tema 97k).

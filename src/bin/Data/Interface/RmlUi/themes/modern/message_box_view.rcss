@@ -43,6 +43,8 @@
 .box-btn.disabled { background-color: token(surface-recessed); }
 .box-label { color: token(text-primary); }
 .box-btn.disabled .box-label { color: token(text-muted); }
+/* The framed-row pieces another theme draws on a button. */
+.box-btn-fill, .box-btn-edge { display: none; }
 
 /* The jewel list keeps native text metrics while RmlUi handles scrolling. */
 #list_box { position: absolute; left: 24px; top: 64.5px; width: 181px; height: 111px; pointer-events: none; background-color: token(surface-recessed); }

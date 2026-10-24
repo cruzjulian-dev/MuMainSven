@@ -54,6 +54,7 @@ namespace
     void ShowGuildBreakPasswordDialog()
     {
         GenericDialogConfig cfg;
+        cfg.kind = "guild";
         cfg.showCancel = true;
         cfg.lines = {
             { I18N::Game::IfYouWantToLeaveYourGuild, false },
@@ -183,6 +184,7 @@ bool mu::ui::window::CGuildInfoWindow::Check_Btn(int button)
                     // First proof case for CGenericConfirmDialog (see UI/Dialogs/GenericConfirmDialog.h) --
                     // was CreateMessageBox(MSGBOX_LAYOUT_CLASS(CGuildOutPerson)), an OK-only informational box.
                     mu::ui::window::GenericDialogConfig cfg;
+                    cfg.kind = "guild";
                     cfg.lines.push_back({ I18N::Game::AllianceMasterCanTDisbandTheGuild, true });
                     mu::ui::window::g_pGenericConfirmDialog->Show(std::move(cfg));
                 }
@@ -190,6 +192,7 @@ bool mu::ui::window::CGuildInfoWindow::Check_Btn(int button)
                 {
                     DeleteIndex = GetGuildMemberIndex(Hero->ID);
                     mu::ui::window::GenericDialogConfig cfg;
+                    cfg.kind = "guild";
                     cfg.showCancel = true;
                     cfg.lines = {
                         { I18N::Game::OnceYouDisbandTheGuild, true },
@@ -226,6 +229,7 @@ bool mu::ui::window::CGuildInfoWindow::Check_Btn(int button)
                             wchar_t szNameText[300];
                             mu_swprintf(szNameText, I18N::Game::CharacterS, GuildList[DeleteIndex].Name);
                             mu::ui::window::GenericDialogConfig cfg;
+                            cfg.kind = "guild";
                             cfg.showCancel = true;
                             cfg.lines = {
                                 { szNameText, true },
@@ -270,6 +274,7 @@ bool mu::ui::window::CGuildInfoWindow::Check_Btn(int button)
                         wchar_t strText[256];
                         mu_swprintf(strText, I18N::Game::CharacterS, pText->name.c_str());
                         mu::ui::window::GenericDialogConfig cfg;
+                        cfg.kind = "guild";
                         cfg.showCancel = true;
                         cfg.lines = {
                             { strText, false },
@@ -299,6 +304,7 @@ bool mu::ui::window::CGuildInfoWindow::Check_Btn(int button)
                         wchar_t szAllianceText[256];
                         mu_swprintf(szAllianceText, I18N::Game::SGuildFromTheAlliance, DeleteID);
                         mu::ui::window::GenericDialogConfig cfg;
+                        cfg.kind = "guild";
                         cfg.showCancel = true;
                         cfg.lines = {
                             { szAllianceText, false },
@@ -318,6 +324,7 @@ bool mu::ui::window::CGuildInfoWindow::Check_Btn(int button)
                 if (isUnionMaster)
                 {
                     mu::ui::window::GenericDialogConfig cfg;
+                    cfg.kind = "guild";
                     cfg.lines.push_back({ I18N::Game::AllianceMasterCanTWithdrawTheGuild, true });
                     mu::ui::window::g_pGenericConfirmDialog->Show(std::move(cfg));
                 }
@@ -967,6 +974,7 @@ void mu::ui::window::CGuildInfoWindow::ReceiveGuildRelationShip(GuildRelationshi
         }
 
         mu::ui::window::GenericDialogConfig cfg;
+        cfg.kind = "guild";
         cfg.showCancel = true;
         cfg.lines = {
             { szText[0], false },

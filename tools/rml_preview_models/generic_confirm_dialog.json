@@ -2,7 +2,11 @@
   "states": {
     "ok_cancel": {
       "lines": [
-        { "text": "Do you want to sell this item?", "bold": false, "color": "" }
+        {
+          "text": "Do you want to sell this item?",
+          "bold": false,
+          "color": ""
+        }
       ],
       "primary_label": "OK",
       "primary_is_stock_ok": true,
@@ -14,7 +18,11 @@
       "has_title": true,
       "title": "Personal Shop",
       "lines": [
-        { "text": "Enter selling price.", "bold": false, "color": "" }
+        {
+          "text": "Enter selling price.",
+          "bold": false,
+          "color": ""
+        }
       ],
       "has_input": true,
       "input_value": "1000000",
@@ -26,8 +34,16 @@
     },
     "three_buttons": {
       "lines": [
-        { "text": "Use the fruit?", "bold": false, "color": "" },
-        { "text": "Strength +1", "bold": true, "color": "#ffd23c" }
+        {
+          "text": "Use the fruit?",
+          "bold": false,
+          "color": ""
+        },
+        {
+          "text": "Strength +1",
+          "bold": true,
+          "color": "#ffd23c"
+        }
       ],
       "primary_label": "Create",
       "has_secondary": true,
@@ -38,10 +54,66 @@
     },
     "progress": {
       "lines": [
-        { "text": "Connecting to the server...", "bold": false, "color": "" }
+        {
+          "text": "Connecting to the server...",
+          "bold": false,
+          "color": ""
+        }
       ],
       "has_progress": true,
       "progress_fraction": 0.4
+    },
+    "guild_disband": {
+      "kind": "guild",
+      "lines": [
+        {
+          "text": "Si disuelves el gremio,",
+          "bold": true,
+          "color": ""
+        },
+        {
+          "text": "todos los objetos y zen del almacén desaparecerán.",
+          "bold": true,
+          "color": ""
+        },
+        {
+          "text": "También se borrará el ranking del gremio.",
+          "bold": true,
+          "color": ""
+        },
+        {
+          "text": "¿Quieres disolver el gremio?",
+          "bold": true,
+          "color": ""
+        }
+      ],
+      "primary_label": "Aceptar",
+      "primary_is_stock_ok": true,
+      "show_cancel": true,
+      "cancel_label": "Cancelar",
+      "cancel_is_stock_cancel": true
+    },
+    "guild_password": {
+      "kind": "guild",
+      "lines": [
+        {
+          "text": "Si quieres dejar tu gremio,",
+          "bold": false,
+          "color": ""
+        },
+        {
+          "text": "escribe tu contraseña.",
+          "bold": false,
+          "color": ""
+        }
+      ],
+      "has_input": true,
+      "input_value": "",
+      "primary_label": "Aceptar",
+      "primary_is_stock_ok": true,
+      "show_cancel": true,
+      "cancel_label": "Cancelar",
+      "cancel_is_stock_cancel": true
     }
   }
 }

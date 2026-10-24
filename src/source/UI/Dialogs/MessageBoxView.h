@@ -44,6 +44,7 @@ public:
         std::wstring label;
         bool enabled = true;
         bool okArt = false; // newui_button_ok's lettered art instead of a labelled newui_btn_empty_small
+        bool selected = false; // the option the box currently has chosen (the guild appointment's)
     };
 
     using List = std::vector<MessageBoxViewListRowEntry>;

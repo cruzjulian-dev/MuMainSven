@@ -9,7 +9,8 @@
 	<!-- Modern theme's own copy of the generic confirm dialog -- per-theme file since the
 	     forged-dialog shell structure differs by theme. Keep ids/data-model/event-callback names
 	     in sync with ../../generic_confirm_dialog.rml. -->
-	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel">
+	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel"
+	     data-attr-data-kind="kind">
 		<div class="modern-shell-edge"></div>
 		<div class="modern-groove"></div>
 		<div class="gcd-well"></div>

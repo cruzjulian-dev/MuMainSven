@@ -11,13 +11,16 @@
 	     data-model/event names in sync with the modern fork, GenericConfirmDialog.cpp binds both
 	     by name. -->
 	<div id="panel" class="center-both" data-model="generic_confirm_dialog" data-class-tall="has_tall_panel"
-	     data-style-margin-top="canvas_top + 'dp'"
+	     data-attr-data-kind="kind" data-style-margin-top="canvas_top + 'dp'"
 	     data-class-portrait="has_portrait2d_overlay">
 		<!-- Native CCommonMessageBox's sprite composite: back fill, top cap, middle fill, bottom cap. -->
 		<div class="gcd-sprite-back"></div>
 		<div class="gcd-sprite-top"></div>
 		<div class="gcd-sprite-middle"></div>
 		<div class="gcd-sprite-bottom"></div>
+		<!-- Rows of a box art that tiles (this build cannot repeat an image), for a theme that draws
+		     a kind of box that way; the box clips the last one. Other themes hide them. -->
+		<div class="gcd-sprite-rows"><div class="gcd-sprite-row"></div><div class="gcd-sprite-row"></div><div class="gcd-sprite-row"></div><div class="gcd-sprite-row"></div><div class="gcd-sprite-row"></div><div class="gcd-sprite-row"></div><div class="gcd-sprite-row"></div><div class="gcd-sprite-row"></div></div>
 		<!-- Native's own IMAGE_MSGBOX_TOP_TITLEBAR sprite (newui_Message_03.tga) swapped in for the
 		     plain top-cap art whenever a title is shown -- see .rcss's own comment. A direct #panel
 		     child, sibling of .gcd-body, since it's positioned in #panel's own coordinate space

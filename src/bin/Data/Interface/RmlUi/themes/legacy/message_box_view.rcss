@@ -51,6 +51,8 @@
 .box-btn.disabled, .box-btn.disabled:hover, .box-btn.disabled:active { decorator: image(box-btn-up); image-color: #99999999; }
 .box-label { color: #ffffff; }
 .box-btn.disabled .box-label { color: #808080; }
+/* The framed-row pieces another theme draws on a button. */
+.box-btn-fill, .box-btn-edge { display: none; }
 
 /* newui_button_ok (54 x 30 rows: up / over / down) stretched to the button's box; the art is lettered,
    so the label is hidden. */

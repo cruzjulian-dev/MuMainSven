@@ -40,6 +40,8 @@
 /* A single stretched fill, not native's tiled repeat. */
 .gcd-sprite-middle { top: 67dp; bottom: 50dp; decorator: image(msgbox-middle-image); }
 .gcd-sprite-bottom { bottom: 0; height: 50dp; decorator: image(msgbox-bottom-image); }
+/* The tiled rows another theme draws for a kind of box. */
+.gcd-sprite-rows { display: none; }
 /* The overlay-portrait box is native's CDuelMsgBox/CDuelResultMsgBox: top edge at y=70, 67 + 7*15 +
    50 = 222 tall, the 148x138 crest drawn at y+15 behind the text. The text block ends right
    above the buttons (last line at y+151 in both boxes), with the bold caption one 20 row above

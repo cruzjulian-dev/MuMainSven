@@ -829,6 +829,7 @@ class DocumentRenderer:
 
         classes = attributes.get("class", "").split()
         styles = attributes.get("style", "")
+        bound = set()  # attributes a data-attr-* set, data-kind among them: kept for the stylesheets
         for name in list(attributes):
             value = attributes[name]
             if name.startswith("data-class-"):
@@ -838,6 +839,7 @@ class DocumentRenderer:
                 styles += f";{name[len('data-style-'):]}: {to_text(evaluate(value, scope))}"
             elif name.startswith("data-attr-"):
                 attributes[name[len("data-attr-"):]] = to_text(evaluate(value, scope))
+                bound.add(name[len("data-attr-"):])
             elif name == "data-visible":
                 if not truthy(evaluate(value, scope)):
                     styles += ";display: none"
@@ -855,7 +857,7 @@ class DocumentRenderer:
             else:
                 continue
             del attributes[name]
-        for name in [n for n in attributes if n.startswith("data-")]:
+        for name in [n for n in attributes if n.startswith("data-") and n not in bound]:
             del attributes[name]  # events, aliases and the game's own markers have no preview
         if classes:
             attributes["class"] = " ".join(classes)

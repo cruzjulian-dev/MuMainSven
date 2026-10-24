@@ -78,7 +78,10 @@ in `legacy`:
   the `win_button` tabs, the open one taller and bright; the gold group boxes round the mark, the
   figures and the announcement; the lists on 40% black with the `win_scrollbar` arrows and thumb;
   each office's own band in the member list (master, assistant, battle master); the 50x18
-  `win_button` buttons.
+  `win_button` buttons. Its questions (`generic_confirm_dialog.rcss`, kind `guild`) and the
+  appointment box (`message_box_view.rcss`, kind `guild-appoint`) are the Season 3 popup: the 0.97k
+  box in 40-unit rows at 80%, its lines 15 apart, the `win_button` buttons, the two appointments as
+  framed rows with the chosen one filled.
 - **The guild creation** (`guild_make.rcss`): the 0.97k editor (the name in an `Item_Money` box,
   the 8x8 mark grid with no frame, the palette, the selected colour) with the 0.97k `Ok` and
   `Cancel` at 20,350 and 100,350; Sven's question page has the 0.97k `Message_box` button.

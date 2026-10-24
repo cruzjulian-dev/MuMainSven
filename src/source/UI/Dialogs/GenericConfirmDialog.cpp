@@ -65,6 +65,7 @@ void CGenericConfirmDialog::BindRmlModel(Rml::DataModelConstructor& c, GenericDi
 
     c.Bind("has_title", &model.hasTitle);
     c.Bind("title", &model.title);
+    c.Bind("kind", &model.kind);
     c.Bind("severity_warning", &model.severityWarning);
     c.Bind("severity_error", &model.severityError);
 
@@ -561,13 +562,16 @@ void CGenericConfirmDialog::SyncRmlModel()
         m_RmlView.MarkDirty("lines");
     }
 
-    const std::string primaryLabel = StringUtils::WideToNarrow(m_Active.primaryLabel.c_str());
+    // A stock OK or Cancel is lettered art in most themes; its label is the translated word, for a
+    // theme that letters the button itself.
+    const bool primaryIsStockOk = m_Active.primaryLabel == GenericDialogConfig{}.primaryLabel;
+    const std::string primaryLabel =
+        StringUtils::WideToNarrow(primaryIsStockOk ? I18N::Game::OK : m_Active.primaryLabel.c_str());
     if (model.primaryLabel != primaryLabel)
     {
         model.primaryLabel = primaryLabel;
         m_RmlView.MarkDirty("primary_label");
     }
-    const bool primaryIsStockOk = m_Active.primaryLabel == GenericDialogConfig{}.primaryLabel;
     if (model.primaryIsStockOk != primaryIsStockOk)
     {
         model.primaryIsStockOk = primaryIsStockOk;
@@ -599,13 +603,14 @@ void CGenericConfirmDialog::SyncRmlModel()
         model.showCancel = m_Active.showCancel;
         m_RmlView.MarkDirty("show_cancel");
     }
-    const std::string cancelLabel = StringUtils::WideToNarrow(m_Active.cancelLabel.c_str());
+    const bool cancelIsStockCancel = m_Active.cancelLabel == GenericDialogConfig{}.cancelLabel;
+    const std::string cancelLabel =
+        StringUtils::WideToNarrow(cancelIsStockCancel ? I18N::Game::Cancel : m_Active.cancelLabel.c_str());
     if (model.cancelLabel != cancelLabel)
     {
         model.cancelLabel = cancelLabel;
         m_RmlView.MarkDirty("cancel_label");
     }
-    const bool cancelIsStockCancel = m_Active.cancelLabel == GenericDialogConfig{}.cancelLabel;
     if (model.cancelIsStockCancel != cancelIsStockCancel)
     {
         model.cancelIsStockCancel = cancelIsStockCancel;
@@ -623,6 +628,11 @@ void CGenericConfirmDialog::SyncRmlModel()
     {
         model.title = title;
         m_RmlView.MarkDirty("title");
+    }
+    if (model.kind != m_Active.kind)
+    {
+        model.kind = m_Active.kind;
+        m_RmlView.MarkDirty("kind");
     }
 
     const bool severityWarning = m_Active.severity == GenericDialogConfig::Severity::Warning;
