@@ -37,10 +37,11 @@
 		</div>
 
 		<!-- The tabs' hit areas: the original's 56-unit columns over the top 90 units. .current marks
-		     the open tab's, for a theme that draws each tab on its own area. -->
-		<div class="gi-tab-hit" id="gi_tab_hit_0" data-class-current="tab == 0" data-event-mousedown="guild_info_tab(0)"></div>
-		<div class="gi-tab-hit" id="gi_tab_hit_1" data-class-current="tab == 1" data-event-mousedown="guild_info_tab(1)"></div>
-		<div class="gi-tab-hit" id="gi_tab_hit_2" data-class-current="tab == 2" data-event-mousedown="guild_info_tab(2)"></div>
+		     the open tab's, for a theme that draws each tab on its own area; like the tabs, they
+		     are gone while the hero has no guild. -->
+		<div class="gi-tab-hit" id="gi_tab_hit_0" data-if="!no_guild" data-class-current="tab == 0" data-event-mousedown="guild_info_tab(0)"></div>
+		<div class="gi-tab-hit" id="gi_tab_hit_1" data-if="!no_guild" data-class-current="tab == 1" data-event-mousedown="guild_info_tab(1)"></div>
+		<div class="gi-tab-hit" id="gi_tab_hit_2" data-if="!no_guild" data-class-current="tab == 2" data-event-mousedown="guild_info_tab(2)"></div>
 		<!-- The header every tab shares. -->
 		<div class="gi-page" data-if="!no_guild">
 		<span id="gi_title" class="sharp-text gi-line"
