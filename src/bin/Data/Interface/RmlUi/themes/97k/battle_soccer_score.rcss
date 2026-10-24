@@ -1,0 +1,50 @@
+/* The 97k theme's CBattleSoccerScore: the 0.97k client's guild war and soccer score banner at the
+   top of the screen (workspace.rcss's slot, at 300,4 in the 640x480 frame). No back: two rows 15
+   apart, each the 8 x 8 guild mark, the score 13 in and the name 30 in, in the bold font on the
+   0.97k text band (0x80000000). The colours are the 0.97k ones: the team C++ marks `red` (ours,
+   or the first watched) green (0xFF008000), the other blue, 0xFFFF5901 in the first row and
+   0xFFFF9560 in the second. Reference px relative to the window's top-left, under .screen's
+   stretch (see battle_soccer_score.rml). */
+
+body { pointer-events: none; }
+
+.screen {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 640px;
+	height: 480px;
+	transform-origin: left top;
+	pointer-events: none;
+}
+
+#panel { position: absolute; width: 140px; height: 23px; font-family: "token(font-body)"; }
+#back { display: none; }
+
+.team { display: block; position: absolute; left: 0; width: 140px; height: 8px; }
+.team-text {
+	display: block;
+	position: absolute;
+	top: 0;
+	transform-origin: left top;
+	white-space: nowrap;
+	font-weight: bold;
+	background-color: rgba(0, 0, 0, 128);
+}
+.team-score { left: 13px; }
+.team-name { left: 30px; }
+.team.red .team-text { color: rgb(0, 128, 0); }
+.team:nth-child(1) .team-text { color: rgb(1, 89, 255); }
+.team:nth-child(2) .team-text { color: rgb(96, 149, 255); }
+.team.red:nth-child(1) .team-text, .team.red:nth-child(2) .team-text { color: rgb(0, 128, 0); }
+
+.mark { position: absolute; left: 0; top: 0; width: 8px; height: 8px; }
+.mark-cell { display: block; float: left; width: 1px; height: 1px; }
+
+/* The two rows. The container takes no space. */
+.teams { position: static; }
+.team:nth-child(1) { top: 0; }
+.team:nth-child(2) { top: 15px; }
+
+/* The HUD takes no pointer events where it is placed (base.rcss gives a placed panel them). */
+#panel.slot-placed { pointer-events: none; }

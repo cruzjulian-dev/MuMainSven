@@ -85,6 +85,8 @@ in `legacy`:
   keep legacy's until its phase.
 - **The tooltips** (`tooltip.rml/.rcss`): legacy's box is already the 0.97k one (80% black in a
   1-unit black frame); a button's hover text takes it too, as in the 0.97k client.
+- **The guild war and soccer score** (`battle_soccer_score.rcss`, `workspace.rcss`): the 0.97k
+  banner at the top centre, no back, two rows of mark, score and name in the 0.97k green and blue.
 - **The Golden Archer** (`gold_bowman.rcss`): the 0.97k exit, and Register as the 0.97k dialog's
   Ok. **The Devil Square and Blood Castle entries** (`event_entry.rcss`,
   `devil_square_enter.rcss`, `blood_castle_enter.rcss`): the 0.97k event window, each level a
