@@ -1,7 +1,7 @@
 /* The 97k theme's generic menu dialog: the 0.97k client's menus. The frame is window_shell.rcss's
    (the 0.97k message box). Each button is the 0.97k menu button, Message_box stretched over it with
    its label white on it, brightened warm under the pointer as the 0.97k client added the
-   (0.8, 0.6, 0.4) tinted art over it. The system menu is the 0.97k ESC menu: no box, its buttons
+   (0.8, 0.6, 0.4) tinted art over it (see .gmd-btn:hover). The system menu is the 0.97k ESC menu: no box, its buttons
    120x22 centred on the screen, 30 apart from 60. The rest is legacy's layout. */
 
 @spritesheet btn97-sheet { src: "../../../../Interface97/Message_box.jpg"; btn97: 0px 0px 213px 64px; }
@@ -174,8 +174,12 @@
 	color: #ffffff;
 	decorator: image(btn97 fill);
 }
-.gmd-btn:hover { filter: brightness(1.6); }
-.gmd-btn:active { image-color: rgb(200, 200, 200); }
+/* The 0.97k drew a hovered button again over itself, additively, tinted (0.8, 0.6, 0.4): the art
+   times (1.8, 1.6, 1.4). A part sepia then brightened gives (1.82, 1.68, 1.44) on its grey stone. */
+/* The art stays Message_box under the pointer and pressed: base.rcss's .btn:hover/:active (legacy's
+   silver button) would otherwise win over .gmd-btn. */
+.gmd-btn:hover { decorator: image(btn97 fill); filter: sepia(0.6) brightness(1.5); }
+.gmd-btn:active { decorator: image(btn97 fill); image-color: rgb(200, 200, 200); }
 .gmd-btn.narrow { width: 108dp; } /* MSGBOX_BTN_EMPTY_WIDTH (CGemIntegrationMsgBox) */
 .gmd-btn.compact { width: 64dp; }
 /* GenericMenuConfig::columns == 2 -- see .gmd-button-cell.cols-2 above for the width math (decorators
