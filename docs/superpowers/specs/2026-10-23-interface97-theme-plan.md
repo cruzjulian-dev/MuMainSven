@@ -147,18 +147,18 @@ referencia (`Mu-97k-Client-Source/src/Render/HUD_Pass*.cpp`):
 
 | Interfaz | Documento(s) Sven | Qué falta, según la 0.97k |
 |---|---|---|
-| Guild (G) | `guild_info.rcss` | Toma el panel 0.97k por el marco acoplado, pero el contenido es el de Sven. `RenderGuildList()`: título en la banda, avisos de guild centrados en 44/58, lista de miembros. Decidir si entra (el spec la excluía). |
-| Creación de guild | `guild_make.rcss` (+ `.rml` si hace falta) | `RenderGuildCreation()`: nombre en una caja `Item_Money` con su etiqueta a la izquierda, grilla de la marca 8x8 (celdas de 15 desde 50,100), paleta de 16 colores (celdas de 20 desde 15,260), vista previa de la marca en 16,231 con dos líneas de texto, botones `Ok`/`Cancel` de 70x21 (cancelar en 100,350). |
-| Cajas de mensaje y menú ESC | `generic_confirm_dialog`, `generic_menu_dialog`, `msg_win`, `message_box_view`, `reconnect_dialog`, `sys_menu` | `Message_box` (tapa), `Message_box1` (cuerpo repetible), `Message_box2` (base), 213 de ancho; botones `Ok/Ok2`, `Cancel/Cancel2` 70x21. |
-| División de servidor | (ventana de Sven equivalente) | `RenderServerDivision()`: texto en 8 líneas desde 50, casilla `Accept_box` 16x16 en 25,240, botones de 120x24 en 35,320 y 35,350. |
+| Guild (G) | `guild_info.rcss` | Queda con el contenido de Sven por ahora (decisión del usuario). |
+| Creación de guild | `guild_make.rcss` | **Hecho**: editor 0.97k, `Ok`/`Cancel` en 20,350 y 100,350. |
+| Cajas de mensaje y menú ESC | `window_shell`, `generic_menu_dialog`, `generic_confirm_dialog`, `message_box_view` | **Hecho** en el juego (caja `Message_box2`/`Message_box1`, `Ok`/`Cancel`, botón `Message_box`, menú ESC 0.97k). Faltan las de la escena de login (`msg_win`, `sys_menu`, `reconnect_dialog`): Fase 6. |
+| División de servidor | — | Sven no la implementa (sólo marca `g_bServerDivisionEnable`): no hay ventana que tematizar. Construirla sería una ventana nueva. |
 | Avisos | `notices`, `slide_notice`, `server_msg` | `RenderNotices()`: 6 líneas centradas desde y=300, paso 13, fondo negro semitransparente, parpadeo. |
 | Texto de sistema | `system_log` | Texto de sistema de la 0.97k. |
-| Durabilidad | `item_endurance` (los íconos) | `RenderBrokenItem()`: los avisos de equipo gastado. |
-| Tooltips | `tooltip`, `item_help` | `RenderTipText()`: caja negra con borde, texto blanco. |
-| Marcador de guerra de guild / soccer | `battle_soccer_score`, `match_status` | `Render_CharInfoPanel()`. |
-| Nombres y vida sobre personajes | `world_labels` | `Render_CharNameTags()`, `Render_HPBars()`. |
-| Contador de flechas del elfo | `item_endurance` (`#arrows`) | `RenderNumArrow()`. |
-| Texto de carga de mapa | `map_name` | `Render_MapLoadText()`. |
+| Durabilidad | `item_endurance` | **Hecho**: líneas de texto de `RenderBrokenItem()`, sin íconos. |
+| Tooltips | `tooltip` | **Hecho**: la caja de legacy ya era la 0.97k; el texto de los botones la toma también. `item_help` sin revisar. |
+| Marcador de guerra de guild / soccer | `battle_soccer_score` | **Hecho**: banner arriba al centro. Falta el reloj del soccer (Sven no lo tiene en el modelo) y `match_status`. |
+| Nombres y vida sobre personajes | `world_labels` (C++) | **Hecho** lo que difiere con certeza (capacidad `ClassicWorldHud`): el "HP" del party en caja, sin barra bajo el monstruo elegido. Los nombres y globos quedan como Sven hasta tener capturas de la 0.97k. |
+| Contador de flechas del elfo | `item_endurance` (`#arrows`) | **Hecho**: línea de texto en la columna de durabilidad. |
+| Texto de carga de mapa | `map_name` | **Hecho**: oculto. |
 | Minimapa, buffs | `mini_map`, `buff_strip` | No existen en la 0.97k: decidir si se ocultan en el tema. |
 | Login, servidores, personajes, carga | `login*`, `server_select`, `char_sel_main`, `char_make`, `loading`, `title_scene` | Fase 6. |
 | Ventanas que la 0.97k no tenía | MU Helper, Gens, quests, Master Level, In-Game Shop, amigos, castillo, eventos posteriores | Fase 8 opcional: marco y botones 0.97k genéricos. |
