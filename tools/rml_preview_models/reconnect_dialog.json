@@ -1,0 +1,12 @@
+{
+  "dim_alpha": 0.4,
+  "root_x": 397,
+  "root_y": 240,
+  "root_scale": 1.0,
+  "text_px": 12,
+  "bold_text_px": 12,
+  "title_text": "Connection lost",
+  "step_text": "Checking server availability",
+  "countdown_text": "",
+  "progress_width": 40
+}

@@ -85,6 +85,10 @@ in `legacy`:
   every other button; the ESC menu is the 0.97k one, its
   buttons 120x22 centred on the screen, 30 apart from 60, with no box. The login scene's boxes
   keep legacy's until its phase.
+- **The reconnect dialog** (`reconnect_dialog.rcss`): the art of the 0.97k connecting box,
+  `Message_box` at half brightness (213 wide, as tall as the dialog), the `Progress_back` track
+  with the yellow band the 0.97k `Progress` fill showed over it, and the 0.97k `Cancel` (`Cancel2`
+  under the pointer).
 - **The tooltips** (`tooltip.rml/.rcss`): legacy's box is already the 0.97k one (80% black in a
   1-unit black frame); a button's hover text takes it too, as in the 0.97k client.
 - **The guild war and soccer score** (`battle_soccer_score.rcss`, `workspace.rcss`): the 0.97k
