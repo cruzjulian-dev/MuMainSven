@@ -28,6 +28,7 @@
 #include "Core/Globals/_enum.h"
 
 #include "Render/RmlUi/RmlUiRuntime.h"
+#include "UI/RmlBridge/RmlDialogCanvas.h"
 #include "UI/RmlBridge/RmlTheme.h"
 #include "Core/Utilities/StringUtils.h"
 #include "Network/Server/WSclient.h"
@@ -85,6 +86,7 @@ void CMsgWin::BindRmlModel(Rml::DataModelConstructor& c, MsgWinRmlModel& model)
     c.Bind("ok_label", &model.okLabel);
     c.Bind("cancel_label", &model.cancelLabel);
     c.Bind("password_input", &model.residentPassword);
+    c.Bind("canvas_top", &model.canvasTop);
 
     c.BindEventCallback("msgwin_ok_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickOk(); });
@@ -233,6 +235,13 @@ void CMsgWin::SyncRmlModel()
     syncBool(&MsgWinRmlModel::modeInput, "mode_input", m_eType == MWT_STR_INPUT);
     syncLabel(&MsgWinRmlModel::okLabel, "ok_label", I18N::Game::OK);
     syncLabel(&MsgWinRmlModel::cancelLabel, "cancel_label", I18N::Game::Cancel);
+
+    const float canvasTop = UI::RmlBridge::DialogCanvasTop(RmlUiRuntime::Instance().GetContext());
+    if (m_RmlView.GetModel().canvasTop != canvasTop)
+    {
+        m_RmlView.GetModel().canvasTop = canvasTop;
+        m_RmlView.MarkDirty("canvas_top");
+    }
 }
 
 void CMsgWin::SetMsg(MSG_WIN_TYPE eType, std::wstring lpszMsg, std::wstring lpszMsg2)

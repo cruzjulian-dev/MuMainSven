@@ -104,6 +104,8 @@ private:
         bool modeBoth = false;
         bool modeInput = false;
         Rml::String okLabel, cancelLabel;
+        // The dialog canvas's top edge (RmlDialogCanvas.h), for a theme that places the box from it.
+        float canvasTop = 0.0f;
 
         // MWT_STR_INPUT's resident-password entry, two-way bound to #msgwin_input. RmlUi owns the
         // edit buffer/caret/masking; this carries the committed value that RequestDeleteCharacter()

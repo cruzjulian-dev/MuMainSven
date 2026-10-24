@@ -83,8 +83,10 @@ in `legacy`:
   `Message_box`, 213x64 from y 60, its lines 12 apart), the 0.97k `Ok`/`Cancel` where the 0.97k
   box had them (`Ok2`/`Cancel2` under the pointer) and the 0.97k menu button (`Message_box`) for
   every other button; the ESC menu is the 0.97k one, its
-  buttons 120x22 centred on the screen, 30 apart from 60, with no box. The login scene's boxes
-  keep legacy's until its phase.
+  buttons 120x22 centred on the screen, 30 apart from 60, with no box.
+- **The login and character-scene message box** (`msg_win.rcss`), e.g. "You are disconnected from
+  the server": the 0.97k `Message_box` (213x64 from y 60) with its white centred lines and the
+  0.97k `Ok`/`Cancel` (`Ok2`/`Cancel2` under the pointer) where `RenderErrorMessage()` drew them.
 - **The reconnect dialog** (`reconnect_dialog.rcss`): the art of the 0.97k connecting box,
   `Message_box` at half brightness (213 wide, as tall as the dialog), the `Progress_back` track
   with the yellow band the 0.97k `Progress` fill showed over it, and the 0.97k `Cancel` (`Cancel2`
