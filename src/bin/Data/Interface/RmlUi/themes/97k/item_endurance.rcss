@@ -7,7 +7,14 @@
    right, the box 54x6 and the life 2 high, 2 in. The 0.97k client added the box and the life onto
    the world (additive blending); here the box is a translucent teal and the life the bright aqua
    it showed. The frames sit on the dock, at its scale, as the party list does; C++ hit-tests them
-   where they are drawn. The durability icons, the elf's arrow line and the tooltip are legacy's. */
+   where they are drawn. The elf's arrow line is legacy's.
+
+   The worn items at most half durable are the 0.97k client's RenderBrokenItem(): no icons, a line
+   of text each, "name (durability/max)", on the 0.97k text band (0x80000000), 12 apart and
+   right-aligned 10 in from the uncovered world's edge (60 further in while the party list shows,
+   the 0.97k client's 50 past the list), below the pets; yellow (0xFF00E4FF) at half, orange
+   (0xFF009CFF) at 30%, red (0xFF0A0AFF) at 20%, and white on the 0.97k blue band (0x800A0AFF, ARGB)
+   once worn out. */
 
 @spritesheet endurance-boots-sheet { src: "../../../newui_durable_boots.tga"; endurance-boots: 0px 0px 23px 23px; }
 @spritesheet endurance-cap-sheet { src: "../../../newui_durable_cap.tga"; endurance-cap: 0px 0px 23px 23px; }
@@ -29,6 +36,35 @@ body {
 	pointer-events: none;
 	font-family: "token(font-body)";
 }
+
+/* No icons, so no icon tooltip either: the text says it all. */
+#icons, .text-row { display: none; }
+#broken {
+	position: absolute;
+	left: calc(var(--world-right, 100%) - 10px * var(--dock-scale, 1));
+	top: max(calc(var(--workspace-top, 0px) + 54px * var(--dock-scale, 1)), calc(var(--workspace-bottom, 100%) - 369px * var(--dock-scale, 1)));
+	width: 0;
+	height: 0;
+	transform: scale(var(--dock-scale, 1));
+	transform-origin: left top;
+	--root-scale: var(--dock-scale, 1);
+	pointer-events: none;
+}
+#broken.party { left: calc(var(--world-right, 100%) - 74px * var(--dock-scale, 1)); }
+/* Each line 12 high, its box reaching far left so the text right-aligns on the column's edge. */
+.broken-line { display: block; position: relative; left: -600px; width: 600px; height: 12px; }
+.broken-text {
+	position: absolute;
+	right: 0;
+	top: 0;
+	white-space: nowrap;
+	transform-origin: right top;
+	background-color: rgba(0, 0, 0, 128);
+}
+.broken-line--half .broken-text { color: rgb(255, 228, 0); }
+.broken-line--third .broken-text { color: rgb(255, 156, 0); }
+.broken-line--fifth .broken-text { color: rgb(255, 10, 10); }
+.broken-line--zero .broken-text { color: #ffffff; background-color: rgba(10, 10, 255, 128); }
 
 #pets, #icons { position: absolute; width: 0; height: 0; transform-origin: left top; pointer-events: none; }
 /* The frames on the dock, at its scale: 58 left of the uncovered world's right edge, or 130 in a

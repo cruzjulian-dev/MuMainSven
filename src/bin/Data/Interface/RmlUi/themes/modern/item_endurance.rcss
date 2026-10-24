@@ -24,6 +24,8 @@ body {
 	font-family: "token(font-body)";
 }
 
+/* The icons show the worn items; their list as text is a theme's that has no icons. */
+#broken { display: none; }
 #pets, #icons { position: absolute; width: 0; height: 0; transform-origin: left top; pointer-events: none; }
 /* The left column in the screen's stretch, at the original's (2, 26) in it; its texts are scaled
    back out of the stretch (base.rcss's .counter-scaled-xy). */

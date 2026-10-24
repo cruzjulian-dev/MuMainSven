@@ -88,8 +88,9 @@ in `legacy`:
   `devil_square_enter.rcss`, `blood_castle_enter.rcss`): the 0.97k event window, each level a
   `Message_box` button in the 0.97k red, the panes scrolling with the 0.97k chat's scrollbar.
 - **The pet and summon life** (`item_endurance.rcss`): in the top right corner, or beside the
-  party list while there is one, one under the other (a Dark Lord's raven under the horse), the name on a band the size of the text over `RenderBar()`'s bar. The
-  durability icons keep the `legacy` look until their phase.
+  party list while there is one, one under the other (a Dark Lord's raven under the horse), the name on a band the size of the text over `RenderBar()`'s bar. The worn
+  items are the 0.97k text lines ("name (durability/max)" in the band's colour) under the pets,
+  not icons.
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 

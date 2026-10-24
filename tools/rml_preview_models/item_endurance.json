@@ -16,5 +16,23 @@
  ],
  "icons": [],
  "tooltip": "",
- "party": true
+ "party": true,
+ "broken_items": [
+  {
+   "text": "Dragon Helm (12/34)",
+   "band": "half"
+  },
+  {
+   "text": "Dragon Armor (8/36)",
+   "band": "third"
+  },
+  {
+   "text": "Legendary Staff (5/40)",
+   "band": "fifth"
+  },
+  {
+   "text": "Ring of Ice (0/30)",
+   "band": "zero"
+  }
+ ]
 }

@@ -45,6 +45,14 @@
 			</div>
 		</div>
 	</div>
+	<!-- The same worn items as lines of text, "name (durability/max)" in slot order with their band,
+	     for a theme that lists them instead of the icons (the theme places #broken; `party` as on
+	     #pets). Text is counter-scaled. -->
+	<div id="broken" data-class-party="party">
+		<div data-for="b : broken_items" data-attr-class="'broken-line broken-line--' + b.band"><span
+		     class="broken-text counter-scaled" data-style-font-size="text_px + 'px'"
+		     data-style-line-height="line_height_px + 'px'">{{b.text}}</span></div>
+	</div>
 	<div class="text-row" data-if="tooltip != ''" data-style-left="(tooltip_centre_x - 300) + 'px'"
 	     data-style-top="tooltip_top + 'px'">
 		<span data-attr-class="'durability-tip durability-tip--' + tooltip_band" data-style-font-size="bold_text_px + 'px'"

@@ -35,6 +35,19 @@ struct DurabilityIconEntry
     }
 };
 
+// One worn item at most half durable, as a line of text: "name (durability/max)" and its band (as the
+// icons'), for a theme that lists them as text instead of icons.
+struct BrokenItemEntry
+{
+    Rml::String text;
+    Rml::String band;
+
+    bool operator==(const BrokenItemEntry& other) const
+    {
+        return text == other.text && band == other.band;
+    }
+};
+
 struct ItemEnduranceRmlModel
 {
 
@@ -52,6 +65,7 @@ struct ItemEnduranceRmlModel
     // beside it.
     bool party = false;
     std::vector<DurabilityIconEntry> icons;
+    std::vector<BrokenItemEntry> brokenItems; // the same items as the icons, one per item, slot order
 
     // The hovered icon's tooltip, centred on tooltipCentreX, window pixels; empty when none.
     Rml::String tooltip;

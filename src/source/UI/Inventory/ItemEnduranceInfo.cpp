@@ -359,6 +359,12 @@ void mu::ui::window::CItemEnduranceInfo::BindRmlModel(Rml::DataModelConstructor&
     c.RegisterArray<std::vector<DurabilityIconEntry>>();
     c.Bind("icons", &model.icons);
 
+    auto broken = c.RegisterStruct<BrokenItemEntry>();
+    broken.RegisterMember("text", &BrokenItemEntry::text);
+    broken.RegisterMember("band", &BrokenItemEntry::band);
+    c.RegisterArray<std::vector<BrokenItemEntry>>();
+    c.Bind("broken_items", &model.brokenItems);
+
     c.Bind("tooltip", &model.tooltip);
     c.Bind("tooltip_band", &model.tooltipBand);
     c.Bind("tooltip_centre_x", &model.tooltipCentreX);
@@ -463,11 +469,14 @@ const char* mu::ui::window::CItemEnduranceInfo::DurabilityIconImage(int imageInd
 
 // The original's RenderItemEndurance(): every worn item at most half durable, in slot order, two
 // per column leftwards from the theme's column (the original's (W - 25, 140) on the dock), 25 apart; the rings share one
-// icon, each tinting its half (right ring the left half). None while the trade window is open.
+// icon, each tinting its half (right ring the left half). None while the trade window is open. The
+// same items as lines of text too ("name (durability/max)", each ring its own), for a theme that
+// lists them as the 0.97k client's RenderBrokenItem() did.
 void mu::ui::window::CItemEnduranceInfo::SyncIcons()
 {
     using namespace UI::ItemEndurance;
     std::vector<DurabilityIconEntry> icons;
+    std::vector<BrokenItemEntry> brokenItems;
     m_IconSlots.clear();
     if (!g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_TRADE))
     {
@@ -524,12 +533,17 @@ void mu::ui::window::CItemEnduranceInfo::SyncIcons()
             icons.push_back(std::move(icon));
             m_IconSlots.push_back(i);
 
+            wchar_t szText[256] = {};
+            mu_swprintf(szText, L"%ls (%d/%d)", pItemAtt->Name, pItem->Durability, iMaxDurability);
+            brokenItems.push_back({StringUtils::WideToNarrow(szText), DurabilityBand(pItem->Durability, iMaxDurability)});
+
             // A shared ring icon stays in the cell the right ring took; everything else moves on.
             if (bRenderRingWarning == false)
                 icntItemDurIcon++;
         }
     }
     SyncItemEnduranceField(m_RmlView.Binder(), &ItemEnduranceRmlModel::icons, "icons", std::move(icons));
+    SyncItemEnduranceField(m_RmlView.Binder(), &ItemEnduranceRmlModel::brokenItems, "broken_items", std::move(brokenItems));
 }
 
 // The original's tooltip of the icon UpdateMouseEvent() found under the pointer: "name (dur/max)",
