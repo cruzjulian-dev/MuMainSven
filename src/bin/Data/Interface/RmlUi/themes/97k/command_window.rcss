@@ -1,0 +1,77 @@
+/* The 97k theme's CCommandWindow (D): the Season 3 client's (FUN_00494c8c in its main.exe). The
+   frame is docked_panel_frame.rcss's (Item_Back01 over Item_Back02). On it: the title, 120 wide at
+   35,12 in bold white; the commands as Message_box (its 213x64 art) 100x25 from 45,69, 28 apart,
+   the armed one at half brightness; each label centred on its button, white, and bold in
+   (255, 204, 51) under the pointer or while armed, grey while held; the exit 24x24 at 18,401; the
+   target box at the pointer + 5, CursorID_Wnd (128x32), the name centred 7 below its top, white,
+   or (255, 51, 51) out of reach. The theme has no Special or Add Friend command
+   (NoChatCommandList, NoFriends in theme.ini), so the ten left stand where Season 3's first ten
+   did. Coordinates are reference px inside #panel. */
+
+@spritesheet cmd97-btn-sheet { src: "../../../../Interface97/Message_box.jpg"; cmd97-btn: 0px 0px 213px 64px; }
+@spritesheet cmd97-target-sheet { src: "../../../../Interface97/CursorID_Wnd.jpg"; cmd97-target: 0px 0px 128px 32px; }
+
+#panel { pointer-events: auto; }
+
+#title {
+	display: block;
+	position: absolute;
+	left: 35px;
+	top: 12px;
+	text-align: center;
+	white-space: nowrap;
+	color: #ffffff;
+	font-weight: bold;
+	pointer-events: none;
+}
+
+#buttons { position: absolute; left: 45px; top: 69px; width: 100px; }
+.cmd-btn {
+	display: block;
+	position: relative;
+	width: 100px;
+	height: 25px;
+	margin-bottom: 3px;
+	decorator: image(cmd97-btn fill);
+	pointer-events: auto;
+	cursor: pointer;
+}
+.cmd-btn.selected { image-color: rgb(128, 128, 128); }
+
+.cmd-label {
+	display: block;
+	position: absolute;
+	left: 0;
+	text-align: center;
+	white-space: nowrap;
+	color: #ffffff;
+	pointer-events: none;
+}
+.cmd-btn:hover .cmd-label, .cmd-btn.selected .cmd-label { font-weight: bold; color: rgb(255, 204, 51); }
+.cmd-btn:active .cmd-label { color: rgb(128, 128, 128); }
+
+#panel #btn_exit { left: 18px; top: 401px; }
+
+#target {
+	position: absolute;
+	width: 128px;
+	height: 32px;
+	decorator: image(cmd97-target);
+	pointer-events: none;
+}
+#target_name {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 7px;
+	text-align: center;
+	white-space: nowrap;
+	color: #ffffff;
+	pointer-events: none;
+}
+#target.out-of-range #target_name { color: rgb(255, 51, 51); }
+
+/* Lengths inside counter-scaled layers: reference px times the panel's --root-scale. */
+#title { width: calc(120px * var(--root-scale)); }
+.cmd-label { width: calc(100px * var(--root-scale)); }
+#target_name { width: calc(128px * var(--root-scale)); }

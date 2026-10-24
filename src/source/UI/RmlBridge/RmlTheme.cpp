@@ -153,6 +153,16 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "NoMasterSkillTree");
     }
 
+    bool ThemeHasNoChatCommandList()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "NoChatCommandList");
+    }
+
+    bool ThemeHasNoFriends()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "NoFriends");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);

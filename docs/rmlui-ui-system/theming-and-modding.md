@@ -346,6 +346,10 @@ monster's name. Without it the hover text is plain, 6 above the bar, and the bar
 longer opens it, and the theme's character window leaves out its shortcut. Without it a master
 level hero opens it with A.
 
+`NoChatCommandList=1` takes the server's chat command list away: J no longer opens it and the
+command window has no Special button. `NoFriends=1` takes the friend list away: F no longer opens it
+and the command window has no Add Friend button.
+
 ## Restacking a document: `[Stacking]`
 
 Each document draws at the depth of the original window it replaces (`RmlStackingOrder.cpp`). A
@@ -457,7 +461,7 @@ their element's drawn size; choose their scaling deliberately.
   window declares one.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
   theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
-  `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff`, `ClassicWorldHud` and `NoMasterSkillTree` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff`, `ClassicWorldHud`, `NoMasterSkillTree`, `NoChatCommandList` and `NoFriends` are the ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

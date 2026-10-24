@@ -22,8 +22,9 @@ in `legacy`:
 - **The bottom bar** (`main_frame.rcss`): the 0.97k bar with its corner pieces, the HP and MP
   orbs (green while poisoned), the AG column, EXP, the Q/W/E potions, the current skill and its
   list above the bar, and the Party, Character, Inventory and Guild buttons. The 0.97k bar has no
-  SD gauge, no skill hotkey row, no fourth potion box and no shop, friend or menu buttons; those
-  keep working from their keys (R, the number keys, F, U).
+  SD gauge, no skill hotkey row, no fourth potion box and no shop, friend or menu buttons; the
+  potion, the skills and the menu keep working from their keys (R, the number keys, U), and the
+  theme has no friend list (F does nothing).
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):
@@ -85,6 +86,10 @@ in `legacy`:
   thin gold frame between them, the pet's level on a `Level_box`, its life over the S3 red bar and
   each other line 15 apart on a black band. The raven's commands keep Sven's slots under their own
   `Level_box`; Sven's group boxes are hidden.
+- **The command window (D)** (`command_window.rcss`): the Season 3 client's, its commands as
+  `Message_box` buttons 100x25 from 45,69, 28 apart, the label bold in gold under the pointer or
+  while armed, the S3 target box (`CursorID_Wnd`) at the pointer. The theme has no Special or Add
+  Friend button and takes J and F away with them (`NoChatCommandList=1`, `NoFriends=1`).
 - **The guild window (G)** (`guild_info.rcss`): the classic window of the Season 3 client, which
   already had Sven's three tabs (`docs/superpowers/specs/2026-10-24-guild-s3-classic-design.md`):
   the `win_button` tabs, the open one taller and bright; the gold group boxes round the mark, the

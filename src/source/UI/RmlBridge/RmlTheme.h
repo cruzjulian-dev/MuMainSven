@@ -89,6 +89,12 @@ namespace UI::RmlBridge
     // Whether the theme takes the master skill tree away (NoMasterSkillTree=1), as the clients
     // before it had none: the A key does not open it.
     bool ThemeHasNoMasterSkillTree();
+    // Whether the theme takes the server's chat command list away (NoChatCommandList=1): J does not
+    // open it and the command window has no Special button.
+    bool ThemeHasNoChatCommandList();
+    // Whether the theme takes the friend list away (NoFriends=1): F does not open it and the
+    // command window has no Add Friend button.
+    bool ThemeHasNoFriends();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

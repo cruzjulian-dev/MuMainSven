@@ -17,7 +17,8 @@
 instead, for the theme's guild window (the 0.97k client had no such art); both are
 byte-identical to the MuMainSven ones. So do `btn_pshop.OZJ`, `btn_pshop2.OZJ` (the inventory's
 personal shop button), `Quest1.OZJ`, `Quest2.OZJ`, `pet1.OZJ` and `pet2.OZJ` (the character
-window's shortcuts), which MuMainSven does not have.
+window's shortcuts), which MuMainSven does not have, and `CursorID_Wnd.OZJ` (the command window's
+target box), which differs from MuMainSven's `newui_Cursorid_wnd`.
 
 File names are the 0.97k ones; only the extensions are written `.OZJ`/`.OZT`, like the rest of
 `Data/`. The client reads them without regard to case.

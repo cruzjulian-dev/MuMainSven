@@ -180,7 +180,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         return true;
     }
 
-    if (mu::ui::window::IsPress('F'))
+    if (mu::ui::window::IsPress('F') && !UI::RmlBridge::ThemeHasNoFriends())
     {
         if (gMapManager.InChaosCastle() == true)
         {
@@ -276,7 +276,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         PlayBuffer(SOUND_CLICK01);
         return false;
     }
-    else if (mu::ui::window::IsPress('J') == true)
+    else if (mu::ui::window::IsPress('J') == true && !UI::RmlBridge::ThemeHasNoChatCommandList())
     {
         // Only servers which offer their chat commands have something to show.
         if (GameLogic::Commands::Catalog().IsAvailable())
