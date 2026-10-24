@@ -1,0 +1,413 @@
+{
+ "title_px": 12,
+ "title_text": "Guild",
+ "page": 1,
+ "info_px": 12,
+ "info_text": "Do you want to create a guild?",
+ "text_px": 12,
+ "make_text": "Create Guild",
+ "label_line_px": 12,
+ "name_text": "Name",
+ "exit_tooltip": "Close",
+ "cells": [
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": true
+  }
+ ],
+ "palette": [
+  {
+   "color": "#000000ff",
+   "empty": true
+  },
+  {
+   "color": "#000000ff",
+   "empty": false
+  },
+  {
+   "color": "#808080ff",
+   "empty": false
+  },
+  {
+   "color": "#ffffffff",
+   "empty": false
+  },
+  {
+   "color": "#ff0000ff",
+   "empty": false
+  },
+  {
+   "color": "#ff8000ff",
+   "empty": false
+  },
+  {
+   "color": "#ffff00ff",
+   "empty": false
+  },
+  {
+   "color": "#80ff00ff",
+   "empty": false
+  },
+  {
+   "color": "#00ff00ff",
+   "empty": false
+  },
+  {
+   "color": "#00ff80ff",
+   "empty": false
+  },
+  {
+   "color": "#00ffffff",
+   "empty": false
+  },
+  {
+   "color": "#0080ffff",
+   "empty": false
+  },
+  {
+   "color": "#0000ffff",
+   "empty": false
+  },
+  {
+   "color": "#8000ffff",
+   "empty": false
+  },
+  {
+   "color": "#ff00ffff",
+   "empty": false
+  },
+  {
+   "color": "#ff0080ff",
+   "empty": false
+  }
+ ],
+ "selected": {
+  "color": "#ffff00ff",
+  "empty": false
+ },
+ "palette_hint_1": "After selecting a color with",
+ "palette_hint_2": "left click, draw the mark.",
+ "mark_cells": [
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#ffff00ff",
+  "#ffff00ff",
+  "#ffff00ff",
+  "#ffff00ff",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#ffff00ff",
+  "#ffff00ff",
+  "#ffff00ff",
+  "#ffff00ff",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000",
+  "#00000000"
+ ],
+ "result_px": 12,
+ "result_text": "Name : Brothers",
+ "back_text": "Back",
+ "next_text": "Next",
+ "guild_name": "Brothers"
+}

@@ -74,6 +74,9 @@ in `legacy`:
   exit); the list down the right side is the 0.97k one, dark cards with gold sides, its gold caps
   (`party_list.rml`'s fork adds them) and a health bar of ten red steps, without Sven's leave
   button: the party is left from the window.
+- **The guild creation** (`guild_make.rcss`): the 0.97k editor (the name in an `Item_Money` box,
+  the 8x8 mark grid with no frame, the palette, the selected colour) with the 0.97k `Ok` and
+  `Cancel` at 20,350 and 100,350; Sven's question page has the 0.97k `Message_box` button.
 - **The Golden Archer** (`gold_bowman.rcss`): the 0.97k exit, and Register as the 0.97k dialog's
   Ok. **The Devil Square and Blood Castle entries** (`event_entry.rcss`,
   `devil_square_enter.rcss`, `blood_castle_enter.rcss`): the 0.97k event window, each level a
