@@ -1437,7 +1437,7 @@
     <value>Modo ventana</value>
   </data>
   <data name="Close388" xml:space="preserve">
-    <value>Cerca</value>
+    <value>Cerrar</value>
     <comment>legacy_id=388,1002</comment>
   </data>
   <data name="Volume" xml:space="preserve">

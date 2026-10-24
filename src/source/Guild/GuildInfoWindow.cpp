@@ -680,8 +680,9 @@ void mu::ui::window::CGuildInfoWindow::SyncContent()
     SyncField(m_RmlView.Binder(), &GuildInfoRmlModel::unionCreateButton, "union_create_button",
               std::move(unionCreateButton));
     SyncField(m_RmlView.Binder(), &GuildInfoRmlModel::unionOutButton, "union_out_button", std::move(unionOutButton));
-    SyncField(m_RmlView.Binder(), &GuildInfoRmlModel::exitTooltip, "exit_tooltip",
-              StringUtils::WideToNarrow(I18N::Game::Close388));
+    wchar_t exitText[64];
+    mu_swprintf(exitText, I18N::Game::CloseS, L"G");
+    SyncField(m_RmlView.Binder(), &GuildInfoRmlModel::exitTooltip, "exit_tooltip", StringUtils::WideToNarrow(exitText));
 
     SyncField(m_RmlView.Binder(), &GuildInfoRmlModel::labelLinePx, "label_line_px",
               CUIRenderTextSDLTtf::LineHeightPx(UI::Scaling::FontRole::Normal));
