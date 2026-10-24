@@ -82,6 +82,10 @@ namespace UI::RmlBridge
     // Whether whispering starts switched off (WhisperStartsOff=1), as in the 0.97k client: F3
     // switches it on, and until then the recipient field takes no typing.
     bool ThemeWhisperStartsOff();
+    // Whether the world labels are the 0.97k client's (ClassicWorldHud=1): a party member's "HP"
+    // hover text in the tooltip box above the bar (RenderTipText()), and no health bar under the
+    // selected monster's name.
+    bool ThemeHasClassicWorldHud();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

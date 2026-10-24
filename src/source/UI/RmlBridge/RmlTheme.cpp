@@ -91,6 +91,13 @@ namespace UI::RmlBridge
             return hasChatLogModes;
         }
 
+        // Read every frame by the world labels, so cached like the above.
+        bool& HasClassicWorldHudStorage()
+        {
+            static bool hasClassicWorldHud = HasCapability(ActiveThemeNameStorage(), "ClassicWorldHud");
+            return hasClassicWorldHud;
+        }
+
     }
 
     const std::string& GetActiveThemeName()
@@ -136,11 +143,17 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "WhisperStartsOff");
     }
 
+    bool ThemeHasClassicWorldHud()
+    {
+        return HasClassicWorldHudStorage();
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);
         UsesNativeTextSizeStorage() = ComputeUsesNativeTextSize(ActiveThemeNameStorage());
         HasChatLogModesStorage() = HasCapability(ActiveThemeNameStorage(), "ChatLogModes");
+        HasClassicWorldHudStorage() = HasCapability(ActiveThemeNameStorage(), "ClassicWorldHud");
         RmlUiRuntime::Instance().SetFileTextureNearestFiltering(ThemeUsesNearestFiltering());
 
         // Both themes deliberately reuse the same <template name="..."> for a shared concept

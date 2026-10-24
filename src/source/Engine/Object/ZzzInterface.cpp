@@ -19,6 +19,7 @@
 #include "Render/Textures/ZzzTexture.h"
 #include "Engine/AI/ZzzAI.h"
 #include "Engine/Object/ZzzInterface.h"
+#include "UI/RmlBridge/RmlTheme.h"
 #include "UI/Chat/ChatInput.h"
 #include "GameLogic/Combat/ClassAttack.h"
 #include "GameLogic/Combat/SkillCast.h"
@@ -3879,8 +3880,16 @@ void RenderPartyHP()
         if ((MouseX >= ScreenX && MouseX < ScreenX + Width && MouseY >= ScreenY - 2 && MouseY < ScreenY + 6))
         {
             mu_swprintf(Text, L"HP : %d0%%", p->stepHP);
-            g_pRenderText->SetTextColor(255, 230, 210, 255);
-            g_pRenderText->RenderText(ScreenX, ScreenY - 6, Text);
+            // The 0.97k client wrote it in the tooltip box, 15 above the bar.
+            if (UI::RmlBridge::ThemeHasClassicWorldHud())
+            {
+                RenderTipText(ScreenX, ScreenY - 15, Text);
+            }
+            else
+            {
+                g_pRenderText->SetTextColor(255, 230, 210, 255);
+                g_pRenderText->RenderText(ScreenX, ScreenY - 6, Text);
+            }
         }
 
         EnableAlphaTest();
