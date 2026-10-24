@@ -1,0 +1,6 @@
+/* The 97k theme's CUIMapName: the 0.97k client showed no map title when a map loaded, so the banner
+   (the map name image and the Gens strife banner) never shows. */
+
+body { pointer-events: none; }
+
+#banner { display: none; }

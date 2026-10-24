@@ -95,6 +95,10 @@ in `legacy`:
   party list while there is one, one under the other (a Dark Lord's raven under the horse), the name on a band the size of the text over `RenderBar()`'s bar. The worn
   items are the 0.97k text lines ("name (durability/max)" in the band's colour) under the pets,
   not icons.
+- **The world** (`map_name.rcss`, `item_endurance.rcss`, `theme.ini`'s `ClassicWorldHud`): no map
+  title when a map loads; the elf's arrow count as the 0.97k line of text over the worn items; a
+  party member's HP hover text in the 0.97k tooltip box and no bar under the selected monster's
+  name.
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 
