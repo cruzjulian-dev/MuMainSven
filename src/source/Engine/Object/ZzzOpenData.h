@@ -11,8 +11,17 @@ void ReleaseMainData();
 bool OpenFont();
 void OpenLogoSceneData();
 void ReleaseLogoSceneData();
-void OpenCharacterSceneData();
+// What the character scene loads: the newer stage and faces, or the 0.97k client's. The scene
+// picks it (CreateCharacterScene()); the data only loads what it is told.
+struct CharacterSceneLook
+{
+    bool classicStage = false; // Logo05 from Data/Interface97/Logo/, Scenes::ClassicCharacter's yard
+    bool classicFaces = false; // Face01..04 and face05 instead of NewFace01..07
+};
+void OpenCharacterSceneData(const CharacterSceneLook& look);
 void ReleaseCharacterSceneData();
+// Whether the faces OpenCharacterSceneData() loaded are the 0.97k ones; false once released.
+bool CharacterSceneHasClassicFaces();
 
 void OpenPlayerTextures();
 void OpenItemTextures();

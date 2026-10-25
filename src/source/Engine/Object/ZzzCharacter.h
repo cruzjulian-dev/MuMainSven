@@ -101,7 +101,7 @@ int LevelConvert(BYTE Level);
 float CharacterMoveSpeed(CHARACTER* c);
 
 bool CheckMonsterSkill(CHARACTER* c, OBJECT* o);
-// Whether the model type is one of the 0.97k character creation's faces (ClassicCharacterCreation=1),
+// Whether the model type is one of the 0.97k character creation's faces (CharacterSceneHasClassicFaces()),
 // which play as that client played them: at their actions' own speed, every frame of each, then one
 // of their two gestures at random.
 bool IsClassicFaceModel(int type);

@@ -142,7 +142,6 @@ namespace
 #include "GameLogic/Social/MonkSystem.h"
 #include "UI/Core/WindowSystem.h"
 #include "Render/Lighting/LightMoodSetting.h"
-#include "UI/RmlBridge/RmlTheme.h"
 
 CHARACTER* CharactersClient;
 CHARACTER CharacterView;
@@ -2499,8 +2498,7 @@ bool CheckMonsterSkill(CHARACTER* pCharacter, OBJECT* pObject)
 
 bool IsClassicFaceModel(int type)
 {
-    return type >= MODEL_FACE && type <= MODEL_FACE + CLASS_DARK_LORD
-        && UI::RmlBridge::ThemeHasClassicCharacterCreation();
+    return type >= MODEL_FACE && type <= MODEL_FACE + CLASS_DARK_LORD && CharacterSceneHasClassicFaces();
 }
 
 bool CharacterAnimation(CHARACTER* c, OBJECT* o)
@@ -12210,9 +12208,10 @@ void SetCharacterScale(CHARACTER* c)
         c->BodyPart[BODYPART_HEAD].Type = -1;
     }
 
-    // The 0.97k character scene (ClassicCharacterScene=1) shows the characters at their world size,
-    // as that client did; its stone yard is built for it.
-    if (SceneFlag == CHARACTER_SCENE && !UI::RmlBridge::ThemeHasClassicCharacterScene())
+    // The 0.97k character scene shows the characters at their world size, as that client did; its
+    // stone yard is built for it. It sizes the ones the list made before it again
+    // (Scenes::ClassicCharacter::Create()).
+    if (SceneFlag == CHARACTER_SCENE && !Scenes::ClassicCharacter::IsActive())
     {
         switch (gCharacterManager.GetBaseClass(c->Class))
         {

@@ -136,13 +136,19 @@ bool StartGameWithSlot(int slot)
 }
 } // namespace Scenes
 
-// The theme picks the scene when it is created: the 0.97k client's stone yard or the character
-// world. Either way the scene's data is loaded with it.
+// The theme picks the scene's look when the scene is created: the 0.97k client's stone yard or the
+// character world, and that client's faces or the newer ones. Everything after reads what was
+// picked (Scenes::ClassicCharacter::IsActive(), CharacterSceneHasClassicFaces()), so a theme switch
+// shows on the next visit.
 static void CreateCharacterWorld()
 {
-    if (UI::RmlBridge::ThemeHasClassicCharacterScene())
+    CharacterSceneLook look;
+    look.classicStage = UI::RmlBridge::ThemeHasClassicCharacterScene();
+    look.classicFaces = UI::RmlBridge::ThemeHasClassicCharacterCreation();
+
+    if (look.classicStage)
     {
-        OpenCharacterSceneData();
+        OpenCharacterSceneData(look);
         Scenes::ClassicCharacter::Create();
         return;
     }
@@ -150,7 +156,7 @@ static void CreateCharacterWorld()
     Scenes::ClassicCharacter::Release();
     gMapManager.WorldActive = WD_74NEW_CHARACTER_SCENE;
     gMapManager.LoadWorld(gMapManager.WorldActive);
-    OpenCharacterSceneData();
+    OpenCharacterSceneData(look);
 }
 
 void CreateCharacterScene()

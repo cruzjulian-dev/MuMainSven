@@ -10,6 +10,7 @@
 #include "Engine/Object/ZzzObject.h"
 #include "Engine/Object/ZzzCharacter.h"
 #include "Engine/Object/ZzzInterface.h"
+#include "Engine/Object/ZzzOpenData.h"
 #include "Network/Server/WSclient.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Audio/DSPlaySound.h"
@@ -30,7 +31,6 @@
 #include <string>
 
 #include "Render/RmlUi/RmlUiRuntime.h"
-#include "UI/RmlBridge/RmlTheme.h"
 #include "Core/Utilities/StringUtils.h"
 #include <RmlUi/Core/ElementDocument.h>
 #include <RmlUi/Core/Element.h>
@@ -131,8 +131,9 @@ namespace
     // theme's .rml, and reused when copying into the legacy InputText[0] buffer.
     constexpr int kCharNameMaxLength = 10;
 
-    // The classes the 0.97k creation (ClassicCharacterCreation=1) steps through with its arrows,
-    // in its order; the dark lord, which came after the 0.97k client, follows the magic gladiator.
+    // The classes the 0.97k creation (the classic faces OpenCharacterSceneData() loaded) steps
+    // through with its arrows, in its order; the dark lord, which came after the 0.97k client,
+    // follows the magic gladiator.
     constexpr std::array<CLASS_TYPE, 5> kClassicClasses{
         CLASS_WIZARD, CLASS_KNIGHT, CLASS_ELF, CLASS_DARK, CLASS_DARK_LORD
     };
@@ -405,7 +406,7 @@ void CCharMakeWin::Show(bool bShow)
 
         // The 0.97k creation can only stand on one of its classes.
         const bool classicClass = ClassicClassIndex(m_nSelJob) >= 0 && m_aJobState[m_nSelJob].enabled;
-        if (UI::RmlBridge::ThemeHasClassicCharacterCreation() && !classicClass)
+        if (CharacterSceneHasClassicFaces() && !classicClass)
             SelectJob(CLASS_KNIGHT);
     }
 
@@ -656,14 +657,14 @@ void CCharMakeWin::SelectCreateCharacter()
     CreateCharacterPointer(&CharacterView, static_cast<int>(MODEL_FACE) + CharacterView.Class, 0, 0);
     CharacterView.Object.Kind = 0;
     SetAction(&CharacterView.Object,
-              UI::RmlBridge::ThemeHasClassicCharacterCreation() ? kClassicFaceAction : kFaceIntroAction);
+              CharacterSceneHasClassicFaces() ? kClassicFaceAction : kFaceIntroAction);
 }
 
 void CCharMakeWin::UpdateCreateCharacter()
 {
     // The 0.97k faces move once per frame, with the character scene's MoveCharacterClient(), as that
     // client moved them; a second step here would play them twice as fast.
-    if (UI::RmlBridge::ThemeHasClassicCharacterCreation())
+    if (CharacterSceneHasClassicFaces())
         return;
 
     if (CharacterAnimation(&CharacterView, &CharacterView.Object))
@@ -701,7 +702,7 @@ void CCharMakeWin::RenderPreviewInto(std::uint32_t width, std::uint32_t height)
     const CameraState sceneCamera = g_Camera;
     const bool sceneHighLight = HighLight;
 
-    if (UI::RmlBridge::ThemeHasClassicCharacterCreation())
+    if (CharacterSceneHasClassicFaces())
         FrameClassicFace(&CharacterView);
     else
         FrameNewFace(&CharacterView);

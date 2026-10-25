@@ -25,7 +25,6 @@
 #include "GameLogic/Items/MixMgr.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Dialogs/HelpWindow.h"
-#include "UI/RmlBridge/RmlTheme.h"
 #include "Camera/CameraMove.h"
 #include "GameLogic/Quests/QuestMng.h"
 #include "Network/Server/ServerListManager.h"
@@ -3867,7 +3866,14 @@ void ReleaseLogoSceneData()
     ClearCharacters();
 }
 
-void OpenCharacterSceneData()
+static bool s_CharacterSceneClassicFaces = false;
+
+bool CharacterSceneHasClassicFaces()
+{
+    return s_CharacterSceneClassicFaces;
+}
+
+void OpenCharacterSceneData(const CharacterSceneLook& look)
 {
     LoadBitmap(L"Interface\\cha_id.tga", BITMAP_LOG_IN);
     LoadBitmap(L"Interface\\cha_bt.tga", BITMAP_LOG_IN + 1);
@@ -3883,18 +3889,18 @@ void OpenCharacterSceneData()
     LoadBitmap(L"Effect\\Impack03.jpg", BITMAP_EXT_LOG_IN + 2);
     LoadBitmap(L"Logo\\chasellight.jpg", BITMAP_EFFECT);
 
-    // The 0.97k character creation (ClassicCharacterCreation=1) shows that client's faces, Face01 to
-    // Face04, and face05 for the dark lord; the summoner and the rage fighter it can't create have
-    // none.
-    const bool classicFaces = UI::RmlBridge::ThemeHasClassicCharacterCreation();
-    const int Class = classicFaces ? CLASS_DARK_LORD + 1 : MAX_CLASS;
-    const wchar_t* faceName = classicFaces ? L"Face" : L"NewFace";
+    // The 0.97k faces are that client's, Face01 to Face04, and face05 for the dark lord; the
+    // summoner and the rage fighter its creation can't make have none.
+    s_CharacterSceneClassicFaces = look.classicFaces;
+    const int Class = look.classicFaces ? CLASS_DARK_LORD + 1 : MAX_CLASS;
+    const wchar_t* faceName = look.classicFaces ? L"Face" : L"NewFace";
 
-    // Logo05, the stage: the 0.97k character scene (ClassicCharacterScene=1) stands on that client's
-    // stone yard, kept apart in Data/Interface97/Logo/ so the other themes keep their own.
-    const bool classicStage = UI::RmlBridge::ThemeHasClassicCharacterScene();
-    gLoadData.AccessModel(MODEL_LOGO + 4, classicStage ? L"Data\\Interface97\\Logo\\" : L"Data\\Logo\\", L"Logo", 5);
-    gLoadData.OpenTexture(MODEL_LOGO + 4, classicStage ? L"Interface97\\Logo\\" : L"Logo\\", GL_REPEAT, GL_LINEAR);
+    // Logo05, the stage: the 0.97k one is that client's stone yard, kept apart in
+    // Data/Interface97/Logo/ so the newer one stays in Data/Logo/.
+    const wchar_t* stageDir = look.classicStage ? L"Data\\Interface97\\Logo\\" : L"Data\\Logo\\";
+    const wchar_t* stageTextureDir = look.classicStage ? L"Interface97\\Logo\\" : L"Logo\\";
+    gLoadData.AccessModel(MODEL_LOGO + 4, stageDir, L"Logo", 5);
+    gLoadData.OpenTexture(MODEL_LOGO + 4, stageTextureDir, GL_REPEAT, GL_LINEAR);
 
     for (int i = 0; i < Class; i++)
         gLoadData.AccessModel(MODEL_FACE + i, L"Data\\Logo\\", faceName, i + 1);
@@ -3907,7 +3913,7 @@ void OpenCharacterSceneData()
         Models[MODEL_FACE + i].Actions[0].PlaySpeed = 0.3f;
         Models[MODEL_FACE + i].Actions[1].PlaySpeed = 0.3f;
     }
-    if (!classicFaces)
+    if (!look.classicFaces)
         Models[static_cast<int>(MODEL_FACE) + CLASS_SUMMONER].Actions[0].PlaySpeed = 0.25f;
 }
 
@@ -3924,6 +3930,7 @@ void ReleaseCharacterSceneData()
 
     for (int i = 0; i < MAX_CLASS; i++)
         Models[MODEL_FACE + i].Release();
+    s_CharacterSceneClassicFaces = false;
 
     ClearCharacters();
 }

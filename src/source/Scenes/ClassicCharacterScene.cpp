@@ -112,6 +112,17 @@ void PlaceCharacters()
         o->Angle[2] = (slot - 1) * kSlotTurn;
     }
 }
+
+// The character list comes before the scene is created, so SetCharacterScale() sized its
+// characters for the character world; once the scene is active it sizes them for the yard.
+void SizeCharacters()
+{
+    for (int slot = 0; slot < MAX_CHARACTERS_PER_ACCOUNT; ++slot)
+    {
+        if (CharactersClient[slot].Object.Live)
+            SetCharacterScale(&CharactersClient[slot]);
+    }
+}
 } // namespace
 
 namespace Scenes::ClassicCharacter
@@ -126,6 +137,7 @@ void Create()
     CreateStage();
     PlaceCharacters();
     s_active = true;
+    SizeCharacters();
 }
 
 void Release()
