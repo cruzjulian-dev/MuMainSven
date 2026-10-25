@@ -38,6 +38,7 @@ extern bool SelectFlag;
 #include "UI/Scaling/UITransform.h"
 #include "GameLogic/Items/ShopRestrictions.h"
 #include "GameLogic/Items/TradeRestrictions.h"
+#include "Core/Globals/ClientProfile.h"
 
 // RmlUi migration -- see this class's header comment.
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -749,7 +750,7 @@ bool CMyInventory::UpdateKeyEvent()
         return false;
     }
 
-    if (IsPress(UI::RmlBridge::ThemeRepairsOnR() ? 'R' : 'L') == true)
+    if (IsPress(Core::ClientProfile::HasFourthItemHotKey ? 'L' : 'R') == true)
     {
         if (m_bRepairEnableLevel == true && g_pNewUISystem->IsVisible(INTERFACE_NPCSHOP) == false
             && g_pNewUISystem->IsVisible(INTERFACE_MIXINVENTORY) == false
@@ -808,7 +809,7 @@ bool CMyInventory::UpdateKeyEvent()
         {
             iHotKey = HOTKEY_E;
         }
-        else if (IsPress('R') && !UI::RmlBridge::ThemeRepairsOnR())
+        else if (IsPress('R') && Core::ClientProfile::HasFourthItemHotKey)
         {
             iHotKey = HOTKEY_R;
         }
@@ -913,7 +914,7 @@ void CMyInventory::SyncRmlModel()
 
     syncBool(&MyInventoryRmlModel::repairVisible, "repair_visible", m_bRepairEnableLevel && !otherWindowOpen);
     syncWide(&MyInventoryRmlModel::repairTooltip, "repair_tooltip",
-             UI::RmlBridge::ThemeRepairsOnR() ? I18N::Game::RepairR : I18N::Game::RepairL);
+             Core::ClientProfile::HasFourthItemHotKey ? I18N::Game::RepairL : I18N::Game::RepairR);
 
     syncBool(&MyInventoryRmlModel::myShopVisible, "myshop_visible", m_bMyShopOpen && !otherWindowOpen);
     syncBool(&MyInventoryRmlModel::myShopModeOpen, "myshop_mode_open", m_MyShopMode == MYSHOP_MODE_OPEN);

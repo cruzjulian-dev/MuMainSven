@@ -342,20 +342,13 @@ switches it on. Without it whispering starts on.
 text in the tooltip box 15 above the bar (`RenderTipText()`), and no health bar under the selected
 monster's name. Without it the hover text is plain, 6 above the bar, and the bar shows.
 
-`NoMasterSkillTree=1` takes the master skill tree away, as in the clients before it: the A key no
-longer opens it, and the theme's character window leaves out its shortcut. Without it a master
-level hero opens it with A.
-
-`NoChatCommandList=1` takes the server's chat command list away: J no longer opens it and the
-command window has no Special button. `NoFriends=1` takes the friend list away: F no longer opens it
-and the command window has no Add Friend button.
-
-`RepairOnR=1` moves the repair mode from L to R, for a bar with no fourth potion box: R no longer
-uses a potion, Ctrl+R assigns none, and the repair buttons' hint reads "Repair (R)".
-
-`NoWindowMenu=1`, `NoInGameShop=1` and `NoGens=1` take away the window menu, the in-game shop and
-the Gens ranking: U, X and B no longer open them. A theme that declares them should also leave the
-bar's menu and shop buttons out, as the 97k bar does.
+Which game systems the client has is not a theme capability: it is the build's, the same in every
+theme, in `src/source/Core/Globals/ClientProfile.h`. This build has no master skill tree (A, the
+character window's button), server chat command list (J, the command window's Special), friend list
+(F, the bar's and command window's buttons), window menu (U, the bar's button), in-game shop (X, the
+bar's button), Gens ranking (B) or fourth potion box (R repairs instead of L, and the hint reads
+"Repair (R)"). The bar's buttons and box bind `cshop_available`, `friend_available`,
+`window_available` and `item_slot_3_available`, which `main_frame.rml` uses to hide them.
 
 ## Restacking a document: `[Stacking]`
 
@@ -468,8 +461,9 @@ their element's drawn size; choose their scaling deliberately.
   window declares one.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
   theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
-  `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff`, `ClassicWorldHud`, `NoMasterSkillTree`, `NoChatCommandList`, `NoFriends`, `RepairOnR`, `NoWindowMenu`, `NoInGameShop` and `NoGens` are the
-  ones in use). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff`, `ClassicWorldHud`, `ClassicLoginScene`,
+  `ClassicCharacterCreation` and `ClassicCharacterScene` are the ones in use). Game systems are
+  never capabilities: they are the build's (`Core/Globals/ClientProfile.h`). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

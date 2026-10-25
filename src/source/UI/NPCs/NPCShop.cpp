@@ -13,6 +13,7 @@
 #include "GameLogic/Items/ItemCategories.h"
 #include "GameLogic/Items/ShopRestrictions.h"
 #include "GameLogic/Items/ZenAmount.h"
+#include "Core/Globals/ClientProfile.h"
 
 #include "GameLogic/Social/GambleSystem.h"
 
@@ -316,7 +317,7 @@ void mu::ui::window::CNPCShop::SyncRmlModel()
 
     syncBool(&NPCShopRmlModel::repairVisible, "repair_visible", m_bRepairShop);
     syncWide(&NPCShopRmlModel::repairTooltip, "repair_tooltip",
-             UI::RmlBridge::ThemeRepairsOnR() ? I18N::Game::RepairR : I18N::Game::RepairL);
+             Core::ClientProfile::HasFourthItemHotKey ? I18N::Game::RepairL : I18N::Game::RepairR);
     syncWide(&NPCShopRmlModel::repairAllTooltip, "repair_all_tooltip", I18N::Game::RepairAllA);
     syncWide(&NPCShopRmlModel::repairAllLabel, "repair_all_label", I18N::Game::RepairAll);
 

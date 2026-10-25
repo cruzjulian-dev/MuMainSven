@@ -148,41 +148,6 @@ namespace UI::RmlBridge
         return HasClassicWorldHudStorage();
     }
 
-    bool ThemeHasNoMasterSkillTree()
-    {
-        return HasCapability(ActiveThemeNameStorage(), "NoMasterSkillTree");
-    }
-
-    bool ThemeHasNoChatCommandList()
-    {
-        return HasCapability(ActiveThemeNameStorage(), "NoChatCommandList");
-    }
-
-    bool ThemeHasNoFriends()
-    {
-        return HasCapability(ActiveThemeNameStorage(), "NoFriends");
-    }
-
-    bool ThemeRepairsOnR()
-    {
-        return HasCapability(ActiveThemeNameStorage(), "RepairOnR");
-    }
-
-    bool ThemeHasNoWindowMenu()
-    {
-        return HasCapability(ActiveThemeNameStorage(), "NoWindowMenu");
-    }
-
-    bool ThemeHasNoInGameShop()
-    {
-        return HasCapability(ActiveThemeNameStorage(), "NoInGameShop");
-    }
-
-    bool ThemeHasNoGens()
-    {
-        return HasCapability(ActiveThemeNameStorage(), "NoGens");
-    }
-
     bool ThemeHasClassicLoginScene()
     {
         return HasCapability(ActiveThemeNameStorage(), "ClassicLoginScene");

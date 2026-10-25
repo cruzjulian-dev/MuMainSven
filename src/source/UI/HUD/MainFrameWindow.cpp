@@ -46,6 +46,7 @@
 #include <RmlUi/Core/Event.h>
 #include "GameLogic/Quests/QuestMng.h"
 #include "UI/Social/FriendWindow.h"
+#include "Core/Globals/ClientProfile.h"
 
 mu::ui::window::CMainFrameWindow::CMainFrameWindow()
 {
@@ -158,6 +159,16 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
     c.Bind("window_tooltip", &model.windowTooltip);
     c.Bind("party_tooltip", &model.partyTooltip);
     c.Bind("guild_tooltip", &model.guildTooltip);
+
+    // Fixed for the build (Core::ClientProfile): set once, never synced.
+    model.cShopAvailable = Core::ClientProfile::HasInGameShop;
+    model.friendAvailable = Core::ClientProfile::HasFriends;
+    model.windowAvailable = Core::ClientProfile::HasWindowMenu;
+    model.fourthItemSlotAvailable = Core::ClientProfile::HasFourthItemHotKey;
+    c.Bind("cshop_available", &model.cShopAvailable);
+    c.Bind("friend_available", &model.friendAvailable);
+    c.Bind("window_available", &model.windowAvailable);
+    c.Bind("item_slot_3_available", &model.fourthItemSlotAvailable);
 
     c.Bind("chainfo_alert", &model.chaInfoAlert);
     c.Bind("friend_alert", &model.friendAlert);
@@ -276,15 +287,27 @@ void mu::ui::window::CMainFrameWindow::BindRmlModel(Rml::DataModelConstructor& c
         });
 
     c.BindEventCallback("mainframe_cshop_click",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickCShop(); });
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
+        {
+            if (Core::ClientProfile::HasInGameShop)
+                RmlClickCShop();
+        });
     c.BindEventCallback("mainframe_chainfo_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickChaInfo(); });
     c.BindEventCallback("mainframe_myinven_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickMyInven(); });
     c.BindEventCallback("mainframe_friend_click",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickFriend(); });
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
+        {
+            if (Core::ClientProfile::HasFriends)
+                RmlClickFriend();
+        });
     c.BindEventCallback("mainframe_window_click",
-        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickWindow(); });
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
+        {
+            if (Core::ClientProfile::HasWindowMenu)
+                RmlClickWindow();
+        });
     c.BindEventCallback("mainframe_party_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickParty(); });
     c.BindEventCallback("mainframe_guild_click",

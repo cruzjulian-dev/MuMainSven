@@ -15,7 +15,7 @@
    layout and is hidden; the fruit points take the 0.97k reset-points line. The quest and pet
    shortcuts the 0.97k client didn't have are the Season 3 client's (Quest1 and pet1, 24x24, at 55
    and 85 of the exit's row; Quest2 and pet2 while held). Season 3 had no master skill tree, so its
-   shortcut is gone and the theme takes the tree away (NoMasterSkillTree in theme.ini). */
+   shortcut is gone; the build has no tree either (Core/Globals/ClientProfile.h). */
 @spritesheet chainfo97-box-sheet        { src: "../../../../Interface97/Level_box.jpg"; chainfo97-box: 0px 0px 75px 21px; }
 @spritesheet chainfo97-stat-btn-sheet   { src: "../../../../Interface97/Level_01.jpg"; chainfo97-stat-btn: 0px 0px 24px 24px; }
 @spritesheet chainfo97-stat-press-sheet { src: "../../../../Interface97/Level_02.jpg"; chainfo97-stat-press: 0px 0px 24px 24px; }

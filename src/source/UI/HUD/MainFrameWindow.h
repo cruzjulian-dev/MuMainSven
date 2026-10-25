@@ -134,6 +134,10 @@ namespace mu::ui::window
             // Corner buttons: "Open" mirrors SetBtnState()'s bStateDown; tooltips are static strings pushed once.
             bool cShopOpen = false, chaInfoOpen = false, myInvenOpen = false, friendOpen = false, windowOpen = false;
             Rml::String cShopTooltip, chaInfoTooltip, myInvenTooltip, friendTooltip, windowTooltip;
+            // Whether the build has the system behind a button, and the fourth potion box
+            // (Core::ClientProfile): without it the button or the box is hidden in every theme.
+            bool cShopAvailable = false, friendAvailable = false, windowAvailable = false;
+            bool fourthItemSlotAvailable = false;
             // Party and guild buttons, shown only by themes that have them (97k); "Open" follows
             // the windows' own visibility.
             bool partyOpen = false, guildOpen = false;

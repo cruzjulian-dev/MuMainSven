@@ -24,6 +24,7 @@
 #include "UI/RmlBridge/RmlDocumentVisibility.h"
 #include "UI/RmlBridge/RmlNativeTextSize.h"
 #include "UI/RmlBridge/RmlTheme.h"
+#include "Core/Globals/ClientProfile.h"
 
 #include <RmlUi/Core/ElementDocument.h>
 #include "Render/Text/CUIRenderText.h"
@@ -198,12 +199,12 @@ void mu::ui::window::CCommandWindow::BindRmlModel(Rml::DataModelConstructor& c, 
     wchar_t exitText[256] = {};
     mu_swprintf(exitText, I18N::Game::CloseS, L"D");
     model.exitTooltip = StringUtils::WideToNarrow(exitText);
-    // A theme without the friend list or the chat command list has no button for them.
+    // A build without the friend list or the chat command list has no button for them.
     model.buttons.clear();
     for (int i = COMMAND_TRADE; i < COMMAND_END; ++i)
     {
-        if ((i == COMMAND_ADD_FRIEND && UI::RmlBridge::ThemeHasNoFriends()) ||
-            (i == COMMAND_SPECIAL && UI::RmlBridge::ThemeHasNoChatCommandList()))
+        if ((i == COMMAND_ADD_FRIEND && !Core::ClientProfile::HasFriends) ||
+            (i == COMMAND_SPECIAL && !Core::ClientProfile::HasChatCommandList))
             continue;
         model.buttons.push_back({StringUtils::WideToNarrow(*kCommandLabels[i]), i});
     }

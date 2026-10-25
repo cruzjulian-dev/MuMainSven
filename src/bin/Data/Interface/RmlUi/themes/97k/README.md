@@ -23,9 +23,9 @@ in `legacy`:
   orbs (green while poisoned), the AG column, EXP, the Q/W/E potions, the current skill and its
   list above the bar, and the Party, Character, Inventory and Guild buttons. The 0.97k bar has no
   SD gauge, no skill hotkey row, no fourth potion box and no shop, friend or menu buttons; the
-  skills keep working from their keys (the number keys), R repairs instead of L (`RepairOnR=1`),
-  and the theme has no friend list, window menu, in-game shop, Gens ranking or server chat
-  command list: F, U, X, B and J do nothing (`theme.ini`'s `[Capabilities]`).
+  skills keep working from their keys (the number keys). The build has no fourth potion hotkey,
+  friend list, window menu, in-game shop, Gens ranking or server chat command list, so R repairs
+  instead of L and F, U, X, B and J do nothing, in every theme (`Core/Globals/ClientProfile.h`).
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):
@@ -60,7 +60,7 @@ in `legacy`:
   0.97k blue band. Stamina stands one line lower than in the 0.97k client, clear of agility's
   third line. Sven's fruit-probability line is hidden; the quest and pet shortcuts beside the
   exit are the Season 3 client's (`Quest1`, `pet1`). Season 3 had no master skill tree, so the
-  theme leaves out its shortcut and takes the A key away (`NoMasterSkillTree=1` in `theme.ini`).
+  theme leaves out its shortcut; the build has no master skill tree either (`ClientProfile.h`).
 - **Trade** (`trade.rcss`): the 0.97k panel with `Trading_line` across it, the partner's offer
   above and the hero's below in the 0.97k cells, both amounts in `Item_Money` boxes, and the
   0.97k zen, accept (`Accept_box01`, `Accept_box02` once accepted) and exit buttons on one row,
@@ -89,8 +89,8 @@ in `legacy`:
   `Level_box`; Sven's group boxes are hidden.
 - **The command window (D)** (`command_window.rcss`): the Season 3 client's, its commands as
   `Message_box` buttons 100x25 from 45,69, 28 apart, the label bold in gold under the pointer or
-  while armed, the S3 target box (`CursorID_Wnd`) at the pointer. The theme has no Special or Add
-  Friend button and takes J and F away with them (`NoChatCommandList=1`, `NoFriends=1`).
+  while armed, the S3 target box (`CursorID_Wnd`) at the pointer. There is no Special or Add
+  Friend button: the build has no chat command list or friend list (`ClientProfile.h`).
 - **The guild window (G)** (`guild_info.rcss`): the classic window of the Season 3 client, which
   already had Sven's three tabs (`docs/superpowers/specs/2026-10-24-guild-s3-classic-design.md`):
   the `win_button` tabs, the open one taller and bright; the gold group boxes round the mark, the

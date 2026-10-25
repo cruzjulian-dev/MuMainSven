@@ -37,6 +37,7 @@
 #include "Camera/CameraProjection.h"
 #include "UI/RmlBridge/RmlDocumentVisibility.h"
 #include "UI/RmlBridge/RmlTheme.h"
+#include "Core/Globals/ClientProfile.h"
 #include "UI/RmlBridge/RmlWorkspaceParticipant.h"
 #include "UI/Placement/WindowPlacement.h"
 #include "UI/RmlBridge/RmlTooltip.h"
@@ -78,7 +79,7 @@ bool mu::ui::window::CItemHotKey::UpdateKeyEvent()
     {
         iIndex = GetHotKeyItemIndex(HOTKEY_E);
     }
-    else if (mu::ui::window::IsPress('R') == true && !UI::RmlBridge::ThemeRepairsOnR())
+    else if (mu::ui::window::IsPress('R') == true && Core::ClientProfile::HasFourthItemHotKey)
     {
         iIndex = GetHotKeyItemIndex(HOTKEY_R);
     }

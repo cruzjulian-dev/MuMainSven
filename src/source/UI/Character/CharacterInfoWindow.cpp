@@ -25,6 +25,7 @@
 #include "UI/RmlBridge/RmlWindowClose.h"
 #include "UI/RmlBridge/RmlNativeTextSize.h"
 #include "UI/RmlBridge/RmlTheme.h"
+#include "Core/Globals/ClientProfile.h"
 
 #include <RmlUi/Core/DataModelHandle.h>
 #include <RmlUi/Core/ElementDocument.h>
@@ -35,6 +36,13 @@ using namespace mu::ui::window;
 
 namespace
 {
+    // The master level button's window: the build has the master skill tree and the hero a master class.
+    bool CanOpenMasterSkillTree()
+    {
+        return Core::ClientProfile::HasMasterSkillTree && gCharacterManager.IsMasterLevel(Hero->Class) == true
+            && Hero->Class != CLASS_TEMPLENIGHT;
+    }
+
     float GetMasterSkillValue(ActionSkillType skill)
     {
         return CharacterAttribute->MasterSkillInfo[skill].GetSkillValue();
@@ -277,9 +285,8 @@ void mu::ui::window::CCharacterInfoWindow::OpenningProcess()
 {
     ResetEquipmentLevel();
 
-    const bool masterLevelEnabled = gCharacterManager.IsMasterLevel(Hero->Class) == true && Hero->Class != CLASS_TEMPLENIGHT;
     SyncField(m_RmlView.Binder(), &CharacterInfoRmlModel::masterLevelEnabled, "master_level_enabled",
-              masterLevelEnabled);
+              CanOpenMasterSkillTree());
 
     g_csItemOption.init();
 
@@ -325,7 +332,7 @@ void mu::ui::window::CCharacterInfoWindow::RmlClickPet()
 
 void mu::ui::window::CCharacterInfoWindow::RmlClickMasterLevel()
 {
-    if (gCharacterManager.IsMasterLevel(Hero->Class) && Hero->Class != CLASS_TEMPLENIGHT)
+    if (CanOpenMasterSkillTree())
         g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_MASTER_LEVEL);
 }
 

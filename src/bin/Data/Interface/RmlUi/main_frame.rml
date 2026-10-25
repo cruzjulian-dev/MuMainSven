@@ -66,9 +66,10 @@
 	</div>
 
 	<!-- The original's bottom button row. A theme that puts these buttons elsewhere hides it (the
-	     modern theme's are in main_frame_top.rml). -->
+	     modern theme's are in main_frame_top.rml). A button whose system the build doesn't have
+	     (`*_available`, Core::ClientProfile) is hidden in every theme. -->
 	<div id="buttons" class="hud-part">
-		<div id="btn_cshop" class="frame-btn slot-frame slot-fill" data-class-open="cshop_open" data-event-click="mainframe_cshop_click" data-attr-data-hint="cshop_tooltip">
+		<div id="btn_cshop" class="frame-btn slot-frame slot-fill" data-class-hidden="!cshop_available" data-class-open="cshop_open" data-event-click="mainframe_cshop_click" data-attr-data-hint="cshop_tooltip">
 			<span class="btn-icon-label">SHOP</span>
 		</div>
 		<div id="btn_chainfo" class="frame-btn slot-frame slot-fill" data-class-open="chainfo_open" data-event-click="mainframe_chainfo_click" data-attr-data-hint="chainfo_tooltip">
@@ -78,11 +79,11 @@
 		<div id="btn_myinven" class="frame-btn slot-frame slot-fill" data-class-open="myinven_open" data-event-click="mainframe_myinven_click" data-attr-data-hint="myinven_tooltip">
 			<span class="btn-icon-label">INV</span>
 		</div>
-		<div id="btn_friend" class="frame-btn slot-frame slot-fill" data-class-open="friend_open" data-event-click="mainframe_friend_click" data-attr-data-hint="friend_tooltip">
+		<div id="btn_friend" class="frame-btn slot-frame slot-fill" data-class-hidden="!friend_available" data-class-open="friend_open" data-event-click="mainframe_friend_click" data-attr-data-hint="friend_tooltip">
 			<span class="btn-icon-label">FRIEND</span>
 			<div class="alert-dot" data-class-hidden="!friend_alert"></div>
 		</div>
-		<div id="btn_window" class="frame-btn slot-frame slot-fill" data-class-open="window_open" data-event-click="mainframe_window_click" data-attr-data-hint="window_tooltip">
+		<div id="btn_window" class="frame-btn slot-frame slot-fill" data-class-hidden="!window_available" data-class-open="window_open" data-event-click="mainframe_window_click" data-attr-data-hint="window_tooltip">
 			<span class="btn-icon-label">MENU</span>
 		</div>
 		<!-- Party and guild: the 0.97k HUD's buttons. Themes without them hide them. -->
@@ -119,7 +120,7 @@
 		<div id="item_slot_0" class="slot-frame" data-class-selected="item_slot_0_hovered" data-event-mouseover="item_hotkey_hover(0)" data-event-mouseout="item_hotkey_unhover" data-event-mouseup="item_hotkey_rightclick(0)"><img id="item_icon_0" class="item-icon"/><span class="slot-hotkey-label">Q</span><span class="item-stack-label">{{item_slot_0_count}}</span></div>
 		<div id="item_slot_1" class="slot-frame" data-class-selected="item_slot_1_hovered" data-event-mouseover="item_hotkey_hover(1)" data-event-mouseout="item_hotkey_unhover" data-event-mouseup="item_hotkey_rightclick(1)"><img id="item_icon_1" class="item-icon"/><span class="slot-hotkey-label">W</span><span class="item-stack-label">{{item_slot_1_count}}</span></div>
 		<div id="item_slot_2" class="slot-frame" data-class-selected="item_slot_2_hovered" data-event-mouseover="item_hotkey_hover(2)" data-event-mouseout="item_hotkey_unhover" data-event-mouseup="item_hotkey_rightclick(2)"><img id="item_icon_2" class="item-icon"/><span class="slot-hotkey-label">E</span><span class="item-stack-label">{{item_slot_2_count}}</span></div>
-		<div id="item_slot_3" class="slot-frame" data-class-selected="item_slot_3_hovered" data-event-mouseover="item_hotkey_hover(3)" data-event-mouseout="item_hotkey_unhover" data-event-mouseup="item_hotkey_rightclick(3)"><img id="item_icon_3" class="item-icon"/><span class="slot-hotkey-label">R</span><span class="item-stack-label">{{item_slot_3_count}}</span></div>
+		<div id="item_slot_3" class="slot-frame" data-class-hidden="!item_slot_3_available" data-class-selected="item_slot_3_hovered" data-event-mouseover="item_hotkey_hover(3)" data-event-mouseout="item_hotkey_unhover" data-event-mouseup="item_hotkey_rightclick(3)"><img id="item_icon_3" class="item-icon"/><span class="slot-hotkey-label">R</span><span class="item-stack-label">{{item_slot_3_count}}</span></div>
 	</div>
 	<!-- The skill row: the upper-set highlight, then per slot the skill icon (a
 	     skill_icons.rcss/master_skill_icons.rcss sprite bound by C++), its hotkey number and the

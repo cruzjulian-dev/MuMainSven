@@ -4,8 +4,8 @@
    the armed one at half brightness; each label centred on its button, white, and bold in
    (255, 204, 51) under the pointer or while armed, grey while held; the exit 24x24 at 18,401; the
    target box at the pointer + 5, CursorID_Wnd (128x32), the name centred 7 below its top, white,
-   or (255, 51, 51) out of reach. The theme has no Special or Add Friend command
-   (NoChatCommandList, NoFriends in theme.ini), so the ten left stand where Season 3's first ten
+   or (255, 51, 51) out of reach. The build has no Special or Add Friend command
+   (Core/Globals/ClientProfile.h), so the ten left stand where Season 3's first ten
    did. Coordinates are reference px inside #panel. */
 
 @spritesheet cmd97-btn-sheet { src: "../../../../Interface97/Message_box.jpg"; cmd97-btn: 0px 0px 213px 64px; }

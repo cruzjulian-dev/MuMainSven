@@ -4,14 +4,13 @@
    The buttons, the potion boxes and the current-skill box are painted into the bar's art; their
    elements here are the hit areas and the pressed or count overlays the original drew on top. */
 
-/* What the 0.97k bar doesn't have: modern's flat backing, the full current/max readouts, SD, the
-   skill hotkey row, the fourth potion box and the shop, friend and menu buttons. Those stay on
-   their keys (R, the number keys, F, U). */
+/* What the 0.97k bar doesn't have: modern's flat backing, the full current/max readouts, SD and the
+   skill hotkey row (the skills stay on the number keys). The fourth potion box and the shop, friend
+   and menu buttons are the build's (Core::ClientProfile): main_frame.rml hides them. */
 #gauge_fill_left, #gauge_fill_right, #item_band_fill, #skill_band_fill, #gauge_frame,
 .gauge-num.value-full, .gauge-fill-horizontal, .exp-frame, .btn-icon-label, .slot-hotkey-label,
 #bar_sd, #skill_list_highlight, #exp_digit,
-#skill_slot_0, #skill_slot_1, #skill_slot_2, #skill_slot_3, #skill_slot_4, #item_slot_3,
-#btn_cshop, #btn_friend, #btn_window {
+#skill_slot_0, #skill_slot_1, #skill_slot_2, #skill_slot_3, #skill_slot_4 {
 	display: none;
 }
 

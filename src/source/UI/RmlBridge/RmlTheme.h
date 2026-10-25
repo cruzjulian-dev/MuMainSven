@@ -86,24 +86,6 @@ namespace UI::RmlBridge
     // hover text in the tooltip box above the bar (RenderTipText()), and no health bar under the
     // selected monster's name.
     bool ThemeHasClassicWorldHud();
-    // Whether the theme takes the master skill tree away (NoMasterSkillTree=1), as the clients
-    // before it had none: the A key does not open it.
-    bool ThemeHasNoMasterSkillTree();
-    // Whether the theme takes the server's chat command list away (NoChatCommandList=1): J does not
-    // open it and the command window has no Special button.
-    bool ThemeHasNoChatCommandList();
-    // Whether the theme takes the friend list away (NoFriends=1): F does not open it and the
-    // command window has no Add Friend button.
-    bool ThemeHasNoFriends();
-    // Whether R toggles the repair mode (RepairOnR=1) instead of L, for a bar with no fourth potion
-    // box: R no longer uses a potion and Ctrl+R assigns none.
-    bool ThemeRepairsOnR();
-    // Whether the theme takes the window menu away (NoWindowMenu=1): U does not open it.
-    bool ThemeHasNoWindowMenu();
-    // Whether the theme takes the in-game shop away (NoInGameShop=1): X does not open it.
-    bool ThemeHasNoInGameShop();
-    // Whether the theme takes the Gens ranking away (NoGens=1): B does not open it.
-    bool ThemeHasNoGens();
     // Whether the login scene is the 0.97k client's (ClassicLoginScene=1): the ships at sea under
     // the 3D MU logo, in a 640x320 strip between black bars, instead of the login world. Read when
     // the scene is created, so a theme switch shows on the next visit.

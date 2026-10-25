@@ -26,7 +26,7 @@
 
 #include "MUHelper/MuHelper.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
-#include "UI/RmlBridge/RmlTheme.h"
+#include "Core/Globals/ClientProfile.h"
 
 using namespace SEASON3B;
 using namespace mu::ui::window;
@@ -180,7 +180,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         return true;
     }
 
-    if (mu::ui::window::IsPress('F') && !UI::RmlBridge::ThemeHasNoFriends())
+    if (mu::ui::window::IsPress('F') && Core::ClientProfile::HasFriends)
     {
         if (gMapManager.InChaosCastle() == true)
         {
@@ -237,7 +237,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         PlayBuffer(SOUND_CLICK01);
         return false;
     }
-    else if (mu::ui::window::IsPress('A') && !UI::RmlBridge::ThemeHasNoMasterSkillTree())
+    else if (mu::ui::window::IsPress('A') && Core::ClientProfile::HasMasterSkillTree)
     {
         if (gCharacterManager.IsMasterLevel(Hero->Class) == true
             && Hero->Class != CLASS_TEMPLENIGHT)
@@ -249,7 +249,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
 
         return false;
     }
-    else if (mu::ui::window::IsPress('U') && !UI::RmlBridge::ThemeHasNoWindowMenu())
+    else if (mu::ui::window::IsPress('U') && Core::ClientProfile::HasWindowMenu)
     {
         g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_WINDOW_MENU);
         PlayBuffer(SOUND_CLICK01);
@@ -276,7 +276,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         PlayBuffer(SOUND_CLICK01);
         return false;
     }
-    else if (mu::ui::window::IsPress('J') == true && !UI::RmlBridge::ThemeHasNoChatCommandList())
+    else if (mu::ui::window::IsPress('J') == true && Core::ClientProfile::HasChatCommandList)
     {
         // Only servers which offer their chat commands have something to show.
         if (GameLogic::Commands::Catalog().IsAvailable())
@@ -312,7 +312,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         return false;
     }
 #ifdef PBG_ADD_INGAMESHOP_UI_MAINFRAME
-    else if (mu::ui::window::IsPress('X') == true && !UI::RmlBridge::ThemeHasNoInGameShop())
+    else if (mu::ui::window::IsPress('X') == true && Core::ClientProfile::HasInGameShop)
     {
         g_ConsoleDebug->Write(MCD_NORMAL, L"InGameShopStatue.Txt CallStack - CHotKey.UpdateKeyEvent()");
         if (g_pInGameShop->IsInGameShopOpen() == false)
@@ -353,7 +353,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
         return false;
     }
 #endif // PBG_ADD_INGAMESHOP_UI_MAINFRAME
-    else if (mu::ui::window::IsPress('B') && !UI::RmlBridge::ThemeHasNoGens())
+    else if (mu::ui::window::IsPress('B') && Core::ClientProfile::HasGens)
     {
         if (!g_pNewUIGensRanking->SetGensInfo())
             return false;
