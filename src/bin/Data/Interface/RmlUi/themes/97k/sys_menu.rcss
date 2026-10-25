@@ -1,0 +1,44 @@
+/* The 97k theme's login and character-scene system menu (SysMenuWin): the 0.97k ESC menu (its
+   RenderErrorMessage() state 110), the same one the theme's world shows (generic_menu_dialog.rcss,
+   kind system-menu). No box and no dimming: each button is Message_box (213x64 of it) squeezed to
+   120x22, centred on the 640x480 screen (from 260), the first at 60 and each 30 below the last,
+   its label white and centred 5 below its top. The login scene has Exit Game, Option and Close,
+   the character scene Select Server too, as the 0.97k client had.
+
+   The 0.97k drew a hovered button again over itself, additively, tinted (0.8, 0.6, 0.4); as in
+   generic_menu_dialog.rcss, a part sepia then brightened stands in for it.
+
+   #panel is the 0.97k screen's column of buttons: the screen is 640x480 dp centred in the window,
+   as the theme's login box and server list place theirs (login.rcss), so the column's top is 60
+   below the screen's (240 above the window's middle). */
+
+@spritesheet sm97-btn-sheet { src: "../../../../Interface97/Message_box.jpg"; sm97-btn: 0px 0px 213px 64px; }
+
+#backdrop { background-color: transparent; }
+
+#panel {
+	left: 50%;
+	top: 50%;
+	width: 120dp;
+	height: auto;
+	margin-left: -60dp;
+	margin-top: -180dp;
+	transform: none;
+	font-family: "token(font-body)";
+	color: #ffffff;
+}
+#panel .panel-middle, #panel .panel-cap-top, #panel .panel-cap-bottom { display: none; }
+
+#panel .btn {
+	display: block;
+	position: static;
+	width: 120dp;
+	height: 22dp;
+	line-height: 22dp;
+	margin-bottom: 8dp;
+	white-space: nowrap;
+	decorator: image(sm97-btn fill);
+}
+#panel .btn:hover { decorator: image(sm97-btn fill); filter: sepia(0.6) brightness(1.5); }
+#panel .btn:active { decorator: image(sm97-btn fill); image-color: rgb(200, 200, 200); }
+#panel .btn.hidden { display: none; }

@@ -198,6 +198,11 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "ClassicCharacterScene");
     }
 
+    bool ThemeHasLoginAttemptLimit()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "LoginAttemptLimit");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);

@@ -2,7 +2,7 @@
    (Scene_Login, sub-states 2 and 3). #screen is that screen, centred at the UI scale like the
    server list; everything inside is its pixels in reference dp.
 
-   - Box: Logo/0Account_new (250x216 of it) at 195,244: 20 above where the 0.97k box ended its slide
+   - Box: Logo/0Account_new (250x216 of it) at 195,247: 17 above where the 0.97k box ended its slide
      up, so its foot clears the copyright line the login scene draws on the bottom edge.
    - Account and password: the label at 32 and the field at 100 of the box, 119 wide, on y=50 and
      y=72; text in the 0.97k login colour (0xffd2e6ff).
@@ -39,7 +39,7 @@ body {
 #box {
 	position: absolute;
 	left: 195dp;
-	top: 244dp;
+	top: 247dp;
 	width: 250dp;
 	height: 216dp;
 	font-family: "token(font-body)";

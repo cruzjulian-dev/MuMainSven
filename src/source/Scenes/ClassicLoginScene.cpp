@@ -94,6 +94,8 @@ constexpr float kTorchBlue = 0.2f;
 constexpr float kTorchScale = 1.f;
 
 bool s_active = false;
+// Whether the title sound has played: once per visit, as the logo lights up.
+bool s_titlePlayed = false;
 // The gesture each sailor made last: the 0.97k client's characters held a gesture's last pose, so
 // rolling the same one again changed nothing and only the other one showed.
 int s_lastGesture[std::size(kSailors)];
@@ -204,6 +206,7 @@ void Create()
     LoadModels();
     CreateObjects();
     CreateSailors();
+    s_titlePlayed = false;
     s_active = true;
 }
 
@@ -226,9 +229,14 @@ void Move()
 {
     MoveSailors();
 
-    // The title sound each time the camera starts a new walk, the first one as the logo lights up.
-    if (GetLoginCameraWalkCut() == 1 && GetLoginCameraCount() == 0)
+    // The title sound as the logo lights up, when the camera starts its first walk. Only then: the
+    // 0.97k client's decompiled MoveCamera() suggests one at every new walk (each 128 frames), but
+    // the 0.97k client heard in game plays it once.
+    if (!s_titlePlayed && GetLoginCameraWalkCut() == 1 && GetLoginCameraCount() == 0)
+    {
         PlayBuffer(SOUND_TITLE01);
+        s_titlePlayed = true;
+    }
 }
 
 UI::Scaling::Viewport Viewport()

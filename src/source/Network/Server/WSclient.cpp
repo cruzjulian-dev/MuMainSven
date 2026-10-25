@@ -15,6 +15,7 @@
 #include "UI/Options/OptionUpdates.h"
 #include "UI/MuHelper/MuHelperUpdates.h"
 #include "UI/Windows/LoginSceneUpdates.h"
+#include "UI/RmlBridge/RmlTheme.h"
 #include "UI/Core/WindowAccess.h"
 #include "UI/Social/SocialUpdates.h"
 #include <memory>
@@ -428,6 +429,26 @@ void DeleteSocket()
 }
 
 int LogIn = 0;
+
+// Wrong passwords on this game server connection, for the theme's limit (LoginAttemptLimit=1).
+static int s_WrongPasswords = 0;
+static constexpr int kMaxWrongPasswords = 3;
+
+// Whether this wrong password ends the connection: the 0.97k client's server closed it at the
+// third, and the client then said it was lost. This build's server answers every attempt, so the
+// client closes it itself; CheckServerConnection() then shows "You are disconnected from the
+// server", whose OK closes the game, as the 0.97k client's did.
+static bool EndConnectionOnWrongPassword()
+{
+    if (!UI::RmlBridge::ThemeHasLoginAttemptLimit() || ++s_WrongPasswords < kMaxWrongPasswords)
+        return false;
+
+    s_WrongPasswords = 0;
+    if (SocketClient != nullptr)
+        SocketClient->Close();
+    return true;
+}
+
 wchar_t LogInID[MAX_USERNAME_SIZE + 1] = {
     0,
 };
@@ -582,6 +603,7 @@ void ReceiveJoinServer(const BYTE* ReceiveBuffer)
             }
             HeroKey = ((int)(Data2->NumberH) << 8) + Data2->NumberL;
             CurrentProtocolState = RECEIVE_JOIN_SERVER_SUCCESS;
+            s_WrongPasswords = 0;
             break;
 
         default:
@@ -13258,7 +13280,8 @@ static void ProcessPacket(const BYTE* ReceiveBuffer, int32_t Size)
                 CheckHack();
                 break;
             case 0x00:
-                UI::LoginScene::ShowMessage(RECEIVE_LOG_IN_FAIL_PASSWORD);
+                if (!EndConnectionOnWrongPassword())
+                    UI::LoginScene::ShowMessage(RECEIVE_LOG_IN_FAIL_PASSWORD);
                 break;
             case 0x01:
                 CurrentProtocolState = RECEIVE_LOG_IN_SUCCESS;

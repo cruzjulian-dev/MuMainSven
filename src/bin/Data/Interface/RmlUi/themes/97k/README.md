@@ -114,6 +114,9 @@ in `legacy`:
 - **The login and character-scene message box** (`msg_win.rcss`), e.g. "You are disconnected from
   the server": the 0.97k `Message_box` (213x64 from y 60) with its white centred lines and the
   0.97k `Ok`/`Cancel` (`Ok2`/`Cancel2` under the pointer) where `RenderErrorMessage()` drew them.
+- **The login and character-scene ESC menu** (`sys_menu.rcss`): the same 0.97k ESC menu as in the
+  world, its buttons 120x22 centred on the 640x480 screen, 30 apart from 60, with no box and no
+  dimming: Exit Game, Option and Close, with Select Server too in the character scene.
 - **The reconnect dialog** (`reconnect_dialog.rcss`): the art of the 0.97k connecting box,
   `Message_box` at half brightness (213 wide, as tall as the dialog), the `Progress_back` track
   with the yellow band the 0.97k `Progress` fill showed over it, and the 0.97k `Cancel` (`Cancel2`
@@ -140,13 +143,14 @@ in `legacy`:
   stand at the bow of the near ship and an elf with her guardian angel on the right one, each
   gesturing now and then as the 0.97k ones did (one of their two gestures at a time, heads still).
   Server notices show only in the world. The view is the 0.97k strip between black bars, with the version and
-  copyright lines on the bottom one. No music, just the title sound each time the camera turns.
+  copyright lines on the bottom one. No music, just the title sound once, as the logo lights up.
   The menu and credits buttons are gone: ESC opens the menu. A theme switch shows on the next
   visit to the login scene.
 - **The login box** (`login.rml/.rcss`): the 0.97k box (`0Account_new`) under the logo, the
   account and password fields, OK in the art's top right slot and Cancel under the frame, each lit
-  under the pointer; 20 higher than the 0.97k box so it clears the copyright line. The 0.97k box had no remember options: they keep their saved state but are
-  not shown.
+  under the pointer; 17 higher than the 0.97k box so it clears the copyright line. The 0.97k box had no remember options: they keep their saved state but are
+  not shown. The third wrong password on a connection ends it (`LoginAttemptLimit=1`), as the
+  0.97k client's server did: "You are disconnected from the server", and OK closes the game.
 - **The server list** (`server_select.rml/.rcss`): the 0.97k list, its groups as `0box` buttons
   70x16 in two columns from y 220, Non-PVP on the left and PVP on the right (a group goes right
   when it has no Non-PVP channel in `ServerList.json`), the selected one brighter and 10 nearer

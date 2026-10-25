@@ -149,7 +149,7 @@ referencia (`Mu-97k-Client-Source/src/Render/HUD_Pass*.cpp`):
 |---|---|---|
 | Guild (G) | `guild_info.rcss` | Queda con el contenido de Sven por ahora (decisión del usuario). |
 | Creación de guild | `guild_make.rcss` | **Hecho**: editor 0.97k, `Ok`/`Cancel` en 20,350 y 100,350. |
-| Cajas de mensaje y menú ESC | `window_shell`, `generic_menu_dialog`, `generic_confirm_dialog`, `message_box_view` | **Hecho** en el juego (caja `Message_box2`/`Message_box1`, `Ok`/`Cancel`, botón `Message_box`, menú ESC 0.97k). Faltan las de la escena de login (`msg_win`, `sys_menu`, `reconnect_dialog`): Fase 6. |
+| Cajas de mensaje y menú ESC | `window_shell`, `generic_menu_dialog`, `generic_confirm_dialog`, `message_box_view` | **Hecho** en el juego (caja `Message_box2`/`Message_box1`, `Ok`/`Cancel`, botón `Message_box`, menú ESC 0.97k). En la escena de login y de personajes también: `msg_win`, `reconnect_dialog` y `sys_menu` (el menú ESC 0.97k, sin caja). |
 | División de servidor | — | Sven no la implementa (sólo marca `g_bServerDivisionEnable`): no hay ventana que tematizar. Construirla sería una ventana nueva. |
 | Avisos | `notices`, `slide_notice`, `server_msg` | `RenderNotices()`: 6 líneas centradas desde y=300, paso 13, fondo negro semitransparente, parpadeo. |
 | Texto de sistema | `system_log` | Texto de sistema de la 0.97k. |
@@ -191,8 +191,8 @@ Con `Interface97/Logo/`:
   el orden en que se crean (cielo y mar antes que las estelas), como en la 0.97k. La escena se
   dibuja como la 0.97k: objetos, personajes y después el hada (sus alas y las estelas no escriben
   profundidad); la cámara recorre `WALK_PATHS` desde ese origen. Vista 3D en la franja 640x320 desde
-  y=80 con barras negras, sin niebla, sin música, con `iTitle.wav` en cada cambio de tramo de la
-  cámara y las dos antorchas de cada barco. `login_scene.rcss` no cambia: sin el modo tour el logo
+  y=80 con barras negras, sin niebla, sin música, con `iTitle.wav` una sola vez, al encenderse el
+  logo (no en cada tramo de la cámara: el 0.97k en juego no lo repite), y las dos antorchas de cada barco. `login_scene.rcss` no cambia: sin el modo tour el logo
   2D ya no se dibuja y los textos de abajo son los mismos.
   Los personajes solo hacen el gesto que no hicieron último (la 0.97k quedaba en la última pose) y
   no giran la cabeza; el hada de la elfa vuela a 25 fps (`GOBoid`); los avisos del servidor se
@@ -200,10 +200,16 @@ Con `Interface97/Logo/`:
   Al volver del mundo: los personajes se visten desde cero (sin opciones excelentes ni ancient que
   queden del jugador que ocupó el slot) y empiezan parados, sin la pose montada que `CreateHero()`
   les da en el login; la escena no mueve ni dibuja las hojas del clima.
-- `login.rml/.rcss` (**hecho**): caja `0account_new` en 195,244 (20 más arriba que la 0.97k, para no tapar el copyright), campos de 119 en 100,50 y 100,72,
+- `login.rml/.rcss` (**hecho**): caja `0account_new` en 195,247 (17 más arriba que la 0.97k, para no tapar el copyright), campos de 119 en 100,50 y 100,72,
   OK `0on_botton` en 128,95 y Cancelar `0on_botton2` en 90,180. `#panel` queda sin posición (la que
   le pone `LoginWin.cpp` no aplica). Sin las opciones de recordar, el nombre del servidor ni el
-  aviso: la 0.97k no los tenía.
+  aviso: la 0.97k no los tenía. Capacidad `LoginAttemptLimit=1`: a la tercera contraseña errónea
+  de una conexión el cliente la cierra (`EndConnectionOnWrongPassword()` en `WSclient.cpp`), como
+  la cerraba el servidor de la 0.97k (código 8); OpenMU contesta todos los intentos.
+  `CheckServerConnection()` muestra "You are disconnected from the server" y su OK cierra el juego.
+- `sys_menu.rcss` (**hecho**): el menú ESC de la escena de login y de personajes es el de la 0.97k
+  (estado 110 de `RenderErrorMessage()`), igual que en el mundo: botones `Message_box` de 120x22
+  centrados en la pantalla de 640x480 dp, desde y=60 y cada 30, sin caja ni oscurecer.
 - `login_main.rcss` (**hecho**): barra de menú y créditos oculta; ESC abre el menú.
 - `server_select.rml/.rcss` (**hecho**): la lista de `Scene_Login_ServerSelect()` con `0box`
   (no `Level_box`) y la barra de carga de `Level01`; las columnas Non-PVP/PVP salen de
