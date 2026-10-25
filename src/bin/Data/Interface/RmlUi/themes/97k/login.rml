@@ -1,0 +1,44 @@
+<rml>
+<head>
+	<title>Login</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="login.rcss"/>
+</head>
+<body class="native-text">
+	<!-- The 0.97k login box (Scene_Login, its credentials sub-states): Logo/0Account_new under the
+	     MU logo, the account and password lines, the OK button lit under the pointer in the art's
+	     top right slot and the cancel button under the frame; the art's other slots stay blank, as
+	     the 0.97k client left them. The theme places the box on the 0.97k screen, so #panel (which
+	     LoginWin.cpp moves) stays in the flow and takes no position; the server name, the two
+	     remember options and the trust warning, which the 0.97k box had none of, are hidden. Same
+	     ids, model and event names as login.rml. -->
+	<div id="screen" class="center-both">
+		<div id="panel" data-model="login">
+			<div id="box">
+				<span class="label label-server">{{server_name}}</span>
+				<span class="label label-account">{{account_label}}</span>
+				<span class="label label-password">{{password_label}}</span>
+
+				<input id="input_account" type="text" class="text-field login-field login-field-account"
+				       data-value="username"/>
+				<input id="input_password" type="password" class="text-field login-field login-field-password"
+				       data-value="password"/>
+
+				<div class="checkbox-row" data-event-click="login_toggle_remember_me">
+					<div class="checkbox-box" data-class-checked="remember_me_checked"></div>
+					<span class="checkbox-label">{{remember_me_label}}</span>
+				</div>
+				<div class="checkbox-row" data-event-click="login_toggle_save_password">
+					<div class="checkbox-box" data-class-checked="save_password_checked"></div>
+					<span class="checkbox-label">{{save_password_label}}</span>
+				</div>
+
+				<div class="btn97 btn97-ok" data-event-click="login_ok_click">{{ok_label}}</div>
+				<div class="btn97 btn97-cancel" data-event-click="login_cancel_click">{{cancel_label}}</div>
+
+				<span class="trust-warning">{{trust_warning}}</span>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

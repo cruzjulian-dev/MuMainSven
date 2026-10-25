@@ -642,13 +642,15 @@ bool MoveMount(OBJECT* o, bool bForceRender)
             if (Distance >= FlyRange * FlyRange)
             {
                 float Angle = CreateAngle(o->Position[0], o->Position[1], TargetPosition[0], TargetPosition[1]);
-                o->Angle[2] = TurnAngle2(o->Angle[2], Angle, 20.f);
+                o->Angle[2] = TurnAngle2(o->Angle[2], Angle, 20.f * FPS_ANIMATION_FACTOR);
             }
             AngleMatrix(o->Angle, o->Matrix);
             vec3_t Direction;
             VectorRotate(o->Direction, o->Matrix, Direction);
             VectorAddScaled(o->Position, Direction, o->Position, FPS_ANIMATION_FACTOR);
-            o->Position[2] += (float)(rand() % 16 - 8);
+            // Once per 25 fps frame: a random step each rendered frame made the flight wander far off at high fps.
+            if (REFERENCE_FRAME_STEP > 0)
+                o->Position[2] += (float)(rand() % 16 - 8);
             if (rand_fps_check(32))
             {
                 float Speed = 0;

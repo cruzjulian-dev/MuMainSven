@@ -104,6 +104,10 @@ namespace UI::RmlBridge
     bool ThemeHasNoInGameShop();
     // Whether the theme takes the Gens ranking away (NoGens=1): B does not open it.
     bool ThemeHasNoGens();
+    // Whether the login scene is the 0.97k client's (ClassicLoginScene=1): the ships at sea under
+    // the 3D MU logo, in a 640x320 strip between black bars, instead of the login world. Read when
+    // the scene is created, so a theme switch shows on the next visit.
+    bool ThemeHasClassicLoginScene();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

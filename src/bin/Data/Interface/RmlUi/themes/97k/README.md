@@ -134,6 +134,27 @@ in `legacy`:
   title when a map loads; the elf's arrow count as the 0.97k line of text over the worn items; a
   party member's HP hover text in the 0.97k tooltip box and no bar under the selected monster's
   name.
+- **The login scene** (`ClassicLoginScene=1` in `theme.ini`): the 0.97k one instead of the login
+  world. Three ships with their torches sail under the sky, the sun low on the horizon, with the
+  3D MU logo over the water lighting up as the camera starts its slow walk; a knight and a wizard
+  stand at the bow of the near ship and an elf with her guardian angel on the right one, each
+  gesturing now and then as the 0.97k ones did (one of their two gestures at a time, heads still).
+  Server notices show only in the world. The view is the 0.97k strip between black bars, with the version and
+  copyright lines on the bottom one. No music, just the title sound each time the camera turns.
+  The menu and credits buttons are gone: ESC opens the menu. A theme switch shows on the next
+  visit to the login scene.
+- **The login box** (`login.rml/.rcss`): the 0.97k box (`0Account_new`) under the logo, the
+  account and password fields, OK in the art's top right slot and Cancel under the frame, each lit
+  under the pointer; 20 higher than the 0.97k box so it clears the copyright line. The 0.97k box had no remember options: they keep their saved state but are
+  not shown.
+- **The server list** (`server_select.rml/.rcss`): the 0.97k list, its groups as `0box` buttons
+  70x16 in two columns from y 220, Non-PVP on the left and PVP on the right (a group goes right
+  when it has no Non-PVP channel in `ServerList.json`), the selected one brighter and 10 nearer
+  the middle. Its channels stand between the columns, centred on the group, as `0box` rows 134x20
+  tinted by the load (white while low, light yellow for a gold channel, red while busy,
+  orange-red when full, brighter under the pointer), each with the 0.97k load bar under its name:
+  20 dots, one more lit per 5% of the load, from cyan to red. The group's description is under
+  the columns; the 0.97k list had no PvP notice.
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 

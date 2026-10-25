@@ -160,7 +160,7 @@ referencia (`Mu-97k-Client-Source/src/Render/HUD_Pass*.cpp`):
 | Contador de flechas del elfo | `item_endurance` (`#arrows`) | **Hecho**: línea de texto en la columna de durabilidad. |
 | Texto de carga de mapa | `map_name` | **Hecho**: oculto. |
 | Minimapa, buffs | `mini_map`, `buff_strip` | No existen en la 0.97k: decidir si se ocultan en el tema. |
-| Login, servidores, personajes, carga | `login*`, `server_select`, `char_sel_main`, `char_make`, `loading`, `title_scene` | Fase 6. |
+| Login, servidores, personajes, carga | `login*`, `server_select`, `char_sel_main`, `char_make`, `loading`, `title_scene` | Fase 6. **Hecho**: escena de login (`ClassicLoginScene=1`), `login`, `login_main` y `server_select`. Falta `char_sel_main`, `char_make` y carga. |
 | Ventanas que la 0.97k no tenía | MU Helper, Gens, quests, Master Level, In-Game Shop, amigos, castillo, eventos posteriores | Fase 8 opcional: marco y botones 0.97k genéricos. |
 
 ## Fase 5 — Carteles, avisos y diálogos
@@ -182,9 +182,35 @@ referencia (`Mu-97k-Client-Source/src/Render/HUD_Pass*.cpp`):
 
 Con `Interface97/Logo/`:
 
-- `login.rcss`, `login_main.rcss`, `login_scene.rcss`: caja `0account_new`, campos
-  `0text_box`, botones `0on_botton*`, `0new_account01/02`.
-- `server_select.rcss`: lista con `Level_box`/`Level01` como en la 97k.
+- Escena de login (**hecho**): capacidad `ClassicLoginScene=1` (`Scenes::ClassicLogin`). Sin mapa
+  (`WorldActive = -1`, sin terreno ni sus luces), como la 0.97k: cielo, tres barcos con su estela,
+  el logo MU 3D (`Logo03`, escala 0.6) y el sol de `Data/Logo` y `Object1/Ship01`, más tres
+  personajes en cubierta (caballero, mago, elfa con su ángel) con sus gestos al azar. La escena
+  está corrida a (13600, 13600) del terreno porque `CreateObject()` no acepta posiciones
+  negativas; desde ahí todo menos el sol cae en un mismo bloque de objetos, así que se dibujan en
+  el orden en que se crean (cielo y mar antes que las estelas), como en la 0.97k. La escena se
+  dibuja como la 0.97k: objetos, personajes y después el hada (sus alas y las estelas no escriben
+  profundidad); la cámara recorre `WALK_PATHS` desde ese origen. Vista 3D en la franja 640x320 desde
+  y=80 con barras negras, sin niebla, sin música, con `iTitle.wav` en cada cambio de tramo de la
+  cámara y las dos antorchas de cada barco. `login_scene.rcss` no cambia: sin el modo tour el logo
+  2D ya no se dibuja y los textos de abajo son los mismos.
+  Los personajes solo hacen el gesto que no hicieron último (la 0.97k quedaba en la última pose) y
+  no giran la cabeza; el hada de la elfa vuela a 25 fps (`GOBoid`); los avisos del servidor se
+  dibujan solo en el mundo (`RenderInfomation`).
+  Al volver del mundo: los personajes se visten desde cero (sin opciones excelentes ni ancient que
+  queden del jugador que ocupó el slot) y empiezan parados, sin la pose montada que `CreateHero()`
+  les da en el login; la escena no mueve ni dibuja las hojas del clima.
+- `login.rml/.rcss` (**hecho**): caja `0account_new` en 195,244 (20 más arriba que la 0.97k, para no tapar el copyright), campos de 119 en 100,50 y 100,72,
+  OK `0on_botton` en 128,95 y Cancelar `0on_botton2` en 90,180. `#panel` queda sin posición (la que
+  le pone `LoginWin.cpp` no aplica). Sin las opciones de recordar, el nombre del servidor ni el
+  aviso: la 0.97k no los tenía.
+- `login_main.rcss` (**hecho**): barra de menú y créditos oculta; ESC abre el menú.
+- `server_select.rml/.rcss` (**hecho**): la lista de `Scene_Login_ServerSelect()` con `0box`
+  (no `Level_box`) y la barra de carga de `Level01`; las columnas Non-PVP/PVP salen de
+  `CServerGroup::m_bPvPServer` (campo `pvp` del modelo; la 0.97k miraba si el nombre terminaba en
+  "2") y la carga cruda de `load_percent`. Las x (287, 367, 512) son las de las capturas de la
+  0.97k, 137 a la derecha de las del código decompilado (150, 230, 375). `CServerSelWin::UpdateMouseEvent()` pasa a preguntar a
+  RmlUi (`IsPointerOver`) en vez de un rectángulo fijo, que no coincidía con este layout.
 - `char_sel_main.rcss`: paneles `Interface01..04`, `Delete01/02`, `Ok01/02`.
 - `char_make.rcss`: `New_character*`, `New_character_ok/cancel`.
 - `loading.rcss` / `title_scene.rcss`: `Progress_Back` + `Progress`; las imágenes

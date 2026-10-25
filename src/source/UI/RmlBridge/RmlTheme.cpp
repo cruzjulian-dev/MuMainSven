@@ -183,6 +183,11 @@ namespace UI::RmlBridge
         return HasCapability(ActiveThemeNameStorage(), "NoGens");
     }
 
+    bool ThemeHasClassicLoginScene()
+    {
+        return HasCapability(ActiveThemeNameStorage(), "ClassicLoginScene");
+    }
+
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);

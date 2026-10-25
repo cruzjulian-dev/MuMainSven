@@ -186,7 +186,10 @@ void SetEffectVolumeLevel(int level)
 
 void RenderInfomation()
 {
-    UI::Notices::Render();
+    // Server notices belong to the world: the server and character lists don't show them, and
+    // entering a world (InitGame) clears the ones that came before.
+    if (SceneFlag == MAIN_SCENE)
+        UI::Notices::Render();
 
     CSceneUICoordinator::Instance().Render();
 

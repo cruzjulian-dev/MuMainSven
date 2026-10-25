@@ -13,11 +13,11 @@ namespace Rml { class ElementDocument; }
 class CServerGroup;
 class CServerInfo;
 
-// Pure RmlUi 2D UI: RmlUi owns all of this window's rendering and click handling. Two
-// always-visible columns laid out by server_select.rcss's flexbox rules -- server groups on the
-// left, and the servers within whichever group is selected on the right (empty/hidden until a
-// group is clicked). Self-centers via base.rcss's .center-both; UpdateMouseEvent() claims only its
-// own rect, computed from this window's authored footprint centered the same way.
+// Pure RmlUi 2D UI: RmlUi owns all of this window's rendering and click handling. The theme lays
+// out the server groups and the servers within whichever group is selected (empty/hidden until a
+// group is clicked): legacy and modern in two flexbox columns, the 97k theme in the 0.97k client's
+// Non-PVP and PVP columns (each group's `pvp`). UpdateMouseEvent() claims the pointer while it is
+// over what the document draws, wherever the theme placed it.
 class CServerSelWin : public mu::ui::window::CObject
 {
 public:
@@ -77,12 +77,16 @@ private:
         Rml::String label;
         int btnPos = 0; // CServerGroup::m_iBtnPos -- passed back to RmlClickSelectGroup; 0 is the rare center/"test server" group
         bool checked = false;
+        bool pvp = false; // CServerGroup::m_bPvPServer: the group has no Non-PVP channel
     };
     struct ServerEntry
     {
         Rml::String label;
         int index = 0; // position within the selected group's server list (CServerGroup::GetServerInfo(i))
         float loadFraction = 0.f;
+        // The connect server's load byte as sent (CServerInfo::m_iPercent): 100 and over is busy,
+        // 128 and over full.
+        int loadPercent = 0;
         // One bool per color class since RmlUi's data-class-X binds a class per boolean, not a
         // name. Neither flag set is the default (plain .server-row color).
         bool colorGray = false;
@@ -110,12 +114,6 @@ private:
 
     int m_iSelectServerBtnIndex = -1;
     CServerGroup* m_pSelectServerGroup = nullptr;
-
-    // Fixed, author-chosen footprint used only for UpdateMouseEvent()'s own-rect check
-    // (self-centered the same way SceneUICoordinator.cpp centers every other window); covers
-    // #panel's real max footprint (both columns plus the pvp notice/description text) with slack.
-    static constexpr int kPanelWidth = 420;
-    static constexpr int kPanelHeight = 460;
 };
 
 extern CServerSelWin g_ServerSelWin;

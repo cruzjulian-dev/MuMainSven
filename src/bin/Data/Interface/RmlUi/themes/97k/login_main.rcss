@@ -1,0 +1,6 @@
+/* The 97k theme's login scene button bar (CLoginMainWin): the 0.97k login screen had no menu or
+   credits buttons, so the bar is hidden; ESC still opens the menu. */
+
+#panel {
+	display: none;
+}

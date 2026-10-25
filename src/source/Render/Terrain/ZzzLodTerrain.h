@@ -39,6 +39,9 @@ void CreateTerrainNormal_Part(int xi, int yi);
 void CreateTerrainLight_Part(int xi, int yi);
 
 void CreateTerrain(wchar_t* FileName, bool bNew = false);
+// No terrain is active until the next CreateTerrain(): its lights read zero, for a scene that
+// stands on no map (the 0.97k login scene) after one that did.
+void DeactivateTerrain();
 
 bool IsTerrainHeightExtMap(int iWorld);
 

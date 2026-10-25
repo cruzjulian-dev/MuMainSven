@@ -35,6 +35,8 @@
 #include "Render/Text/CUIRenderText.h"
 #include "Scenes/SceneLightingSetup.h"
 #include "Scenes/ScenePostProcessing.h"
+#include "Scenes/ClassicLoginScene.h"
+#include "UI/RmlBridge/RmlTheme.h"
 
 // External declarations
 extern int DeleteGuildIndex;
@@ -246,17 +248,40 @@ void MoveCamera()
     InterpolateCameraMovement();
 
     g_Camera.FOV = 45.f;
-    vec3_t Position;
-    Vector(0.f, 0.f, 0.f, Position);
-    MoveCharacterCamera(Position, g_loginCamera.currentPosition, g_loginCamera.currentAngle);
+    vec3_t Origin;
+    Vector(0.f, 0.f, 0.f, Origin);
+    if (SceneFlag == LOG_IN_SCENE && Scenes::ClassicLogin::IsActive())
+        Scenes::ClassicLogin::GetOrigin(Origin);
+    MoveCharacterCamera(Origin, g_loginCamera.currentPosition, g_loginCamera.currentAngle);
+}
+
+// The login world's theme; the 0.97k client's login scene had no music.
+static void PlayLoginMusic()
+{
+    if (!Scenes::ClassicLogin::IsActive())
+        ::PlayMp3(MUSIC_LOGIN_THEME);
+}
+
+// The theme picks the scene when it is created: the 0.97k client's ships, which its camera walk
+// shows from the start, or the login world, which the camera tour shows.
+static void CreateLogInWorld()
+{
+    if (UI::RmlBridge::ThemeHasClassicLoginScene())
+    {
+        Scenes::ClassicLogin::Create();
+        g_loginCamera.Reset();
+        return;
+    }
+
+    Scenes::ClassicLogin::Release();
+    gMapManager.WorldActive = WD_73NEW_LOGIN_SCENE;
+    gMapManager.LoadWorld(gMapManager.WorldActive);
 }
 
 void CreateLogInScene()
 {
     EnableMainRender = true;
-    gMapManager.WorldActive = WD_73NEW_LOGIN_SCENE;
-
-    gMapManager.LoadWorld(gMapManager.WorldActive);
+    CreateLogInWorld();
 
     OpenLogoSceneData();
 
@@ -282,17 +307,20 @@ void CreateLogInScene()
     InputNumber = 2;
     InputTextHide[1] = 1;
 
-    // FIX: Enable tour mode with offset correction
-    // Tour mode waypoints work well for movement, but need position offset
-    // Offset is applied in CCameraMove::GetCurrentCameraPos()
-    CCameraMove::GetInstancePtr()->PlayCameraWalk(Hero->Object.Position, 1000);
-    CCameraMove::GetInstancePtr()->SetTourMode(TRUE, FALSE, 0);  // Start from waypoint 0
+    if (!Scenes::ClassicLogin::IsActive())
+    {
+        // FIX: Enable tour mode with offset correction
+        // Tour mode waypoints work well for movement, but need position offset
+        // Offset is applied in CCameraMove::GetCurrentCameraPos()
+        CCameraMove::GetInstancePtr()->PlayCameraWalk(Hero->Object.Position, 1000);
+        CCameraMove::GetInstancePtr()->SetTourMode(TRUE, FALSE, 0);  // Start from waypoint 0
+    }
 
     MoveMainCamera();
 
     g_fMULogoAlpha = 0;
 
-    ::PlayMp3(MUSIC_LOGIN_THEME);
+    PlayLoginMusic();
 
     g_ErrorReport.Write(L"> Login Scene init success.\r\n");
 }
@@ -310,13 +338,18 @@ void NewMoveLogInScene()
         InitTerrainLight();
         MoveObjects();
         MoveMounts();
-        MoveLeaves();
+        // The 0.97k scene has no weather; its slots may still hold the last world's leaves.
+        if (!Scenes::ClassicLogin::IsActive())
+            MoveLeaves();
 
         // Update camera BEFORE checking character visibility
         MoveCamera();
 
         // Now check character visibility with updated frustum
         MoveCharactersClient();
+
+        if (Scenes::ClassicLogin::IsActive())
+            Scenes::ClassicLogin::Move();
 
         MoveEffects();
         MoveJoints();
@@ -335,6 +368,12 @@ void NewMoveLogInScene()
         // Tear down the login scene data before asking the server for the
         // account characters, otherwise a fast reply can be cleared again.
         ReleaseLogoSceneData();
+        if (Scenes::ClassicLogin::IsActive())
+        {
+            // The character scene's camera walk starts afresh, as after the login world.
+            Scenes::ClassicLogin::Release();
+            g_loginCamera.Reset();
+        }
 
         SceneFlag = CHARACTER_SCENE;
         CurrentProtocolState = REQUEST_CHARACTERS_LIST;
@@ -380,7 +419,8 @@ bool NewRenderLogInScene(HDC hDC)
 {
     if (!InitLogIn) return false;
 
-    FogEnable = true;
+    const bool classicScene = Scenes::ClassicLogin::IsActive();
+    FogEnable = !classicScene;
 
     vec3_t pos;
     VectorCopy(g_Camera.Position, pos);
@@ -392,7 +432,7 @@ bool NewRenderLogInScene(HDC hDC)
     MoveMainCamera();
 
     // Play login music (called every frame — PlayMp3 no-ops if already playing)
-    ::PlayMp3(MUSIC_LOGIN_THEME);
+    PlayLoginMusic();
 
     mu::GetRenderer().SetClearColor(0.f, 0.f, 0.f, 1.f);
 
@@ -404,7 +444,7 @@ bool NewRenderLogInScene(HDC hDC)
 #endif
     g_Camera.ViewNear = 100.f;  // Push near plane out to preserve z-buffer precision
 
-    const auto viewport = UI::Scaling::FullReferenceViewport();
+    const auto viewport = classicScene ? Scenes::ClassicLogin::Viewport() : UI::Scaling::FullReferenceViewport();
     BeginOpengl(viewport.x, viewport.y, viewport.width, viewport.height);
     Scenes::Lighting::SubmitSceneLighting();
 
@@ -416,20 +456,36 @@ bool NewRenderLogInScene(HDC hDC)
 
     if (!g_CreditWin.IsVisible())
     {
-        { FRAME_PROFILE(Terrain); RenderTerrain(false); }
-        { FRAME_PROFILE(Characters); RenderCharactersClient(); }
-        { FRAME_PROFILE(Objects); RenderMount(); }
+        if (!classicScene)
         {
-            FRAME_PROFILE(Objects);
+            FRAME_PROFILE(Terrain);
+            RenderTerrain(false);
+        }
+        if (classicScene)
+        {
+            // The 0.97k client's order: the scene, then the characters, then the guardian angel. The
+            // sea and the sky write depth; the wakes and the angel's wings are blended and write none,
+            // so whatever comes after them would paint over them.
+            { FRAME_PROFILE(Objects); RenderObjects(); }
+            { FRAME_PROFILE(Characters); RenderCharactersClient(); }
+            { FRAME_PROFILE(Objects); RenderMount(); }
+        }
+        else
+        {
+            { FRAME_PROFILE(Characters); RenderCharactersClient(); }
+            { FRAME_PROFILE(Objects); RenderMount(); }
             {
-                FRAME_PROFILE(Other);
-                RenderObjects();
+                FRAME_PROFILE(Objects);
+                {
+                    FRAME_PROFILE(Other);
+                    RenderObjects();
+                }
             }
         }
         { FRAME_PROFILE(Effects); RenderJoints(); }
         { FRAME_PROFILE(Effects); RenderEffects(); }
         { FRAME_PROFILE(Effects); CheckSprites(); }
-        { FRAME_PROFILE(Effects); RenderLeaves(); }
+        if (!classicScene) { FRAME_PROFILE(Effects); RenderLeaves(); }
         { FRAME_PROFILE(Effects); RenderBoids(); }
         {
             FRAME_PROFILE(Objects);

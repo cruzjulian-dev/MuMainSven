@@ -1,0 +1,96 @@
+<rml>
+<head>
+	<title>Select Server</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="server_select.rcss"/>
+</head>
+<body class="native-text" data-model="server_select">
+	<!-- The 0.97k server list (Scene_Login_ServerSelect, CServerSelWin_UpdateWhileActive): the
+	     groups in two columns, Non-PVP on the left and PVP on the right (each group's `pvp`), and
+	     the selected group's channels between them, centred on its row, each with its load as a
+	     row of 20 dots under the name, one more lit per 5% (a full channel shows none). The
+	     channel list sits inside the selected group's slot so the theme can centre it on that row,
+	     which is why both columns repeat it; the slot itself takes no click, so a click on a
+	     channel never reaches the group's button. Sven's description stays, under the columns;
+	     the 0.97k list had no PvP notice (#pvp_notice is hidden). -->
+	<div id="panel" class="center-both">
+		<div id="desc_panel">{{description_text}}</div>
+
+		<div id="col_nonpvp" class="group-col">
+			<div class="group-slot" data-for="g : groups" data-class-hidden="g.pvp">
+				<div class="group-btn" data-class-checked="g.checked"
+				     data-event-click="serversel_select_group(g.btn_pos)">{{g.label}}</div>
+				<div class="channel-list" data-if="g.checked">
+					<div class="channel" data-for="s : servers" data-class-special="s.color_orange"
+					     data-class-busy="s.load_percent >= 100" data-class-full="s.load_percent >= 128"
+					     data-event-click="serversel_select_server(s.index)"><div class="channel-name">{{s.label}}</div>
+						<div class="load-dots">
+							<div class="dot" data-class-lit="s.load_percent >= 5"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 10"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 15"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 20"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 25"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 30"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 35"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 40"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 45"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 50"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 55"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 60"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 65"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 70"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 75"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 80"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 85"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 90"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 95"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 100"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="col_pvp" class="group-col">
+			<div class="group-slot" data-for="g : groups" data-class-hidden="!g.pvp">
+				<div class="group-btn" data-class-checked="g.checked"
+				     data-event-click="serversel_select_group(g.btn_pos)">{{g.label}}</div>
+				<div class="channel-list" data-if="g.checked">
+					<div class="channel" data-for="s : servers" data-class-special="s.color_orange"
+					     data-class-busy="s.load_percent >= 100" data-class-full="s.load_percent >= 128"
+					     data-event-click="serversel_select_server(s.index)"><div class="channel-name">{{s.label}}</div>
+						<div class="load-dots">
+							<div class="dot" data-class-lit="s.load_percent >= 5"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 10"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 15"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 20"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 25"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 30"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 35"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 40"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 45"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 50"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 55"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 60"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 65"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 70"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 75"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 80"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 85"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 90"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 95"></div>
+							<div class="dot" data-class-lit="s.load_percent >= 100"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="pvp_notice" data-class-hidden="!pvp_notice">
+			<div class="pvp-line">{{pvp_notice_line0}}</div>
+			<div class="pvp-line">{{pvp_notice_line1}}</div>
+			<div class="pvp-line">{{pvp_notice_line2}}</div>
+		</div>
+	</div>
+</body>
+</rml>

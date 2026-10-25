@@ -1,0 +1,91 @@
+/* The 97k theme's login box (CLoginWin), as the 0.97k client drew it on its 640x480 screen
+   (Scene_Login, sub-states 2 and 3). #screen is that screen, centred at the UI scale like the
+   server list; everything inside is its pixels in reference dp.
+
+   - Box: Logo/0Account_new (250x216 of it) at 195,244: 20 above where the 0.97k box ended its slide
+     up, so its foot clears the copyright line the login scene draws on the bottom edge.
+   - Account and password: the label at 32 and the field at 100 of the box, 119 wide, on y=50 and
+     y=72; text in the 0.97k login colour (0xffd2e6ff).
+   - OK: the art's top right slot, 70x19 at 128,95, lit with Logo/0On_Botton under the pointer; the
+     caption centred in it.
+   - Cancel: under the frame, 70x20 at 90,180, lit with Logo/0On_Botton2; the caption centred in it.
+   The buttons take their own class, not the base .btn (its frame art and 30dp line). 
+
+   The 0.97k box slid up from the bottom edge when it opened; it stands still here. */
+
+@spritesheet login97-box-sheet { src: "../../../../Interface97/Logo/0account_new.tga"; login97-box: 0px 0px 250px 216px; }
+@spritesheet login97-ok-sheet { src: "../../../../Interface97/Logo/0on_botton.jpg"; login97-ok-lit: 0px 0px 70px 19px; }
+@spritesheet login97-cancel-sheet { src: "../../../../Interface97/Logo/0on_botton2.jpg"; login97-cancel-lit: 0px 0px 70px 20px; }
+
+body {
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+#screen {
+	width: 640dp;
+	height: 480dp;
+	pointer-events: none;
+}
+
+/* In the flow and unpositioned: the left/top LoginWin.cpp sets on it don't apply, and #box takes
+   #screen as its frame. */
+#panel {
+	display: block;
+	position: static;
+}
+
+#box {
+	position: absolute;
+	left: 195dp;
+	top: 244dp;
+	width: 250dp;
+	height: 216dp;
+	font-family: "token(font-body)";
+	font-size: 1rem;
+	color: #ffe6d2;
+	decorator: image(login97-box);
+}
+
+.label {
+	position: absolute;
+	left: 32dp;
+	line-height: 15dp;
+	white-space: nowrap;
+}
+.label-account { top: 50dp; }
+.label-password { top: 72dp; }
+.label-server, .checkbox-row, .trust-warning { display: none; }
+
+.login-field {
+	position: absolute;
+	left: 100dp;
+	width: 119dp;
+	height: 15dp;
+	line-height: 15dp;
+	padding: 0;
+	font-family: "token(font-body)";
+	font-size: 1rem;
+	color: #ffe6d2;
+	background-color: transparent;
+	border-width: 0;
+	border-radius: 0;
+	box-shadow: none;
+	decorator: none;
+}
+.login-field-account { top: 50dp; }
+.login-field-password { top: 72dp; }
+
+.btn97 {
+	position: absolute;
+	width: 70dp;
+	text-align: center;
+	white-space: nowrap;
+	cursor: pointer;
+	pointer-events: auto;
+}
+.btn97-ok { left: 128dp; top: 95dp; height: 19dp; line-height: 19dp; }
+.btn97-cancel { left: 90dp; top: 180dp; height: 20dp; line-height: 20dp; }
+.btn97-ok:hover { decorator: image(login97-ok-lit); }
+.btn97-cancel:hover { decorator: image(login97-cancel-lit); }

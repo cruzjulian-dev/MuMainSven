@@ -692,6 +692,11 @@ void CreateTerrain(wchar_t* FileName, bool bNew)
     CreateSun();
 }
 
+void DeactivateTerrain()
+{
+    ActiveTerrain = false;
+}
+
 unsigned char BMPHeader[1080];
 
 // An .OZB is a BMP with a 4-byte prefix in front of it.

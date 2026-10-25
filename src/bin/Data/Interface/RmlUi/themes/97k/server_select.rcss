@@ -1,0 +1,165 @@
+/* The 97k theme's server list (CServerSelWin), as the 0.97k client drew it on its 640x480 screen
+   (Scene_Login_ServerSelect.cpp, hit areas in Scene_ServerSelect_Input.cpp). #panel is that
+   screen, centred at the UI scale; everything inside is its pixels in reference dp.
+
+   - Groups: Logo/0box squeezed to 70x16, one row per 16 from y=220, the Non-PVP column at x=287
+     and the PVP column at x=512; the text white and centred. A group is drawn at 80% brightness,
+     the selected one at full brightness and 10 nearer the channels (x=297 / x=502).
+   - Channels: 0box at 134x20 at x=367, one row per 20, the list centred on the selected group's
+     row; the name white and centred, 1 below the row's top. The box is tinted by the load at 80%
+     brightness, full under the pointer: white while the load is low, light yellow for the 0.97k
+     client's special channels (Sven's gold channels here), red while busy (100 and over) and
+     orange-red when full (128 and over).
+   - Load: 20 dots of Level01 at 3x3, one per 5 of the load, 5 apart from 18,14 of the row; lit
+     dots run from cyan to red, the rest are dark. A full channel has none.
+
+   The x positions are the 0.97k client's as it shows the list (its 0.97k screenshots), which sit
+   137 right of the ones its decompiled source reads (150, 230, 375); the layout between them is
+   the same.
+
+   The 0.97k client pushed a long channel list up so it never left the screen; here it stays
+   centred on its group, which only matters past 18 channels in a low row. */
+
+@spritesheet ss97-box-sheet { src: "../../../../Interface97/Logo/0box.jpg"; ss97-box: 0px 0px 134px 30px; }
+@spritesheet ss97-dot-sheet { src: "../../../../Interface97/Level01.jpg"; ss97-dot: 0px 0px 8px 8px; }
+
+#panel {
+	width: 640dp;
+	height: 480dp;
+	font-family: "token(font-body)";
+	font-size: 1rem;
+	color: #ffffff;
+	pointer-events: none;
+}
+
+/* Sven's group description (the 0.97k list had none), in the 0.97k login text colour
+   (0xffd2e6ff), centred under the columns, where no channel list reaches. */
+#desc_panel {
+	position: absolute;
+	left: 0;
+	top: 450dp;
+	width: 640dp;
+	text-align: center;
+	white-space: nowrap;
+	color: #ffe6d2;
+}
+
+#pvp_notice, #pvp_notice.hidden {
+	display: none;
+}
+
+.group-col {
+	position: absolute;
+	top: 220dp;
+	width: 70dp;
+}
+#col_nonpvp { left: 287dp; }
+#col_pvp { left: 512dp; }
+
+/* RmlUi has no default stylesheet: a div is inline, and an inline box takes no width or height,
+   so the stacked rows say block. */
+.group-slot {
+	display: block;
+	position: relative;
+	width: 70dp;
+	height: 16dp;
+}
+.group-slot.hidden { display: none; }
+
+.group-btn {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 70dp;
+	height: 16dp;
+	line-height: 16dp;
+	text-align: center;
+	white-space: nowrap;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(ss97-box fill);
+	image-color: rgb(204, 204, 204);
+}
+.group-btn.checked { image-color: #ffffff; }
+#col_nonpvp .group-btn.checked { left: 10dp; }
+#col_pvp .group-btn.checked { left: -10dp; }
+
+/* x=367 from either column's left edge; its middle on the row's middle. */
+.channel-list {
+	position: absolute;
+	top: 8dp;
+	width: 134dp;
+	transform: translateY(-50%);
+}
+#col_nonpvp .channel-list { left: 80dp; }
+#col_pvp .channel-list { left: -145dp; }
+
+.channel {
+	display: block;
+	position: relative;
+	width: 134dp;
+	height: 20dp;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(ss97-box fill);
+	image-color: rgb(204, 204, 204);
+}
+.channel:hover { image-color: #ffffff; }
+.channel.special { image-color: rgb(204, 204, 143); }
+.channel.special:hover { image-color: rgb(255, 255, 179); }
+.channel.busy { image-color: rgb(204, 82, 82); }
+.channel.busy:hover { image-color: rgb(255, 102, 102); }
+.channel.full { image-color: rgb(204, 143, 102); }
+.channel.full:hover { image-color: rgb(255, 179, 128); }
+
+.channel-name {
+	position: absolute;
+	left: 0;
+	top: 1dp;
+	width: 134dp;
+	line-height: 13dp;
+	text-align: center;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+.load-dots {
+	position: absolute;
+	left: 18dp;
+	top: 14dp;
+	width: 100dp;
+	height: 3dp;
+	pointer-events: none;
+}
+.channel.full .load-dots { display: none; }
+
+.dot {
+	float: left;
+	width: 3dp;
+	height: 3dp;
+	margin-right: 2dp;
+	decorator: image(ss97-dot fill);
+	image-color: rgb(20, 20, 20);
+}
+/* Dot i (from 0) lit: red i x 0.08, green and blue (20 - i) x 0.08, each capped at 1 -- the 0.97k
+   client's colour at 80% brightness, which tints Level01's gold. */
+.dot.lit:nth-child(1)  { image-color: rgb(0, 255, 255); }
+.dot.lit:nth-child(2)  { image-color: rgb(20, 255, 255); }
+.dot.lit:nth-child(3)  { image-color: rgb(41, 255, 255); }
+.dot.lit:nth-child(4)  { image-color: rgb(61, 255, 255); }
+.dot.lit:nth-child(5)  { image-color: rgb(82, 255, 255); }
+.dot.lit:nth-child(6)  { image-color: rgb(102, 255, 255); }
+.dot.lit:nth-child(7)  { image-color: rgb(122, 255, 255); }
+.dot.lit:nth-child(8)  { image-color: rgb(143, 255, 255); }
+.dot.lit:nth-child(9)  { image-color: rgb(163, 245, 245); }
+.dot.lit:nth-child(10) { image-color: rgb(184, 224, 224); }
+.dot.lit:nth-child(11) { image-color: rgb(204, 204, 204); }
+.dot.lit:nth-child(12) { image-color: rgb(224, 184, 184); }
+.dot.lit:nth-child(13) { image-color: rgb(245, 163, 163); }
+.dot.lit:nth-child(14) { image-color: rgb(255, 143, 143); }
+.dot.lit:nth-child(15) { image-color: rgb(255, 122, 122); }
+.dot.lit:nth-child(16) { image-color: rgb(255, 102, 102); }
+.dot.lit:nth-child(17) { image-color: rgb(255, 82, 82); }
+.dot.lit:nth-child(18) { image-color: rgb(255, 61, 61); }
+.dot.lit:nth-child(19) { image-color: rgb(255, 41, 41); }
+.dot.lit:nth-child(20) { image-color: rgb(255, 20, 20); }

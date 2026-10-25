@@ -1,7 +1,6 @@
 
 #include "stdafx.h"
 #include "ServerSelWin.h"
-#include "Core/Input/Input.h"
 #include "UI/Core/SceneUICoordinator.h"
 #include "UI/Core/WindowSystem.h"
 #include "I18N/All.h"
@@ -11,13 +10,11 @@
 
 #include "Render/RmlUi/RmlUiRuntime.h"
 #include "UI/RmlBridge/RmlTheme.h"
-#include "UI/RmlBridge/RmlNativeText.h"
+#include "UI/RmlBridge/RmlPointer.h"
 #include "Core/Utilities/StringUtils.h"
-#include "Render/Textures/ZzzOpenglUtil.h"
 #include <RmlUi/Core/ElementDocument.h>
 #include <RmlUi/Core/Element.h>
 #include <RmlUi/Core/Event.h>
-#include <cmath>
 
 // Caps how many groups a server can grow this window's data to.
 namespace
@@ -59,12 +56,14 @@ void CServerSelWin::BindRmlModel(Rml::DataModelConstructor& c, ServerSelRmlModel
     group.RegisterMember("label", &GroupEntry::label);
     group.RegisterMember("btn_pos", &GroupEntry::btnPos);
     group.RegisterMember("checked", &GroupEntry::checked);
+    group.RegisterMember("pvp", &GroupEntry::pvp);
     c.RegisterArray<std::vector<GroupEntry>>();
 
     auto server = c.RegisterStruct<ServerEntry>();
     server.RegisterMember("label", &ServerEntry::label);
     server.RegisterMember("index", &ServerEntry::index);
     server.RegisterMember("load_fraction", &ServerEntry::loadFraction);
+    server.RegisterMember("load_percent", &ServerEntry::loadPercent);
     server.RegisterMember("color_gray", &ServerEntry::colorGray);
     server.RegisterMember("color_orange", &ServerEntry::colorOrange);
     c.RegisterArray<std::vector<ServerEntry>>();
@@ -144,6 +143,7 @@ void CServerSelWin::UpdateDisplay()
                 GroupEntry entry;
                 entry.label = label;
                 entry.btnPos = 0;
+                entry.pvp = pServerGroup->m_bPvPServer;
                 pServerGroup->m_iBtnPos = 0;
                 model.groups.push_back(entry);
                 continue;
@@ -152,6 +152,7 @@ void CServerSelWin::UpdateDisplay()
             GroupEntry entry;
             entry.label = label;
             entry.btnPos = nNextBtnPos++;
+            entry.pvp = pServerGroup->m_bPvPServer;
             pServerGroup->m_iBtnPos = entry.btnPos;
             model.groups.push_back(entry);
         }
@@ -181,6 +182,7 @@ void CServerSelWin::UpdateDisplay()
             entry.label = StringUtils::WideToNarrow(pServerInfo->m_bName);
             entry.index = nServerIndex;
             entry.loadFraction = static_cast<float>(pServerInfo->m_iPercent) / 100.0f;
+            entry.loadPercent = pServerInfo->m_iPercent;
             // 0 = gray, 1 = the unflagged default, 2/3 = orange.
             entry.colorGray = (pServerInfo->m_byNonPvP == 0);
             entry.colorOrange = (pServerInfo->m_byNonPvP >= 2);
@@ -311,20 +313,9 @@ bool CServerSelWin::UpdateMouseEvent()
     if (!IsVisible())
         return true;
 
-    // server_select.rcss is in px, or in the legacy theme's scene-window rem (RmlNativeText.h).
-    const float scale =
-        UI::RmlBridge::SceneWindowPixelRatio(static_cast<int>(WindowWidth), static_cast<int>(WindowHeight));
-    const int panelWidth = static_cast<int>(std::lround(kPanelWidth * scale));
-    const int panelHeight = static_cast<int>(std::lround(kPanelHeight * scale));
-    const int nLeft = (static_cast<int>(WindowWidth) - panelWidth) / 2;
-    const int nTop = (static_cast<int>(WindowHeight) - panelHeight) / 2;
-
-    RECT rc;
-    ::SetRect(&rc, nLeft, nTop, nLeft + panelWidth, nTop + panelHeight);
-    if (::PtInRect(&rc, CInput::Instance().GetCursorPos()))
-        return false;
-
-    return true;
+    // RmlUi's own hit test: each theme places the lists differently, so no box in this window's
+    // units would match all of them.
+    return !UI::RmlBridge::IsPointerOver(m_RmlView.Document());
 }
 
 bool CServerSelWin::Update()

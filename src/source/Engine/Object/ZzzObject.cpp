@@ -20,6 +20,7 @@
 #include "Engine/Object/ZzzInventory.h"
 #include "Render/Effects/ZzzEffect.h"
 #include "Scenes/SceneCore.h"
+#include "Scenes/ClassicLoginScene.h"
 #include "Engine/Object/ZzzOpenData.h"
 #include "Audio/DSPlaySound.h"
 #include "Camera/ICamera.h"
@@ -2798,6 +2799,12 @@ void RenderObjectVisual(OBJECT* o)
     float Rotation;
     Vector(0.f, 0.f, 0.f, p);
 
+    if (o->Type == MODEL_SHIP && SceneFlag == LOG_IN_SCENE && Scenes::ClassicLogin::IsActive())
+    {
+        Scenes::ClassicLogin::RenderShipTorches(o, Luminosity);
+        return;
+    }
+
     switch (gMapManager.WorldActive)
     {
     case WD_0LORENCIA:
@@ -4632,7 +4639,8 @@ OBJECT* CreateObject(int Type, vec3_t Position, vec3_t Angle, float Scale)
             Vector(1.f, 1.f, 1.f, o->Light);
             break;
         case MODEL_MUGAME:
-            o->Scale = 2.2f;
+            // Only the 0.97k login scene (Scenes::ClassicLogin) stands the logo up, at that client's scale.
+            o->Scale = 0.6f;
             o->BlendMesh = 1;
             o->LightEnable = false;
             break;
