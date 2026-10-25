@@ -826,7 +826,7 @@ bool BMD::PlayAnimation(float* AnimationFrame, float* PriorAnimationFrame, unsig
 
         float fTemp;
 
-        if (SceneFlag == CHARACTER_SCENE && !IsClassicFaceModel(static_cast<int>(this - Models)))
+        if (SceneFlag == CHARACTER_SCENE && !IsClassicFaceModel(static_cast<int>(m_iBMDSeqID)))
         {
             fTemp = *AnimationFrame + 2;
         }
