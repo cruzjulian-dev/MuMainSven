@@ -26,6 +26,10 @@ in `legacy`:
   skills keep working from their keys (the number keys). The build has no fourth potion hotkey,
   friend list, window menu, in-game shop, Gens ranking or server chat command list, so R repairs
   instead of L and F, U, X, B and J do nothing, in every theme (`Core/Globals/ClientProfile.h`).
+- **The numbers** in Font97 digits, as the old-school client drew them: HP, MP and AG, the map
+  position, the EXP tenth, the Q/W/E stack counts, the key under each skill (on a small black box)
+  and the stack counts in every item grid (inventory, storage, trade, shops, mixes). The strip is
+  the `font97-strip` token in `tokens.ini`; each stylesheet sets the digit height and tint.
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):

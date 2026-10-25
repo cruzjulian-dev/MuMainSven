@@ -39,19 +39,23 @@ body { --item-cell: 20px; }
 
 .item-grid-frame { display: none; }
 
-/* A stack count, centred 6 in from its item's right edge and 1 below its top, in bold white with
-   a black edge where the original drew newui_number1 digits. Counter-scaled text layer: it turns
-   about its top-right corner. */
+/* A stack count in 0.9 Font97 digits (token font97-strip; main_frame.rcss has the sizes), tinted
+   (1, 0.9, 0.7), centred 7 in from its item's right edge and 2 below its top, as the old-school
+   client drew it. The digits are art in the panel's units, so the layer keeps the panel's scale
+   instead of counter-scaling like text; the text itself is not painted. */
 .item-count-text {
 	position: absolute;
 	right: 0;
-	top: 1px;
-	transform-origin: right top;
+	top: 2px;
+	width: 14px;
+	text-align: center;
 	white-space: nowrap;
 	font-weight: bold;
-	color: #ffffff;
-	font-effect: outline(1px #000000);
+	color: transparent;
+	decorator: digit-strip(token(font97-strip) 9.6px);
+	image-color: #ffe6b3;
 }
+.item-count-text.counter-scaled { transform: none; }
 
 /* The window's live items: the panel and a margin round it, for a model reaching past its slot. */
 .item-view { position: absolute; left: -20px; top: -20px; width: 230px; height: 469px; pointer-events: none; }

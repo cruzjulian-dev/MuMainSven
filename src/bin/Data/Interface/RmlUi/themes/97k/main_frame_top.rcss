@@ -5,19 +5,24 @@
    px), the bar centred at the screen's bottom; main_frame.rcss hides the bar's own copy. */
 #top_right_row { display: none; }
 
+/* A 0.95 Font97 digit (main_frame.rcss), tinted (0.91, 0.81, 0.6), its top at y 435. */
 #exp_digit_over {
 	position: absolute;
 	left: 50%;
-	/* 105 = 425 - 320; 36 = 480 - 434 - 10. */
+	/* 105 = 425 - 320; 35 = 480 - 435 - 10 (the box's bottom; the scale keeps it). */
 	margin-left: calc(105px * var(--hud-scale));
-	bottom: calc(36px * var(--hud-scale));
-	transform: translateX(-50%);
-	color: #e8cf99;
+	bottom: calc(35px * var(--hud-scale));
+	/* The digit is art in HUD units: scaled like the bar's board, not resized as text. */
+	transform-origin: center bottom;
+	transform: translateX(-50%) scale(var(--hud-scale));
+	text-align: center;
+	color: transparent;
+	decorator: digit-strip(token(font97-strip) 10.4px);
+	image-color: #e8cf99;
 	font-weight: bold;
-	font-effect: outline(1px #000000);
 	font-family: "token(font-body)";
-	font-size: calc(10px * var(--hud-scale));
-	line-height: calc(10px * var(--hud-scale));
+	font-size: 10.4px;
+	line-height: 10px;
 	white-space: nowrap;
 	pointer-events: none;
 }

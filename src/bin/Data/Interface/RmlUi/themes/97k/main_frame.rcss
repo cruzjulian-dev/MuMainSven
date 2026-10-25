@@ -66,8 +66,16 @@
 .gauge-fill-mp { decorator: image(hud97-mp cover left bottom); }
 .gauge-fill-ag { decorator: image(hud97-ag cover left bottom); }
 
-/* The current values, centred where the original's digits were: HP on x 100, MP on 540, AG on
-   571, their tops at y 467. */
+/* Every number on the bar is drawn in Font97 digits (token font97-strip), as RenderNumber() drew
+   them: the text stays for layout and hit tests but is not painted, the digits take image-color.
+   A digit at RenderNumber() scale s is 16 * (s - 0.3) tall: 10.4 at 0.95, 9.6 at 0.9, 11.2 at 1. */
+.gauge-num, .pos-num, .item-stack-label, .skill-hotkey-label {
+	color: transparent;
+	font-effect: none;
+}
+
+/* The current values in 0.95 digits, tinted (1, 0.95, 0.75), each run centred the way
+   RenderNumber() centred it: HP on x 132, MP on 514, AG on 561, their tops at y 467. */
 .gauge-num {
 	position: absolute;
 	z-index: 1;
@@ -75,15 +83,15 @@
 	font-size: 10dp;
 	line-height: 10dp;
 	text-align: center;
-	color: #fff2bf;
+	decorator: digit-strip(token(font97-strip) 10.4dp);
+	image-color: #fff2bf;
 	font-weight: bold;
-	font-effect: outline(1px #000000);
 	white-space: nowrap;
 	pointer-events: none;
 }
-#bar_hp .gauge-num { left: -27dp; top: 35dp; }
-#bar_mp .gauge-num { left: 21dp;  top: 35dp; }
-#bar_ag .gauge-num { left: -10dp; top: 30dp; color: token(text-primary); }
+#bar_hp .gauge-num { left: 5dp;   top: 35dp; }
+#bar_mp .gauge-num { left: -5dp;  top: 35dp; }
+#bar_ag .gauge-num { left: -20dp; top: 30dp; }
 
 /* Party, Character and Inventory at x 348/379/410, y 452, and Guild at 582/459. At rest the bar
    shows them; an open window lays the pressed picture over its button. */
@@ -140,9 +148,9 @@
 	pointer-events: none;
 }
 
-/* The hero's map position in the box at the bar's left end, as the 0.97k client drew it: x and y
-   centred on x 24 and 48, their tops at y 462, grey (0.6). */
-#hero_position { margin-left: -320dp; bottom: 9dp; width: 72dp; height: 9dp; }
+/* The hero's map position in the box at the bar's left end, in 0.9 digits: x and y centred on
+   x 22 and 46, their tops at y 463, grey (0.6). */
+#hero_position { margin-left: -320dp; bottom: 7dp; width: 72dp; height: 10dp; }
 .pos-num {
 	position: absolute;
 	top: 0;
@@ -150,16 +158,18 @@
 	font-size: 9dp;
 	line-height: 9dp;
 	text-align: center;
-	color: rgb(153, 153, 153);
+	decorator: digit-strip(token(font97-strip) 9.6dp);
+	image-color: rgb(153, 153, 153);
 	font-weight: bold;
 	white-space: nowrap;
 	pointer-events: none;
 }
-#hero_x { left: 12dp; }
-#hero_y { left: 36dp; }
+#hero_x { left: 10dp; }
+#hero_y { left: 34dp; }
 
 /* Potions: the Q, W and E boxes painted into the bar, the item's 20x20 picture at x 208 + 31 per
-   box, y 454, and its count centred 18 to the right of the box's left edge, 7 above it. */
+   box, y 454, and its count in 0.95 digits centred 18 to the right of the box's left edge, 7 above
+   it, tinted like the gauges. */
 #item_slot_0 { position: absolute; left: 0dp;  top: 0dp; width: 20dp; height: 20dp; }
 #item_slot_1 { position: absolute; left: 31dp; top: 0dp; width: 20dp; height: 20dp; }
 #item_slot_2 { position: absolute; left: 62dp; top: 0dp; width: 20dp; height: 20dp; }
@@ -170,9 +180,10 @@
 	left: 18dp;
 	top: -7dp;
 	transform: translateX(-50%);
-	color: #fff2bf;
+	text-align: center;
+	decorator: digit-strip(token(font97-strip) 10.4dp);
+	image-color: #fff2bf;
 	font-weight: bold;
-	font-effect: outline(1px #000000);
 	font-size: 10dp;
 	line-height: 10dp;
 	white-space: nowrap;
@@ -221,15 +232,23 @@
 	pointer-events: none;
 }
 
-/* The key a skill is on, bottom left as the original drew it. */
+/* The key a skill is on, as the old-school client drew it: a 1.0 digit tinted (1, 0.9, 0.9) on an
+   8x11 black box straddling the icon's left edge, 20 below the icon's top. The slots without a key
+   don't have the label (main_frame.rml), so no empty box shows. */
 .skill-hotkey-label {
 	position: absolute;
-	left: 1dp;
-	bottom: 1dp;
-	color: token(text-primary);
+	z-index: 1;
+	left: 2dp;
+	top: 24dp;
+	width: 8dp;
+	height: 11dp;
+	overflow: hidden;
+	background-color: #000000;
+	text-align: center;
+	decorator: digit-strip(token(font97-strip) 11.2dp);
+	image-color: #ffe6e6;
 	font-family: "token(font-body)";
 	font-weight: bold;
-	font-effect: outline(1px #000000);
 	font-size: 10dp;
 	line-height: 10dp;
 	white-space: nowrap;
