@@ -27,6 +27,7 @@
 #include "MUHelper/MuHelper.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
 #include "Core/Globals/ClientProfile.h"
+#include "UI/HUD/MasterLevel.h"
 
 using namespace SEASON3B;
 using namespace mu::ui::window;
@@ -239,8 +240,7 @@ bool mu::ui::window::CHotKey::UpdateKeyEvent()
     }
     else if (mu::ui::window::IsPress('A') && Core::ClientProfile::HasMasterSkillTree)
     {
-        if (gCharacterManager.IsMasterLevel(Hero->Class) == true
-            && Hero->Class != CLASS_TEMPLENIGHT)
+        if (CMasterLevel::CanOpen())
         {
             g_pNewUISystem->Toggle(mu::ui::window::INTERFACE_MASTER_LEVEL);
         }

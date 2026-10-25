@@ -6,6 +6,9 @@
 #include "UI/Core/WindowSystem.h"
 #include "UI/RmlBridge/RmlPointer.h"
 #include "UI/HUD/MasterLevel.h"
+#include "Character/CharacterManager.h"
+#include "Core/Globals/ClientProfile.h"
+#include "Engine/Object/ZzzCharacter.h"
 #include "UI/HUD/Skills/MasterSkillTreeLayout.h"
 #include "UI/Dialogs/GenericConfirmDialog.h"
 #include "I18N/All.h"
@@ -66,6 +69,12 @@ namespace
     }
 }
 
+
+bool mu::ui::window::CMasterLevel::CanOpen()
+{
+    return Core::ClientProfile::HasMasterSkillTree && gCharacterManager.IsMasterLevel(Hero->Class)
+        && Hero->Class != CLASS_TEMPLENIGHT;
+}
 
 mu::ui::window::CMasterLevel::CMasterLevel()
 {

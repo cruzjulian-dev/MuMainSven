@@ -89,6 +89,10 @@ public:
     CMasterLevel();
     ~CMasterLevel() override;
 
+    // Whether the hero may open the tree (the A key, the character window's master level button):
+    // the build has it (Core::ClientProfile) and the hero is of a master class but the temple knight.
+    static bool CanOpen();
+
     BYTE GetConsumePoint() const;
     int GetCurSkillID() const;
     bool Create(CManager* pNewUIMng);
