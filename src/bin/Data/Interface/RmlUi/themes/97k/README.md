@@ -30,6 +30,9 @@ in `legacy`:
   position, the EXP tenth, the Q/W/E stack counts, the key under each skill (on a small black box)
   and the stack counts in every item grid (inventory, storage, trade, shops, mixes). The strip is
   the `font97-strip` token in `tokens.ini`; each stylesheet sets the digit height and tint.
+- **The skills** in ProEmulator's old-school box (`Interface97/skillbox`): the current skill and
+  each cell of its list, laid out as that client did, alternating right and left of the screen's
+  centre from y 370.
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):

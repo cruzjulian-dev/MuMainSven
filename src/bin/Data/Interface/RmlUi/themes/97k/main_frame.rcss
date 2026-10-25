@@ -190,26 +190,28 @@
 	pointer-events: none;
 }
 
-/* The current skill in the 32x36 box painted at x 304, y 444, its 20x28 icon in the middle; the
-   hint anchors on the icon (CMainFrameWindow's skill_current_hover). */
+/* Every skill icon sits in ProEmulator's old-school box (skillbox, 32x36, tinted (1, 0.9, 0.8) as
+   that client drew it), its 20x28 icon 6 in and 4 down. */
+@spritesheet skill97-box-sheet { src: "../../../../Interface97/skillbox.jpg"; skill97-box: 0px 0px 32px 36px; }
+
+/* The current skill in the box at x 304, y 444; the hint anchors on the icon
+   (CMainFrameWindow's skill_current_hover). */
 #current_skill_slot { position: absolute; left: 0dp; top: 0dp; width: 32dp; height: 36dp;
-    pointer-events: auto; cursor: pointer; }
+    pointer-events: auto; cursor: pointer; decorator: image(skill97-box); image-color: #ffe6cc; }
 .skill-icon { position: absolute; left: 6dp; top: 4dp; width: 20dp; height: 28dp; pointer-events: none; }
 
-/* The skill list the current skill opens: one row of 32x36 cells at y 370, centred on the
-   screen whatever its length, the current skill full bright and the rest dimmed, as the original
-   tinted them. The pet's commands (not in the 0.97k client) take a row above it. */
+/* The skill list the current skill opens, as ProEmulator's old-school client laid it out: 32x36
+   cells from y 370, the current skill full bright and the rest dimmed, as the original tinted
+   them. The pet's commands (not in the 0.97k client) take a row above it. */
 #skill_grid, #pet_skill_row {
 	position: absolute;
 	left: 0dp;
 	top: 0dp;
 	width: 640dp;
 	height: 36dp;
-	display: flex;
-	justify-content: center;
 	pointer-events: none;
 }
-#pet_skill_row { top: -38dp; }
+#pet_skill_row { display: flex; justify-content: center; top: -38dp; }
 /* The rule above outranks base.rcss's .hidden, which closes the list. */
 #skill_grid.hidden, #pet_skill_row.hidden { display: none; }
 .skill-cell {
@@ -218,7 +220,17 @@
 	height: 36dp;
 	pointer-events: auto;
 	cursor: pointer;
+	decorator: image(skill97-box);
+	image-color: #ffe6cc;
 }
+/* By each cell's place in the list (--i): the first eighteen alternate right and left of x 320
+   (the first at 320, the second at 288, the third at 352...), and every further eighteen fill a
+   row 36 higher from x 32, heading right. */
+#skill_grid .skill-cell { position: absolute; top: 0dp; }
+#skill_grid .skill-cell:nth-child(2n+1):nth-child(-n+17) { left: calc(320dp + var(--i, 0) * 16dp); }
+#skill_grid .skill-cell:nth-child(2n):nth-child(-n+18) { left: calc(304dp - var(--i, 0) * 16dp); }
+#skill_grid .skill-cell:nth-child(n+19):nth-child(-n+36) { left: calc(var(--i, 0) * 32dp - 544dp); top: -36dp; }
+#skill_grid .skill-cell:nth-child(n+37) { left: calc(var(--i, 0) * 32dp - 1120dp); top: -72dp; }
 .skill-cell .skill-icon { opacity: 0.7; }
 .skill-cell.selected .skill-icon, .skill-cell:hover .skill-icon { opacity: 1; }
 
