@@ -90,6 +90,21 @@ void StartGame()
 
 namespace Scenes
 {
+namespace
+{
+// The character world's floor at the characters' feet.
+constexpr float kWorldFloorHeight = 163.f;
+
+// The character world's five spots, a curve round the stairs.
+constexpr CharacterSpot kWorldSpots[] = {
+    {8008.f, 18885.f, kWorldFloorHeight, 115.f},
+    {7986.f, 19145.f, kWorldFloorHeight, 90.f},
+    {8046.f, 19400.f, kWorldFloorHeight, 75.f},
+    {8133.f, 19645.f, kWorldFloorHeight, 60.f},
+    {8282.f, 19845.f, kWorldFloorHeight, 35.f},
+};
+} // namespace
+
 // A slot holds a character when the list filled its name in.
 static bool HasCharacter(int slot)
 {
@@ -133,6 +148,18 @@ bool StartGameWithSlot(int slot)
     SelectedHero = slot;
     ::StartGame();
     return true;
+}
+
+CHARACTER* CreateCharacterInSlot(int slot, CLASS_TYPE characterClass, int skin)
+{
+    if (slot < 0 || slot >= static_cast<int>(std::size(kWorldSpots)))
+        return nullptr;
+
+    const CharacterSpot spot =
+        ClassicCharacter::IsActive() ? ClassicCharacter::SlotSpot(slot) : kWorldSpots[slot];
+    CHARACTER* c = CreateHero(slot, characterClass, skin, spot.x, spot.y, spot.angle);
+    c->Object.Position[2] = spot.z;
+    return c;
 }
 } // namespace Scenes
 
@@ -359,7 +386,7 @@ static void SetupCharacterSceneViewport(int& outWidth, int& outHeight)
     for (int i = 0; i < MAX_CHARACTERS_PER_ACCOUNT; i++)
     {
         if (placeCharacters)
-            CharactersClient[i].Object.Position[2] = 163.0f;
+            CharactersClient[i].Object.Position[2] = Scenes::kWorldFloorHeight;
         Vector(0.0f, 0.0f, 0.0f, CharactersClient[i].Object.Light);
     }
 }

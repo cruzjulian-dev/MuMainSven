@@ -99,29 +99,23 @@ void AimCamera()
     MoveCharacterCamera(origin, position, angle);
 }
 
-void PlaceCharacters()
+// The character list comes before the scene is created, so it placed and sized its characters for
+// the character world; once the scene is active they move onto the yard, at its size.
+void MoveListedCharactersOntoYard()
 {
     for (int slot = 0; slot < MAX_CHARACTERS_PER_ACCOUNT; ++slot)
     {
-        OBJECT* o = &CharactersClient[slot].Object;
+        CHARACTER* c = &CharactersClient[slot];
+        OBJECT* o = &c->Object;
         if (!o->Live)
             continue;
 
-        o->Position[0] = kOriginX + slot * kSlotStepX;
-        o->Position[1] = kOriginY + slot * kSlotStepY + kFirstSlotY;
-        o->Position[2] = kFloorHeight;
-        o->Angle[2] = (slot - 1) * kSlotTurn;
-    }
-}
-
-// The character list comes before the scene is created, so SetCharacterScale() sized its
-// characters for the character world; once the scene is active it sizes them for the yard.
-void SizeCharacters()
-{
-    for (int slot = 0; slot < MAX_CHARACTERS_PER_ACCOUNT; ++slot)
-    {
-        if (CharactersClient[slot].Object.Live)
-            SetCharacterScale(&CharactersClient[slot]);
+        const Scenes::CharacterSpot spot = Scenes::ClassicCharacter::SlotSpot(slot);
+        o->Position[0] = spot.x;
+        o->Position[1] = spot.y;
+        o->Position[2] = spot.z;
+        o->Angle[2] = spot.angle;
+        SetCharacterScale(c);
     }
 }
 } // namespace
@@ -136,9 +130,8 @@ void Create()
     ClearTerrain();
 
     CreateStage();
-    PlaceCharacters();
     s_active = true;
-    SizeCharacters();
+    MoveListedCharactersOntoYard();
 }
 
 void Release()
@@ -154,7 +147,12 @@ bool IsActive()
 void Move()
 {
     AimCamera();
-    PlaceCharacters();
+}
+
+Scenes::CharacterSpot SlotSpot(int slot)
+{
+    return {kOriginX + slot * kSlotStepX, kOriginY + slot * kSlotStepY + kFirstSlotY, kFloorHeight,
+            (slot - 1) * kSlotTurn};
 }
 
 float NameHeight()

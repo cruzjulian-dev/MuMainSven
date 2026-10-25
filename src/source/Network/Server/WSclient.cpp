@@ -38,6 +38,7 @@
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Engine/Object/ZzzOpenData.h"
 #include "Scenes/SceneCore.h"
+#include "Scenes/CharacterScene.h"
 #include "Network/Reconnect/ReconnectManager.h"
 #include "Network/IncomingPacketQueue.h"
 #include "I18N/All.h"
@@ -716,40 +717,9 @@ void ReceiveCharacterListExtended(const BYTE* ReceiveBuffer)
         auto Data2 = (LPPRECEIVE_CHARACTER_LIST_EXTENDED)(ReceiveBuffer + Offset);
 
         auto iClass = gCharacterManager.ChangeServerClassTypeToClientClassType(Data2->Class);
-        float fPos[2], fAngle = 0.0f;
-
-        switch (Data2->Index)
-        {
-        case 0:
-            fPos[0] = 8008.0f;
-            fPos[1] = 18885.0f;
-            fAngle = 115.0f;
-            break;
-        case 1:
-            fPos[0] = 7986.0f;
-            fPos[1] = 19145.0f;
-            fAngle = 90.0f;
-            break;
-        case 2:
-            fPos[0] = 8046.0f;
-            fPos[1] = 19400.0f;
-            fAngle = 75.0f;
-            break;
-        case 3:
-            fPos[0] = 8133.0f;
-            fPos[1] = 19645.0f;
-            fAngle = 60.0f;
-            break;
-        case 4:
-            fPos[0] = 8282.0f;
-            fPos[1] = 19845.0f;
-            fAngle = 35.0f;
-            break;
-        default:
+        CHARACTER* c = Scenes::CreateCharacterInSlot(Data2->Index, iClass, 0);
+        if (c == nullptr)
             return;
-        }
-
-        CHARACTER* c = CreateHero(Data2->Index, iClass, 0, fPos[0], fPos[1], fAngle);
 
         c->Level = Data2->Level;
         c->CtlCode = Data2->CtlCode;
@@ -797,42 +767,11 @@ void ReceiveCreateCharacter(const BYTE* ReceiveBuffer)
                                   Data->Index, static_cast<int>(Data->Class), Data->Level);
     if (Data->Result == 1)
     {
-        float fPos[2] = {0.0f, 0.0f}, fAngle = 0.0f;
-
-        switch (Data->Index)
-        {
-        case 0:
-            fPos[0] = 8008.0f;
-            fPos[1] = 18885.0f;
-            fAngle = 115.0f;
-            break;
-        case 1:
-            fPos[0] = 7986.0f;
-            fPos[1] = 19145.0f;
-            fAngle = 90.0f;
-            break;
-        case 2:
-            fPos[0] = 8046.0f;
-            fPos[1] = 19400.0f;
-            fAngle = 75.0f;
-            break;
-        case 3:
-            fPos[0] = 8133.0f;
-            fPos[1] = 19645.0f;
-            fAngle = 60.0f;
-            break;
-        case 4:
-            fPos[0] = 8282.0f;
-            fPos[1] = 19845.0f;
-            fAngle = 35.0f;
-            break;
-        }
-
         INT iCharacterKey;
         iCharacterKey = Data->Index;
         DeleteCharacter(iCharacterKey);
 
-        CreateHero(Data->Index, CharacterView.Class, CharacterView.Skin, fPos[0], fPos[1], fAngle);
+        Scenes::CreateCharacterInSlot(Data->Index, CharacterView.Class, CharacterView.Skin);
         CharactersClient[Data->Index].Level = Data->Level;
         auto serverClass = (SERVER_CLASS_TYPE)(Data->Class >> 3);
         auto iClass = gCharacterManager.ChangeServerClassTypeToClientClassType(serverClass);

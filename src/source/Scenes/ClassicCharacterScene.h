@@ -2,6 +2,8 @@
 
 // ClassicCharacterScene.h - the MU 0.97k client's character scene (theme capability ClassicCharacterScene=1)
 
+#include "Scenes/CharacterScene.h"
+
 namespace Scenes::ClassicCharacter
 {
 // Builds the scene instead of the character world: the stone yard of Logo05 (loaded by
@@ -15,10 +17,12 @@ void Release();
 // Whether the running character scene is this one.
 bool IsActive();
 
-// Per frame, before the characters move: the 0.97k client's camera and each character on its spot
-// of the yard's floor, the ones created since the last frame too. The scene alone places its
-// characters.
+// Per frame, before the characters move: the 0.97k client's camera.
 void Move();
+
+// The yard's spot for that slot (Scenes::CreateCharacterInSlot()): the characters the list made
+// before the scene are moved onto theirs by Create(), and a new one is created on its own.
+CharacterSpot SlotSpot(int slot);
 
 // How high over a character's feet its name, class and level stand.
 float NameHeight();
