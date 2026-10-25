@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <optional>
 #include <sstream>
 #include <utility>
 #include <vector>
@@ -94,10 +95,20 @@ namespace UI::RmlBridge
             bool classicCharacterScene = HasCapability("ClassicCharacterScene");
         };
 
-        ActiveThemeSettings& ActiveThemeSettingsStorage()
+        // Empty until the active theme is first read or set, so SetActiveThemeName() reads the new
+        // theme's settings once instead of the startup theme's first.
+        std::optional<ActiveThemeSettings>& ActiveThemeSettingsSlot()
         {
-            static ActiveThemeSettings settings(ActiveThemeNameStorage());
+            static std::optional<ActiveThemeSettings> settings;
             return settings;
+        }
+
+        const ActiveThemeSettings& ActiveThemeSettingsStorage()
+        {
+            std::optional<ActiveThemeSettings>& settings = ActiveThemeSettingsSlot();
+            if (!settings)
+                settings.emplace(ActiveThemeNameStorage());
+            return *settings;
         }
 
     }
@@ -168,7 +179,7 @@ namespace UI::RmlBridge
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);
-        ActiveThemeSettingsStorage() = ActiveThemeSettings(ActiveThemeNameStorage());
+        ActiveThemeSettingsSlot().emplace(ActiveThemeNameStorage());
         RmlUiRuntime::Instance().SetFileTextureNearestFiltering(ThemeUsesNearestFiltering());
 
         // Both themes deliberately reuse the same <template name="..."> for a shared concept
