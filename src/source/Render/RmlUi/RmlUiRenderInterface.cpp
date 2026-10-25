@@ -91,7 +91,7 @@ Rml::TextureHandle RmlUiRenderInterface::LoadTexture(Rml::Vector2i& texture_dime
     texture_dimensions = { static_cast<int>(bmp->Width), static_cast<int>(bmp->Height) };
     const auto handle = reinterpret_cast<Rml::TextureHandle>(rawTexture);
     m_FileBackedBitmapIndexByHandle.emplace(handle, static_cast<std::uint32_t>(bitmapIndex));
-    SetTextureNearestFiltering(handle, m_NearestFileTextures);
+    ApplyFileTextureFiltering(handle, static_cast<std::uint32_t>(bitmapIndex));
     return handle;
 }
 
@@ -99,7 +99,14 @@ void RmlUiRenderInterface::SetFileTextureNearestFiltering(bool nearest)
 {
     m_NearestFileTextures = nearest;
     for (const auto& [handle, bitmapIndex] : m_FileBackedBitmapIndexByHandle)
-        SetTextureNearestFiltering(handle, nearest);
+        ApplyFileTextureFiltering(handle, bitmapIndex);
+}
+
+void RmlUiRenderInterface::ApplyFileTextureFiltering(Rml::TextureHandle handle, std::uint32_t bitmapIndex)
+{
+    const BITMAP_t* bmp = Bitmaps.GetTexture(static_cast<GLuint>(bitmapIndex));
+    const bool upscaled = bmp != nullptr && bmp->scale > 1;
+    SetTextureNearestFiltering(handle, m_NearestFileTextures && !upscaled);
 }
 
 void RmlUiRenderInterface::ReleaseTexture(Rml::TextureHandle texture_handle)

@@ -28,10 +28,13 @@ public:
     void SetTextureFileResolver(TextureFileResolver resolver) { m_ResolveTextureFile = std::move(resolver); }
 
     // Nearest instead of linear filtering for every image loaded from a file, now and from now on.
-    // Font atlases and render targets keep linear filtering.
+    // Font atlases, render targets and upscaled art (UpscaleMarker.h), which is drawn at or below
+    // its own resolution, keep linear filtering.
     void SetFileTextureNearestFiltering(bool nearest);
 
 private:
+    void ApplyFileTextureFiltering(Rml::TextureHandle handle, std::uint32_t bitmapIndex);
+
     bool m_NearestFileTextures = false;
     TextureFileResolver m_ResolveTextureFile;
     TextureSourceResolver m_ResolveTextureSource;

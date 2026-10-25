@@ -5,7 +5,8 @@
 // Which cell of which skill icon atlas the HUD draws for a skill (current-skill slot, hotkey row,
 // expanded skill list, pet-command row), free of any game state so it can be unit-tested. The
 // cells are 20x28 px; the four normal atlases (newui_skill.jpg, newui_skill2.jpg,
-// newui_skill3.jpg, newui_command.jpg and their newui_non_* grey twins) are 256x256, the master
+// newui_skill3.jpg, newui_command.jpg and their newui_non_* grey twins) are 256x256 (the files
+// are the 4x HD art, marked so the game keeps that size: UpscaleMarker.h), the master
 // atlases are the tree's (MasterSkillTreeLayout.h).
 namespace UI::Skills::Icon
 {

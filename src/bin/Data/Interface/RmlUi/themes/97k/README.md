@@ -191,7 +191,8 @@ in `legacy`:
   at the foot, lit under the pointer. While it is open the character panels and name tags are
   hidden and the scene behind is dimmed.
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
-  scaled.
+  scaled; upscaled art (marked 2x or 4x, `docs/texture-packs.md`), such as the HD skill
+  icons, stays smooth.
 
 Windows move to the 0.97k look in the phases of
 `docs/superpowers/specs/2026-10-23-interface97-theme-plan.md`. Until a phase lands, its windows
