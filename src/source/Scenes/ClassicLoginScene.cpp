@@ -177,7 +177,7 @@ void CreateSailors()
 }
 
 // The 0.97k client only animated these characters: they never turned their heads, and a gesture
-// started only when it was not the one made last.
+// started only when it was not the one made last, and one at a time.
 void MoveSailors()
 {
     for (int i = 0; i < static_cast<int>(std::size(kSailors)); ++i)
@@ -192,6 +192,7 @@ void MoveSailors()
             {
                 SetAction(o, gesture);
                 s_lastGesture[i] = gesture;
+                break;
             }
         }
     }
