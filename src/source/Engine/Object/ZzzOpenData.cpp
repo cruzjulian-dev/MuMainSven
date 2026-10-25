@@ -3745,10 +3745,33 @@ bool OpenFont()
     InitPath();
 
     LoadBitmap(L"Interface\\FontInput.tga", BITMAP_FONT, GL_NEAREST, GL_CLAMP_TO_EDGE);
-    LoadBitmap(L"Interface\\FontTest.tga", BITMAP_FONT + 1);
+    OpenHitNumberFont(false);
     LoadBitmap(L"Interface\\Hit.tga", BITMAP_FONT_HIT, GL_NEAREST, GL_CLAMP_TO_EDGE);
 
     return g_pRenderText->Create(g_hDC);
+}
+
+void OpenHitNumberFont(bool classic)
+{
+    // Which file BITMAP_FONT + 1 holds.
+    enum class HitNumberFont
+    {
+        None,
+        Standard,
+        Classic,
+    };
+    static HitNumberFont s_loaded = HitNumberFont::None;
+
+    const HitNumberFont wanted = classic ? HitNumberFont::Classic : HitNumberFont::Standard;
+    if (wanted == s_loaded)
+    {
+        return;
+    }
+    // Loading another file into the slot replaces the one there (CGlobalBitmap::LoadImage). Tried
+    // once per change, so a missing file is reported once, not every frame.
+    const wchar_t* file = classic ? L"Interface97\\Fonttest.tga" : L"Interface\\FontTest.tga";
+    LoadBitmap(file, BITMAP_FONT + 1);
+    s_loaded = wanted;
 }
 
 void SaveMacro(const wchar_t* FileName)

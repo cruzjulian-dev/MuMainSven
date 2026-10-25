@@ -33,6 +33,8 @@ in `legacy`:
 - **The skills** in ProEmulator's old-school box (`Interface97/skillbox`): the current skill and
   each cell of its list, laid out as that client did, alternating right and left of the screen's
   centre from y 370.
+- **The hit numbers**, the damage and "Miss" over the characters, from `Interface97/Fonttest`
+  (`ClassicHitNumbers=1` in `theme.ini`), ProEmulator's 4x redraw, sampled like that client.
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):

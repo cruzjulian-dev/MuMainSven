@@ -38,6 +38,8 @@
 #include "UI/Scaling/UITransform.h"
 #include "Camera/CameraProjection.h"
 #include "Scenes/SceneLightingSetup.h"
+#include "Engine/Object/ZzzOpenData.h"
+#include "UI/RmlBridge/RmlTheme.h"
 #include "Scenes/ScenePostProcessing.h"
 #include "Render/Lighting/DynamicLightHistory.h"
 #include "Camera/CameraManager.h"
@@ -352,6 +354,8 @@ void MoveMainScene()
     }
 
     InitializeSceneFrame();
+    // The hit numbers' font follows the theme, so a switch shows at once.
+    OpenHitNumberFont(UI::RmlBridge::ThemeHasClassicHitNumbers());
 
     // While the reconnect dialog is up it's modal: block world clicks so they
     // don't move the hero and instead reach the dialog's Cancel button.

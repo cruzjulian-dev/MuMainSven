@@ -342,6 +342,10 @@ switches it on. Without it whispering starts on.
 text in the tooltip box 15 above the bar (`RenderTipText()`), and no health bar under the selected
 monster's name. Without it the hover text is plain, 6 above the bar, and the bar shows.
 
+`ClassicHitNumbers=1` draws the damage and "Miss" over the characters from
+`Data/Interface97/Fonttest` instead of `Data/Interface/FontTest`; a theme switch shows on the
+next frame.
+
 Which game systems the client has is not a theme capability: it is the build's, the same in every
 theme, in `src/source/Core/Globals/ClientProfile.h`. This build has no master skill tree (A, the
 character window's button), server chat command list (J, the command window's Special), friend list
@@ -462,8 +466,8 @@ their element's drawn size; choose their scaling deliberately.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
   theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
   `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff`, `ClassicWorldHud`, `ClassicLoginScene`,
-  `ClassicCharacterCreation` and `ClassicCharacterScene` are the ones in use). Game systems are
-  never capabilities: they are the build's (`Core/Globals/ClientProfile.h`). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  `ClassicCharacterCreation`, `ClassicCharacterScene` and `ClassicHitNumbers` are the ones in
+  use). Game systems are never capabilities: they are the build's (`Core/Globals/ClientProfile.h`). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

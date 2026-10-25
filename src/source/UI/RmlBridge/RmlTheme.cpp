@@ -93,6 +93,7 @@ namespace UI::RmlBridge
             bool classicLoginScene = HasCapability("ClassicLoginScene");
             bool classicCharacterCreation = HasCapability("ClassicCharacterCreation");
             bool classicCharacterScene = HasCapability("ClassicCharacterScene");
+            bool classicHitNumbers = HasCapability("ClassicHitNumbers");
         };
 
         // Empty until the active theme is first read or set, so SetActiveThemeName() reads the new
@@ -174,6 +175,11 @@ namespace UI::RmlBridge
     bool ThemeHasClassicCharacterScene()
     {
         return ActiveThemeSettingsStorage().classicCharacterScene;
+    }
+
+    bool ThemeHasClassicHitNumbers()
+    {
+        return ActiveThemeSettingsStorage().classicHitNumbers;
     }
 
     void SetActiveThemeName(const std::string& themeName)

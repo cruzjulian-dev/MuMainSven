@@ -99,6 +99,10 @@ namespace UI::RmlBridge
     // the stone yard of Data/Interface97/Logo/Logo05.bmd, seen from that client's camera, instead of
     // the character world. Read when the scene is created, so a theme switch shows on the next visit.
     bool ThemeHasClassicCharacterScene();
+    // Whether the damage and "Miss" over the characters are drawn from Data/Interface97/Fonttest
+    // (ClassicHitNumbers=1) instead of Data/Interface/FontTest. The main scene reads it every
+    // frame, so a theme switch shows at once.
+    bool ThemeHasClassicHitNumbers();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

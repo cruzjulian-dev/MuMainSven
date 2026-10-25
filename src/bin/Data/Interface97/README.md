@@ -1,7 +1,9 @@
 # Interface97
 
 2D interface art of the MU Online 0.97k client, used by the `97k` UI theme
-(`Data/Interface/RmlUi/themes/97k/`). Nothing else in the client reads this folder.
+(`Data/Interface/RmlUi/themes/97k/`). Nothing else in the client reads this folder; the game
+reads `Fonttest.OZT` itself, for the hit numbers, while that theme declares
+`ClassicHitNumbers=1`.
 
 ## Where it comes from
 
@@ -24,6 +26,12 @@ byte-identical to the MuMainSven ones. So do `btn_pshop.OZJ`, `btn_pshop2.OZJ` (
 personal shop button), `Quest1.OZJ`, `Quest2.OZJ`, `pet1.OZJ` and `pet2.OZJ` (the character
 window's shortcuts), which MuMainSven does not have, and `CursorID_Wnd.OZJ` (the command window's
 target box), which differs from MuMainSven's `newui_Cursorid_wnd`.
+
+`Font97.OZT` (the bar's numbers), `skillbox.OZJ` (the box under each skill) and `Fonttest.OZT`
+come from ProEmulator's client (`Client_2/Data/Interface/`, the skill box from `HUD/Look-2/`).
+`Fonttest.OZT` is its 1024x128 redraw of the 0.97k font, rewritten with its rows bottom up like
+every other OZT here and not marked as upscaled: the game samples it at full size, as that client
+does. The 0.97k original is the same as `Data/Interface/FontTest.OZT`.
 
 File names are the 0.97k ones; only the extensions are written `.OZJ`/`.OZT`, like the rest of
 `Data/`. The client reads them without regard to case.

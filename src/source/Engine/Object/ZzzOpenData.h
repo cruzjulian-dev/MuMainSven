@@ -9,6 +9,9 @@ void OpenModel(int Type, wchar_t* Dir, wchar_t* ModelFileName, ...);
 void OpenBasicData(HDC hDC);
 void ReleaseMainData();
 bool OpenFont();
+// Loads the hit number font into BITMAP_FONT + 1, Interface97's Fonttest for the 0.97k look or
+// Interface's FontTest, when it is not the one there. Cheap enough to call every frame.
+void OpenHitNumberFont(bool classic);
 void OpenLogoSceneData();
 void ReleaseLogoSceneData();
 // What the character scene loads: the newer stage and faces, or the 0.97k client's. The scene
