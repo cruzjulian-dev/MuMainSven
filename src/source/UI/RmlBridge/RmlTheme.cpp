@@ -58,9 +58,9 @@ namespace UI::RmlBridge
 
     namespace
     {
-        // Function-local statics, not namespace-scope globals, purely to sidestep static
-        // initialization order -- both are written after their first read (SetActiveThemeName(),
-        // ThemeExists()'s callers), so "mutable" is the operative word here, not "cached once".
+        // A function-local static, not a namespace-scope global, purely to sidestep static
+        // initialization order -- it is written after its first read (SetActiveThemeName()), so
+        // "mutable" is the operative word here, not "cached once".
         std::string& ActiveThemeNameStorage()
         {
             static std::string name = ResolveStartupThemeName(NarrowAscii(GameConfig::GetInstance().GetRmlTheme()));
