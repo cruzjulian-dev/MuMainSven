@@ -203,10 +203,8 @@ Con `Interface97/Logo/`:
 - `login.rml/.rcss` (**hecho**): caja `0account_new` en 195,247 (17 más arriba que la 0.97k, para no tapar el copyright), campos de 119 en 100,50 y 100,72,
   OK `0on_botton` en 128,95 y Cancelar `0on_botton2` en 90,180. `#panel` queda sin posición (la que
   le pone `LoginWin.cpp` no aplica). Sin las opciones de recordar, el nombre del servidor ni el
-  aviso: la 0.97k no los tenía. Capacidad `LoginAttemptLimit=1`: a la tercera contraseña errónea
-  de una conexión el cliente la cierra (`EndConnectionOnWrongPassword()` en `WSclient.cpp`), como
-  la cerraba el servidor de la 0.97k (código 8); OpenMU contesta todos los intentos.
-  `CheckServerConnection()` muestra "You are disconnected from the server" y su OK cierra el juego.
+  aviso: la 0.97k no los tenía. El límite de tres contraseñas erróneas por conexión (la 0.97k
+  cerraba la conexión con el código 8) es del servidor: queda para cuando se modifique.
 - `sys_menu.rcss` (**hecho**): el menú ESC de la escena de login y de personajes es el de la 0.97k
   (estado 110 de `RenderErrorMessage()`), igual que en el mundo: botones `Message_box` de 120x22
   centrados en la pantalla de 640x480 dp, desde y=60 y cada 30, sin caja ni oscurecer.

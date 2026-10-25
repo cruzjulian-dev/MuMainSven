@@ -117,10 +117,6 @@ namespace UI::RmlBridge
     // the stone yard of Data/Interface97/Logo/Logo05.bmd, seen from that client's camera, instead of
     // the character world. Read when the scene is created, so a theme switch shows on the next visit.
     bool ThemeHasClassicCharacterScene();
-    // Whether a game server connection ends after three wrong passwords (LoginAttemptLimit=1), as the
-    // 0.97k client's server ended it: the client closes the connection itself, since this build's
-    // server answers every attempt.
-    bool ThemeHasLoginAttemptLimit();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

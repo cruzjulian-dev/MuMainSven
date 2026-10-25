@@ -149,8 +149,7 @@ in `legacy`:
 - **The login box** (`login.rml/.rcss`): the 0.97k box (`0Account_new`) under the logo, the
   account and password fields, OK in the art's top right slot and Cancel under the frame, each lit
   under the pointer; 17 higher than the 0.97k box so it clears the copyright line. The 0.97k box had no remember options: they keep their saved state but are
-  not shown. The third wrong password on a connection ends it (`LoginAttemptLimit=1`), as the
-  0.97k client's server did: "You are disconnected from the server", and OK closes the game.
+  not shown.
 - **The server list** (`server_select.rml/.rcss`): the 0.97k list, its groups as `0box` buttons
   70x16 in two columns from y 220, Non-PVP on the left and PVP on the right (a group goes right
   when it has no Non-PVP channel in `ServerList.json`), the selected one brighter and 10 nearer
