@@ -354,14 +354,15 @@ static void SetupCharacterSceneViewport(int& outWidth, int& outHeight)
 
     CameraProjection::ScreenToWorldRay(g_Camera, MouseX, MouseY, MouseTarget);
 
-    // Reset character positions and lighting
+    // Reset character positions and lighting; the 0.97k scene places its characters itself
+    // (Scenes::ClassicCharacter::Move()).
+    const bool placeCharacters = !Scenes::ClassicCharacter::IsActive();
     for (int i = 0; i < MAX_CHARACTERS_PER_ACCOUNT; i++)
     {
-        CharactersClient[i].Object.Position[2] = 163.0f;
+        if (placeCharacters)
+            CharactersClient[i].Object.Position[2] = 163.0f;
         Vector(0.0f, 0.0f, 0.0f, CharactersClient[i].Object.Light);
     }
-    if (Scenes::ClassicCharacter::IsActive())
-        Scenes::ClassicCharacter::StandCharactersOnFloor();
 }
 
 /**

@@ -16,11 +16,9 @@ void Release();
 bool IsActive();
 
 // Per frame, before the characters move: the 0.97k client's camera and each character on its spot
-// of the yard, the ones created since the last frame too.
+// of the yard's floor, the ones created since the last frame too. The scene alone places its
+// characters.
 void Move();
-
-// Per frame, before the characters are drawn: each character on the yard's floor.
-void StandCharactersOnFloor();
 
 // How high over a character's feet its name, class and level stand.
 float NameHeight();

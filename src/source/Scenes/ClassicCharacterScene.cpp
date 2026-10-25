@@ -109,6 +109,7 @@ void PlaceCharacters()
 
         o->Position[0] = kOriginX + slot * kSlotStepX;
         o->Position[1] = kOriginY + slot * kSlotStepY + kFirstSlotY;
+        o->Position[2] = kFloorHeight;
         o->Angle[2] = (slot - 1) * kSlotTurn;
     }
 }
@@ -154,12 +155,6 @@ void Move()
 {
     AimCamera();
     PlaceCharacters();
-}
-
-void StandCharactersOnFloor()
-{
-    for (int slot = 0; slot < MAX_CHARACTERS_PER_ACCOUNT; ++slot)
-        CharactersClient[slot].Object.Position[2] = kFloorHeight;
 }
 
 float NameHeight()
