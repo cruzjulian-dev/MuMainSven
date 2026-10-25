@@ -20,8 +20,8 @@
 #include <iterator>
 
 // The scene as the 0.97k client built it (its login scene setup and Scene_Login()): positions,
-// gestures and the view are its own. The objects' scales and lights are CreateObject()'s login
-// cases, the sky's and the wakes' scrolling and the logo's fade-in MoveObject()'s.
+// gestures and the view are its own. The objects' lights, and their scales but the logo's, are
+// CreateObject()'s login cases, the sky's and the wakes' scrolling and the logo's fade-in MoveObject()'s.
 namespace
 {
 // The 0.97k client placed the scene round (0, 0); objects only live on the terrain's blocks
@@ -41,6 +41,7 @@ struct Placement
     int type;
     float x, y, z;
     float yaw;
+    float scale = 0.f; // 0: CreateObject()'s own
 };
 
 // The sky, each ship with its wake, the MU logo over the water and the sun.
@@ -52,7 +53,8 @@ constexpr Placement kObjects[] = {
     {MODEL_WAVEBYSHIP, 400.f, 400.f, 0.f, kShipYaw},
     {MODEL_SHIP, -200.f, -400.f, 0.f, kShipYaw},
     {MODEL_WAVEBYSHIP, -200.f, -400.f, 0.f, kShipYaw},
-    {MODEL_MUGAME, 0.f, -600.f, 480.f, 0.f},
+    // The 0.97k client's MU logo stood smaller than the newer clients' login scenes drew it.
+    {MODEL_MUGAME, 0.f, -600.f, 480.f, 0.f, 0.6f},
     {MODEL_LOGOSUN, -110.f, 1600.f, 50.f, 0.f},
 };
 
@@ -117,7 +119,9 @@ void CreateObjects()
     {
         vec3_t position = {kOriginX + placement.x, kOriginY + placement.y, placement.z};
         vec3_t angle = {0.f, 0.f, placement.yaw};
-        CreateObject(placement.type, position, angle);
+        OBJECT* o = CreateObject(placement.type, position, angle);
+        if (o != nullptr && placement.scale > 0.f)
+            o->Scale = placement.scale;
     }
 }
 

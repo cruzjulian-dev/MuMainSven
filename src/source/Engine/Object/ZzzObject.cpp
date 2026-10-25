@@ -4639,8 +4639,7 @@ OBJECT* CreateObject(int Type, vec3_t Position, vec3_t Angle, float Scale)
             Vector(1.f, 1.f, 1.f, o->Light);
             break;
         case MODEL_MUGAME:
-            // Only the 0.97k login scene (Scenes::ClassicLogin) stands the logo up, at that client's scale.
-            o->Scale = 0.6f;
+            o->Scale = 2.2f;
             o->BlendMesh = 1;
             o->LightEnable = false;
             break;
