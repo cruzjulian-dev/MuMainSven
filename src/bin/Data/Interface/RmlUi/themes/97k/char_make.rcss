@@ -1,0 +1,133 @@
+/* The 97k theme's character-creation dialog (CCharMakeWin), as the 0.97k client drew its New
+   Character panel on its 640x480 screen (Scene_CharSelect, create states; the arrows and buttons
+   are Game_EnterWorldTick's hit areas). The body's font-size makes 1rem one pixel of that screen
+   at the window's height, as on the character bar (char_sel_main.rcss); everything inside #box is
+   the panel's own pixels.
+
+   - Panel: New_Character01 (213x256) over New_Character02 (213x119), at 214,13 of the screen:
+     centred, as the character bar's New Character panel is.
+   - Face: the class's 3D face in the frame, 74x79 at 71,89 (one above the 0.97k client's 90, so the
+     neck stops inside the frame).
+   - Name: typed at 71,180, in the 0.97k login colour (0xffd2e6ff).
+   - Class: its name at 71,200, in white with no band.
+   - Arrows: 20x19 at 149,196 (previous) and 170,196 (next), pressed (New_Character001/002) while
+     the button is held down; black at 0.8 over one with no class to step to. The row under them
+     (20x18 at 149,215 and 170,215, New_Character003/004) only presses, as in the 0.97k client.
+   - Cancel: 72x21 at 21,349, lit with New_Character_Cancel; OK: 72x21 at 121,349, lit with
+     New_Character_Ok. Their captions are in the art.
+   The scene behind is dimmed, as the 0.97k client darkened the characters; the dragon frame
+   (charsel_frame.rcss) is drawn again over the panel. The panel drops in from above the screen
+   each time it opens, easing out as the 0.97k client's panels slid. */
+
+@spritesheet cm97-top-sheet { src: "../../../../Interface97/Logo/New_character01.tga"; cm97-top: 0px 0px 213px 256px; }
+@spritesheet cm97-bottom-sheet { src: "../../../../Interface97/Logo/New_character02.tga"; cm97-bottom: 0px 0px 213px 119px; }
+@spritesheet cm97-prev-sheet { src: "../../../../Interface97/Logo/New_character001.jpg"; cm97-prev-lit: 0px 0px 20px 19px; }
+@spritesheet cm97-next-sheet { src: "../../../../Interface97/Logo/New_character002.jpg"; cm97-next-lit: 0px 0px 20px 19px; }
+@spritesheet cm97-prev-low-sheet { src: "../../../../Interface97/Logo/New_character003.jpg"; cm97-prev-low-lit: 0px 0px 20px 18px; }
+@spritesheet cm97-next-low-sheet { src: "../../../../Interface97/Logo/New_character004.jpg"; cm97-next-low-lit: 0px 0px 20px 18px; }
+@spritesheet cm97-cancel-sheet { src: "../../../../Interface97/Logo/New_character_cancel.jpg"; cm97-cancel-lit: 0px 0px 72px 21px; }
+@spritesheet cm97-ok-sheet { src: "../../../../Interface97/Logo/New_character_ok.jpg"; cm97-ok-lit: 0px 0px 72px 21px; }
+
+body {
+	font-size: calc(100vh / 480);
+}
+
+#backdrop {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 128);
+}
+
+/* In the flow and unpositioned: the left/top CharMakeWin.cpp sets on it don't apply, and #box takes
+   the body as its frame. */
+#panel {
+	display: block;
+	position: static;
+}
+
+#box {
+	position: absolute;
+	left: 50%;
+	top: 13rem;
+	width: 213rem;
+	height: 375rem;
+	margin-left: -106rem;
+	font-family: "token(font-body)";
+	font-size: 12rem;
+}
+@keyframes cm97-drop {
+	from { top: -375rem; }
+	to { top: 13rem; }
+}
+#box.open { animation: 0.4s exponential-out cm97-drop; }
+#box_top { position: absolute; left: 0; top: 0; width: 213rem; height: 256rem; decorator: image(cm97-top); }
+#box_bottom { position: absolute; left: 0; top: 256rem; width: 213rem; height: 119rem; decorator: image(cm97-bottom); }
+
+#preview { position: absolute; left: 71rem; top: 89rem; width: 74rem; height: 79rem; }
+#preview.awaiting-frame { visibility: hidden; }
+
+.char-make-name-field {
+	position: absolute;
+	left: 71rem;
+	top: 180rem;
+	width: 74rem;
+	height: 14rem;
+	line-height: 14rem;
+	padding: 0;
+	font-family: "token(font-body)";
+	font-size: 12rem;
+	color: #ffe6d2;
+	background-color: transparent;
+	border-width: 0;
+	border-radius: 0;
+	box-shadow: none;
+	decorator: none;
+}
+
+#class_line {
+	position: absolute;
+	left: 71rem;
+	top: 200rem;
+	line-height: 14rem;
+	white-space: nowrap;
+}
+#class_name {
+	color: #ffffff;
+}
+
+.arrow {
+	position: absolute;
+	width: 20rem;
+	cursor: pointer;
+	pointer-events: auto;
+}
+#arrow_prev, #arrow_next { top: 196rem; height: 19rem; }
+#arrow_prev_low, #arrow_next_low { top: 215rem; height: 18rem; }
+#arrow_prev, #arrow_prev_low { left: 149rem; }
+#arrow_next, #arrow_next_low { left: 170rem; }
+#arrow_prev:active { decorator: image(cm97-prev-lit); }
+#arrow_next:active { decorator: image(cm97-next-lit); }
+#arrow_prev_low:active { decorator: image(cm97-prev-low-lit); }
+#arrow_next_low:active { decorator: image(cm97-next-low-lit); }
+/* Still clickable, as in the 0.97k client: the click plays the error sound. */
+.arrow.disabled, .arrow.disabled:active {
+	decorator: none;
+	background-color: rgba(0, 0, 0, 204);
+}
+#arrow_prev_low, #arrow_next_low { cursor: default; }
+
+.btn97 {
+	position: absolute;
+	top: 349rem;
+	width: 72rem;
+	height: 21rem;
+	cursor: pointer;
+	pointer-events: auto;
+}
+#btn_cancel { left: 21rem; }
+#btn_ok { left: 121rem; }
+#btn_cancel:hover { decorator: image(cm97-cancel-lit); }
+#btn_ok:hover { decorator: image(cm97-ok-lit); }

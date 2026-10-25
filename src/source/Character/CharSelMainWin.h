@@ -214,6 +214,9 @@ public:
     void RefreshLayout();
     void Show(bool bShow) override;
     void UpdateDisplay();
+    // A character was clicked: the 97k theme sends its Delete and OK panels off the screen and
+    // back in, as the 0.97k client did on every click on a character.
+    void OnCharacterClicked();
 
     // Invoked from the RmlUi document's data-event-click bindings (see Create()). Polled-and-
     // cleared in Update() -- mirrors CSysMenuWin's RmlClickX() shape, including the same-guard
@@ -243,13 +246,22 @@ protected:
 private:
     void ApplyLayout(const UI::CharacterSelection::Layout& layout);
     void OnRmlReloaded();
+    void ResetButtonsToDisabled();
 
     struct CharSelMainRmlModel
     {
-        bool createDisabled = false;
-        bool connectDisabled = false;
-        bool deleteDisabled = false;
+        // Disabled until the first sync, so a theme that slides its buttons in shows none of them
+        // before the window knows which are wanted.
+        bool createDisabled = true;
+        bool connectDisabled = true;
+        bool deleteDisabled = true;
         bool accountBlockHidden = true;
+        // Whether the character-creation dialog is open over the bar: the 97k theme hides its
+        // panels then, as the 0.97k client did.
+        bool charMakeOpen = false;
+        // Whether the Delete and OK panels are sent away for a moment after a click on a
+        // character (OnCharacterClicked()); the 97k theme slides them off the screen meanwhile.
+        bool panelsAway = false;
         Rml::String accountBlockLine1;
         Rml::String accountBlockLine2;
     };
@@ -262,6 +274,8 @@ private:
     bool m_bCreateEnabled = false;
     bool m_bConnectEnabled = false;
     bool m_bDeleteEnabled = false;
+    // WorldTime until which the Delete and OK panels stay away (OnCharacterClicked()).
+    double m_panelsAwayUntil = 0.0;
 
     bool m_bRmlCreateClicked = false;
     bool m_bRmlMenuClicked = false;

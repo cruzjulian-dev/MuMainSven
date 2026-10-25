@@ -108,6 +108,15 @@ namespace UI::RmlBridge
     // the 3D MU logo, in a 640x320 strip between black bars, instead of the login world. Read when
     // the scene is created, so a theme switch shows on the next visit.
     bool ThemeHasClassicLoginScene();
+    // Whether character creation is the 0.97k client's (ClassicCharacterCreation=1): the class's
+    // face from Data/Logo/Face0N.bmd, picked with arrows among the dark wizard, dark knight, elf,
+    // magic gladiator and dark lord. The faces are loaded with the character scene, so a theme
+    // switch shows on the next visit.
+    bool ThemeHasClassicCharacterCreation();
+    // Whether the character scene is the 0.97k client's (ClassicCharacterScene=1): the characters on
+    // the stone yard of Data/Interface97/Logo/Logo05.bmd, seen from that client's camera, instead of
+    // the character world. Read when the scene is created, so a theme switch shows on the next visit.
+    bool ThemeHasClassicCharacterScene();
 
     // Builds the virtual source URL a themed document should be loaded against, e.g.
     // "Data/Interface/RmlUi/themes/modern/login.rml" -- this path need not exist on disk (the RML

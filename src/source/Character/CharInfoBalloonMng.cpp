@@ -1,11 +1,13 @@
 
 #include "stdafx.h"
 #include "CharInfoBalloonMng.h"
+#include "Character/CharMakeWin.h"
 
 #include "CharInfoBalloon.h"
 #include "Core/Globals/_enum.h"
 #include "Core/Utilities/StringUtils.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
+#include "Render/Textures/ZzzOpenglUtil.h"
 #include "UI/RmlBridge/RmlDocumentVisibility.h"
 #include "UI/RmlBridge/RmlTheme.h"
 #include "UI/Core/SceneUICoordinator.h"
@@ -32,6 +34,28 @@ const char* NameStatusKey(BalloonNameStatus status)
         break;
     }
     return "normal";
+}
+
+// The 0.97k client's font (WinMain): 12 pixels high at 640 wide, 13 at 800, 14 at 1024 and 15
+// from 1280 on.
+float ClassicTextPx(unsigned int windowWidth)
+{
+    if (windowWidth >= 1280)
+        return 15.f;
+    if (windowWidth == 1024)
+        return 14.f;
+    if (windowWidth == 800)
+        return 13.f;
+    return 12.f;
+}
+
+// The 0.97k client wrote a tag's class line at the character's projected point and the name above
+// it, its text's height plus 3 higher on the 640x480 screen, which it stretched over the window.
+float ClassicNameRise(float textPx, unsigned int windowHeight)
+{
+    constexpr float kReferenceHeight = 480.f;
+    constexpr float kNameGap = 3.f;
+    return (textPx + kNameGap) * static_cast<float>(windowHeight) / kReferenceHeight;
 }
 }
 
@@ -75,6 +99,10 @@ void CCharInfoBalloonMng::Create()
 void CCharInfoBalloonMng::BindRmlModel(Rml::DataModelConstructor& c, BalloonListModel& model)
 {
     model.balloons.resize(kBalloonCount);
+    // Set before the document's first layout as well as every frame (SyncRmlModel()), so no tag is
+    // ever laid out at a font size of 0.
+    model.classicTextPx = ClassicTextPx(WindowWidth);
+    model.classicNameRise = ClassicNameRise(model.classicTextPx, WindowHeight);
 
     // See CCharMakeWin::BindRmlModel()'s comment on why this must re-run in full every
     // call, including on a theme switch -- no guard here.
@@ -89,6 +117,9 @@ void CCharInfoBalloonMng::BindRmlModel(Rml::DataModelConstructor& c, BalloonList
     c.RegisterArray<std::vector<BalloonEntry>>();
 
     c.Bind("balloons", &model.balloons);
+    c.Bind("char_make_open", &model.charMakeOpen);
+    c.Bind("classic_text_px", &model.classicTextPx);
+    c.Bind("classic_name_rise", &model.classicNameRise);
 }
 
 //*****************************************************************************
@@ -157,4 +188,21 @@ void CCharInfoBalloonMng::SyncRmlModel()
         entry.klass = StringUtils::WideToNarrow(balloon.GetClassText());
     }
     m_RmlView.MarkDirty("balloons");
+
+    BalloonListModel& model = m_RmlView.GetModel();
+    if (model.charMakeOpen != g_CharMakeWin.IsVisible())
+    {
+        model.charMakeOpen = g_CharMakeWin.IsVisible();
+        m_RmlView.MarkDirty("char_make_open");
+    }
+
+    const float textPx = ClassicTextPx(WindowWidth);
+    const float nameRise = ClassicNameRise(textPx, WindowHeight);
+    if (model.classicTextPx != textPx || model.classicNameRise != nameRise)
+    {
+        model.classicTextPx = textPx;
+        model.classicNameRise = nameRise;
+        m_RmlView.MarkDirty("classic_text_px");
+        m_RmlView.MarkDirty("classic_name_rise");
+    }
 }

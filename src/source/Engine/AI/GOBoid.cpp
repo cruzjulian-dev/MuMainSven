@@ -24,6 +24,7 @@
 #include "Scenes/MainScene.h"
 #include "GameLogic/Items/ItemCategories.h"
 #include "Render/Renderer/MuRenderer.h"
+#include "UI/RmlBridge/RmlTheme.h"
 
 int EnableEvent = 0;
 
@@ -695,7 +696,9 @@ bool RenderMount(OBJECT* o, bool bForceRender)
 
             if (bForceRender)
                 o->Scale = o->Scale;
-            else if (SceneFlag == CHARACTER_SCENE)
+            // The character scene draws its characters at 1.2 (SetCharacterScale()) and their mounts
+            // with them; the 0.97k one (ClassicCharacterScene=1) draws both at their world size.
+            else if (SceneFlag == CHARACTER_SCENE && !UI::RmlBridge::ThemeHasClassicCharacterScene())
                 o->Scale = 1.2f;
             else if (o->Type != MODEL_FENRIR_BLACK && o->Type != MODEL_FENRIR_BLUE && o->Type != MODEL_FENRIR_RED
                 && o->Type != MODEL_FENRIR_GOLD

@@ -13,6 +13,7 @@
 #include "CameraManager.h"
 #include "CameraProjection.h"
 #include "Scenes/SceneCore.h"
+#include "Scenes/ClassicCharacterScene.h"
 #include "Engine/Object/ZzzInterface.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "Render/Renderer/MuRenderer.h"
@@ -324,6 +325,14 @@ bool DefaultCamera::Update()
         // Always update frustum since camera is moving every frame
         UpdateFrustum();
         return false;  // Camera not locked
+    }
+
+    // The 0.97k character scene places g_Camera itself (Scenes::ClassicCharacter::Move()), as the
+    // login scene's camera walk does.
+    if (SceneFlag == CHARACTER_SCENE && Scenes::ClassicCharacter::IsActive())
+    {
+        UpdateFrustum();
+        return false;
     }
 
     // Note: Tour mode is handled internally by CalculateCameraPosition() and SetCameraAngle()

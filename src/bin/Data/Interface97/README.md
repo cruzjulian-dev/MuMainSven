@@ -13,6 +13,11 @@
   The models, skies and other 3D scenery of the 0.97k login are not included: the login scene
   stays the MuMainSven one.
 
+`Logo/Logo05.bmd` and its seven `scs-*.OZJ` textures are the stone yard of the theme's character
+scene (`ClassicCharacterScene=1`), from the 0.97k data the project was given. The textures shed the
+`-jmk` their file names carried, and the model names them without it too (only the names in its
+texture slots changed). `Data/Logo/Logo05.bmd` is MuMainSven's own and stays for the other themes.
+
 `win_button.OZT` and `win_scrollbar.OZJ` come from the Season 3 client's `Data/Interface/`
 instead, for the theme's guild window (the 0.97k client had no such art); both are
 byte-identical to the MuMainSven ones. So do `btn_pshop.OZJ`, `btn_pshop2.OZJ` (the inventory's

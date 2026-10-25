@@ -1,0 +1,54 @@
+<rml>
+<head>
+	<title>Character Creation</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="charsel_frame.rcss"/>
+	<link type="text/rcss" href="char_make.rcss"/>
+</head>
+<body data-model="char_make">
+	<!-- rml-contract-optional-callback: charmake_select_job: the 0.97k panel picks the class with its arrows (charmake_class_arrow), not class buttons -->
+	<!-- The 0.97k New Character panel (Scene_CharSelect, its create states): the class's face in
+	     the frame under the title, the name line under it, the class line with its two arrows
+	     (each pressed while clicked, blacked out with no class to step to on that side; the row
+	     under them only presses, as in the 0.97k client), and Cancel and OK at the foot, lit under
+	     the pointer. The panel drops in from the top each time it opens (#box.open). Its other
+	     boxes stay empty, as the 0.97k client left them. The dragon frame is drawn again over the
+	     panel, as the 0.97k client drew it over everything.
+	     #panel (which CharMakeWin.cpp places) stays in the flow and takes no position; the theme
+	     places #box on the 0.97k screen. Same ids, model and event names as char_make.rml; the
+	     class buttons, stats and description, which the 0.97k panel had none of, are left out. -->
+	<div id="backdrop"></div>
+	<div id="panel">
+		<div id="box" data-class-open="open">
+			<div id="box_top"></div>
+			<div id="box_bottom"></div>
+
+			<img id="preview" class="awaiting-frame"/>
+
+			<input id="char_name" type="text" class="text-field char-make-name-field"
+			       data-value="char_name" autofocus/>
+
+			<div id="class_line"><span id="class_name">{{desc_title}}</span></div>
+			<div id="arrow_prev" class="arrow" data-class-disabled="prev_class_disabled"
+			     data-event-click="charmake_class_arrow(-1)"></div>
+			<div id="arrow_next" class="arrow" data-class-disabled="next_class_disabled"
+			     data-event-click="charmake_class_arrow(1)"></div>
+			<div id="arrow_prev_low" class="arrow"></div>
+			<div id="arrow_next_low" class="arrow"></div>
+
+			<div id="btn_cancel" class="btn97" data-event-click="charmake_cancel_click"></div>
+			<div id="btn_ok" class="btn97" data-event-click="charmake_ok_click"></div>
+		</div>
+	</div>
+	<div id="frame">
+		<div id="frame_top_left" class="frame-piece"></div>
+		<div id="frame_top_right" class="frame-piece"></div>
+		<div id="frame_side_left_top" class="frame-piece"></div>
+		<div id="frame_side_right_top" class="frame-piece"></div>
+		<div id="frame_side_left_bottom" class="frame-piece"></div>
+		<div id="frame_side_right_bottom" class="frame-piece"></div>
+		<div id="frame_bottom_left" class="frame-piece"></div>
+		<div id="frame_bottom_right" class="frame-piece"></div>
+	</div>
+</body>
+</rml>

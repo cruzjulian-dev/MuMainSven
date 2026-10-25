@@ -95,6 +95,14 @@ private:
     struct BalloonListModel
     {
         std::vector<BalloonEntry> balloons;
+        // Whether the character-creation dialog is open: the 97k theme hides the tags then, as the
+        // 0.97k client did.
+        bool charMakeOpen = false;
+        // The 0.97k client's tag text in screen pixels (its font, sized by the window's width), and
+        // how far above the class line's top it stood the name's top; the 97k theme lays its tags
+        // out with them.
+        float classicTextPx = 0.f;
+        float classicNameRise = 0.f;
     };
     void BindRmlModel(Rml::DataModelConstructor& c, BalloonListModel& model);
     UI::RmlBridge::ThemedView<BalloonListModel> m_RmlView{"char_info_balloons",

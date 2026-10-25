@@ -44,6 +44,8 @@
 #endif
 #include "Scenes/SceneLightingSetup.h"
 #include "Scenes/ScenePostProcessing.h"
+#include "Scenes/ClassicCharacterScene.h"
+#include "UI/RmlBridge/RmlTheme.h"
 
 // External declarations
 extern EGameScene SceneFlag;
@@ -134,6 +136,23 @@ bool StartGameWithSlot(int slot)
 }
 } // namespace Scenes
 
+// The theme picks the scene when it is created: the 0.97k client's stone yard or the character
+// world. Either way the scene's data is loaded with it.
+static void CreateCharacterWorld()
+{
+    if (UI::RmlBridge::ThemeHasClassicCharacterScene())
+    {
+        OpenCharacterSceneData();
+        Scenes::ClassicCharacter::Create();
+        return;
+    }
+
+    Scenes::ClassicCharacter::Release();
+    gMapManager.WorldActive = WD_74NEW_CHARACTER_SCENE;
+    gMapManager.LoadWorld(gMapManager.WorldActive);
+    OpenCharacterSceneData();
+}
+
 void CreateCharacterScene()
 {
     g_pNewUIMng->ResetActiveUIObj();
@@ -142,10 +161,7 @@ void CreateCharacterScene()
     MouseOnWindow = false;
     ErrorMessage = 0;
 
-    gMapManager.WorldActive = WD_74NEW_CHARACTER_SCENE;
-
-    gMapManager.LoadWorld(gMapManager.WorldActive);
-    OpenCharacterSceneData();
+    CreateCharacterWorld();
 
     CreateCharacterPointer(&CharacterView, MODEL_FACE + 1, 0, 0);
     CharacterView.Class = CLASS_KNIGHT;
@@ -217,7 +233,10 @@ void NewMoveCharacterScene()
     MoveMounts();
 
     // Update camera BEFORE checking character visibility
-    MoveCamera();
+    if (Scenes::ClassicCharacter::IsActive())
+        Scenes::ClassicCharacter::Move();
+    else
+        MoveCamera();
 
     // Now check character visibility with updated frustum
     MoveCharactersClient();
@@ -283,9 +302,14 @@ void NewMoveCharacterScene()
     else if (rInput.IsLBtnDn())
     {
         if (SelectedCharacter < 0 || SelectedCharacter >= MAX_CHARACTERS_PER_ACCOUNT)
+        {
             SelectedHero = -1;
+        }
         else
+        {
             SelectedHero = SelectedCharacter;
+            g_CharSelMainWin.OnCharacterClicked();
+        }
         g_CharSelMainWin.UpdateDisplay();
     }
 
@@ -330,6 +354,8 @@ static void SetupCharacterSceneViewport(int& outWidth, int& outHeight)
         CharactersClient[i].Object.Position[2] = 163.0f;
         Vector(0.0f, 0.0f, 0.0f, CharactersClient[i].Object.Light);
     }
+    if (Scenes::ClassicCharacter::IsActive())
+        Scenes::ClassicCharacter::StandCharactersOnFloor();
 }
 
 /**
@@ -359,7 +385,9 @@ static void RenderCharacterScene3D()
 {
     // Terrain has a real D3D11 path now -- call unconditionally. RenderObjects() (BMD static world
     // meshes) joins it. RenderCharactersClient()/RenderMount() join it too (see LoginScene.cpp's
-    RenderTerrain(false);
+    // The 0.97k stone yard stands on no terrain.
+    if (!Scenes::ClassicCharacter::IsActive())
+        RenderTerrain(false);
     RenderObjects();
     RenderCharactersClient();
     RenderMount();
@@ -396,20 +424,28 @@ static void RenderSelectedCharacterEffects()
     constexpr float AURORA_AMPLITUDE = 0.3f;
     constexpr float AURORA_BASE_LUMINANCE = 0.5f;
 
-    vec3_t vLight;
-    Vector(1.0f, 1.0f, 1.f, vLight);
-    float fLumi = sinf(WorldTime * AURORA_FREQUENCY) * AURORA_AMPLITUDE + AURORA_BASE_LUMINANCE;
-    Vector(fLumi * vLight[0], fLumi * vLight[1], fLumi * vLight[2], vLight);
+    // The 0.97k character scene circles the selected character with its own ring instead, without
+    // the aurora or the particles.
+    if (Scenes::ClassicCharacter::IsActive())
+    {
+        Scenes::ClassicCharacter::CircleSelectedCharacter(o->Position);
+    }
+    else
+    {
+        vec3_t vLight;
+        Vector(1.0f, 1.0f, 1.f, vLight);
+        float fLumi = sinf(WorldTime * AURORA_FREQUENCY) * AURORA_AMPLITUDE + AURORA_BASE_LUMINANCE;
+        Vector(fLumi * vLight[0], fLumi * vLight[1], fLumi * vLight[2], vLight);
 
-    EnableAlphaBlend();
-    RenderTerrainAlphaBitmap(BITMAP_GM_AURORA, o->Position[0], o->Position[1], 1.8f, 1.8f, vLight, WorldTime * 0.01f);
-    RenderTerrainAlphaBitmap(BITMAP_GM_AURORA, o->Position[0], o->Position[1], 1.2f, 1.2f, vLight, -WorldTime * 0.01f);
-    DisableAlphaBlend();
+        EnableAlphaBlend();
+        RenderTerrainAlphaBitmap(BITMAP_GM_AURORA, o->Position[0], o->Position[1], 1.8f, 1.8f, vLight, WorldTime * 0.01f);
+        RenderTerrainAlphaBitmap(BITMAP_GM_AURORA, o->Position[0], o->Position[1], 1.2f, 1.2f, vLight, -WorldTime * 0.01f);
+        DisableAlphaBlend();
 
-    float Rotation = (int)WorldTime % 3600 / (float)10.f;
-    Vector(0.15f, 0.15f, 0.15f, o->Light);
-    CreateParticleFpsChecked(BITMAP_EFFECT, o->Position, o->Angle, o->Light, 4);
-    CreateParticleFpsChecked(BITMAP_EFFECT, o->Position, o->Angle, o->Light, 5);
+        Vector(0.15f, 0.15f, 0.15f, o->Light);
+        CreateParticleFpsChecked(BITMAP_EFFECT, o->Position, o->Angle, o->Light, 4);
+        CreateParticleFpsChecked(BITMAP_EFFECT, o->Position, o->Angle, o->Light, 5);
+    }
 
     g_csMapServer.SetHeroID((wchar_t*)CharactersClient[SelectedHero].ID);
 }
@@ -466,7 +502,8 @@ bool NewRenderCharacterScene(HDC hDC)
         return false;
     }
 
-    FogEnable = true;
+    // The 0.97k stone yard is seen whole, with no fog.
+    FogEnable = !Scenes::ClassicCharacter::IsActive();
 
     int width, height;
     SetupCharacterSceneViewport(width, height);

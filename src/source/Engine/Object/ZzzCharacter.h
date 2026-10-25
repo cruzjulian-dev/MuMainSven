@@ -25,6 +25,8 @@ void RenderCharactersClient();
  *
  * The model OBB is too tight at the steep camera angle used in CHARACTER_SCENE,
  * so we synthesize a wider box from the character's position and model height.
+ * The 0.97k character scene (ClassicCharacterScene=1) keeps the model's own OBB, as the 0.97k
+ * client did, only taller (200 over the feet instead of 120).
  * Only used in CHARACTER_SCENE; main scene uses the model's own OBB directly.
  */
 void BuildCharacterScenePickOBB(const OBJECT* o, OBB_t& outOBB);
@@ -99,6 +101,10 @@ int LevelConvert(BYTE Level);
 float CharacterMoveSpeed(CHARACTER* c);
 
 bool CheckMonsterSkill(CHARACTER* c, OBJECT* o);
+// Whether the model type is one of the 0.97k character creation's faces (ClassicCharacterCreation=1),
+// which play as that client played them: at their actions' own speed, every frame of each, then one
+// of their two gestures at random.
+bool IsClassicFaceModel(int type);
 bool CharacterAnimation(CHARACTER* c, OBJECT* o);
 bool AttackStage(CHARACTER* c, OBJECT* o);
 

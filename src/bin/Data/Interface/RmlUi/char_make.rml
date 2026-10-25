@@ -5,6 +5,7 @@
 	<link type="text/rcss" href="char_make.rcss"/>
 </head>
 <body data-model="char_make">
+	<!-- rml-contract-optional-callback: charmake_class_arrow: the class arrows are the 97k theme's 0.97k panel (ClassicCharacterCreation); this panel picks the class with its buttons -->
 	<!-- Character-creation dialog. #backdrop dims the scene behind, its character info balloons
 	     included; #preview is the live 3D character, drawn by C++ into a render target and shown
 	     here under the rest of the panel. -->

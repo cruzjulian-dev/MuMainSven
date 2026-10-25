@@ -1,0 +1,120 @@
+/* The 97k theme's character screen (CCharSelMainWin), as the 0.97k client drew it on its 640x480
+   screen (Scene_CharSelect.cpp; the frame is UI_DrawLoginBg in Scene_CharPreview.cpp). The body's
+   font-size makes 1rem one pixel of that screen at the window's height, so every length below is
+   the 0.97k client's own; the screen fills the window's height, as the 0.97k client's did, and is
+   a scene skin rather than a panel, so the UI scale doesn't size it.
+
+   Intent, kept on any aspect ratio: the frame hugs the window's edges (its side pieces keep their
+   shape, the top and bottom strips stretch between them, as the 0.97k client stretched its whole
+   screen on a wide window); the New Character panel hangs from the top, centred; the Delete dragon
+   stands against the left edge and the OK dragon against the right, 116 from the top.
+
+   - New Character: New_Character201 (199x109) at 221,6; its button is 65,75 of it, 70x25, lit
+     with New_Character202. Off the screen while every slot is taken.
+   - Delete: Delete01 (205x88) at 0,116; its button 128,32 of it, 70x19, lit with Delete02.
+   - OK (connect): Ok01 (205x88) at 434,116; its button 7,32 of it, 70x19, lit with Ok02.
+     Both off screen while no character is selected: the 0.97k client kept them at x -200 until a
+     character was picked, then slid them in from their side, as they slide here. A click on
+     another character, or the same one, slides both off and back in again (panels_away).
+   - Frame: charsel_frame.rcss.
+   The panels are hidden while the character-creation dialog is open, as the 0.97k client hid them.
+
+   The panels slide on and off the screen easing out, as the 0.97k client's did; one that is not
+   wanted when the screen opens stays off it without sliding. */
+
+@spritesheet cs97-create-sheet { src: "../../../../Interface97/Logo/New_character201.tga"; cs97-create: 0px 0px 199px 109px; }
+@spritesheet cs97-create-lit-sheet { src: "../../../../Interface97/Logo/New_character202.jpg"; cs97-create-lit: 0px 0px 70px 25px; }
+@spritesheet cs97-delete-sheet { src: "../../../../Interface97/Logo/Delete01.tga"; cs97-delete: 0px 0px 205px 88px; }
+@spritesheet cs97-delete-lit-sheet { src: "../../../../Interface97/Logo/Delete02.jpg"; cs97-delete-lit: 0px 0px 70px 19px; }
+@spritesheet cs97-ok-sheet { src: "../../../../Interface97/Logo/Ok01.tga"; cs97-ok: 0px 0px 205px 88px; }
+@spritesheet cs97-ok-lit-sheet { src: "../../../../Interface97/Logo/Ok02.jpg"; cs97-ok-lit: 0px 0px 70px 19px; }
+
+body {
+	font-size: calc(100vh / 480);
+}
+
+#panel {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.charsel-panel {
+	position: absolute;
+	pointer-events: none;
+}
+#panel.char-make-open .charsel-panel { display: none; }
+
+/* Off the screen until .shown: the panels start where they rest unwanted, so the first frame
+   shows none it should not and only a panel that is wanted slides. */
+#btn_create_item {
+	left: 50%;
+	top: -109rem;
+	width: 199rem;
+	height: 109rem;
+	margin-left: -99.5rem;
+	decorator: image(cs97-create);
+	transition: top 0.4s exponential-out;
+}
+#btn_create_item.shown { top: 6rem; }
+#btn_delete_item {
+	left: -205rem;
+	top: 116rem;
+	width: 205rem;
+	height: 88rem;
+	decorator: image(cs97-delete);
+	transition: left 0.4s exponential-out;
+}
+#btn_delete_item.shown { left: 0; }
+#btn_connect_item {
+	right: -205rem;
+	top: 116rem;
+	width: 205rem;
+	height: 88rem;
+	decorator: image(cs97-ok);
+	transition: right 0.4s exponential-out;
+}
+#btn_connect_item.shown { right: 0; }
+
+.charsel-btn {
+	position: absolute;
+	cursor: pointer;
+	pointer-events: auto;
+}
+.charsel-btn.disabled {
+	cursor: default;
+	pointer-events: none;
+}
+#btn_create { left: 65rem; top: 75rem; width: 70rem; height: 25rem; }
+#btn_delete { left: 128rem; top: 32rem; width: 70rem; height: 19rem; }
+#btn_connect { left: 7rem; top: 32rem; width: 70rem; height: 19rem; }
+#btn_create:hover { decorator: image(cs97-create-lit); }
+#btn_delete:hover { decorator: image(cs97-delete-lit); }
+#btn_connect:hover { decorator: image(cs97-ok-lit); }
+
+#btn_menu_item { display: none; }
+
+/* The 0.97k warning (black on a half-yellow band), two lines centred at y=330 and 348. */
+#account_block_message {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 330rem;
+	font-family: "token(font-body)";
+	font-size: 11rem;
+	pointer-events: none;
+}
+.line-row {
+	line-height: 18rem;
+	text-align: center;
+}
+.line {
+	display: inline-block;
+	color: #000000;
+	background-color: rgba(255, 255, 0, 128);
+	white-space: nowrap;
+	padding: 0 2rem;
+}

@@ -32,6 +32,7 @@
 #include "Engine/Object/ZzzInventory.h"
 #include "Render/Effects/ZzzEffect.h"
 #include "Engine/Object/ZzzOpenData.h"
+#include "Scenes/ClassicCharacterScene.h"
 #include "Scenes/SceneCore.h"
 #include "Scenes/MainScene.h"
 #include "Audio/DSPlaySound.h"
@@ -61,10 +62,20 @@ namespace
     // Character selection screen: generous axis-aligned pick box dimensions.
     constexpr float CHARSCENE_PICK_MIN_HEIGHT = 300.0f;
     constexpr float CHARSCENE_PICK_HALF_WIDTH = 72.0f;
+    // The 0.97k character scene: the model's box, as the 0.97k client picked, but up to this
+    // height over the feet instead of its 120 (waist high), so a character is picked by its head too.
+    constexpr float CLASSIC_CHARSCENE_PICK_HEIGHT = 200.0f;
 }
 
 void BuildCharacterScenePickOBB(const OBJECT* o, OBB_t& outOBB)
 {
+    if (Scenes::ClassicCharacter::IsActive())
+    {
+        outOBB = o->OBB;
+        outOBB.ZAxis[2] = CLASSIC_CHARSCENE_PICK_HEIGHT;
+        return;
+    }
+
     float charHeight = Models[o->Type].fTransformedSize * 2.0f;
     if (charHeight < CHARSCENE_PICK_MIN_HEIGHT)
         charHeight = CHARSCENE_PICK_MIN_HEIGHT;
@@ -131,6 +142,7 @@ namespace
 #include "GameLogic/Social/MonkSystem.h"
 #include "UI/Core/WindowSystem.h"
 #include "Render/Lighting/LightMoodSetting.h"
+#include "UI/RmlBridge/RmlTheme.h"
 
 CHARACTER* CharactersClient;
 CHARACTER CharacterView;
@@ -2485,6 +2497,12 @@ bool CheckMonsterSkill(CHARACTER* pCharacter, OBJECT* pObject)
     return true;
 }
 
+bool IsClassicFaceModel(int type)
+{
+    return type >= MODEL_FACE && type <= MODEL_FACE + CLASS_DARK_LORD
+        && UI::RmlBridge::ThemeHasClassicCharacterCreation();
+}
+
 bool CharacterAnimation(CHARACTER* c, OBJECT* o)
 {
     bool Play;
@@ -2542,7 +2560,8 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
             case MODEL_FACE + 4:
             case MODEL_FACE + 5:
             case MODEL_FACE + 6:
-                PlaySpeed *= 2.0f;
+                if (!IsClassicFaceModel(o->Type))
+                    PlaySpeed *= 2.0f;
                 break;
             }
         }
@@ -3577,6 +3596,8 @@ void EtcStopAnimationSetting(CHARACTER* c, OBJECT* o)
                 case MODEL_FACE + 4:
                 case MODEL_FACE + 5:
                 case MODEL_FACE + 6:
+                    if (IsClassicFaceModel(o->Type))
+                        SetAction(o, rand() % 2);
                     break;
                 case MODEL_ELBELAND_SILVIA:
                 case MODEL_ELBELAND_RHEA:
@@ -12189,7 +12210,9 @@ void SetCharacterScale(CHARACTER* c)
         c->BodyPart[BODYPART_HEAD].Type = -1;
     }
 
-    if (SceneFlag == CHARACTER_SCENE)
+    // The 0.97k character scene (ClassicCharacterScene=1) shows the characters at their world size,
+    // as that client did; its stone yard is built for it.
+    if (SceneFlag == CHARACTER_SCENE && !UI::RmlBridge::ThemeHasClassicCharacterScene())
     {
         switch (gCharacterManager.GetBaseClass(c->Class))
         {

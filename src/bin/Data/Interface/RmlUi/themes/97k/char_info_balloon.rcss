@@ -1,0 +1,50 @@
+/* The 97k theme's character-select name tags (CCharInfoBalloonMng), as the 0.97k client wrote them
+   over each character (Scene_CharSelect.cpp): no balloon art and no guild line, just the name in
+   the bold font over the class and level ("Dark Knight 150"), each line centred on its own
+   half-black band as wide as its text. The name is the 0.97k client's light blue (0xffffc8b4); a
+   flagged character's name is black on a coloured band instead: yellow for a blocked character,
+   cyan for blocked items, blue for an operator. The class line is white.
+   C++ places the foot of Sven's 118x54 tag box at the point the 0.97k client projected, 190
+   over the character's feet. That client wrote the class line from that point down and the name
+   above it; here both stand 3 pixels higher (top 51px instead of 54px). Both lines take its font
+   size (13 pixels at 800x600), and the name stands its height plus 3 higher on the 640x480 screen
+   (#balloons' font-size and --classic-name-rise, set by C++ for the window's size). The tags are
+   hidden while the character-creation dialog is open, as the 0.97k client hid them. */
+
+#balloons.char-make-open {
+	display: none;
+}
+
+.balloon {
+	position: absolute;
+	width: 118px;
+	height: 54px;
+	pointer-events: none;
+	font-family: "token(font-body)";
+}
+.balloon-bg, .balloon-guild {
+	display: none;
+}
+
+.balloon-name, .balloon-class {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 0 2px;
+	white-space: nowrap;
+	line-height: 1;
+	background-color: rgba(0, 0, 0, 128);
+}
+.balloon-name {
+	top: calc(51px - var(--classic-name-rise));
+	font-weight: bold;
+	color: #b4c8ff;
+}
+.balloon-class {
+	top: 51px;
+	color: #ffffff;
+}
+
+.balloon-name.name-blocked-character { color: #000000; background-color: rgba(255, 255, 0, 128); }
+.balloon-name.name-blocked-items     { color: #000000; background-color: rgba(0, 255, 255, 128); }
+.balloon-name.name-operator          { color: #000000; background-color: rgba(0, 0, 255, 128); }

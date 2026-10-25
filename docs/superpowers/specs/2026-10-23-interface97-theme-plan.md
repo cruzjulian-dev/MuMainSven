@@ -160,7 +160,7 @@ referencia (`Mu-97k-Client-Source/src/Render/HUD_Pass*.cpp`):
 | Contador de flechas del elfo | `item_endurance` (`#arrows`) | **Hecho**: línea de texto en la columna de durabilidad. |
 | Texto de carga de mapa | `map_name` | **Hecho**: oculto. |
 | Minimapa, buffs | `mini_map`, `buff_strip` | No existen en la 0.97k: decidir si se ocultan en el tema. |
-| Login, servidores, personajes, carga | `login*`, `server_select`, `char_sel_main`, `char_make`, `loading`, `title_scene` | Fase 6. **Hecho**: escena de login (`ClassicLoginScene=1`), `login`, `login_main` y `server_select`. Falta `char_sel_main`, `char_make` y carga. |
+| Login, servidores, personajes, carga | `login*`, `server_select`, `char_sel_main`, `char_make`, `loading`, `title_scene` | Fase 6. **Hecho**: escena de login (`ClassicLoginScene=1`), `login`, `login_main`, `server_select`, `char_sel_main` (+ `char_info_balloon`), escena de personajes (`ClassicCharacterScene=1`) y `char_make` (`ClassicCharacterCreation=1`). Falta la carga. |
 | Ventanas que la 0.97k no tenía | MU Helper, Gens, quests, Master Level, In-Game Shop, amigos, castillo, eventos posteriores | Fase 8 opcional: marco y botones 0.97k genéricos. |
 
 ## Fase 5 — Carteles, avisos y diálogos
@@ -211,12 +211,52 @@ Con `Interface97/Logo/`:
   "2") y la carga cruda de `load_percent`. Las x (287, 367, 512) son las de las capturas de la
   0.97k, 137 a la derecha de las del código decompilado (150, 230, 375). `CServerSelWin::UpdateMouseEvent()` pasa a preguntar a
   RmlUi (`IsPointerOver`) en vez de un rectángulo fijo, que no coincidía con este layout.
-- `char_sel_main.rcss`: paneles `Interface01..04`, `Delete01/02`, `Ok01/02`.
-- `char_make.rcss`: `New_character*`, `New_character_ok/cancel`.
+- `char_sel_main.rml/.rcss` (**hecho**): marco `Interface01..04` (de `UI_DrawLoginBg`), panel
+  `New_character201/202` arriba, `Delete01/02` y `Ok01/02` a los lados; 1rem = un píxel de la
+  pantalla 640x480 a la altura de la ventana (`font-size: calc(100vh / 480)` en el body). Sin
+  botón de menú (ESC). Delete y OK entran deslizándose desde su lado al elegir un personaje;
+  New Character sube fuera de pantalla con todos los slots ocupados. Los paneles arrancan fuera de
+  pantalla y entran con `.shown` (`data-class-shown="!..._disabled"`; el modelo arranca y vuelve a
+  "deshabilitado" al ocultarse la ventana), así que al entrar no aparece ni se desliza el que no
+  corresponde. Cada clic en un personaje (otro o el mismo) manda Delete y OK fuera de pantalla y
+  los vuelve a entrar, como la 0.97k (`panels_away`, 280 ms afuera: sus 7 cuadros a 25 por segundo).
+- Escena de personajes (**hecho**): capacidad `ClassicCharacterScene=1`
+  (`Scenes::ClassicCharacter`). Sin mapa (`WorldActive = -1`, sin terreno, con sus alturas en 0 y
+  sin atributos: la zona segura del último mapa ocultaba las monturas), como la 0.97k: el patio
+  de piedra de `Logo05.bmd` (`Data/Interface97/Logo/`, con las texturas `scs-*` sin el `-jmk`; el
+  `Logo05` de `Data/Logo` queda para los otros temas) en (13600, 13600), como la escena de login.
+  Los personajes en la fila diagonal de `ReceiveCharacterList()` (slot n en (100n, 50n − 50), girado
+  (n − 1)·15°), tal cual, sobre el piso (z 0) y a su escala del mundo (no la 1.2 de Sven), igual que
+  sus monturas (`RenderMount()`); la cámara es el sexto punto del camino de la 0.97k ((200, −800,
+  300), pitch −80, yaw −10, FOV 45), puesta por la escena (`DefaultCamera` no la pisa). Sin niebla;
+  en vez del aura y la columna de partículas de Sven, el seleccionado lleva el anillo de la 0.97k:
+  dos `RenderCircle()` de `Magic_Circle1` (radio 35 al pie, 55 a 150 de alto, blanco abajo y apagado
+  arriba) girando en sentidos opuestos, una vuelta en 3,6 s. Se elige un personaje por la caja de
+  su modelo (`o->OBB`: de (−60, −60) a (40, 40) desde sus pies), como la 0.97k, pero de 200 de
+  alto en vez de sus 120 (hasta la cintura), para poder clickearlo también por la cabeza; no por la
+  caja de 144×144×300 que Sven usa en su escena (`BuildCharacterScenePickOBB()`).
+- `char_info_balloon.rcss` (**hecho**): nombre en negrita sobre clase y nivel, sin globo, donde los
+  escribía la 0.97k: proyectados 190 sobre los pies, la clase desde ese punto hacia abajo y el
+  nombre su alto + 3 más arriba en la pantalla de 640x480, con el tamaño de su fuente (12/13/14/15
+  px según el ancho de la ventana: 640/800/1024/1280+), que C++ pasa como `font-size` de `#balloons`
+  (un tamaño de letra tomado de una variable no se rehace en RmlUi) y `--classic-name-rise`; las
+  dos líneas van 3 px más arriba que en la 0.97k.
+- `char_make.rml/.rcss` (**hecho**): el panel `New_character01/02` de los estados de creación de
+  `Scene_CharSelect` en 214,13; la cara 3D de la clase (74x79 en 71,89, uno más arriba que la 0.97k
+  para que el cuello no pase el marco) con la cámara de la 0.97k (a 800 delante, FOV 10, luz 0.8
+  con la luz de modelo frontal, `HighLight` apagado) y su animación como la 0.97k: 0.3 frames por
+  tick de 25 Hz, un solo paso por tick (`MoveCharacterClient`; Sven además la duplicaba y la
+  avanzaba otra vez en `UpdateCreateCharacter`), cada acción entera (sin el corte de 2 frames de
+  la escena de personajes de Sven) y al terminar acción 0 ó 1 al azar (`MoveCharacter`, ver
+  `IsClassicFaceModel()`); nombre en 71,180, clase en blanco en 71,200 y sus flechas
+  `New_character001..004` (presionadas sólo al hacer click); Cancel y OK `New_character_cancel/ok`. El panel baja desde arriba al abrirse; la cara del DL se
+  mira desde 20 unidades más abajo (está más baja en su modelo). Con `ClassicCharacterCreation=1`
+  las caras son `Data/Logo/Face01..04` y `face05` (DL) en vez de `NewFace0N`, y las flechas pasan
+  por DW, DK, Elf, MG y DL (las que el servidor habilite); sin Summoner ni Rage Fighter. Mientras
+  está abierto se ocultan los paneles del select y los nombres, y el marco (`charsel_frame.rcss`,
+  compartido) se dibuja encima del panel, como en la 0.97k.
 - `loading.rcss` / `title_scene.rcss`: `Progress_Back` + `Progress`; las imágenes
   `Local/Loading0N` de la 97k sólo si se decide traerlas (son arte de fondo, no UI).
-
-La escena 3D de fondo sigue siendo la de Sven.
 
 ## Fase 7 — Cierre
 

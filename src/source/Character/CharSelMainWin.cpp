@@ -37,6 +37,9 @@ namespace
 {
     constexpr int kCharacterSlotCount = 5;
     constexpr int kWindowAlpha = 143;
+    // How long the Delete and OK panels stay away after a click on a character: the 0.97k client
+    // slid them off in 7 of its 25 frames a second, then straight back in.
+    constexpr double kPanelsAwayMs = 280.0;
 
     template <typename Predicate>
     bool AnyCharacter(Predicate&& predicate)
@@ -156,6 +159,8 @@ void CCharSelMainWin::BindRmlModel(Rml::DataModelConstructor& c, CharSelMainRmlM
     c.Bind("connect_disabled", &model.connectDisabled);
     c.Bind("delete_disabled", &model.deleteDisabled);
     c.Bind("account_block_hidden", &model.accountBlockHidden);
+    c.Bind("char_make_open", &model.charMakeOpen);
+    c.Bind("panels_away", &model.panelsAway);
     c.Bind("account_block_line1", &model.accountBlockLine1);
     c.Bind("account_block_line2", &model.accountBlockLine2);
 
@@ -248,9 +253,33 @@ void CCharSelMainWin::Show(bool bShow)
 
     if (m_RmlView.Document())
     {
-        if (bShow) { SyncRmlModel(); m_RmlView.Document()->Show(); }
-        else       m_RmlView.Document()->Hide();
+        if (bShow)
+        {
+            SyncRmlModel();
+            m_RmlView.Document()->Show();
+        }
+        else
+        {
+            m_RmlView.Document()->Hide();
+            ResetButtonsToDisabled();
+        }
     }
+}
+
+// Back to the state of a fresh window: the next visit starts with no button wanted, so a theme that
+// slides them in does not slide out the ones of the last visit.
+void CCharSelMainWin::ResetButtonsToDisabled()
+{
+    CharSelMainRmlModel& model = m_RmlView.GetModel();
+    model.createDisabled = true;
+    model.connectDisabled = true;
+    model.deleteDisabled = true;
+    model.panelsAway = false;
+    m_panelsAwayUntil = 0.0;
+    m_RmlView.MarkDirty("create_disabled");
+    m_RmlView.MarkDirty("connect_disabled");
+    m_RmlView.MarkDirty("delete_disabled");
+    m_RmlView.MarkDirty("panels_away");
 }
 
 void CCharSelMainWin::UpdateDisplay()
@@ -265,6 +294,13 @@ void CCharSelMainWin::UpdateDisplay()
     {
         g_CharMakeWin.Show(true);
     }
+}
+
+// Before UpdateDisplay(): panels still off the screen (no character picked yet) just slide in.
+void CCharSelMainWin::OnCharacterClicked()
+{
+    if (m_bDeleteEnabled)
+        m_panelsAwayUntil = WorldTime + kPanelsAwayMs;
 }
 
 bool CCharSelMainWin::UpdateMouseEvent()
@@ -342,6 +378,8 @@ void CCharSelMainWin::SyncRmlModel()
     syncBool(&CharSelMainRmlModel::connectDisabled, "connect_disabled", !m_bConnectEnabled);
     syncBool(&CharSelMainRmlModel::deleteDisabled, "delete_disabled", !m_bDeleteEnabled);
     syncBool(&CharSelMainRmlModel::accountBlockHidden, "account_block_hidden", !m_bAccountBlockItem);
+    syncBool(&CharSelMainRmlModel::charMakeOpen, "char_make_open", g_CharMakeWin.IsVisible());
+    syncBool(&CharSelMainRmlModel::panelsAway, "panels_away", WorldTime < m_panelsAwayUntil);
 
     auto syncLabel = [this](Rml::String CharSelMainRmlModel::* field, const char* boundName, const wchar_t* text)
     {

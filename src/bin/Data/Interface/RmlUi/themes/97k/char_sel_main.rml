@@ -1,0 +1,50 @@
+<rml>
+<head>
+	<title>Character Select Bar</title>
+	<link type="text/rcss" href="base.rcss"/>
+	<link type="text/rcss" href="charsel_frame.rcss"/>
+	<link type="text/rcss" href="char_sel_main.rcss"/>
+</head>
+<body data-model="char_sel_main">
+	<!-- The 0.97k character screen (Scene_CharSelect, UI_DrawLoginBg): the New Character panel at
+	     the top, the Delete dragon on the left and the OK dragon on the right, under the dragon
+	     frame round the screen (drawn last, over the panels, as the 0.97k client did). Each panel
+	     is its art (pointer-events: none) holding the button's hit area, which shows the lit
+	     caption under the pointer. Each panel stands off the screen until its .shown brings it on:
+	     New Character while a slot is free, Delete and OK while a character is picked; a panel
+	     that is not wanted never shows, not even on the first frame. A click on a character sends
+	     Delete and OK off the screen and back in (panels_away), as the 0.97k client did. The 0.97k screen had no menu
+	     button: the ESC key opens the menu (#btn_menu_item is hidden); Sven's information bar and
+	     corner flourish are left out. While the character-creation dialog is open the panels are
+	     hidden (.char-make-open), as the 0.97k client hid them; the frame stays. -->
+	<div id="panel" data-class-char-make-open="char_make_open">
+		<div id="btn_create_item" class="charsel-panel" data-class-shown="!create_disabled">
+			<div id="btn_create" class="charsel-btn" data-class-disabled="create_disabled" data-event-click="charsel_create_click"></div>
+		</div>
+		<div id="btn_delete_item" class="charsel-panel" data-class-shown="!delete_disabled && !panels_away">
+			<div id="btn_delete" class="charsel-btn" data-class-disabled="delete_disabled" data-event-click="charsel_delete_click"></div>
+		</div>
+		<div id="btn_connect_item" class="charsel-panel" data-class-shown="!connect_disabled && !panels_away">
+			<div id="btn_connect" class="charsel-btn" data-class-disabled="connect_disabled" data-event-click="charsel_connect_click"></div>
+		</div>
+		<div id="btn_menu_item">
+			<div id="btn_menu" class="charsel-btn" data-event-click="charsel_menu_click"></div>
+		</div>
+		<div id="frame">
+			<div id="frame_top_left" class="frame-piece"></div>
+			<div id="frame_top_right" class="frame-piece"></div>
+			<div id="frame_side_left_top" class="frame-piece"></div>
+			<div id="frame_side_right_top" class="frame-piece"></div>
+			<div id="frame_side_left_bottom" class="frame-piece"></div>
+			<div id="frame_side_right_bottom" class="frame-piece"></div>
+			<div id="frame_bottom_left" class="frame-piece"></div>
+			<div id="frame_bottom_right" class="frame-piece"></div>
+		</div>
+	</div>
+	<!-- Rarely shown (account has an item-blocked character); fixed, centered, independent of #panel. -->
+	<div id="account_block_message" data-class-hidden="account_block_hidden">
+		<div class="line-row"><span class="line">{{account_block_line1}}</span></div>
+		<div class="line-row"><span class="line">{{account_block_line2}}</span></div>
+	</div>
+</body>
+</rml>

@@ -1,0 +1,40 @@
+/* The 97k theme's dragon frame round the character screen (UI_DrawLoginBg in the 0.97k client's
+   Scene_CharPreview.cpp), shared by the character bar (char_sel_main) and the character-creation
+   dialog (char_make): the 0.97k client drew the frame last, over the creation panel too, so the
+   dialog draws the same frame over itself. Lengths are rem, one pixel of the 0.97k 640x480 screen,
+   as the documents linking this sheet set it.
+
+   Interface01 across the top (64..576, 86 tall), Interface02 and Interface03 down each side (64
+   wide, 256 and 224 tall), Interface04 across the bottom (32 tall); the left half of each is the
+   right half mirrored. The side pieces keep their shape, the top and bottom strips stretch between
+   them on a wide window. */
+
+@spritesheet cs97-frame-top-sheet { src: "../../../../Interface97/Logo/Interface01.tga"; cs97-frame-top: 0px 0px 256px 86px; }
+@spritesheet cs97-frame-side-top-sheet { src: "../../../../Interface97/Logo/Interface02.tga"; cs97-frame-side-top: 0px 0px 64px 256px; }
+@spritesheet cs97-frame-side-bottom-sheet { src: "../../../../Interface97/Logo/Interface03.tga"; cs97-frame-side-bottom: 0px 0px 64px 224px; }
+@spritesheet cs97-frame-bottom-sheet { src: "../../../../Interface97/Logo/Interface04.tga"; cs97-frame-bottom: 0px 0px 256px 32px; }
+
+#frame {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+.frame-piece { position: absolute; }
+
+#frame_top_left, #frame_top_right { top: 0; height: 86rem; }
+#frame_top_left { left: 64rem; right: 50%; decorator: image(cs97-frame-top flip-horizontal); }
+#frame_top_right { left: 50%; right: 64rem; decorator: image(cs97-frame-top); }
+
+#frame_bottom_left, #frame_bottom_right { bottom: 0; height: 32rem; }
+#frame_bottom_left { left: 64rem; right: 50%; decorator: image(cs97-frame-bottom flip-horizontal); }
+#frame_bottom_right { left: 50%; right: 64rem; decorator: image(cs97-frame-bottom); }
+
+#frame_side_left_top, #frame_side_right_top { top: 0; width: 64rem; height: 256rem; }
+#frame_side_left_bottom, #frame_side_right_bottom { bottom: 0; width: 64rem; height: 224rem; }
+#frame_side_left_top { left: 0; decorator: image(cs97-frame-side-top flip-horizontal); }
+#frame_side_right_top { right: 0; decorator: image(cs97-frame-side-top); }
+#frame_side_left_bottom { left: 0; decorator: image(cs97-frame-side-bottom flip-horizontal); }
+#frame_side_right_bottom { right: 0; decorator: image(cs97-frame-side-bottom); }

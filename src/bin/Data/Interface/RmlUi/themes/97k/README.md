@@ -155,6 +155,34 @@ in `legacy`:
   orange-red when full, brighter under the pointer), each with the 0.97k load bar under its name:
   20 dots, one more lit per 5% of the load, from cyan to red. The group's description is under
   the columns; the 0.97k list had no PvP notice.
+- **The character screen** (`char_sel_main.rml/.rcss`, `char_info_balloon.rcss`): the 0.97k
+  dragon frame round the window (its sides keep their shape, the top and bottom stretch between
+  them on a wide window), the New Character panel at the top, Delete on the left dragon and OK on
+  the right one, each lit under the pointer. The panels slide in easing out, as the 0.97k ones
+  did: New Character drops in while a slot is free and rises off the screen when every slot is
+  taken; Delete and OK come in from their sides once a character is picked. A panel that is not
+  wanted when the screen opens stays off it without sliding. The screen fills the window's height,
+  as the 0.97k one did, whatever the UI scale. There is no menu button: ESC opens the menu. Over
+  each character, where the 0.97k client wrote them (190 over its feet, in that client's font
+  size, 13 pixels at 800x600), the name in bold over its class and level, each on a
+  half-black band (a flagged character's name black on yellow, cyan or blue), with no balloon
+  and no guild line.
+- **The character scene** (`ClassicCharacterScene=1` in `theme.ini`): the 0.97k one instead of the
+  character world. The characters stand on the stone yard of `Logo05` (`Data/Interface97/Logo/`) at
+  their world size, their mounts too, in the 0.97k diagonal row climbing away to the right, seen
+  from the 0.97k camera with no fog. The selected one is circled by the 0.97k ring (two bands of
+  `Magic_Circle1` round its feet, turning opposite ways), without Sven's aurora and light column. A
+  theme switch shows on the next visit.
+- **Character creation** (`char_make.rml/.rcss`, `ClassicCharacterCreation=1` in `theme.ini`):
+  the 0.97k New Character panel under the frame, dropping in from the top each time it opens, the
+  class's 3D face from `Data/Logo/Face01..04` (and `face05` for the dark lord) in its window at
+  71,89 (the dark lord's raised to fill it as the others do), lit as the 0.97k client did and
+  animated as it did: each action at its own speed, every frame of it, then one of
+  the face's two actions at random. The name line, and the class line in white with two arrows
+  (pressed only while clicked) that step through the dark wizard, dark knight, elf, magic
+  gladiator and dark lord (those the server allows; no summoner or rage fighter). Cancel and OK
+  at the foot, lit under the pointer. While it is open the character panels and name tags are
+  hidden and the scene behind is dimmed.
 - **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
   scaled.
 

@@ -18,12 +18,14 @@
 #include "GameLogic/Items/CSItemOption.h"
 #include "Network/MoveCommandData.h"
 #include "Scenes/TitleSceneUI.h"
+#include "Scenes/ClassicCharacterScene.h"
 #include "Data/DataHandler/LoadData.h"
 #include "World/MapInfra/MapManager.h"
 #include "GameLogic/Events/Event.h"
 #include "GameLogic/Items/MixMgr.h"
 #include "UI/Core/WindowSystem.h"
 #include "UI/Dialogs/HelpWindow.h"
+#include "UI/RmlBridge/RmlTheme.h"
 #include "Camera/CameraMove.h"
 #include "GameLogic/Quests/QuestMng.h"
 #include "Network/Server/ServerListManager.h"
@@ -3881,16 +3883,21 @@ void OpenCharacterSceneData()
     LoadBitmap(L"Effect\\Impack03.jpg", BITMAP_EXT_LOG_IN + 2);
     LoadBitmap(L"Logo\\chasellight.jpg", BITMAP_EFFECT);
 
-    int Class = MAX_CLASS;
+    // The 0.97k character creation (ClassicCharacterCreation=1) shows that client's faces, Face01 to
+    // Face04, and face05 for the dark lord; the summoner and the rage fighter it can't create have
+    // none.
+    const bool classicFaces = UI::RmlBridge::ThemeHasClassicCharacterCreation();
+    const int Class = classicFaces ? CLASS_DARK_LORD + 1 : MAX_CLASS;
+    const wchar_t* faceName = classicFaces ? L"Face" : L"NewFace";
 
-    for (int i = 4; i < 5; i++)
-        gLoadData.AccessModel(MODEL_LOGO + i, L"Data\\Logo\\", L"Logo", i + 1);
+    // Logo05, the stage: the 0.97k character scene (ClassicCharacterScene=1) stands on that client's
+    // stone yard, kept apart in Data/Interface97/Logo/ so the other themes keep their own.
+    const bool classicStage = UI::RmlBridge::ThemeHasClassicCharacterScene();
+    gLoadData.AccessModel(MODEL_LOGO + 4, classicStage ? L"Data\\Interface97\\Logo\\" : L"Data\\Logo\\", L"Logo", 5);
+    gLoadData.OpenTexture(MODEL_LOGO + 4, classicStage ? L"Interface97\\Logo\\" : L"Logo\\", GL_REPEAT, GL_LINEAR);
 
     for (int i = 0; i < Class; i++)
-        gLoadData.AccessModel(MODEL_FACE + i, L"Data\\Logo\\", L"NewFace", i + 1);
-
-    for (int i = 4; i < 5; i++)
-        gLoadData.OpenTexture(MODEL_LOGO + i, L"Logo\\", GL_REPEAT, GL_LINEAR);
+        gLoadData.AccessModel(MODEL_FACE + i, L"Data\\Logo\\", faceName, i + 1);
 
     for (int i = 0; i < Class; i++)
         gLoadData.OpenTexture(MODEL_FACE + i, L"Logo\\");
@@ -3900,7 +3907,8 @@ void OpenCharacterSceneData()
         Models[MODEL_FACE + i].Actions[0].PlaySpeed = 0.3f;
         Models[MODEL_FACE + i].Actions[1].PlaySpeed = 0.3f;
     }
-    Models[static_cast<int>(MODEL_FACE) + CLASS_SUMMONER].Actions[0].PlaySpeed = 0.25f;
+    if (!classicFaces)
+        Models[static_cast<int>(MODEL_FACE) + CLASS_SUMMONER].Actions[0].PlaySpeed = 0.25f;
 }
 
 void ReleaseCharacterSceneData()
@@ -3912,6 +3920,7 @@ void ReleaseCharacterSceneData()
         DeleteBitmap(i);
 
     gMapManager.DeleteObjects();
+    Scenes::ClassicCharacter::Release();
 
     for (int i = 0; i < MAX_CLASS; i++)
         Models[MODEL_FACE + i].Release();

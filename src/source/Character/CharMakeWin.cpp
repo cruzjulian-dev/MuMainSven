@@ -130,9 +130,92 @@ namespace
     // (textLimit = 10). Set on the <input> from ApplyNameLimit() rather than written into each
     // theme's .rml, and reused when copying into the legacy InputText[0] buffer.
     constexpr int kCharNameMaxLength = 10;
+
+    // The classes the 0.97k creation (ClassicCharacterCreation=1) steps through with its arrows,
+    // in its order; the dark lord, which came after the 0.97k client, follows the magic gladiator.
+    constexpr std::array<CLASS_TYPE, 5> kClassicClasses{
+        CLASS_WIZARD, CLASS_KNIGHT, CLASS_ELF, CLASS_DARK, CLASS_DARK_LORD
+    };
+
+    int ClassicClassIndex(CLASS_TYPE classType)
+    {
+        const auto found = std::find(kClassicClasses.begin(), kClassicClasses.end(), classType);
+        return found == kClassicClasses.end() ? -1 : static_cast<int>(found - kClassicClasses.begin());
+    }
+
+    // The preview camera's field of view, in both creations.
+    constexpr float kPreviewFov = 10.f;
+
+    // The newer faces' camera, off the face's position.
+    constexpr float kNewFaceCameraX = 10.f;
+    constexpr float kNewFaceCameraY = -500.f;
+    constexpr float kNewFaceCameraZ = 48.f;
+
+    // The 0.97k client's face preview (Scene_CharSelect): the camera 800 in front of the face,
+    // looking level at it; the face at full size, lit at 0.8 and tipped 5 degrees, under the
+    // model light from the front (HighLight off) rather than the scenes' light from above.
+    constexpr float kClassicCameraX = -8.f;
+    constexpr float kClassicCameraY = -800.f;
+    constexpr float kClassicCameraZ = 79.f;
+    constexpr float kClassicFaceTilt = 5.f;
+    constexpr float kClassicFaceLight = 0.8f;
+    constexpr float kClassicFaceScale = 1.f;
+    // The dark lord's face (face05, which the 0.97k client never had) sits lower in its model than
+    // the others: the camera looks at it from lower down, about 11 pixels of the 79-pixel window.
+    constexpr float kClassicDarkLordCameraDrop = 20.f;
+
+    // The 0.97k faces start on their first action and, each time one ends, pick one of their two
+    // at random (MoveCharacter, see IsClassicFaceModel()); the newer ones play their second, the
+    // turn towards the player, first and then idle on the first.
+    constexpr int kClassicFaceAction = 0;
+    constexpr int kFaceIntroAction = 1;
+    constexpr int kFaceIdleAction = 0;
 }
 
 void MoveCharacterCamera(vec3_t Origin, vec3_t Position, vec3_t Angle);
+extern bool HighLight;
+
+namespace
+{
+    // The camera looks level at the character, from this offset off its position.
+    void AimPreviewCamera(OBJECT* o, float offsetX, float offsetY, float offsetZ)
+    {
+        vec3_t Position, Angle;
+        Vector(offsetX, offsetY, offsetZ, Position);
+        Vector(-90.f, 0.f, 0.f, Angle);
+        g_Camera.FOV = kPreviewFov;
+        MoveCharacterCamera(o->Position, Position, Angle);
+    }
+
+    void FrameClassicFace(CHARACTER* c)
+    {
+        OBJECT* o = &c->Object;
+        const float drop = c->Class == CLASS_DARK_LORD ? kClassicDarkLordCameraDrop : 0.f;
+        AimPreviewCamera(o, kClassicCameraX, kClassicCameraY, kClassicCameraZ - drop);
+        Vector(kClassicFaceLight, kClassicFaceLight, kClassicFaceLight, o->Light);
+        Vector(0.f, kClassicFaceTilt, 0.f, o->Angle);
+        o->Scale = kClassicFaceScale;
+        HighLight = false;
+    }
+
+    void FrameNewFace(CHARACTER* c)
+    {
+        OBJECT* o = &c->Object;
+        Vector(1.0f, 1.0f, 1.0f, o->Light);
+        AimPreviewCamera(o, kNewFaceCameraX, kNewFaceCameraY, kNewFaceCameraZ);
+
+        const ClassRenderParameters params = GetRenderParameters(c->Class);
+        if (params.overrideAngle)
+            Vector(params.angleX, params.angleY, params.angleZ, o->Angle);
+
+        o->Scale = params.scale;
+
+        if (params.positionOffsetX != 0.0f)
+            o->Position[0] += params.positionOffsetX;
+        if (params.positionOffsetZ != 0.0f)
+            o->Position[2] += params.positionOffsetZ;
+    }
+}
 
 CCharMakeWin g_CharMakeWin;
 
@@ -216,6 +299,16 @@ void CCharMakeWin::BindRmlModel(Rml::DataModelConstructor& c, CharMakeRmlModel& 
         {
             if (arguments.size() == 1)
                 RmlClickJob(arguments[0].Get<int>(-1));
+        });
+    c.Bind("prev_class_disabled", &model.prevClassDisabled);
+    c.Bind("next_class_disabled", &model.nextClassDisabled);
+    c.Bind("open", &model.open);
+
+    c.BindEventCallback("charmake_class_arrow",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& arguments)
+        {
+            if (arguments.size() == 1)
+                RmlClickClassArrow(arguments[0].Get<int>(0));
         });
     c.BindEventCallback("charmake_ok_click",
         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlClickOk(); });
@@ -309,7 +402,15 @@ void CCharMakeWin::Show(bool bShow)
         // no explicit Configure()/GiveFocus() pair, and no native widget to position or hide.
         m_RmlView.GetModel().charName.clear();
         m_RmlView.MarkDirty("char_name");
+
+        // The 0.97k creation can only stand on one of its classes.
+        const bool classicClass = ClassicClassIndex(m_nSelJob) >= 0 && m_aJobState[m_nSelJob].enabled;
+        if (UI::RmlBridge::ThemeHasClassicCharacterCreation() && !classicClass)
+            SelectJob(CLASS_KNIGHT);
     }
+
+    m_RmlView.GetModel().open = bShow;
+    m_RmlView.MarkDirty("open");
 
     if (m_RmlView.Document())
     {
@@ -353,6 +454,34 @@ void CCharMakeWin::RmlClickJob(int nClassIndex)
     if (!m_aJobState[nClassIndex].enabled)
         return;
     SelectJob(nClassIndex);
+}
+
+void CCharMakeWin::RmlClickClassArrow(int direction)
+{
+    const int target = FindClassicStep(direction);
+    if (target < 0)
+    {
+        ::PlayBuffer(SOUND_ERROR01);
+        return;
+    }
+    ::PlayBuffer(SOUND_CLICK01);
+    SelectJob(target);
+}
+
+int CCharMakeWin::FindClassicStep(int direction) const
+{
+    const int selected = ClassicClassIndex(m_nSelJob);
+    if (direction == 0 || selected < 0)
+        return -1;
+
+    const int step = direction < 0 ? -1 : 1;
+    for (int i = selected + step; i >= 0 && i < static_cast<int>(kClassicClasses.size()); i += step)
+    {
+        const CLASS_TYPE candidate = kClassicClasses[i];
+        if (m_aJobState[candidate].enabled)
+            return candidate;
+    }
+    return -1;
 }
 
 void CCharMakeWin::SelectJob(int classIndex)
@@ -506,6 +635,17 @@ void CCharMakeWin::SyncRmlModel()
     syncLabel(&CharMakeRmlModel::descLine1, "desc_line1", m_nDescLine > 0 ? m_aszJobDesc[0] : L"");
     syncLabel(&CharMakeRmlModel::descLine2, "desc_line2", m_nDescLine > 1 ? m_aszJobDesc[1] : L"");
 
+    auto syncFlag = [this](bool CharMakeRmlModel::* field, const char* boundName, bool value)
+    {
+        if (m_RmlView.GetModel().*field != value)
+        {
+            m_RmlView.GetModel().*field = value;
+            m_RmlView.MarkDirty(boundName);
+        }
+    };
+    syncFlag(&CharMakeRmlModel::prevClassDisabled, "prev_class_disabled", FindClassicStep(-1) < 0);
+    syncFlag(&CharMakeRmlModel::nextClassDisabled, "next_class_disabled", FindClassicStep(1) < 0);
+
     syncLabel(&CharMakeRmlModel::okLabel, "ok_label", I18N::Game::OK);
     syncLabel(&CharMakeRmlModel::cancelLabel, "cancel_label", I18N::Game::Cancel);
 }
@@ -515,13 +655,21 @@ void CCharMakeWin::SelectCreateCharacter()
     CharacterView.Class = m_nSelJob;
     CreateCharacterPointer(&CharacterView, static_cast<int>(MODEL_FACE) + CharacterView.Class, 0, 0);
     CharacterView.Object.Kind = 0;
-    SetAction(&CharacterView.Object, 1);
+    SetAction(&CharacterView.Object,
+              UI::RmlBridge::ThemeHasClassicCharacterCreation() ? kClassicFaceAction : kFaceIntroAction);
 }
 
 void CCharMakeWin::UpdateCreateCharacter()
 {
-    if (!CharacterAnimation(&CharacterView, &CharacterView.Object))
-        SetAction(&CharacterView.Object, 0);
+    // The 0.97k faces move once per frame, with the character scene's MoveCharacterClient(), as that
+    // client moved them; a second step here would play them twice as fast.
+    if (UI::RmlBridge::ThemeHasClassicCharacterCreation())
+        return;
+
+    if (CharacterAnimation(&CharacterView, &CharacterView.Object))
+        return;
+
+    SetAction(&CharacterView.Object, kFaceIdleAction);
 }
 
 void CCharMakeWin::SyncPreview()
@@ -549,33 +697,19 @@ void CCharMakeWin::RenderPreviewInto(std::uint32_t width, std::uint32_t height)
     if (height == 0)
         return;
 
-    // The scene camera is moved to frame the preview, and given back afterwards.
+    // The scene camera and model light are changed to frame the preview, and given back afterwards.
     const CameraState sceneCamera = g_Camera;
+    const bool sceneHighLight = HighLight;
 
-    OBJECT* o = &CharacterView.Object;
-    vec3_t Position, Angle;
-
-    Vector(1.0f, 1.0f, 1.0f, o->Light);
-    Vector(10, -500.f, 48.f, Position);
-    Vector(-90.f, 0.f, 0.f, Angle);
-    g_Camera.FOV = 10.f;
-    MoveCharacterCamera(CharacterView.Object.Position, Position, Angle);
+    if (UI::RmlBridge::ThemeHasClassicCharacterCreation())
+        FrameClassicFace(&CharacterView);
+    else
+        FrameNewFace(&CharacterView);
 
     BeginOpenglForTarget(static_cast<int>(width), static_cast<int>(height));
-
-    const ClassRenderParameters params = GetRenderParameters(CharacterView.Class);
-    if (params.overrideAngle)
-        Vector(params.angleX, params.angleY, params.angleZ, o->Angle);
-
-    o->Scale = params.scale;
-
-    if (params.positionOffsetX != 0.0f)
-        CharacterView.Object.Position[0] += params.positionOffsetX;
-    if (params.positionOffsetZ != 0.0f)
-        CharacterView.Object.Position[2] += params.positionOffsetZ;
-
-    RenderCharacter(&CharacterView, o);
+    RenderCharacter(&CharacterView, &CharacterView.Object);
 
     EndOpengl();
+    HighLight = sceneHighLight;
     g_Camera = sceneCamera;
 }

@@ -7,16 +7,26 @@
 </head>
 <body data-model="char_info_balloons">
 	<!-- One balloon per character slot; position is recomputed every frame from C++'s 3D->screen
-	     projection, unlike other RML files' static anchors. -->
-	<div class="balloon" data-for="balloon : balloons" data-class-hidden="balloon.hidden"
-	     data-style-left="balloon.screen_x + 'px'" data-style-top="balloon.screen_y + 'px'">
-		<div class="balloon-bg"></div>
-		<div class="balloon-name"
-		     data-class-name-blocked-character="balloon.name_status == 'blocked-character'"
-		     data-class-name-blocked-items="balloon.name_status == 'blocked-items'"
-		     data-class-name-operator="balloon.name_status == 'operator'">{{balloon.name}}</div>
-		<div class="balloon-guild">{{balloon.guild}}</div>
-		<div class="balloon-class">{{balloon.klass}}</div>
+	     projection, unlike other RML files' static anchors. #balloons takes no box of its own (the
+	     balloons are placed against the body); it carries .char-make-open while the
+	     character-creation dialog is open, for a theme that hides the tags then, and the 0.97k
+	     client's tag text size (its font-size, which a theme's tag lines inherit unless they set
+	     their own) and name height (--classic-name-rise), for a theme that lays its tags out as
+	     that client did. A font size is not taken from a variable: RmlUi does not redo it when the
+	     variable changes. -->
+	<div id="balloons" data-class-char-make-open="char_make_open"
+	     data-style-font-size="classic_text_px + 'px'"
+	     data-style---classic-name-rise="classic_name_rise + 'px'">
+		<div class="balloon" data-for="balloon : balloons" data-class-hidden="balloon.hidden"
+		     data-style-left="balloon.screen_x + 'px'" data-style-top="balloon.screen_y + 'px'">
+			<div class="balloon-bg"></div>
+			<div class="balloon-name"
+			     data-class-name-blocked-character="balloon.name_status == 'blocked-character'"
+			     data-class-name-blocked-items="balloon.name_status == 'blocked-items'"
+			     data-class-name-operator="balloon.name_status == 'operator'">{{balloon.name}}</div>
+			<div class="balloon-guild">{{balloon.guild}}</div>
+			<div class="balloon-class">{{balloon.klass}}</div>
+		</div>
 	</div>
 </body>
 </rml>

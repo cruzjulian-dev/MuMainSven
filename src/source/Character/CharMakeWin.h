@@ -74,6 +74,9 @@ public:
     // RmlUiRuntime::ProcessSdlEvent(), called from Winmain's SDL event pump, always before
     // CSceneUICoordinator::Update() runs the same frame.
     void RmlClickJob(int nClassIndex);
+    // The 0.97k creation's class arrows (ClassicCharacterCreation=1): -1 for the previous class,
+    // +1 for the next one.
+    void RmlClickClassArrow(int direction);
     void RmlClickOk() { SubmitCreateCharacter(); }
     void RmlClickCancel() { CloseDialog(); }
 
@@ -143,6 +146,14 @@ private:
         // Same I18N::Game::OK/Cancel + {{ok_label}}/{{cancel_label}} pattern as LoginWin.cpp.
         Rml::String okLabel, cancelLabel;
 
+        // The 0.97k creation's arrows: whether there is no class to step to on that side.
+        bool prevClassDisabled = false;
+        bool nextClassDisabled = false;
+
+        // Whether the window is open: set on every Show(), so a theme can start an opening
+        // animation each time it opens (the document itself stays loaded while hidden).
+        bool open = false;
+
         // The typed character name, two-way bound to char_make.rml's <input data-value="char_name">.
         // RmlUi owns the edit buffer/caret/selection/IME; this is only the committed value, copied
         // into the legacy InputText[0] buffer at submit time so CheckSpecialText()/
@@ -164,6 +175,9 @@ private:
         [this](std::uint32_t width, std::uint32_t height) { RenderPreviewInto(width, height); }};
 
     void SelectJob(int classIndex);
+    // The class the 0.97k creation's arrow steps to from the selected one (-1 back, +1 on): the
+    // nearest one it can create on that side, or -1 when there is none.
+    int FindClassicStep(int direction) const;
     void SubmitCreateCharacter();
     void CloseDialog();
 

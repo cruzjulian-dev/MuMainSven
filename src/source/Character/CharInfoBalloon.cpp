@@ -14,6 +14,7 @@
 #include <cwchar>
 
 #include "Camera/CameraProjection.h"
+#include "Scenes/ClassicCharacterScene.h"
 #include "UI/Scaling/UITransform.h"
 
 namespace
@@ -113,7 +114,7 @@ void CCharInfoBalloon::Render()
 
     vec3_t afPos;
     VectorCopy(m_pCharInfo->Object.Position, afPos);
-    afPos[2] += 350.0f;
+    afPos[2] += Scenes::ClassicCharacter::IsActive() ? Scenes::ClassicCharacter::NameHeight() : 350.0f;
 
     int nPosX, nPosY;
     CameraProjection::WorldToScreen(g_Camera, afPos, &nPosX, &nPosY);
