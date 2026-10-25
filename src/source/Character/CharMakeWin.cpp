@@ -395,7 +395,7 @@ void CCharMakeWin::Show(bool bShow)
         // The 0.97k creation can only stand on one of its classes.
         const bool classicClass =
             Character::ClassicCreation::ClassIndex(m_nSelJob) >= 0 && m_aJobState[m_nSelJob].enabled;
-        if (CharacterSceneHasClassicFaces() && !classicClass)
+        if (LoadedCharacterSceneLook().classicFaces && !classicClass)
             SelectJob(CLASS_KNIGHT);
     }
 
@@ -636,14 +636,14 @@ void CCharMakeWin::SelectCreateCharacter()
     CreateCharacterPointer(&CharacterView, static_cast<int>(MODEL_FACE) + CharacterView.Class, 0, 0);
     CharacterView.Object.Kind = 0;
     SetAction(&CharacterView.Object,
-              CharacterSceneHasClassicFaces() ? kClassicFaceAction : kFaceIntroAction);
+              LoadedCharacterSceneLook().classicFaces ? kClassicFaceAction : kFaceIntroAction);
 }
 
 void CCharMakeWin::UpdateCreateCharacter()
 {
     // The 0.97k faces move once per frame, with the character scene's MoveCharacterClient(), as that
     // client moved them; a second step here would play them twice as fast.
-    if (CharacterSceneHasClassicFaces())
+    if (LoadedCharacterSceneLook().classicFaces)
         return;
 
     if (CharacterAnimation(&CharacterView, &CharacterView.Object))
@@ -681,7 +681,7 @@ void CCharMakeWin::RenderPreviewInto(std::uint32_t width, std::uint32_t height)
     const CameraState sceneCamera = g_Camera;
     const bool sceneHighLight = HighLight;
 
-    if (CharacterSceneHasClassicFaces())
+    if (LoadedCharacterSceneLook().classicFaces)
         FrameClassicFace(&CharacterView);
     else
         FrameNewFace(&CharacterView);

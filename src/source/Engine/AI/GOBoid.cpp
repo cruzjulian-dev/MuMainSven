@@ -24,7 +24,7 @@
 #include "Scenes/MainScene.h"
 #include "GameLogic/Items/ItemCategories.h"
 #include "Render/Renderer/MuRenderer.h"
-#include "Scenes/ClassicCharacterScene.h"
+#include "Engine/Object/ZzzOpenData.h"
 
 int EnableEvent = 0;
 
@@ -697,8 +697,8 @@ bool RenderMount(OBJECT* o, bool bForceRender)
             if (bForceRender)
                 o->Scale = o->Scale;
             // The character scene draws its characters at 1.2 (SetCharacterScale()) and their mounts
-            // with them; the 0.97k one (Scenes::ClassicCharacter) draws both at their world size.
-            else if (SceneFlag == CHARACTER_SCENE && !Scenes::ClassicCharacter::IsActive())
+            // with them; the 0.97k one (its classic stage) draws both at their world size.
+            else if (SceneFlag == CHARACTER_SCENE && !LoadedCharacterSceneLook().classicStage)
                 o->Scale = 1.2f;
             else if (o->Type != MODEL_FENRIR_BLACK && o->Type != MODEL_FENRIR_BLUE && o->Type != MODEL_FENRIR_RED
                 && o->Type != MODEL_FENRIR_GOLD

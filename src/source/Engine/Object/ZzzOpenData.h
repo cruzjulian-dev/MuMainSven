@@ -20,8 +20,9 @@ struct CharacterSceneLook
 };
 void OpenCharacterSceneData(const CharacterSceneLook& look);
 void ReleaseCharacterSceneData();
-// Whether the faces OpenCharacterSceneData() loaded are the 0.97k ones; false once released.
-bool CharacterSceneHasClassicFaces();
+// The look OpenCharacterSceneData() loaded, the one place the engine and the windows read it from;
+// all false once released.
+const CharacterSceneLook& LoadedCharacterSceneLook();
 
 void OpenPlayerTextures();
 void OpenItemTextures();

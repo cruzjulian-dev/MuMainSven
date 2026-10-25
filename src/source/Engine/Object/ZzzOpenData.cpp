@@ -3866,11 +3866,11 @@ void ReleaseLogoSceneData()
     ClearCharacters();
 }
 
-static bool s_CharacterSceneClassicFaces = false;
+static CharacterSceneLook s_CharacterSceneLook;
 
-bool CharacterSceneHasClassicFaces()
+const CharacterSceneLook& LoadedCharacterSceneLook()
 {
-    return s_CharacterSceneClassicFaces;
+    return s_CharacterSceneLook;
 }
 
 void OpenCharacterSceneData(const CharacterSceneLook& look)
@@ -3891,7 +3891,7 @@ void OpenCharacterSceneData(const CharacterSceneLook& look)
 
     // The 0.97k faces are that client's, Face01 to Face04, and face05 for the dark lord; the
     // summoner and the rage fighter its creation can't make have none.
-    s_CharacterSceneClassicFaces = look.classicFaces;
+    s_CharacterSceneLook = look;
     const int Class = look.classicFaces ? CLASS_DARK_LORD + 1 : MAX_CLASS;
     const wchar_t* faceName = look.classicFaces ? L"Face" : L"NewFace";
 
@@ -3930,7 +3930,7 @@ void ReleaseCharacterSceneData()
 
     for (int i = 0; i < MAX_CLASS; i++)
         Models[MODEL_FACE + i].Release();
-    s_CharacterSceneClassicFaces = false;
+    s_CharacterSceneLook = {};
 
     ClearCharacters();
 }

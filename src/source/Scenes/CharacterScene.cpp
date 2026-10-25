@@ -138,8 +138,7 @@ bool StartGameWithSlot(int slot)
 
 // The theme picks the scene's look when the scene is created: the 0.97k client's stone yard or the
 // character world, and that client's faces or the newer ones. Everything after reads what was
-// picked (Scenes::ClassicCharacter::IsActive(), CharacterSceneHasClassicFaces()), so a theme switch
-// shows on the next visit.
+// loaded (LoadedCharacterSceneLook()), so a theme switch shows on the next visit.
 static void CreateCharacterWorld()
 {
     CharacterSceneLook look;
