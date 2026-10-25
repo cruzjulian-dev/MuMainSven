@@ -17,6 +17,7 @@
 #include "UI/Windows/LoginSceneUpdates.h"
 #include "UI/Core/WindowAccess.h"
 #include "UI/Social/SocialUpdates.h"
+#include "Core/Globals/ClientProfile.h"
 #include <memory>
 #include "Guild/GuildCache.h"
 #include "Guild/GuildTypes.h"
@@ -9788,6 +9789,14 @@ void ReceiveRequestAcceptAddFriend(const BYTE* ReceiveBuffer)
     wchar_t szName[MAX_USERNAME_SIZE + 1] = {0};
     CMultiLanguage::ConvertFromUtf8(szName, Data->Name, MAX_USERNAME_SIZE);
     szName[MAX_USERNAME_SIZE] = '\0';
+
+    // A build without the friend list has no window to ask in: the request is turned down, as
+    // the dialog's cancel would.
+    if (!Core::ClientProfile::HasFriends)
+    {
+        SocketClient->ToGameServer()->SendFriendAddResponse(0, MU_C16(szName));
+        return;
+    }
 
     wchar_t szText[MAX_TEXT_LENGTH + 1] = {0};
     CMultiLanguage::ConvertFromUtf8(szText, Data->Name, MAX_USERNAME_SIZE);
