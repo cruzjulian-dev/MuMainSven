@@ -986,6 +986,32 @@ void RenderSpriteUV(int Texture, vec3_t Position, float Width, float Height, flo
     mu::GetRenderer().RenderQuad3D(vertices, static_cast<std::uint32_t>(Texture));
 }
 
+namespace
+{
+// FontTest's layout in texels of its 256 x 32 picture (the 4x redraw keeps it, in fractions).
+constexpr float FontTestWidth = 256.f;
+constexpr float FontTestHeight = 32.f;
+constexpr float FontTestDigitCell = 16.f;
+constexpr float FontTestDigitRows = 18.25f;
+constexpr float FontTestDigitU = FontTestDigitCell / FontTestWidth;
+constexpr float FontTestDigitV = FontTestDigitRows / FontTestHeight;
+// "Miss", under the digits, drawn at the digits' 45 units per 32 texels.
+constexpr float MissLeft = 2.f;
+constexpr float MissRight = 33.f;
+constexpr float MissTop = FontTestDigitRows;
+constexpr float MissBottom = 31.75f;
+constexpr float MissUnitsPerTexel = 45.f / 32.f;
+} // namespace
+
+void SetFontTestDigitUV(float (*UV)[2], int digit)
+{
+    const float u = static_cast<float>(digit) * FontTestDigitU;
+    TEXCOORD(UV[0], u, FontTestDigitV);
+    TEXCOORD(UV[1], u + FontTestDigitU, FontTestDigitV);
+    TEXCOORD(UV[2], u + FontTestDigitU, 0.f);
+    TEXCOORD(UV[3], u, 0.f);
+}
+
 void RenderNumber(vec3_t Position, int Num, vec3_t Color, float Alpha, float Scale)
 {
     vec3_t p;
@@ -998,11 +1024,13 @@ void RenderNumber(vec3_t Position, int Num, vec3_t Color, float Alpha, float Sca
     if (Num == -1)
     {
         float UV[4][2];
-        TEXCOORD(UV[0], 0.f, 32.f / 32.f);
-        TEXCOORD(UV[1], 32.f / 256.f, 32.f / 32.f);
-        TEXCOORD(UV[2], 32.f / 256.f, 17.f / 32.f);
-        TEXCOORD(UV[3], 0.f, 17.f / 32.f);
-        RenderSpriteUV(BITMAP_FONT + 1, p, 45, 20, UV, Light, Alpha);
+        TEXCOORD(UV[0], MissLeft / FontTestWidth, MissBottom / FontTestHeight);
+        TEXCOORD(UV[1], MissRight / FontTestWidth, MissBottom / FontTestHeight);
+        TEXCOORD(UV[2], MissRight / FontTestWidth, MissTop / FontTestHeight);
+        TEXCOORD(UV[3], MissLeft / FontTestWidth, MissTop / FontTestHeight);
+        const float width = (MissRight - MissLeft) * MissUnitsPerTexel;
+        const float height = (MissBottom - MissTop) * MissUnitsPerTexel;
+        RenderSpriteUV(BITMAP_FONT + 1, p, width, height, UV, Light, Alpha);
     }
     else if (Num == -2)
     {
@@ -1019,12 +1047,8 @@ void RenderNumber(vec3_t Position, int Num, vec3_t Color, float Alpha, float Sca
         for (unsigned int i = 0; i < Length; i++)
         {
             float UV[4][2];
-            float u = (float)(Text[i] - 48) * 16.f / 256.f;
-            TEXCOORD(UV[0], u, 16.f / 32.f);
-            TEXCOORD(UV[1], u + 16.f / 256.f, 16.f / 32.f);
-            TEXCOORD(UV[2], u + 16.f / 256.f, 0.f);
-            TEXCOORD(UV[3], u, 0.f);
-            RenderSpriteUV(BITMAP_FONT + 1, p, Scale, Scale, UV, Light, Alpha);
+            SetFontTestDigitUV(UV, Text[i] - L'0');
+            RenderSpriteUV(BITMAP_FONT + 1, p, Scale, Scale * FontTestDigitAspect, UV, Light, Alpha);
             p[0] += Scale * 0.5f;
             p[1] += Scale * 0.5f;
         }
@@ -1039,9 +1063,9 @@ float RenderNumber2D(float x, float y, int Num, float Width, float Height, unsig
     x -= Width * Length / 2;
     for (int i = 0; i < Length; i++)
     {
-        float u = (float)(Text[i] - 48) * 16.f / 256.f;
-        RenderColorBitmap(BITMAP_FONT + 1, x, y, Width, Height, u, 0.f,
-            16.f / 256.f, 16.f / 32.f, color);
+        float u = (float)(Text[i] - 48) * FontTestDigitU;
+        RenderColorBitmap(BITMAP_FONT + 1, x, y, Width, Height * FontTestDigitAspect, u, 0.f,
+            FontTestDigitU, FontTestDigitV, color);
         x += Width * 0.7f;
     }
     return x;

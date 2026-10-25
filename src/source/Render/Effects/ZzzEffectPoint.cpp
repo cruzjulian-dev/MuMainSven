@@ -70,12 +70,8 @@ void RenderNumberPoints(vec3_t Position, int Num, vec3_t Color, float Alpha, flo
     for (unsigned int i = 0; i < Length; i++)
     {
         float UV[4][2];
-        float u = (float)(Text[i] - 48) * 16.f / 256.f;
-        TEXCOORD(UV[0], u, 16.f / 32.f);
-        TEXCOORD(UV[1], u + 16.f / 256.f, 16.f / 32.f);
-        TEXCOORD(UV[2], u + 16.f / 256.f, 0.f);
-        TEXCOORD(UV[3], u, 0.f);
-        RenderSpriteUV(BITMAP_FONT + 1, p, Scale, Scale, UV, Light, Alpha);
+        SetFontTestDigitUV(UV, Text[i] - '0');
+        RenderSpriteUV(BITMAP_FONT + 1, p, Scale, Scale * FontTestDigitAspect, UV, Light, Alpha);
         p[0] += Scale / 0.7071067f * cosTh / 2;
         p[1] -= Scale / 0.7071067f * sinTh / 2;
     }

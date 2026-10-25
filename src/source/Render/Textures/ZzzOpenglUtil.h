@@ -126,6 +126,13 @@ void RenderBox(float Matrix[3][4]);
 void RenderPlane3D(float Width, float Height, float Matrix[3][4]);
 void RenderSprite(int Texture, vec3_t Position, float Width, float Height, vec3_t Light, float Angle = 0.f, float u = 0.f, float v = 0.f, float uWidth = 1.f, float vHeight = 1.f);
 void RenderSpriteUV(int Texture, vec3_t Position, float Width, float Height, float(*UV)[2], vec3_t Light[4], float Alpha = 1.f);
+// The hit number font (BITMAP_FONT + 1, OpenHitNumberFont()): FontTest, or the 97k theme's 4x
+// redraw of it. Digit d is the 16-texel cell from x 16 * d, its glyph in rows 0 to 18.25; it is
+// drawn Scale wide and Scale * FontTestDigitAspect tall, so the whole glyph shows undistorted.
+inline constexpr float FontTestDigitAspect = 18.25f / 16.f;
+// Sets UV, in RenderSpriteUV()'s corner order, to digit's cell (0 to 9).
+void SetFontTestDigitUV(float (*UV)[2], int digit);
+
 void RenderNumber(vec3_t Position, int Num, vec3_t Color, float Alpha = 1.f, float Scale = 15.f);
 float RenderNumber2D(float x, float y, int Num, float Width, float Height,
     unsigned int color = 0xFFFFFFFFu);
