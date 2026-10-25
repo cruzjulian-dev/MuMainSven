@@ -66,36 +66,38 @@ namespace UI::RmlBridge
             return name;
         }
 
-        bool HasCapability(const std::string& themeName, const char* capability)
+        // The active theme's theme.ini, inheritance included, read once per theme: the capabilities
+        // are read every frame (the chat's keys, the world labels) and [Stacking] once per document,
+        // so neither touches the disk (docs/CODING_RULES.md, section 12). SetActiveThemeName()
+        // reads the new theme's.
+        struct ActiveThemeSettings
         {
-            const ThemeInheritance theme(std::filesystem::path("Data/Interface/RmlUi/themes") / themeName);
-            const auto setting = theme.GetSetting("Capabilities", capability);
-            return setting && std::strtol(setting->value.c_str(), nullptr, 10) != 0;
-        }
+            explicit ActiveThemeSettings(const std::string& themeName)
+                : inheritance(std::filesystem::path("Data/Interface/RmlUi/themes") / themeName)
+            {
+            }
 
-        bool ComputeUsesNativeTextSize(const std::string& themeName)
-        {
-            return HasCapability(themeName, "NativeTextSize");
-        }
+            bool HasCapability(const char* capability) const
+            {
+                const auto setting = inheritance.GetSetting("Capabilities", capability);
+                return setting && std::strtol(setting->value.c_str(), nullptr, 10) != 0;
+            }
 
-        bool& UsesNativeTextSizeStorage()
-        {
-            static bool usesNativeTextSize = ComputeUsesNativeTextSize(ActiveThemeNameStorage());
-            return usesNativeTextSize;
-        }
+            ThemeInheritance inheritance;
+            bool nativeTextSize = HasCapability("NativeTextSize");
+            bool nearestFiltering = HasCapability("NearestFiltering");
+            bool chatLogModes = HasCapability("ChatLogModes");
+            bool whisperStartsOff = HasCapability("WhisperStartsOff");
+            bool classicWorldHud = HasCapability("ClassicWorldHud");
+            bool classicLoginScene = HasCapability("ClassicLoginScene");
+            bool classicCharacterCreation = HasCapability("ClassicCharacterCreation");
+            bool classicCharacterScene = HasCapability("ClassicCharacterScene");
+        };
 
-        // Read every frame by the chat's key handling, so cached like the above.
-        bool& HasChatLogModesStorage()
+        ActiveThemeSettings& ActiveThemeSettingsStorage()
         {
-            static bool hasChatLogModes = HasCapability(ActiveThemeNameStorage(), "ChatLogModes");
-            return hasChatLogModes;
-        }
-
-        // Read every frame by the world labels, so cached like the above.
-        bool& HasClassicWorldHudStorage()
-        {
-            static bool hasClassicWorldHud = HasCapability(ActiveThemeNameStorage(), "ClassicWorldHud");
-            return hasClassicWorldHud;
+            static ActiveThemeSettings settings(ActiveThemeNameStorage());
+            return settings;
         }
 
     }
@@ -125,50 +127,48 @@ namespace UI::RmlBridge
 
     bool ThemeUsesNativeTextSize()
     {
-        return UsesNativeTextSizeStorage();
+        return ActiveThemeSettingsStorage().nativeTextSize;
     }
 
     bool ThemeUsesNearestFiltering()
     {
-        return HasCapability(ActiveThemeNameStorage(), "NearestFiltering");
+        return ActiveThemeSettingsStorage().nearestFiltering;
     }
 
     bool ThemeHasChatLogModes()
     {
-        return HasChatLogModesStorage();
+        return ActiveThemeSettingsStorage().chatLogModes;
     }
 
     bool ThemeWhisperStartsOff()
     {
-        return HasCapability(ActiveThemeNameStorage(), "WhisperStartsOff");
+        return ActiveThemeSettingsStorage().whisperStartsOff;
     }
 
     bool ThemeHasClassicWorldHud()
     {
-        return HasClassicWorldHudStorage();
+        return ActiveThemeSettingsStorage().classicWorldHud;
     }
 
     bool ThemeHasClassicLoginScene()
     {
-        return HasCapability(ActiveThemeNameStorage(), "ClassicLoginScene");
+        return ActiveThemeSettingsStorage().classicLoginScene;
     }
 
     bool ThemeHasClassicCharacterCreation()
     {
-        return HasCapability(ActiveThemeNameStorage(), "ClassicCharacterCreation");
+        return ActiveThemeSettingsStorage().classicCharacterCreation;
     }
 
     bool ThemeHasClassicCharacterScene()
     {
-        return HasCapability(ActiveThemeNameStorage(), "ClassicCharacterScene");
+        return ActiveThemeSettingsStorage().classicCharacterScene;
     }
 
     void SetActiveThemeName(const std::string& themeName)
     {
         ActiveThemeNameStorage() = ToLower(themeName);
-        UsesNativeTextSizeStorage() = ComputeUsesNativeTextSize(ActiveThemeNameStorage());
-        HasChatLogModesStorage() = HasCapability(ActiveThemeNameStorage(), "ChatLogModes");
-        HasClassicWorldHudStorage() = HasCapability(ActiveThemeNameStorage(), "ClassicWorldHud");
+        ActiveThemeSettingsStorage() = ActiveThemeSettings(ActiveThemeNameStorage());
         RmlUiRuntime::Instance().SetFileTextureNearestFiltering(ThemeUsesNearestFiltering());
 
         // Both themes deliberately reuse the same <template name="..."> for a shared concept
@@ -345,8 +345,7 @@ namespace UI::RmlBridge
         }
         // A theme may draw one of its documents at another depth: theme.ini's [Stacking]
         // <document>.rml=<depth>, inherited like the other sections.
-        const ThemeInheritance theme(std::filesystem::path("Data/Interface/RmlUi/themes") / GetActiveThemeName());
-        if (const auto setting = theme.GetSetting("Stacking", documentName))
+        if (const auto setting = ActiveThemeSettingsStorage().inheritance.GetSetting("Stacking", documentName))
         {
             char* end = nullptr;
             const float themeDepth = std::strtof(setting->value.c_str(), &end);
