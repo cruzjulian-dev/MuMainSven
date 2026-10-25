@@ -3,6 +3,7 @@
 // ClassicCreationClasses.h - the classes the 0.97k character creation (CCharMakeWin with the 0.97k
 // faces) steps through with its arrows
 
+#include "Core/Platform/WinCompat.h" // BYTE, used by _enum.h
 #include "Core/Globals/_enum.h"
 
 #include <array>

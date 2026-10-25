@@ -1,5 +1,4 @@
-#include "stdafx.h"
-#include "ClassicCreationClasses.h"
+#include "Character/ClassicCreationClasses.h"
 
 #include <algorithm>
 

@@ -1,5 +1,3 @@
-#include "App/stdafx.h"
-
 #include <doctest.h>
 
 #include "Character/ClassicCreationClasses.h"

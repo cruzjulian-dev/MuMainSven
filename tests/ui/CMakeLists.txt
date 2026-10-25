@@ -216,8 +216,10 @@ mu_add_test(
 
 mu_add_test(
     NAME classic_character_scene_tests
-    SOURCES test_classic_character_scene.cpp
-    LINK_LIBS MuClient
+    SOURCES
+        test_classic_character_scene.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Character/ClassicCreationClasses.cpp
+        ${CMAKE_SOURCE_DIR}/src/source/Character/ClassicNameTag.cpp
 )
 
 mu_add_test(
