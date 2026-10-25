@@ -462,6 +462,39 @@ TEST_CASE("sparse themes load parent markup with child templates and reload toke
     CHECK(view.Document()->GetElementById("colored")->GetComputedValues().color() == Rml::Colourb(0x98, 0x76, 0x54));
 }
 
+TEST_CASE("capabilities and stacking come from the active theme, read once per switch [ui][rml-theme]")
+{
+    Fixture fixture;
+    fixture.Write(fixture.Theme("parent") / "base.rcss", "");
+    fixture.Write(fixture.Theme("parent") / "theme.ini",
+                  "[Capabilities]\nChatLogModes=1\n[Stacking]\nmsg_win.rml=7.5\n");
+    fixture.Write(fixture.Theme("child") / "theme.ini",
+                  "[Theme]\nBase=parent\n[Capabilities]\nChatLogModes=0\nClassicCharacterScene=1\n");
+    fixture.ActivateRoot();
+
+    UI::RmlBridge::SetActiveThemeName("parent");
+    CHECK(UI::RmlBridge::ThemeHasChatLogModes());
+    CHECK_FALSE(UI::RmlBridge::ThemeHasClassicCharacterScene());
+
+    UI::RmlBridge::SetActiveThemeName("child");
+    CHECK_FALSE(UI::RmlBridge::ThemeHasChatLogModes());
+    CHECK(UI::RmlBridge::ThemeHasClassicCharacterScene());
+    Rml::ElementDocument* document = fixture.context->LoadDocumentFromMemory("<rml><body></body></rml>");
+    REQUIRE(document != nullptr);
+    UI::RmlBridge::ApplyStackingDepth(document, "msg_win.rml");
+    const Rml::Property* depth = document->GetLocalProperty(Rml::PropertyId::ZIndex);
+    REQUIRE(depth != nullptr);
+    CHECK(depth->Get<float>() == doctest::Approx(7.5f));
+    fixture.context->UnloadDocument(document);
+
+    // theme.ini is read when the theme is set, so an edit shows on the next switch.
+    fixture.Write(fixture.Theme("child") / "theme.ini", "[Theme]\nBase=parent\n");
+    CHECK(UI::RmlBridge::ThemeHasClassicCharacterScene());
+    UI::RmlBridge::SetActiveThemeName("child");
+    CHECK_FALSE(UI::RmlBridge::ThemeHasClassicCharacterScene());
+    CHECK(UI::RmlBridge::ThemeHasChatLogModes());
+}
+
 TEST_CASE("system font paths expand environment variables and missing files remain optional [ui][rml-theme]")
 {
     Fixture fixture;

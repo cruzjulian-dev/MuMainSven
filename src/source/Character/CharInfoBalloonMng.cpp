@@ -4,6 +4,7 @@
 #include "Character/CharMakeWin.h"
 
 #include "CharInfoBalloon.h"
+#include "ClassicNameTag.h"
 #include "Core/Globals/_enum.h"
 #include "Core/Utilities/StringUtils.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
@@ -34,28 +35,6 @@ const char* NameStatusKey(BalloonNameStatus status)
         break;
     }
     return "normal";
-}
-
-// The 0.97k client's font (WinMain): 12 pixels high at 640 wide, 13 at 800, 14 at 1024 and 15
-// from 1280 on.
-float ClassicTextPx(unsigned int windowWidth)
-{
-    if (windowWidth >= 1280)
-        return 15.f;
-    if (windowWidth == 1024)
-        return 14.f;
-    if (windowWidth == 800)
-        return 13.f;
-    return 12.f;
-}
-
-// The 0.97k client wrote a tag's class line at the character's projected point and the name above
-// it, its text's height plus 3 higher on the 640x480 screen, which it stretched over the window.
-float ClassicNameRise(float textPx, unsigned int windowHeight)
-{
-    constexpr float kReferenceHeight = 480.f;
-    constexpr float kNameGap = 3.f;
-    return (textPx + kNameGap) * static_cast<float>(windowHeight) / kReferenceHeight;
 }
 }
 
@@ -101,8 +80,8 @@ void CCharInfoBalloonMng::BindRmlModel(Rml::DataModelConstructor& c, BalloonList
     model.balloons.resize(kBalloonCount);
     // Set before the document's first layout as well as every frame (SyncRmlModel()), so no tag is
     // ever laid out at a font size of 0.
-    model.classicTextPx = ClassicTextPx(WindowWidth);
-    model.classicNameRise = ClassicNameRise(model.classicTextPx, WindowHeight);
+    model.classicTextPx = Character::ClassicNameTag::TextPx(WindowWidth);
+    model.classicNameRise = Character::ClassicNameTag::NameRise(model.classicTextPx, WindowHeight);
 
     // See CCharMakeWin::BindRmlModel()'s comment on why this must re-run in full every
     // call, including on a theme switch -- no guard here.
@@ -196,8 +175,8 @@ void CCharInfoBalloonMng::SyncRmlModel()
         m_RmlView.MarkDirty("char_make_open");
     }
 
-    const float textPx = ClassicTextPx(WindowWidth);
-    const float nameRise = ClassicNameRise(textPx, WindowHeight);
+    const float textPx = Character::ClassicNameTag::TextPx(WindowWidth);
+    const float nameRise = Character::ClassicNameTag::NameRise(textPx, WindowHeight);
     if (model.classicTextPx != textPx || model.classicNameRise != nameRise)
     {
         model.classicTextPx = textPx;

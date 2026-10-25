@@ -215,6 +215,12 @@ mu_add_test(
 )
 
 mu_add_test(
+    NAME classic_character_scene_tests
+    SOURCES test_classic_character_scene.cpp
+    LINK_LIBS MuClient
+)
+
+mu_add_test(
     NAME window_geometry_tests
     SOURCES
         test_window_geometry.cpp

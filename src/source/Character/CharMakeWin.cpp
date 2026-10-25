@@ -21,6 +21,7 @@
 
 #include "App/Platform/Windows/Local.h"
 #include "CharacterManager.h"
+#include "ClassicCreationClasses.h"
 
 #include <algorithm>
 #include <array>
@@ -130,19 +131,6 @@ namespace
     // (textLimit = 10). Set on the <input> from ApplyNameLimit() rather than written into each
     // theme's .rml, and reused when copying into the legacy InputText[0] buffer.
     constexpr int kCharNameMaxLength = 10;
-
-    // The classes the 0.97k creation (the classic faces OpenCharacterSceneData() loaded) steps
-    // through with its arrows, in its order; the dark lord, which came after the 0.97k client,
-    // follows the magic gladiator.
-    constexpr std::array<CLASS_TYPE, 5> kClassicClasses{
-        CLASS_WIZARD, CLASS_KNIGHT, CLASS_ELF, CLASS_DARK, CLASS_DARK_LORD
-    };
-
-    int ClassicClassIndex(CLASS_TYPE classType)
-    {
-        const auto found = std::find(kClassicClasses.begin(), kClassicClasses.end(), classType);
-        return found == kClassicClasses.end() ? -1 : static_cast<int>(found - kClassicClasses.begin());
-    }
 
     // The preview camera's field of view, in both creations.
     constexpr float kPreviewFov = 10.f;
@@ -405,7 +393,8 @@ void CCharMakeWin::Show(bool bShow)
         m_RmlView.MarkDirty("char_name");
 
         // The 0.97k creation can only stand on one of its classes.
-        const bool classicClass = ClassicClassIndex(m_nSelJob) >= 0 && m_aJobState[m_nSelJob].enabled;
+        const bool classicClass =
+            Character::ClassicCreation::ClassIndex(m_nSelJob) >= 0 && m_aJobState[m_nSelJob].enabled;
         if (CharacterSceneHasClassicFaces() && !classicClass)
             SelectJob(CLASS_KNIGHT);
     }
@@ -471,18 +460,8 @@ void CCharMakeWin::RmlClickClassArrow(int direction)
 
 int CCharMakeWin::FindClassicStep(int direction) const
 {
-    const int selected = ClassicClassIndex(m_nSelJob);
-    if (direction == 0 || selected < 0)
-        return -1;
-
-    const int step = direction < 0 ? -1 : 1;
-    for (int i = selected + step; i >= 0 && i < static_cast<int>(kClassicClasses.size()); i += step)
-    {
-        const CLASS_TYPE candidate = kClassicClasses[i];
-        if (m_aJobState[candidate].enabled)
-            return candidate;
-    }
-    return -1;
+    return Character::ClassicCreation::FindStep(m_nSelJob, direction,
+                                                [this](CLASS_TYPE candidate) { return m_aJobState[candidate].enabled; });
 }
 
 void CCharMakeWin::SelectJob(int classIndex)
