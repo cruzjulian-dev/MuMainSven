@@ -15,7 +15,7 @@
    - OK (connect): Ok01 (205x88) at 434,116; its button 7,32 of it, 70x19, lit with Ok02.
      Both off screen while no character is selected: the 0.97k client kept them at x -200 until a
      character was picked, then slid them in from their side, as they slide here. A click on
-     another character, or the same one, slides both off and back in again (panels_away).
+     another character, or the same one, slides both off and back in again (.replay-a/.replay-b).
    - Frame: charsel_frame.rcss.
    The panels are hidden while the character-creation dialog is open, as the 0.97k client hid them.
 
@@ -28,6 +28,14 @@
 @spritesheet cs97-delete-lit-sheet { src: "../../../../Interface97/Logo/Delete02.jpg"; cs97-delete-lit: 0px 0px 70px 19px; }
 @spritesheet cs97-ok-sheet { src: "../../../../Interface97/Logo/Ok01.tga"; cs97-ok: 0px 0px 205px 88px; }
 @spritesheet cs97-ok-lit-sheet { src: "../../../../Interface97/Logo/Ok02.jpg"; cs97-ok-lit: 0px 0px 70px 19px; }
+
+/* A click on a character slides Delete and OK off for 7 of the 0.97k client's 25 frames a second
+   (0.28s of the 0.68s), then back in. Two copies of each, which the clicks take by turns: a new
+   animation name is what starts the slide again. */
+@keyframes cs97-delete-away-a { 0% { left: 0; } 41% { left: -205rem; } 100% { left: 0; } }
+@keyframes cs97-delete-away-b { 0% { left: 0; } 41% { left: -205rem; } 100% { left: 0; } }
+@keyframes cs97-connect-away-a { 0% { right: 0; } 41% { right: -205rem; } 100% { right: 0; } }
+@keyframes cs97-connect-away-b { 0% { right: 0; } 41% { right: -205rem; } 100% { right: 0; } }
 
 body {
 	font-size: calc(100vh / 480);
@@ -69,6 +77,8 @@ body {
 	transition: left 0.4s exponential-out;
 }
 #btn_delete_item.shown { left: 0; }
+#btn_delete_item.shown.replay-a { animation: 0.68s exponential-out cs97-delete-away-a; }
+#btn_delete_item.shown.replay-b { animation: 0.68s exponential-out cs97-delete-away-b; }
 #btn_connect_item {
 	right: -205rem;
 	top: 116rem;
@@ -78,6 +88,8 @@ body {
 	transition: right 0.4s exponential-out;
 }
 #btn_connect_item.shown { right: 0; }
+#btn_connect_item.shown.replay-a { animation: 0.68s exponential-out cs97-connect-away-a; }
+#btn_connect_item.shown.replay-b { animation: 0.68s exponential-out cs97-connect-away-b; }
 
 .charsel-btn {
 	position: absolute;

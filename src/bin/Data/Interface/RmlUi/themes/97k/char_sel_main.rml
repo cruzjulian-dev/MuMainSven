@@ -13,7 +13,7 @@
 	     caption under the pointer. Each panel stands off the screen until its .shown brings it on:
 	     New Character while a slot is free, Delete and OK while a character is picked; a panel
 	     that is not wanted never shows, not even on the first frame. A click on a character sends
-	     Delete and OK off the screen and back in (panels_away), as the 0.97k client did. The 0.97k screen had no menu
+	     Delete and OK off the screen and back in (.replay-a and .replay-b take turns on each click), as the 0.97k client did. The 0.97k screen had no menu
 	     button: the ESC key opens the menu (#btn_menu_item is hidden); Sven's information bar and
 	     corner flourish are left out. While the character-creation dialog is open the panels are
 	     hidden (.char-make-open), as the 0.97k client hid them; the frame stays. -->
@@ -21,10 +21,12 @@
 		<div id="btn_create_item" class="charsel-panel" data-class-shown="!create_disabled">
 			<div id="btn_create" class="charsel-btn" data-class-disabled="create_disabled" data-event-click="charsel_create_click"></div>
 		</div>
-		<div id="btn_delete_item" class="charsel-panel" data-class-shown="!delete_disabled && !panels_away">
+		<div id="btn_delete_item" class="charsel-panel" data-class-shown="!delete_disabled"
+		     data-class-replay-a="character_click_phase == 1" data-class-replay-b="character_click_phase == 2">
 			<div id="btn_delete" class="charsel-btn" data-class-disabled="delete_disabled" data-event-click="charsel_delete_click"></div>
 		</div>
-		<div id="btn_connect_item" class="charsel-panel" data-class-shown="!connect_disabled && !panels_away">
+		<div id="btn_connect_item" class="charsel-panel" data-class-shown="!connect_disabled"
+		     data-class-replay-a="character_click_phase == 1" data-class-replay-b="character_click_phase == 2">
 			<div id="btn_connect" class="charsel-btn" data-class-disabled="connect_disabled" data-event-click="charsel_connect_click"></div>
 		</div>
 		<div id="btn_menu_item">

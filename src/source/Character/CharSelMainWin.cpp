@@ -37,9 +37,6 @@ namespace
 {
     constexpr int kCharacterSlotCount = 5;
     constexpr int kWindowAlpha = 143;
-    // How long the Delete and OK panels stay away after a click on a character: the 0.97k client
-    // slid them off in 7 of its 25 frames a second, then straight back in.
-    constexpr double kPanelsAwayMs = 280.0;
 
     template <typename Predicate>
     bool AnyCharacter(Predicate&& predicate)
@@ -160,7 +157,7 @@ void CCharSelMainWin::BindRmlModel(Rml::DataModelConstructor& c, CharSelMainRmlM
     c.Bind("delete_disabled", &model.deleteDisabled);
     c.Bind("account_block_hidden", &model.accountBlockHidden);
     c.Bind("char_make_open", &model.charMakeOpen);
-    c.Bind("panels_away", &model.panelsAway);
+    c.Bind("character_click_phase", &model.characterClickPhase);
     c.Bind("account_block_line1", &model.accountBlockLine1);
     c.Bind("account_block_line2", &model.accountBlockLine2);
 
@@ -274,12 +271,11 @@ void CCharSelMainWin::ResetButtonsToDisabled()
     model.createDisabled = true;
     model.connectDisabled = true;
     model.deleteDisabled = true;
-    model.panelsAway = false;
-    m_panelsAwayUntil = 0.0;
+    model.characterClickPhase = 0;
     m_RmlView.MarkDirty("create_disabled");
     m_RmlView.MarkDirty("connect_disabled");
     m_RmlView.MarkDirty("delete_disabled");
-    m_RmlView.MarkDirty("panels_away");
+    m_RmlView.MarkDirty("character_click_phase");
 }
 
 void CCharSelMainWin::UpdateDisplay()
@@ -299,8 +295,11 @@ void CCharSelMainWin::UpdateDisplay()
 // Before UpdateDisplay(): panels still off the screen (no character picked yet) just slide in.
 void CCharSelMainWin::OnCharacterClicked()
 {
-    if (m_bDeleteEnabled)
-        m_panelsAwayUntil = WorldTime + kPanelsAwayMs;
+    if (!m_bDeleteEnabled)
+        return;
+    int& phase = m_RmlView.GetModel().characterClickPhase;
+    phase = phase == 1 ? 2 : 1;
+    m_RmlView.MarkDirty("character_click_phase");
 }
 
 bool CCharSelMainWin::UpdateMouseEvent()
@@ -379,7 +378,12 @@ void CCharSelMainWin::SyncRmlModel()
     syncBool(&CharSelMainRmlModel::deleteDisabled, "delete_disabled", !m_bDeleteEnabled);
     syncBool(&CharSelMainRmlModel::accountBlockHidden, "account_block_hidden", !m_bAccountBlockItem);
     syncBool(&CharSelMainRmlModel::charMakeOpen, "char_make_open", g_CharMakeWin.IsVisible());
-    syncBool(&CharSelMainRmlModel::panelsAway, "panels_away", WorldTime < m_panelsAwayUntil);
+    // Panels sent away with no character picked come back sliding in, not replaying a click.
+    if (!m_bDeleteEnabled && m_RmlView.GetModel().characterClickPhase != 0)
+    {
+        m_RmlView.GetModel().characterClickPhase = 0;
+        m_RmlView.MarkDirty("character_click_phase");
+    }
 
     auto syncLabel = [this](Rml::String CharSelMainRmlModel::* field, const char* boundName, const wchar_t* text)
     {

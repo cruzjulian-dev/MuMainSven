@@ -259,9 +259,10 @@ private:
         // Whether the character-creation dialog is open over the bar: the 97k theme hides its
         // panels then, as the 0.97k client did.
         bool charMakeOpen = false;
-        // Whether the Delete and OK panels are sent away for a moment after a click on a
-        // character (OnCharacterClicked()); the 97k theme slides them off the screen meanwhile.
-        bool panelsAway = false;
+        // Which click on a character the Delete and OK panels were shown at (OnCharacterClicked()):
+        // 0 before any, then 1 and 2 by turns, so each new click is a change a theme can start an
+        // animation on (the 97k theme slides them off the screen and back in).
+        int characterClickPhase = 0;
         Rml::String accountBlockLine1;
         Rml::String accountBlockLine2;
     };
@@ -274,8 +275,6 @@ private:
     bool m_bCreateEnabled = false;
     bool m_bConnectEnabled = false;
     bool m_bDeleteEnabled = false;
-    // WorldTime until which the Delete and OK panels stay away (OnCharacterClicked()).
-    double m_panelsAwayUntil = 0.0;
 
     bool m_bRmlCreateClicked = false;
     bool m_bRmlMenuClicked = false;
