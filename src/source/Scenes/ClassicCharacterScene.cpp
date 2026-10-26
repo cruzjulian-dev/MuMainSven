@@ -10,6 +10,7 @@
 #include "Engine/Object/ZzzObject.h"
 #include "Render/Effects/ZzzEffect.h"
 #include "Render/Terrain/ZzzLodTerrain.h"
+#include "Scenes/ClassicSceneStage.h"
 #include "Scenes/LoginScene.h"
 #include "World/MapInfra/MapManager.h"
 
@@ -17,13 +18,10 @@
 // Scene_CharSelect()): the stage, the characters' spots and the view are its own.
 namespace
 {
-// The 0.97k client placed the scene round (0, 0); objects only live on the terrain's blocks
-// (1600 units square), so the scene stands on them instead, as the 0.97k login scene does.
-constexpr float kOriginX = 13600.f;
-constexpr float kOriginY = 13600.f;
-
-// "No world": nothing is loaded and no map's rules apply.
-constexpr int kNoWorld = -1;
+// The stage stands where the 0.97k login scene does (ClassicSceneStage.h).
+using Scenes::ClassicStage::kNoWorld;
+using Scenes::ClassicStage::kOriginX;
+using Scenes::ClassicStage::kOriginY;
 
 // Logo05, loaded by OpenCharacterSceneData(); CreateObject() lights it.
 constexpr int kStageModel = MODEL_LOGO + 4;

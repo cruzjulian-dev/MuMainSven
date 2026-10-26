@@ -14,6 +14,7 @@
 #include "Render/Effects/ZzzEffect.h"
 #include "Render/Models/ZzzBMD.h"
 #include "Render/Terrain/ZzzLodTerrain.h"
+#include "Scenes/ClassicSceneStage.h"
 #include "Scenes/LoginScene.h"
 #include "World/MapInfra/MapManager.h"
 
@@ -24,15 +25,12 @@
 // CreateObject()'s login cases, the sky's and the wakes' scrolling and the logo's fade-in MoveObject()'s.
 namespace
 {
-// The 0.97k client placed the scene round (0, 0); objects only live on the terrain's blocks
-// (1600 units square), so the scene stands on them instead. RenderObjects() draws block by block,
-// each in creation order: from here every object but the sun shares one block, so the sky and sea
-// come first and the wakes after them, as the 0.97k client drew them.
-constexpr float kOriginX = 13600.f;
-constexpr float kOriginY = 13600.f;
-
-// "No world": nothing is loaded and no map's rules apply.
-constexpr int kNoWorld = -1;
+// The scene stands round ClassicSceneStage.h's origin. RenderObjects() draws block by block, each in
+// creation order: from there every object but the sun shares one block, so the sky and sea come
+// first and the wakes after them, as the 0.97k client drew them.
+using Scenes::ClassicStage::kNoWorld;
+using Scenes::ClassicStage::kOriginX;
+using Scenes::ClassicStage::kOriginY;
 
 constexpr float kShipYaw = 180.f;
 
