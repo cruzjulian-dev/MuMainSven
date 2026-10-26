@@ -415,6 +415,71 @@ static void RenderLoginSceneLinesNative(bool tourMode, const wchar_t* version)
     g_pRenderText->RenderText(0, REFERENCE_HEIGHT - Size.cy - 1, version);
 }
 
+// The scene's world, characters and effects (none while the credits are up).
+static void RenderLoginWorld3D(bool classicScene)
+{
+    if (classicScene)
+    {
+        // The 0.97k client's order: the scene, then the characters, then the guardian angel. The
+        // sea and the sky write depth; the wakes and the angel's wings are blended and write none,
+        // so whatever comes after them would paint over them.
+        { FRAME_PROFILE(Objects); RenderObjects(); }
+        { FRAME_PROFILE(Characters); RenderCharactersClient(); }
+        { FRAME_PROFILE(Objects); RenderMount(); }
+    }
+    else
+    {
+        { FRAME_PROFILE(Terrain); RenderTerrain(false); }
+        { FRAME_PROFILE(Characters); RenderCharactersClient(); }
+        { FRAME_PROFILE(Objects); RenderMount(); }
+        {
+            FRAME_PROFILE(Objects);
+            {
+                FRAME_PROFILE(Other);
+                RenderObjects();
+            }
+        }
+    }
+    { FRAME_PROFILE(Effects); RenderJoints(); }
+    { FRAME_PROFILE(Effects); RenderEffects(); }
+    { FRAME_PROFILE(Effects); CheckSprites(); }
+    if (!classicScene) { FRAME_PROFILE(Effects); RenderLeaves(); }
+    { FRAME_PROFILE(Effects); RenderBoids(); }
+    {
+        FRAME_PROFILE(Objects);
+        {
+            FRAME_PROFILE(Other);
+            RenderObjects_AfterCharacter();
+        }
+    }
+    {
+        FRAME_PROFILE(Characters);
+        Scenes::PostProcessing::RenderPetsWithoutBloom();
+    }
+}
+
+// The option window in the login and character scenes, which can't use the full g_pNewUISystem
+// update.
+static void UpdateOptionWindowInLoginScene()
+{
+    // Update() (not just UpdateMouseEvent()/UpdateKeyEvent()) is required here too -- it's what
+    // runs SyncRmlModel(), which pushes this window's own C++ state (tab/row labels, checkbox
+    // values, everything bound via {{}}) into its RmlUi data model. Without it, every bound field
+    // stays at its default-constructed empty value and the window renders with no text at all
+    // (found live: fixed the moment CManager::Update() started running this window normally, i.e.
+    // after reaching a scene that pumps the full g_pNewUISystem update -- the model, once
+    // populated there, stays populated even back in a scene that skips this call again, which is
+    // why the symptom didn't reappear after visiting one such scene). Same order the full
+    // CManager sweep uses (UpdateMouseEvent -> UpdateKeyEvent -> Update -> Render).
+    if (g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_OPTION))
+    {
+        g_pOption->UpdateMouseEvent();
+        g_pOption->UpdateKeyEvent();
+        g_pOption->Update();
+        g_pOption->Render();
+    }
+}
+
 bool NewRenderLogInScene(HDC hDC)
 {
     if (!InitLogIn) return false;
@@ -455,50 +520,7 @@ bool NewRenderLogInScene(HDC hDC)
     ResetFrustrumBoundsFullTerrain();
 
     if (!g_CreditWin.IsVisible())
-    {
-        if (!classicScene)
-        {
-            FRAME_PROFILE(Terrain);
-            RenderTerrain(false);
-        }
-        if (classicScene)
-        {
-            // The 0.97k client's order: the scene, then the characters, then the guardian angel. The
-            // sea and the sky write depth; the wakes and the angel's wings are blended and write none,
-            // so whatever comes after them would paint over them.
-            { FRAME_PROFILE(Objects); RenderObjects(); }
-            { FRAME_PROFILE(Characters); RenderCharactersClient(); }
-            { FRAME_PROFILE(Objects); RenderMount(); }
-        }
-        else
-        {
-            { FRAME_PROFILE(Characters); RenderCharactersClient(); }
-            { FRAME_PROFILE(Objects); RenderMount(); }
-            {
-                FRAME_PROFILE(Objects);
-                {
-                    FRAME_PROFILE(Other);
-                    RenderObjects();
-                }
-            }
-        }
-        { FRAME_PROFILE(Effects); RenderJoints(); }
-        { FRAME_PROFILE(Effects); RenderEffects(); }
-        { FRAME_PROFILE(Effects); CheckSprites(); }
-        if (!classicScene) { FRAME_PROFILE(Effects); RenderLeaves(); }
-        { FRAME_PROFILE(Effects); RenderBoids(); }
-        {
-            FRAME_PROFILE(Objects);
-            {
-                FRAME_PROFILE(Other);
-                RenderObjects_AfterCharacter();
-            }
-        }
-        {
-            FRAME_PROFILE(Characters);
-            Scenes::PostProcessing::RenderPetsWithoutBloom();
-        }
-    }
+        RenderLoginWorld3D(classicScene);
 
     BeginSprite();
     RenderSprites();
@@ -539,23 +561,7 @@ bool NewRenderLogInScene(HDC hDC)
     RenderDebugWindow();
 #endif
 
-    // Handle option window in login/character scenes (can't use full g_pNewUISystem update).
-    // Update() (not just UpdateMouseEvent()/UpdateKeyEvent()) is required here too -- it's what
-    // runs SyncRmlModel(), which pushes this window's own C++ state (tab/row labels, checkbox
-    // values, everything bound via {{}}) into its RmlUi data model. Without it, every bound field
-    // stays at its default-constructed empty value and the window renders with no text at all
-    // (found live: fixed the moment CManager::Update() started running this window normally, i.e.
-    // after reaching a scene that pumps the full g_pNewUISystem update -- the model, once
-    // populated there, stays populated even back in a scene that skips this call again, which is
-    // why the symptom didn't reappear after visiting one such scene). Same order the full
-    // CManager sweep uses (UpdateMouseEvent -> UpdateKeyEvent -> Update -> Render).
-    if (g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_OPTION))
-    {
-        g_pOption->UpdateMouseEvent();
-        g_pOption->UpdateKeyEvent();
-        g_pOption->Update();
-        g_pOption->Render();
-    }
+    UpdateOptionWindowInLoginScene();
 
     // The "Remember Password" prompt (the one dialog that used to need a manual g_MessageBox
     // pump here, since the login scene skips the full NewUI update) is now its own RmlUi
