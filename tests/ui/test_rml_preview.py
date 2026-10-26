@@ -177,7 +177,10 @@ class DocumentTest(unittest.TestCase):
                 self.assertIn("Decrease", page)
                 self.assertIn("Strength +1", page)
                 self.assertNotIn("{{", page)
-                self.assertNotIn("data-", page)
+                # Every binding is resolved; an attribute a data-attr-* set (data-kind) stays, for the
+                # stylesheets.
+                self.assertIsNone(re.search(r"\sdata-(for|if|visible|class-|style-|attr-|value|checked|rml|event-)",
+                                            page))
                 css = (out / "preview.css").read_text(encoding="utf-8")
                 self.assertNotIn("dp;", css)
                 self.assertNotIn("token(", css)
