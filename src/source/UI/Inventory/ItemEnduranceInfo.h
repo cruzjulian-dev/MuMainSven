@@ -55,6 +55,17 @@ namespace mu::ui::window
         int							m_iTooltipIndex;
         // The equipment slot of each icon synced, in document order (UpdateMouseEvent()).
         std::vector<int> m_IconSlots;
+        // A worn item listed as broken (SyncIcons()): its line is formatted again only when these change.
+        struct BrokenItemKey
+        {
+            int type = -1;
+            int durability = 0;
+            int maxDurability = 0;
+
+            bool operator==(const BrokenItemKey&) const = default;
+        };
+        std::vector<BrokenItemKey> m_BrokenItemKeys;    // what broken_items was last built from
+        std::vector<BrokenItemKey> m_BrokenItemScratch; // this sync's, kept so its storage is reused
 
     public:
         CItemEnduranceInfo();
@@ -93,6 +104,7 @@ namespace mu::ui::window
         void SyncView();
         void SyncLeftColumn();
         void SyncIcons();
+        void SyncBrokenItems();
         // The image name of an IMAGE_ITEM_DUR_* durability icon; empty for none.
         static const char* DurabilityIconImage(int imageIndex);
         void SyncTooltip();

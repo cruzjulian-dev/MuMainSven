@@ -476,8 +476,8 @@ void mu::ui::window::CItemEnduranceInfo::SyncIcons()
 {
     using namespace UI::ItemEndurance;
     std::vector<DurabilityIconEntry> icons;
-    std::vector<BrokenItemEntry> brokenItems;
     m_IconSlots.clear();
+    m_BrokenItemScratch.clear();
     if (!g_pNewUISystem->IsVisible(mu::ui::window::INTERFACE_TRADE))
     {
         int icntItemDurIcon = 0;
@@ -533,9 +533,7 @@ void mu::ui::window::CItemEnduranceInfo::SyncIcons()
             icons.push_back(std::move(icon));
             m_IconSlots.push_back(i);
 
-            wchar_t szText[256] = {};
-            mu_swprintf(szText, L"%ls (%d/%d)", pItemAtt->Name, pItem->Durability, iMaxDurability);
-            brokenItems.push_back({StringUtils::WideToNarrow(szText), DurabilityBand(pItem->Durability, iMaxDurability)});
+            m_BrokenItemScratch.push_back({pItem->Type, pItem->Durability, iMaxDurability});
 
             // A shared ring icon stays in the cell the right ring took; everything else moves on.
             if (bRenderRingWarning == false)
@@ -543,6 +541,26 @@ void mu::ui::window::CItemEnduranceInfo::SyncIcons()
         }
     }
     SyncItemEnduranceField(m_RmlView.Binder(), &ItemEnduranceRmlModel::icons, "icons", std::move(icons));
+    SyncBrokenItems();
+}
+
+// The broken items' lines ("name (durability/max)"), formatted only when an item or its durability
+// changed since the last sync, not every frame.
+void mu::ui::window::CItemEnduranceInfo::SyncBrokenItems()
+{
+    using namespace UI::ItemEndurance;
+    if (m_BrokenItemScratch == m_BrokenItemKeys)
+        return;
+    std::swap(m_BrokenItemKeys, m_BrokenItemScratch);
+
+    std::vector<BrokenItemEntry> brokenItems;
+    brokenItems.reserve(m_BrokenItemKeys.size());
+    for (const BrokenItemKey& key : m_BrokenItemKeys)
+    {
+        wchar_t szText[256] = {};
+        mu_swprintf(szText, L"%ls (%d/%d)", ItemAttribute[key.type].Name, key.durability, key.maxDurability);
+        brokenItems.push_back({StringUtils::WideToNarrow(szText), DurabilityBand(key.durability, key.maxDurability)});
+    }
     SyncItemEnduranceField(m_RmlView.Binder(), &ItemEnduranceRmlModel::brokenItems, "broken_items", std::move(brokenItems));
 }
 
