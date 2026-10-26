@@ -120,6 +120,10 @@ in `legacy`:
   box had them (`Ok2`/`Cancel2` under the pointer) and the 0.97k menu button (`Message_box`) for
   every other button; the ESC menu is the 0.97k one, its
   buttons 120x22 centred on the screen, 30 apart from 60, with no box.
+- **The options** (`option_window.rcss`): legacy's tabs and rows as a plain 0.97k box, near-opaque
+  black inside a double gold line sampled from the ESC menu's `Message_box` edge; text tabs, the
+  open one yellow and underlined; black dropdowns in a dark gold line; the 0.97k `Ok` (`Ok2`
+  under the pointer) at the foot closes it.
 - **The login and character-scene message box** (`msg_win.rcss`), e.g. "You are disconnected from
   the server": the 0.97k `Message_box` (213x64 from y 60) with its white centred lines and the
   0.97k `Ok`/`Cancel` (`Ok2`/`Cancel2` under the pointer) where `RenderErrorMessage()` drew them.
