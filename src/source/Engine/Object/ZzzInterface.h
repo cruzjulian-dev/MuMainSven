@@ -76,7 +76,8 @@ void RenderDebugWindow();
 void RenderTipText(int sx, int sy, const wchar_t* Text);
 
 
-void RenderInterface(bool);
+// classicWorldLabels: the 0.97k client's world labels (RenderPartyHP()), as the scene picks them.
+void RenderInterface(bool Render, bool classicWorldLabels);
 void MoveInterface();
 void RenderCursor();
 bool CheckArrow();
@@ -93,7 +94,9 @@ void RenderBar(float x, float y, float Width, float Height, float Bar, bool Disa
 void RenderOutSides();
 // While a chat macro cools down: true, and how much of the cooldown is left (1 to 0).
 bool MacroCooldownFraction(float& fraction);
-void RenderPartyHP();
+// The party members' health bars over their heads. hoverTextInTipBox: the "HP" hover text in the
+// tooltip box 15 above the bar, as the 0.97k client wrote it, instead of plain text 6 above it.
+void RenderPartyHP(bool hoverTextInTipBox);
 
 void SendMove(CHARACTER* c, OBJECT* o);
 void SetCharacterPos(CHARACTER* c, BYTE posX, BYTE posY, vec3_t position);

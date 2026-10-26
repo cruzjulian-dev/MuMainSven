@@ -19,7 +19,6 @@
 #include "Render/Textures/ZzzTexture.h"
 #include "Engine/AI/ZzzAI.h"
 #include "Engine/Object/ZzzInterface.h"
-#include "UI/RmlBridge/RmlTheme.h"
 #include "UI/Chat/ChatInput.h"
 #include "GameLogic/Combat/ClassAttack.h"
 #include "GameLogic/Combat/SkillCast.h"
@@ -3732,7 +3731,7 @@ void CollectCrownSwitchLines(std::wstring (&lines)[2])
     }
 }
 
-void RenderInterface(bool Render)
+void RenderInterface(bool Render, bool classicWorldLabels)
 {
     g_pRenderText->SetTextColor(255, 255, 255, 255);
 
@@ -3742,7 +3741,7 @@ void RenderInterface(bool Render)
     const bool overlaysRecorded = g_pNameWindow != nullptr && g_pNameWindow->RecordsInterfaceOverlays();
     if (!overlaysRecorded)
     {
-        RenderPartyHP();
+        RenderPartyHP(classicWorldLabels);
         battleCastle::RenderBuildTimes();
     }
 
@@ -3855,7 +3854,7 @@ void MoveBattleSoccerEffect(CHARACTER* c)
     }
 }
 
-void RenderPartyHP()
+void RenderPartyHP(bool hoverTextInTipBox)
 {
     if (PartyNumber <= 0) return;
 
@@ -3881,7 +3880,7 @@ void RenderPartyHP()
         {
             mu_swprintf(Text, L"HP : %d0%%", p->stepHP);
             // The 0.97k client wrote it in the tooltip box, 15 above the bar.
-            if (UI::RmlBridge::ThemeHasClassicWorldHud())
+            if (hoverTextInTipBox)
             {
                 RenderTipText(ScreenX, ScreenY - 15, Text);
             }

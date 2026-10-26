@@ -179,7 +179,7 @@ void mu::ui::window::CNameWindow::PrepareFrame()
         RenderObjectDescription();
         if (g_Camera.TopViewEnable == false)
         {
-            RenderPartyHP();
+            RenderPartyHP(UI::RmlBridge::ThemeHasClassicWorldHud());
             battleCastle::RenderBuildTimes();
             M39Kanturu3rd::RenderKanturu3rdinterface();
         }

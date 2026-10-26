@@ -674,7 +674,7 @@ static void RenderMainSceneUI()
 
     if (g_Camera.TopViewEnable == false)
     {
-        RenderInterface(true);
+        RenderInterface(true, UI::RmlBridge::ThemeHasClassicWorldHud());
     }
     EndBitmap();
 
