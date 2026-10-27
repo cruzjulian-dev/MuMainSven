@@ -131,6 +131,22 @@ function Import-VcVars {
     }
 }
 
+# Ninja learns each object's headers from cl's /showIncludes lines, matched byte for byte against the
+# prefix CMake detected at configure time. A localized cl writes that prefix in the console's code
+# page ("Nota: inclusión del archivo:" has an 'ó'), so a build run from a console on another code page
+# than the configure recorded no headers for its objects and left them stale after header edits -- a
+# class allocated at its old size by one file and constructed at its new size by another. Pin the
+# console to UTF-8 for configure and build. A tree configured on another code page must have its
+# compiler detected again (delete out\build\<preset>\CMakeFiles\<cmake version>, or use -Clean).
+function Invoke-WithUtf8Console {
+    param([scriptblock]$Action)
+
+    $previous = [Console]::OutputEncoding
+    [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false
+    try { & $Action }
+    finally { [Console]::OutputEncoding = $previous }
+}
+
 function Resolve-VcpkgRoot {
     param([string]$Explicit)
 
@@ -183,13 +199,15 @@ if (-not $NoBuild) {
         # silently keep recompiling shaders (or keep skipping them) regardless of this flag.
         $configureArgs += "-DMU_ENABLE_SHADER_COMPILATION=$(if ($CompileShaders) { 'ON' } else { 'OFF' })"
 
-        Write-Host "Configuring preset '$presetBase' ..."
-        cmake --preset $presetBase @configureArgs
-        if ($LASTEXITCODE -ne 0) { throw 'cmake configure failed.' }
+        Invoke-WithUtf8Console {
+            Write-Host "Configuring preset '$presetBase' ..."
+            cmake --preset $presetBase @configureArgs
+            if ($LASTEXITCODE -ne 0) { throw 'cmake configure failed.' }
 
-        Write-Host "Building preset '$buildPreset' ..."
-        cmake --build --preset $buildPreset
-        if ($LASTEXITCODE -ne 0) { throw 'cmake build failed.' }
+            Write-Host "Building preset '$buildPreset' ..."
+            cmake --build --preset $buildPreset
+            if ($LASTEXITCODE -ne 0) { throw 'cmake build failed.' }
+        }
     }
     finally {
         Pop-Location
