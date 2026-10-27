@@ -135,6 +135,27 @@ TEST_CASE("sound effects resolve Windows-spelled asset paths [audio][paths]")
     std::filesystem::remove_all(testDirectory);
 }
 
+TEST_CASE("a missing sound effect file leaves its slot unloaded [audio][paths]")
+{
+    auto backend = std::make_unique<mu::MiniAudioBackend>();
+
+    ma_engine_config engineConfig = ma_engine_config_init();
+    engineConfig.noDevice = MA_TRUE;
+    engineConfig.channels = 1;
+    engineConfig.sampleRate = 48000;
+    REQUIRE(ma_engine_init(&engineConfig, &backend->m_engine) == MA_SUCCESS);
+    backend->m_initialized = true;
+
+    const auto timestamp = std::chrono::steady_clock::now().time_since_epoch().count();
+    const std::filesystem::path missingPath = std::filesystem::temp_directory_path() /
+                                              ("mu_audio_missing_" + std::to_string(timestamp)) / "Missing.wav";
+    backend->LoadSound(SOUND_CLICK01, missingPath.wstring().c_str(), 4, false);
+
+    CHECK_FALSE(backend->m_soundLoaded[static_cast<int>(SOUND_CLICK01)]);
+    CHECK(backend->m_loadedChannels[static_cast<int>(SOUND_CLICK01)] == 0);
+    backend->Shutdown();
+}
+
 namespace
 {
 // Initializes the backend on a device-less engine so music can be streamed without audio hardware.

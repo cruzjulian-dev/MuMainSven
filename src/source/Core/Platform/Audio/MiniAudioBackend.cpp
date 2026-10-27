@@ -201,6 +201,17 @@ void MiniAudioBackend::LoadSound(ESound buffer, const wchar_t* filename, int cha
     utf8Path = MuResolvePath(utf8Path.c_str());
 #endif
 
+    // A missing file never reaches miniaudio: when the resource manager fails to load a new node,
+    // ma_resource_manager_data_buffer_node_acquire() frees it and then reads it again (0.11.25,
+    // miniaudio.h: the "done:" block). Page Heap turns that read into a crash at startup.
+    std::error_code error;
+    if (!std::filesystem::is_regular_file(std::filesystem::u8path(utf8Path), error))
+    {
+        mu::log::Get("audio")->error("AUDIO: MiniAudioBackend::LoadSound -- unavailable sound file '{}' ({})",
+            utf8Path, error ? error.message() : "not a regular file");
+        return;
+    }
+
     // Clamp channels to the array dimension
     const int numChannels = (channels > 0 && channels <= MAX_CHANNEL) ? channels : MAX_CHANNEL;
 
