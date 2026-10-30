@@ -35,6 +35,10 @@ public:
     // The cell (x, y) falls in, also outside the grid, one further out on the negative side as
     // the original counted it: where an item hanging off the grid starts.
     void CellOf(float x, float y, int& column, int& row) const;
+    // The cell a dragged item with its top-left at (left, top) lands on: the one nearest that
+    // corner, so wherever the item is held, the cell under it is the one it takes.
+    bool DropCellAt(float left, float top, int& column, int& row) const;
+    void DropCellOf(float left, float top, int& column, int& row) const;
     // The box of `width` x `height` cells from (column, row).
     GridRect CellsRect(int column, int row, int width, int height) const;
 

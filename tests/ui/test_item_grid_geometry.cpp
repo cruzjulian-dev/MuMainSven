@@ -96,3 +96,31 @@ TEST_CASE("a dragged item keeps its hold across grid pitches")
         CHECK(top == 1000 - offset);
     }
 }
+
+TEST_CASE("a dragged item lands on the cell nearest its top-left")
+{
+    const GridGeometry grid{100.f, 200.f, 25.f, 25.f, 8, 4};
+    int column = -1;
+    int row = -1;
+
+    // Held by its lower right corner, over the fourth cell of the third row.
+    REQUIRE(grid.DropCellAt(176.f - 24.f, 251.f - 24.f, column, row));
+    CHECK(column == 2);
+    CHECK(row == 1);
+
+    REQUIRE(grid.DropCellAt(188.f - 24.f, 263.f - 24.f, column, row));
+    CHECK(column == 3);
+    CHECK(row == 2);
+
+    // Held by its middle, near the grid's corner: the top-left is a little outside the grid.
+    REQUIRE(grid.DropCellAt(95.f, 195.f, column, row));
+    CHECK(column == 0);
+    CHECK(row == 0);
+
+    CHECK_FALSE(grid.DropCellAt(80.f, 200.f, column, row));
+
+    // More than half a cell off the left edge, an item hangs off the grid.
+    grid.DropCellOf(80.f, 200.f, column, row);
+    CHECK(column == -1);
+    CHECK(row == 0);
+}
