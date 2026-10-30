@@ -1,0 +1,87 @@
+/* The 97k theme's CPurchaseShopInventory: the same Season 3 window as my_shop.rcss (main.exe
+   FUN_005fc0f0) in its purchase mode: no state band and no buttons, the owner's shop name in the
+   Item_Money box. Sven's exit stays as the 0.97k 24x24 one on the 395 row. shop_notice.rcss lays
+   the notice out. The workspace places #panel, so coordinates are reference px. */
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	font-family: "token(font-body)";
+}
+
+/* The Season 3 panel draws no close mark in its corner, so the corner's hit box goes. */
+#frame_corner_close { display: none; }
+
+#title {
+	position: absolute;
+	left: 35px;
+	top: 12px;
+	width: calc(120px * var(--root-scale));
+	text-align: center;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+}
+
+@spritesheet pshop97-money-sheet { src: "../../../../Interface97/Item_money.jpg"; pshop97-money: 0px 0px 113px 18px; }
+.shop-title-strip {
+	position: absolute;
+	left: 20px;
+	top: 65px;
+	width: 150px;
+	height: 24px;
+	pointer-events: none;
+	decorator: image(pshop97-money);
+}
+#shop_owner_text {
+	position: absolute;
+	left: 20px;
+	top: 72px;
+	width: calc(150px * var(--root-scale));
+	text-align: center;
+	color: rgb(13, 233, 13);
+	font-weight: bold;
+	font-size: 1em;
+	pointer-events: none;
+}
+
+/* The notice's colours; shop_notice.rcss lays it out. */
+.warning-label { color: rgb(210, 0, 0); }
+.warning-line { color: rgb(255, 220, 150); }
+
+@spritesheet pshop97-exit-sheet       { src: "../../../../Interface97/Exit_01.jpg"; pshop97-exit:       0px 0px 24px 24px; }
+@spritesheet pshop97-exit-press-sheet { src: "../../../../Interface97/Exit_02.jpg"; pshop97-exit-press: 0px 0px 24px 24px; }
+.shop-btn-exit {
+	position: absolute;
+	left: 25px;
+	top: 395px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(pshop97-exit);
+}
+.shop-btn-exit:active { decorator: image(pshop97-exit-press); }
+
+/* Native item grid: the first cell's top-left, in #panel's units. */
+.native-anchor { position: absolute; pointer-events: none; }
+#item_grid, #item_grid_counts { left: 15px; top: 110px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+
+/* The frame: the 0.97k panel, which the Season 3 client kept. */
+@spritesheet pshop97-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; pshop97-back-top:    0px 0px 190px 256px; }
+@spritesheet pshop97-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; pshop97-back-bottom: 0px 0px 190px 177px; }
+
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom {
+	position: absolute;
+	pointer-events: none;
+}
+.bg-fill   { left: 0; top: 0;     width: 190px; height: 256px; decorator: image(pshop97-back-top); }
+.bg-bottom { left: 0; top: 256px; width: 190px; height: 177px; decorator: image(pshop97-back-bottom); }
+.bg-top, .bg-left, .bg-right { display: none; }
+
+/* The grid's clicks are native (CInventoryCtrl), so the placed panel takes no pointer events; its
+   controls take their own. */
+#panel.slot-placed { pointer-events: none; }
+#panel { font-size: calc(var(--text-px, 12px) / var(--root-scale)); }

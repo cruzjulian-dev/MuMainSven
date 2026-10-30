@@ -1,0 +1,99 @@
+/* The 97k theme's CInventoryExtension. No client up to Season 3 had this window (main.exe's only
+   inventory is the 8x8 grid), so it is Sven's four pages in the Season 3 style: the 0.97k panel, the
+   0.97k cells and exit, the title as the shop's. A locked page is a dark box with Sven's number on
+   it. The workspace places #panel, so coordinates are reference px. */
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	font-family: "token(font-body)";
+}
+
+/* The Season 3 panel draws no close mark in its corner, so the corner's hit box goes. */
+#frame_corner_close { display: none; }
+
+#title {
+	position: absolute;
+	left: 35px;
+	top: 12px;
+	width: calc(120px * var(--root-scale));
+	text-align: center;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+}
+
+@spritesheet ext97-exit-sheet       { src: "../../../../Interface97/Exit_01.jpg"; ext97-exit:       0px 0px 24px 24px; }
+@spritesheet ext97-exit-press-sheet { src: "../../../../Interface97/Exit_02.jpg"; ext97-exit-press: 0px 0px 24px 24px; }
+.ext-btn {
+	position: absolute;
+	left: 25px;
+	top: 395px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(ext97-exit);
+}
+.ext-btn:active { decorator: image(ext97-exit-press); }
+
+/* Locked-page numbered lock glyph -- one file per number, each sheet the whole 25x28 image. */
+@spritesheet ext-lock-1-sheet { src: "../../../newui_item_add_marking_no01.tga"; ext-lock-1: 0px 0px 25px 28px; }
+@spritesheet ext-lock-2-sheet { src: "../../../newui_item_add_marking_no02.tga"; ext-lock-2: 0px 0px 25px 28px; }
+@spritesheet ext-lock-3-sheet { src: "../../../newui_item_add_marking_no03.tga"; ext-lock-3: 0px 0px 25px 28px; }
+@spritesheet ext-lock-4-sheet { src: "../../../newui_item_add_marking_no04.tga"; ext-lock-4: 0px 0px 25px 28px; }
+
+.ext-locked-empty { display: none; }
+.ext-locked-page {
+	position: absolute;
+	left: 15px;
+	width: 160px;
+	height: 80px;
+	pointer-events: none;
+	background-color: rgba(0, 0, 0, 128);
+}
+.ext-locked-icon {
+	position: absolute;
+	left: 68px;
+	top: 26px;
+	width: 25px;
+	height: 28px;
+	pointer-events: none;
+}
+
+/* A page's row: 87 apart, as in legacy. The pages shown are sparse, so a row is identified by
+   which page it is rather than by its place in the list. */
+.ext-locked-page.page-1 { top: 45px; }
+.ext-locked-page.page-2 { top: 132px; }
+.ext-locked-page.page-3 { top: 219px; }
+.ext-locked-page.page-4 { top: 306px; }
+.page-1 .ext-locked-icon { decorator: image(ext-lock-1); }
+.page-2 .ext-locked-icon { decorator: image(ext-lock-2); }
+.page-3 .ext-locked-icon { decorator: image(ext-lock-3); }
+.page-4 .ext-locked-icon { decorator: image(ext-lock-4); }
+
+/* Native item grids: the first cell's top-left, in #panel's units. */
+.native-anchor { position: absolute; pointer-events: none; }
+#item_grid_1, #item_grid_1_counts { left: 15px; top: 45px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+#item_grid_2, #item_grid_2_counts { left: 15px; top: 132px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+#item_grid_3, #item_grid_3_counts { left: 15px; top: 219px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+#item_grid_4, #item_grid_4_counts { left: 15px; top: 306px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+
+/* The frame: the 0.97k panel. */
+@spritesheet ext97-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; ext97-back-top:    0px 0px 190px 256px; }
+@spritesheet ext97-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; ext97-back-bottom: 0px 0px 190px 177px; }
+
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom {
+	position: absolute;
+	pointer-events: none;
+}
+.bg-fill   { left: 0; top: 0;     width: 190px; height: 256px; decorator: image(ext97-back-top); }
+.bg-bottom { left: 0; top: 256px; width: 190px; height: 177px; decorator: image(ext97-back-bottom); }
+.bg-top, .bg-left, .bg-right { display: none; }
+
+/* The grid's clicks are native (CInventoryCtrl), so the placed panel takes no pointer events; its
+   controls take their own. */
+#panel.slot-placed { pointer-events: none; }
+#panel { font-size: calc(var(--text-px, 12px) / var(--root-scale)); }

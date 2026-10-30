@@ -1,0 +1,124 @@
+/* The 97k theme's CMyShopInventory: the Season 3 client's personal shop (main.exe FUN_005fc0f0).
+   The panel is Item_Back01 over Item_Back02, the title at 35,12, the state band at 20,48, the shop
+   name in an Item_Money box stretched to 150x24 at 20,65, the 8x4 grid from 15,110 and two
+   text_button at 30,396 and 105,396 with their labels on them. shop_notice.rcss lays the notice
+   out. The workspace places #panel, so coordinates are reference px. */
+
+#panel {
+	position: absolute;
+	transform-origin: left top;
+	width: 190px;
+	height: 429px;
+	font-family: "token(font-body)";
+}
+
+/* The Season 3 panel draws no close mark in its corner, so the corner's hit box goes. */
+#frame_corner_close { display: none; }
+
+#title {
+	position: absolute;
+	left: 35px;
+	top: 12px;
+	width: calc(120px * var(--root-scale));
+	text-align: center;
+	color: rgb(220, 220, 220);
+	font-weight: bold;
+	font-size: 1em;
+}
+
+/* Red while the shop is being prepared, green once it is open; the text 2 below its top. */
+#shop_state {
+	position: absolute;
+	left: 20px;
+	top: 48px;
+	width: 150px;
+	height: 14px;
+	pointer-events: none;
+	background-color: rgba(153, 0, 0, 204);
+	color: #ffffff;
+	font-weight: bold;
+}
+#shop_state.open {
+	background-color: rgba(25, 204, 25, 153);
+	color: rgba(0, 0, 0, 190);
+}
+#shop_state .sharp-centre, #shop_name_hint .sharp-centre, .shop-btn-label { position: absolute; }
+#shop_state .sharp-centre { top: 2px; }
+
+/* The shop name, centred 7 into the box, in the Season 3 green. */
+@spritesheet shop97-money-sheet { src: "../../../../Interface97/Item_money.jpg"; shop97-money: 0px 0px 113px 18px; }
+.my-shop-title-field {
+	position: absolute;
+	left: 20px;
+	top: 65px;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: center;
+	color: rgb(13, 233, 13);
+	background-color: transparent;
+	border-width: 0;
+	decorator: image(shop97-money);
+}
+#shop_title {
+	width: calc(150px * var(--root-scale));
+	height: calc(24px * var(--root-scale));
+	padding: calc(7px * var(--root-scale)) calc(4px * var(--root-scale)) 0;
+}
+#shop_name_hint {
+	position: absolute;
+	left: 20px;
+	top: 65px;
+	width: 150px;
+	height: 24px;
+	pointer-events: none;
+	color: rgb(13, 233, 13);
+	font-weight: bold;
+}
+#shop_name_hint .sharp-centre { top: 7px; }
+
+/* The labels are centred 7 below each button's top. Closed is grey until there is a shop to close. */
+@spritesheet shop97-button-sheet { src: "../../../../Interface97/text_button.jpg"; shop97-button: 0px 0px 56px 24px; }
+.shop-btn {
+	position: absolute;
+	top: 396px;
+	width: 56px;
+	height: 24px;
+	cursor: pointer;
+	pointer-events: auto;
+	decorator: image(shop97-button);
+	color: rgb(255, 205, 25);
+	font-weight: bold;
+}
+.shop-btn:hover { filter: brightness(1.25); }
+.shop-btn.locked, .shop-btn.locked:hover { cursor: default; filter: none; }
+.shop-btn-open.locked { filter: brightness(0.6); }
+.shop-btn-close.locked { color: rgb(170, 170, 170); }
+.shop-btn-exit  { display: none; }
+.shop-btn-open  { left: 30px; }
+.shop-btn-close { left: 105px; }
+.shop-btn-label { top: 7px; pointer-events: none; }
+
+/* The notice's colours; shop_notice.rcss lays it out. */
+.myshop-line-warning { color: rgb(210, 0, 0); }
+.myshop-line-info { color: rgb(255, 220, 150); }
+
+/* Native item grid: the first cell's top-left, in #panel's units. */
+.native-anchor { position: absolute; pointer-events: none; }
+#item_grid, #item_grid_counts { left: 15px; top: 110px; width: calc(8 * var(--item-cell)); height: calc(4 * var(--item-cell)); }
+
+/* The frame: the 0.97k panel, which the Season 3 client kept. */
+@spritesheet shop97-back-top-sheet    { src: "../../../../Interface97/Item_back01.jpg"; shop97-back-top:    0px 0px 190px 256px; }
+@spritesheet shop97-back-bottom-sheet { src: "../../../../Interface97/Item_Back02.jpg"; shop97-back-bottom: 0px 0px 190px 177px; }
+
+.bg-fill, .bg-top, .bg-left, .bg-right, .bg-bottom {
+	position: absolute;
+	pointer-events: none;
+}
+.bg-fill   { left: 0; top: 0;     width: 190px; height: 256px; decorator: image(shop97-back-top); }
+.bg-bottom { left: 0; top: 256px; width: 190px; height: 177px; decorator: image(shop97-back-bottom); }
+.bg-top, .bg-left, .bg-right { display: none; }
+
+/* The grid's clicks are native (CInventoryCtrl), so the placed panel takes no pointer events; its
+   controls take their own. */
+#panel.slot-placed { pointer-events: none; }
+#panel { font-size: calc(var(--text-px, 12px) / var(--root-scale)); }

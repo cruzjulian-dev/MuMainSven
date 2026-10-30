@@ -63,6 +63,15 @@ in `legacy`:
   every item grid's. The personal shop button is the Season 3 client's (`btn_pshop`, `btn_pshop2`
   while the shop is open) beside the 0.97k ones, and the expansion takes the same art for now;
   Sven's set and socket option header is hidden (the 0.97k client had no such items).
+- **The personal shop** (`my_shop.rml/.rcss`, `purchase_shop.rcss`, `shop_notice.rcss`): the
+  Season 3 client's window, read from its `main.exe`: the state band under the title (red "Now
+  preparing", green "Still opening"), the shop name in green in a stretched `Item_Money` box, the
+  8x4 grid from 15,110, the two `text_button` buttons with their labels on them and the notice in
+  bold, its warnings pulsing. It has no exit: the inventory's closes it. Buying from another
+  player is the same window without the band and the buttons, with Sven's exit as the 0.97k one.
+- **The inventory expansion** (`inventory_extension.rcss`): no client up to Season 3 had one, so it
+  is Sven's four pages in that style: the 0.97k panel, cells and exit, a locked page as a dark box
+  with Sven's number on it.
 - **The character window** (`character_info.rml/.rcss`): the name and class on the 0.97k title
   bands, the level and each attribute written in a `Level_box` ("Fuerza: 28"), each derived line
   on its own black band as tall as the text, the 0.97k point buttons, the points to spend on the

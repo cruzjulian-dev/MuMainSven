@@ -62,6 +62,12 @@ namespace mu::ui::window
             // CMixInventory's success-rate color is.
             bool showStillOpening = false;
             Rml::String stillOpeningText;
+            // For a theme that shows the shop's state, an empty name and a labelled Open button, as
+            // the 97k one does. The label follows the shop's state alone; openTooltip also turns to
+            // "Apply" when the button unlocks.
+            Rml::String nowPreparingText;
+            Rml::String shopNameHint;
+            Rml::String openLabel;
 
             Rml::String warningText;
             Rml::String sellingPriceText;

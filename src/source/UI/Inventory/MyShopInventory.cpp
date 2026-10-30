@@ -317,6 +317,9 @@ void mu::ui::window::CMyShopInventory::BindRmlModel(Rml::DataModelConstructor& c
 
     c.Bind("show_still_opening", &model.showStillOpening);
     c.Bind("still_opening_text", &model.stillOpeningText);
+    c.Bind("now_preparing_text", &model.nowPreparingText);
+    c.Bind("shop_name_hint", &model.shopNameHint);
+    c.Bind("open_label", &model.openLabel);
     c.Bind("warning_text", &model.warningText);
     c.Bind("selling_price_text", &model.sellingPriceText);
     c.Bind("please_verify_text", &model.pleaseVerifyText);
@@ -398,6 +401,8 @@ void mu::ui::window::CMyShopInventory::BindRmlModel(Rml::DataModelConstructor& c
     model.allItemTradingText = StringUtils::WideToNarrow(I18N::Game::AllItemTrading);
     model.canOnlyBeDoneUsingZenText = StringUtils::WideToNarrow(I18N::Game::CanOnlyBeDoneUsingZen);
     model.stillOpeningText = StringUtils::WideToNarrow(I18N::Game::StillOpening);
+    model.nowPreparingText = StringUtils::WideToNarrow(I18N::Game::NowPreparing);
+    model.shopNameHint = StringUtils::WideToNarrow(I18N::Game::EnterTheStoreName);
 }
 
 void mu::ui::window::CMyShopInventory::BuildRmlUi()
@@ -752,6 +757,7 @@ void mu::ui::window::CMyShopInventory::SyncRmlModel()
     syncWide(&MyShopRmlModel::openTooltip, "open_tooltip", m_bOpenApplyTooltip ? I18N::Game::Apply : I18N::Game::Open1107);
 
     syncBool(&MyShopRmlModel::closeLocked, "close_locked", !m_EnablePersonalShop);
+    syncWide(&MyShopRmlModel::openLabel, "open_label", m_EnablePersonalShop ? I18N::Game::Apply : I18N::Game::Open1107);
     syncWide(&MyShopRmlModel::closeTooltip, "close_tooltip", I18N::Game::Closed);
 
     syncBool(&MyShopRmlModel::showStillOpening, "show_still_opening", m_EnablePersonalShop);
