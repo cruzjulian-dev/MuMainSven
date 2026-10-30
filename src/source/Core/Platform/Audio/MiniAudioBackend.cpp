@@ -53,6 +53,22 @@ void NormalizeSeparators(std::string& path)
     std::replace(path.begin(), path.end(), '\\', '/');
 }
 
+// A missing file never reaches miniaudio: when the resource manager fails to load a new node,
+// ma_resource_manager_data_buffer_node_acquire() frees it and then reads it again (0.11.25,
+// miniaudio.h: the "done:" block). Page Heap turns that read into a crash at startup.
+bool IsAudioFileAvailable(const std::string& path, const char* failure)
+{
+    std::error_code error;
+    if (std::filesystem::is_regular_file(std::filesystem::u8path(path), error))
+    {
+        return true;
+    }
+
+    mu::log::Get("audio")->error("AUDIO: MiniAudioBackend::{} '{}' ({})", failure, path,
+        error ? error.message() : "not a regular file");
+    return false;
+}
+
 // Same-track guard shared by PlayMusic()/StopMusic(). m_currentMusicName holds
 // the separators-normalized track name, NOT the filesystem-resolved path: the
 // guard runs every frame for many tracks from ManageBackgroundMusic(), so it
@@ -201,14 +217,8 @@ void MiniAudioBackend::LoadSound(ESound buffer, const wchar_t* filename, int cha
     utf8Path = MuResolvePath(utf8Path.c_str());
 #endif
 
-    // A missing file never reaches miniaudio: when the resource manager fails to load a new node,
-    // ma_resource_manager_data_buffer_node_acquire() frees it and then reads it again (0.11.25,
-    // miniaudio.h: the "done:" block). Page Heap turns that read into a crash at startup.
-    std::error_code error;
-    if (!std::filesystem::is_regular_file(std::filesystem::u8path(utf8Path), error))
+    if (!IsAudioFileAvailable(utf8Path, "LoadSound -- unavailable sound file"))
     {
-        mu::log::Get("audio")->error("AUDIO: MiniAudioBackend::LoadSound -- unavailable sound file '{}' ({})",
-            utf8Path, error ? error.message() : "not a regular file");
         return;
     }
 
@@ -577,11 +587,8 @@ bool MiniAudioBackend::StartMusicStream(const std::string& identity)
 #else
     const std::string filePath = MuResolvePath(identity.c_str());
 #endif
-    std::error_code error;
-    if (!std::filesystem::is_regular_file(std::filesystem::u8path(filePath), error))
+    if (!IsAudioFileAvailable(filePath, "PlayMusic -- unavailable music file"))
     {
-        mu::log::Get("audio")->error("AUDIO: MiniAudioBackend::PlayMusic -- unavailable music file '{}' ({})",
-            filePath, error ? error.message() : "not a regular file");
         return false;
     }
 
