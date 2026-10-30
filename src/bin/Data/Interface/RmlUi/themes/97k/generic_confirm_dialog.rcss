@@ -263,7 +263,7 @@
 	width: 150dp;
 	height: 18dp;
 	padding: 0 3dp;
-	font-size: 0.85rem;
+	font-size: 1rem;
 }
 
 /* Optional progress bar -- same `x_fraction * 100 + '%'` fill technique main_frame.rml's own
