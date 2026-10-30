@@ -1,0 +1,66 @@
+diff --git a/Include/RmlUi/Core/Core.h b/Include/RmlUi/Core/Core.h
+index 3a74c6c4..739cfd83 100644
+--- a/Include/RmlUi/Core/Core.h
++++ b/Include/RmlUi/Core/Core.h
+@@ -166,6 +166,8 @@ RMLUICORE_API void ReleaseCompiledGeometry(RenderInterface* render_interface = n
+ /// Releases unused font textures and rendered glyphs to free up memory, and regenerates actively used fonts.
+ /// @note Invalidates all existing FontFaceHandles returned from the font engine.
+ RMLUICORE_API void ReleaseFontResources();
++/// Draws glyphs from now on as hinted, one-bit shapes without kerning. Call ReleaseFontResources() after changing it.
++RMLUICORE_API void SetFontMonochromeRendering(bool monochrome);
+ /// Releases render managers that are not used by any contexts.
+ /// @note Any resources referring to the render manager in user space must be cleared first, including callback textures and compiled geometry.
+ /// @note Also releases font resources, which invalidates all existing FontFaceHandles returned from the font engine.
+diff --git a/Source/Core/FontEngineDefault/FreeTypeInterface.cpp b/Source/Core/FontEngineDefault/FreeTypeInterface.cpp
+index a46ce1d9..73d83d0e 100644
+--- a/Source/Core/FontEngineDefault/FreeTypeInterface.cpp
++++ b/Source/Core/FontEngineDefault/FreeTypeInterface.cpp
+@@ -1,5 +1,6 @@
+ #include "FreeTypeInterface.h"
+ #include "../../../Include/RmlUi/Core/ComputedValues.h"
++#include "../../../Include/RmlUi/Core/Core.h"
+ #include "../../../Include/RmlUi/Core/FontMetrics.h"
+ #include "../../../Include/RmlUi/Core/Log.h"
+ #include <algorithm>
+@@ -12,6 +13,13 @@
+ 
+ namespace Rml {
+ 
++static bool monochrome_font_rendering = false;
++
++void SetFontMonochromeRendering(bool monochrome)
++{
++	monochrome_font_rendering = monochrome;
++}
++
+ static FT_Library ft_library = nullptr;
+ 
+ static bool BuildGlyph(FT_Face ft_face, Character character, FontGlyphMap& glyphs, float bitmap_scaling_factor);
+@@ -213,6 +221,9 @@ bool FreeType::AppendGlyph(FontFaceHandleFreetype face, int font_size, Character
+ 
+ int FreeType::GetKerning(FontFaceHandleFreetype face, int font_size, Character lhs, Character rhs)
+ {
++	if (monochrome_font_rendering)
++		return 0;
++
+ 	FT_Face ft_face = (FT_Face)face;
+ 
+ 	RMLUI_ASSERT(FT_HAS_KERNING(ft_face));
+@@ -293,7 +304,7 @@ static bool BuildGlyph(FT_Face ft_face, const Character character, FontGlyphMap&
+ 	if (index == 0)
+ 		return false;
+ 
+-	FT_Error error = FT_Load_Glyph(ft_face, index, FT_LOAD_COLOR);
++	FT_Error error = FT_Load_Glyph(ft_face, index, monochrome_font_rendering ? FT_LOAD_TARGET_MONO : FT_LOAD_COLOR);
+ 	if (error != 0)
+ 	{
+ #ifdef RMLUI_DEBUG
+@@ -306,7 +317,7 @@ static bool BuildGlyph(FT_Face ft_face, const Character character, FontGlyphMap&
+ #endif
+ 	}
+ 
+-	error = FT_Render_Glyph(ft_face->glyph, FT_RENDER_MODE_NORMAL);
++	error = FT_Render_Glyph(ft_face->glyph, monochrome_font_rendering ? FT_RENDER_MODE_MONO : FT_RENDER_MODE_NORMAL);
+ 	if (error != 0)
+ 	{
+ #ifdef RMLUI_DEBUG

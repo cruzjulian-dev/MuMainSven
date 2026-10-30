@@ -67,6 +67,9 @@ public:
     // Nearest filtering for the images documents load from files (a theme capability); kept
     // until changed, including across Create().
     void SetFileTextureNearestFiltering(bool nearest);
+    // One-bit, unkerned glyphs in nearest-filtered atlases (a theme capability); kept until
+    // changed, including across Create().
+    void SetMonochromeText(bool monochrome);
 
     void Update();
     void Render();
@@ -144,6 +147,7 @@ private:
 
     RmlUiRuntimeHooks m_Hooks;
     bool m_NearestFileTextures = false;
+    bool m_MonochromeText = false;
 
     RmlUiRuntime(const RmlUiRuntime&) = delete;
     RmlUiRuntime& operator=(const RmlUiRuntime&) = delete;

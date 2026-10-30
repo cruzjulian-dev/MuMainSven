@@ -18,6 +18,7 @@ public:
     RmlUiRenderInterface(SDL_GPUDevice* device, SDL_Window* window);
 
     Rml::TextureHandle LoadTexture(Rml::Vector2i& texture_dimensions, const Rml::String& source) override;
+    Rml::TextureHandle GenerateTexture(Rml::Span<const Rml::byte> source, Rml::Vector2i source_dimensions) override;
     void ReleaseTexture(Rml::TextureHandle texture_handle) override;
 
     // Texture sources the game draws itself (RmlUiRuntimeHooks::resolveTexture).
@@ -27,15 +28,19 @@ public:
     using TextureFileResolver = std::function<Rml::String(const Rml::String&)>;
     void SetTextureFileResolver(TextureFileResolver resolver) { m_ResolveTextureFile = std::move(resolver); }
 
-    // Nearest instead of linear filtering for every image loaded from a file, now and from now on.
-    // Font atlases, render targets and upscaled art (UpscaleMarker.h), which is drawn at or below
-    // its own resolution, keep linear filtering.
+    // Nearest instead of linear filtering for every image loaded from a file and every render
+    // target, now and from now on. Upscaled art (UpscaleMarker.h), which is drawn at or below its
+    // own resolution, keeps linear filtering.
     void SetFileTextureNearestFiltering(bool nearest);
+    // Nearest filtering for the font atlases created from now on: one-bit glyphs stay sharp at a
+    // fractional position.
+    void SetGeneratedTextureNearestFiltering(bool nearest) { m_NearestGeneratedTextures = nearest; }
 
 private:
     void ApplyFileTextureFiltering(Rml::TextureHandle handle, std::uint32_t bitmapIndex);
 
     bool m_NearestFileTextures = false;
+    bool m_NearestGeneratedTextures = false;
     TextureFileResolver m_ResolveTextureFile;
     TextureSourceResolver m_ResolveTextureSource;
     // RmlUi's own TextureHandle IS the raw SDL_GPUTexture* (see RenderInterface_SDL_GPU.cpp) --

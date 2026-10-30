@@ -125,6 +125,11 @@ from a fallback font at the ascent of the font they back instead of their own,
 so they share its baseline. Without it, Han characters from Noto Sans TC
 (ascent 1.16 em) sat 3 to 4 px below DejaVu Sans text (0.93 em).
 
+The patch `cmake/patches/sdl_ttf-3.2.2-mono-text-engine.patch` draws one-bit
+glyphs through the GPU text engine for a font with mono hinting; upstream does
+so only for Solid surfaces. `cmake/patches/rmlui-monochrome-fonts.patch` adds
+the same to RmlUi's font engine. Both serve themes with `ClassicFontControls`.
+
 ## Capture procedure
 
 Use Release builds for platform comparisons. Keep these inputs identical:

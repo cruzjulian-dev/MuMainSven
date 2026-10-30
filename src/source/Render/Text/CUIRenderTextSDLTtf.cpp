@@ -11,6 +11,7 @@
 #include "Render/Text/SdlTtfFontSet.h"
 #include "Render/Text/SdlTtfGpuTextProperties.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
+#include "UI/Scaling/UITransform.h"
 
 #include <SDL3_ttf/SDL_ttf.h>
 
@@ -107,6 +108,13 @@ void SubmitTextDrawData(mu::IMuRenderer& renderer, const TTF_GPUAtlasDrawSequenc
     static thread_local std::vector<mu::Vertex2D> vertices;
     if (vertices.capacity() > kMaxRetainedVertexCapacity)
         std::vector<mu::Vertex2D>().swap(vertices);
+
+    // One-bit glyphs stay sharp only with each texel on one pixel.
+    if (UI::Scaling::IsClassicFontActive())
+    {
+        drawX = std::round(drawX);
+        drawY = std::round(drawY);
+    }
 
     for (const TTF_GPUAtlasDrawSequence* sequence = drawData; sequence != nullptr; sequence = sequence->next)
     {

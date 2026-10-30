@@ -1777,8 +1777,9 @@ HFONT CreateFontForFamily(int size, int weight, std::string_view family)
 {
     const std::string familyName(family);
     const std::wstring face = Utf8ToWide(familyName.c_str());
-    return CreateFont(size, 0, 0, 0, weight, 0, 0, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-                      CLEARTYPE_NATURAL_QUALITY, DEFAULT_PITCH | FF_DONTCARE, face.c_str());
+    const DWORD quality = UI::Scaling::IsClassicFontActive() ? NONANTIALIASED_QUALITY : CLEARTYPE_NATURAL_QUALITY;
+    return CreateFont(size, 0, 0, 0, weight, 0, 0, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, quality,
+                      DEFAULT_PITCH | FF_DONTCARE, face.c_str());
 }
 
 HFONT CreateUIFont(int size, int weight)

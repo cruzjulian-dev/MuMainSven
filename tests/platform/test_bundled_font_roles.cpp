@@ -71,6 +71,38 @@ TEST_CASE("bundled font roles load their maximum responsive size [platform][bund
     CHECK(UI::Scaling::MaximumFontPointSize(FontRole::Fixed) == 18);
 }
 
+// The GPU text engine reads this image; a gray pixel is antialiasing the 0.97k client's text has not.
+TEST_CASE("mono hinting draws a glyph with one-bit coverage [platform][bundled_font]")
+{
+    REQUIRE(TTF_Init());
+    TTF_Font* font = TTF_OpenFont(ResolveBundledFontPath(kDejaVuSansFont.regular).string().c_str(), 11.0f);
+    REQUIRE(font != nullptr);
+    TTF_SetFontHinting(font, TTF_HINTING_MONO);
+
+    TTF_ImageType imageType = TTF_IMAGE_INVALID;
+    SDL_Surface* glyph = TTF_GetGlyphImage(font, 'S', &imageType);
+    REQUIRE(glyph != nullptr);
+    CHECK(imageType == TTF_IMAGE_ALPHA);
+    bool oneBit = true;
+    bool drawn = false;
+    for (int y = 0; y < glyph->h; ++y)
+    {
+        const auto* row = reinterpret_cast<const Uint32*>(static_cast<const Uint8*>(glyph->pixels) + y * glyph->pitch);
+        for (int x = 0; x < glyph->w; ++x)
+        {
+            const Uint32 alpha = row[x] >> 24;
+            oneBit = oneBit && (alpha == 0 || alpha == 255);
+            drawn = drawn || alpha == 255;
+        }
+    }
+    CHECK(oneBit);
+    CHECK(drawn);
+
+    SDL_DestroySurface(glyph);
+    TTF_CloseFont(font);
+    TTF_Quit();
+}
+
 TEST_CASE("bundled fallback font covers Hangul and Latin accents [platform][bundled_font]")
 {
     REQUIRE(TTF_Init());

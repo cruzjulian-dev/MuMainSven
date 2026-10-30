@@ -56,7 +56,7 @@ FontPointRange GrowingFontPointRange(UI::Scaling::FontRole role)
 
 FontPointRange GetFontPointRange(UI::Scaling::FontRole role)
 {
-    if (g_classicFont.normalPx <= 0)
+    if (!UI::Scaling::IsClassicFontActive())
         return GrowingFontPointRange(role);
     if (role == UI::Scaling::FontRole::Big)
         return {g_classicFont.bigPx, g_classicFont.bigPx};
@@ -269,6 +269,11 @@ void UI::Scaling::SetClassicFontSettings(const ClassicFontSettings& settings)
 const UI::Scaling::ClassicFontSettings& UI::Scaling::GetClassicFontSettings()
 {
     return g_classicFont;
+}
+
+bool UI::Scaling::IsClassicFontActive()
+{
+    return g_classicFont.normalPx > 0;
 }
 
 int UI::Scaling::MinimumFontPointSize(FontRole role)

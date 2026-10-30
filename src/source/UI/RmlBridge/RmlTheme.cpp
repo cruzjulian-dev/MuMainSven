@@ -567,6 +567,7 @@ namespace UI::RmlBridge
 
     void ApplyClassicFontSettings()
     {
+        RmlUiRuntime::Instance().SetMonochromeText(ThemeHasClassicFontControls());
         if (!ThemeHasClassicFontControls())
         {
             UI::Scaling::SetClassicFontSettings({});

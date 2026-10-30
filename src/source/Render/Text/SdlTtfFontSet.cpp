@@ -116,6 +116,17 @@ void CloseTtfFont(TTF_Font*& font)
     return OpenDeveloperFont(family, role, pointSize);
 }
 
+// The 0.97k client's text (FontQuality=3, GDI's NONANTIALIASED_QUALITY): each glyph's hinted one-bit
+// shape, not kerned.
+void ApplyClassicRendering(TTF_Font* font)
+{
+    if (!UI::Scaling::IsClassicFontActive())
+        return;
+
+    TTF_SetFontHinting(font, TTF_HINTING_MONO);
+    TTF_SetFontKerning(font, false);
+}
+
 void AddFontStyle(TTF_Font* font, TTF_FontStyleFlags style)
 {
     TTF_SetFontStyle(font, TTF_GetFontStyle(font) | style);
@@ -167,6 +178,7 @@ void AddFontStyle(TTF_Font* font, TTF_FontStyleFlags style)
         return nullptr;
     }
 
+    ApplyClassicRendering(font);
     // A family without a bold file uses SDL_ttf's synthetic bold.
     if (IsBoldRole(role) && std::string_view(fallbackFont.bold) == fallbackFont.regular)
         TTF_SetFontStyle(font, TTF_STYLE_BOLD);
@@ -258,6 +270,7 @@ bool SdlTtfFontSet::Open(std::string_view configuredFamily, const RoleSizes& poi
                               : OpenTtfFontRole(familyName, RoleName(role), rolePaths[role], pointSizes[role]);
         if (!m_primary[role])
             return false;
+        ApplyClassicRendering(m_primary[role]);
         if (!systemFamily && !fixed && classic.italic)
             AddFontStyle(m_primary[role], TTF_STYLE_ITALIC);
 

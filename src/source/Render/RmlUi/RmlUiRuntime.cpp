@@ -59,6 +59,20 @@ void RmlUiRuntime::SetFileTextureNearestFiltering(bool nearest)
         m_RenderInterface->SetFileTextureNearestFiltering(nearest);
 }
 
+void RmlUiRuntime::SetMonochromeText(bool monochrome)
+{
+    if (m_MonochromeText == monochrome)
+        return;
+
+    m_MonochromeText = monochrome;
+    Rml::SetFontMonochromeRendering(monochrome);
+    if (!m_RenderInterface)
+        return;
+
+    m_RenderInterface->SetGeneratedTextureNearestFiltering(monochrome);
+    Rml::ReleaseFontResources();
+}
+
 void RmlUiRuntime::AfterUpdate(Rml::Context* context)
 {
     if (m_Hooks.afterUpdate)
@@ -132,6 +146,7 @@ void RmlUiRuntime::Create(int windowWidth, int windowHeight)
     m_RenderInterface->SetTextureSourceResolver(m_Hooks.resolveTexture);
     m_RenderInterface->SetTextureFileResolver(m_Hooks.resolveTextureFile);
     m_RenderInterface->SetFileTextureNearestFiltering(m_NearestFileTextures);
+    m_RenderInterface->SetGeneratedTextureNearestFiltering(m_MonochromeText);
     m_SystemInterface = std::make_unique<RmlUiSystemInterface>(window);
     if (m_Hooks.createFileInterface)
         m_FileInterface = m_Hooks.createFileInterface();

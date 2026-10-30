@@ -35,7 +35,7 @@ in `legacy`:
   centre from y 370.
 - **The hit numbers**, the damage and "Miss" over the characters, from `Interface97/Fonttest`
   (`ClassicHitNumbers=1` in `theme.ini`), ProEmulator's 4x redraw, sampled like that client.
-- **The text**, one size at every resolution, set in the options with that client's font, size,
+- **The text**, without antialiasing and one size at every resolution, set in the options with that client's font, size,
   bold, italic and reset rows (`ClassicFontControls=1` in `theme.ini`).
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
@@ -210,8 +210,8 @@ in `legacy`:
   gladiator and dark lord (those the server allows; no summoner or rage fighter). Cancel and OK
   at the foot, lit under the pointer. While it is open the character panels and name tags are
   hidden and the scene behind is dimmed.
-- **Images are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed, when the UI is
-  scaled; upscaled art (marked 2x or 4x, `docs/texture-packs.md`), such as the HD skill
+- **Images and item previews are drawn sharp** (`NearestFiltering=1` in `theme.ini`), not smoothed,
+  when the UI is scaled; upscaled art (marked 2x or 4x, `docs/texture-packs.md`), such as the HD skill
   icons, stays smooth.
 
 Windows move to the 0.97k look in the phases of

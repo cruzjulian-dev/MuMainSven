@@ -86,6 +86,20 @@ if(NOT rmlui_patch_result EQUAL 0)
     "  git submodule update --init --force -- src/ThirdParty/RmlUi")
 endif()
 
+# One-bit glyphs (a theme's ClassicFontControls capability, theming-and-modding.md), applied the same way.
+execute_process(
+  COMMAND "${CMAKE_COMMAND}"
+          "-DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/RmlUi"
+          "-DPATCH_FILE=${REPO_ROOT}/cmake/patches/rmlui-monochrome-fonts.patch"
+          -P "${REPO_ROOT}/cmake/ApplyGitPatch.cmake"
+  RESULT_VARIABLE rmlui_patch_result)
+if(NOT rmlui_patch_result EQUAL 0)
+  message(FATAL_ERROR
+    "Could not apply cmake/patches/rmlui-monochrome-fonts.patch to ThirdParty/RmlUi. Reset the checkout "
+    "from the repository root (this discards changes made inside src/ThirdParty/RmlUi):\n"
+    "  git submodule update --init --force -- src/ThirdParty/RmlUi")
+endif()
+
 # RmlUi -- static link, no bundled samples/Lua bindings. We supply our own
 # Rml::RenderInterface/SystemInterface (source/Render/RmlUi/) targeting this branch's
 # IMuRenderer/SDL_GPU renderer instead of one of RmlUi's stock backends -- except for the

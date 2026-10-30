@@ -1,0 +1,11 @@
+diff --git a/src/SDL_ttf.c b/src/SDL_ttf.c
+--- a/src/SDL_ttf.c
++++ b/src/SDL_ttf.c
+@@ -2595,3 +2595,7 @@
+         } else {
+             ft_render_mode = FT_RENDER_MODE_NORMAL;
++            // MuMain: mono hinting draws one-bit glyphs through the text engines too, not only Solid.
++            if (font->ft_load_target == FT_LOAD_TARGET_MONO && slot->format == FT_GLYPH_FORMAT_OUTLINE) {
++                ft_render_mode = FT_RENDER_MODE_MONO;
++            }
+ #if TTF_USE_SDF

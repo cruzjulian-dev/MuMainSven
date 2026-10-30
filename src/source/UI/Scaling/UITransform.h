@@ -137,6 +137,7 @@ namespace UI::Scaling
     };
     void SetClassicFontSettings(const ClassicFontSettings& settings);
     const ClassicFontSettings& GetClassicFontSettings();
+    bool IsClassicFontActive();
     int MinimumFontPointSize(FontRole role);
     int MaximumFontPointSize(FontRole role);
     int CachedFontPointSize(FontRole role);

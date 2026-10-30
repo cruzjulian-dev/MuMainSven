@@ -34,6 +34,7 @@ Rml::TextureHandle RmlUiRenderInterface::LoadTexture(Rml::Vector2i& texture_dime
         texture_dimensions = {width, height};
         const auto handle = reinterpret_cast<Rml::TextureHandle>(raw);
         m_RenderTargetHandles.insert(handle);
+        SetTextureNearestFiltering(handle, m_NearestFileTextures);
         return handle;
     }
 
@@ -100,6 +101,8 @@ void RmlUiRenderInterface::SetFileTextureNearestFiltering(bool nearest)
     m_NearestFileTextures = nearest;
     for (const auto& [handle, bitmapIndex] : m_FileBackedBitmapIndexByHandle)
         ApplyFileTextureFiltering(handle, bitmapIndex);
+    for (const Rml::TextureHandle handle : m_RenderTargetHandles)
+        SetTextureNearestFiltering(handle, nearest);
 }
 
 void RmlUiRenderInterface::ApplyFileTextureFiltering(Rml::TextureHandle handle, std::uint32_t bitmapIndex)
@@ -109,10 +112,21 @@ void RmlUiRenderInterface::ApplyFileTextureFiltering(Rml::TextureHandle handle, 
     SetTextureNearestFiltering(handle, m_NearestFileTextures && !upscaled);
 }
 
+Rml::TextureHandle RmlUiRenderInterface::GenerateTexture(Rml::Span<const Rml::byte> source,
+                                                         Rml::Vector2i source_dimensions)
+{
+    const Rml::TextureHandle handle = RenderInterface_SDL_GPU::GenerateTexture(source, source_dimensions);
+    SetTextureNearestFiltering(handle, m_NearestGeneratedTextures);
+    return handle;
+}
+
 void RmlUiRenderInterface::ReleaseTexture(Rml::TextureHandle texture_handle)
 {
     if (m_RenderTargetHandles.erase(texture_handle) != 0)
+    {
+        SetTextureNearestFiltering(texture_handle, false);
         return;
+    }
 
     auto it = m_FileBackedBitmapIndexByHandle.find(texture_handle);
     if (it != m_FileBackedBitmapIndexByHandle.end())
