@@ -19,13 +19,13 @@
 	     class buttons, stats and description, which the 0.97k panel had none of, are left out. -->
 	<div id="backdrop"></div>
 	<div id="panel">
-		<div id="box" class="classic-font-text" data-class-open="open">
+		<div id="box" data-class-open="open">
 			<div id="box_top"></div>
 			<div id="box_bottom"></div>
 
 			<img id="preview" class="awaiting-frame"/>
 
-			<input id="char_name" type="text" class="text-field char-make-name-field classic-font-text"
+			<input id="char_name" type="text" class="text-field char-make-name-field"
 			       data-value="char_name" autofocus/>
 
 			<div id="class_line"><span id="class_name">{{desc_title}}</span></div>

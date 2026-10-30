@@ -253,7 +253,7 @@
 	width: 26dp;
 	height: 18dp;
 	margin: 1dp;
-	font-size: 0.85rem;
+	font-size: 1rem;
 }
 /* Text-mode field: takes the same flow slot the old native-widget position reference occupied, so
    the column layout is unchanged. Sizing only -- fill/border/focus/selection come from base.rcss's

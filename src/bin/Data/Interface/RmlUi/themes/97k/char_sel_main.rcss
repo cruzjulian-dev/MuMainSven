@@ -116,7 +116,7 @@ body {
 	right: 0;
 	top: 330rem;
 	font-family: "token(font-body)";
-	font-size: 11rem;
+	font-size: var(--classic-text-px, 11rem);
 	pointer-events: none;
 }
 .line-row {

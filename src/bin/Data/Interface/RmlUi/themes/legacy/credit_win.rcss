@@ -118,7 +118,7 @@
 	width: 100%;
 	text-align: center;
 	font-family: "NanumGothic";
-	font-size: 14dp;
+	font-size: var(--classic-text-px, 14dp);
 	font-weight: bold;
 	pointer-events: none;
 }
@@ -142,7 +142,7 @@
 }
 .credit-name {
 	font-family: "NanumGothic";
-	font-size: 14dp;
+	font-size: var(--classic-text-px, 14dp);
 	font-weight: bold;
 	color: #ffeec1;
 	white-space: nowrap;

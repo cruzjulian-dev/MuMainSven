@@ -13,7 +13,7 @@
 	/* CLIENT_WIDTH: WND_WIDTH(281) - WND_LEFT_RIGHT_EDGE(4) * 2. */
 	width: 273dp;
 	font-family: "token(font-body)";
-	font-size: 11dp;
+	font-size: var(--classic-text-px, 11dp);
 
 	/* Nothing in this window is interactive, so it must never claim the cursor: any
 	   pointer-events:auto element under the pointer makes Core::Input::IsMouseOverUI() true and

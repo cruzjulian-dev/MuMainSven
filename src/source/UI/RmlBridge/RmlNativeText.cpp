@@ -14,25 +14,20 @@ namespace
 constexpr const char* kNativeTextClass = "native-text";
 constexpr const char* kSceneWindowScaleClass = "scene-window-scale";
 constexpr const char* kSceneBarScaleClass = "scene-bar-scale";
-constexpr const char* kClassicFontTextClass = "classic-font-text";
 
 // Bold and italic reach every text of the document by inheritance, as the 0.97k client's one font
 // did; a rule that sets its own weight keeps it.
 void ApplyClassicFontStyle(Rml::ElementDocument* document, float textPx)
 {
     const UI::Scaling::ClassicFontSettings& classic = UI::Scaling::GetClassicFontSettings();
-    if (classic.normalPx <= 0)
+    if (!UI::Scaling::IsClassicFontActive())
         return;
 
+    document->SetProperty("--classic-text-px", std::to_string(textPx) + "px");
     if (classic.bold)
         document->SetProperty("font-weight", "bold");
     if (classic.italic)
         document->SetProperty("font-style", "italic");
-
-    Rml::ElementList textElements;
-    document->GetElementsByClassName(textElements, kClassicFontTextClass);
-    for (Rml::Element* element : textElements)
-        element->SetProperty(Rml::PropertyId::FontSize, Rml::Property(textPx, Rml::Unit::PX));
 }
 } // namespace
 

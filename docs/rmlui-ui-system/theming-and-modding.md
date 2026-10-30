@@ -411,12 +411,13 @@ client reads them from the system instead of bundling them. The `97k` theme uses
 default. Where a family is not installed (Linux, macOS), `font-body` and `font-title` take the
 fallback above and native text draws with DejaVu Sans.
 
-`ClassicFontControls=1` in `[Capabilities]` gives a theme the 0.97k client's text: one fixed size
-for all text, whatever the window's size, and the options' font size (1 to 25, 13 by default, the
+`ClassicFontControls=1` in `[Capabilities]` gives a theme the 0.97k client's text: no antialiasing
+(its `FontQuality=3`) nor kerning, one fixed size for all text, whatever the window's size, and the
+options' font size (1 to 25, 13 by default, the
 same cell height as that client), bold, italic and reset rows, saved as `[UI] FontHeight`,
 `FontBold` and `FontItalic`. Big text is twice the size. Text that client drew as pictures, such as
-the numbers on the bar, stays as it is. An element whose document sizes text by its own rule takes
-this size with class `classic-font-text`.
+the numbers on the bar, stays as it is. A rule that sets its own text size takes this size with
+`font-size: var(--classic-text-px, <its size>)`.
 
 Fonts load before themed documents at startup and on theme selection. RmlUi retains loaded
 families for the session, so a family loaded by an earlier theme remains available. Reselecting

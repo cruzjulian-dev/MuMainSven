@@ -26,8 +26,7 @@ class ElementDocument;
 // for the text it contains.
 //
 // Where the theme declares ClassicFontControls, every document also takes the player's bold and
-// italic, and an element with class "classic-font-text" takes the native text size, for text in a
-// document sized by its own rule (the character scene's).
+// italic, and the native text size as --classic-text-px, for a rule that sizes its text itself.
 namespace UI::RmlBridge
 {
 // What the companion C++ of a "scene-window-scale" window (hit-test rects, pushed positions) multiplies

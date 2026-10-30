@@ -11,7 +11,7 @@ body { pointer-events: none; }
     flex-wrap: nowrap;
     align-items: flex-start;
     font-family: "token(font-body)";
-    font-size: 9dp;
+    font-size: var(--classic-text-px, 9dp);
     line-height: 13dp;
     pointer-events: none;
 }

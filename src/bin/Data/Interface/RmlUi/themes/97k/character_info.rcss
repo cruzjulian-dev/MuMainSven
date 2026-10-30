@@ -61,7 +61,7 @@
 	pointer-events: none;
 }
 /* The level, centred in the first box (14,60 in a 70-wide box). */
-.level-text { left: 14px; top: 60px; width: 70px; text-align: center; transform-origin: center top; color: #e6e6e6; font-weight: bold; }
+.level-text { left: 14px; top: 60px; width: 70px; text-align: center; transform-origin: center top; color: #e6e6e6; }
 /* Points to spend: black on the 0.97k blue band (0xFF1E6EC8, ARGB), centred at 95,49 in an
    80-wide box. */
 .levelup-point-text {
@@ -72,7 +72,6 @@
 	transform-origin: center top;
 	color: #000000;
 	background-color: rgb(30, 110, 200);
-	font-weight: bold;
 }
 /* Experience and the fruit points under the level, each on its black band 130 wide (24,80 and
    24,95). */
@@ -100,7 +99,6 @@
 .attr-label, .attr-value {
 	display: block;
 	position: absolute;
-	font-weight: bold;
 	white-space: nowrap;
 	pointer-events: none;
 	color: rgb(230, 210, 180);
