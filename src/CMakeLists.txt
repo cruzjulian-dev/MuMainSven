@@ -1115,6 +1115,21 @@ add_custom_target(CheckGLWrapperMonopoly ALL
 )
 add_dependencies(MuClient CheckGLWrapperMonopoly)
 
+# Fails the build when cl's /showIncludes prefix no longer matches the one ninja was generated with:
+# see cmake/CheckShowIncludesPrefix.cmake. Re-runs every build, before anything of MuClient compiles.
+if(MSVC AND CMAKE_GENERATOR MATCHES "Ninja")
+  add_custom_target(CheckShowIncludesPrefix ALL
+    COMMAND "${CMAKE_COMMAND}"
+            "-DCOMPILER=${CMAKE_CXX_COMPILER}"
+            "-DCOMPILER_INFO=${CMAKE_PLATFORM_INFO_DIR}/CMakeCXXCompiler.cmake"
+            "-DPROBE_DIR=${CMAKE_CURRENT_BINARY_DIR}/ShowIncludesProbe"
+            -P "${REPO_ROOT}/cmake/CheckShowIncludesPrefix.cmake"
+    COMMENT "Checking that ninja can read cl's /showIncludes output on this console"
+    VERBATIM
+  )
+  add_dependencies(MuClient CheckShowIncludesPrefix)
+endif()
+
 # No OUTPUT means this target is always considered out-of-date and re-runs every build. See
 # tools/check_rml_rcss_syntax.py's own docstring for what it does and doesn't check.
 add_custom_target(CheckRmlRcssSyntax ALL
