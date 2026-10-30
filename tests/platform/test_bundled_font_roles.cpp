@@ -6,6 +6,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include "Core/Platform/BundledFonts.h"
+#include "Core/Platform/SystemFonts.h"
 #include "UI/Scaling/UITransform.h"
 
 TEST_CASE("bundled font roles resolve deterministically [platform][bundled_font]")
@@ -25,6 +26,23 @@ TEST_CASE("bundled font roles resolve deterministically [platform][bundled_font]
     CHECK(std::string_view(kBundledFallbackFonts[1].family) == "Noto Sans TC");
     CHECK(std::string_view(kBundledFallbackFonts[2].family) == "Nanum Gothic");
     CHECK(std::string_view(kBundledFallbackFonts[2].regular) == "fonts/NanumGothic-Regular.ttf");
+}
+
+TEST_CASE("Verdana draws from the installed files or the bundled default [platform][bundled_font]")
+{
+    const BundledFont& font = ResolveUiFont(kVerdanaFamily);
+    if (const BundledFont* installed = FindSystemVerdana())
+    {
+        CHECK(&font == installed);
+        CHECK(std::filesystem::path(font.regular).is_absolute());
+        CHECK(ResolveBundledFontPath(font.bold) == std::filesystem::path(font.bold));
+    }
+    else
+    {
+        CHECK(font.family == std::string_view("DejaVu Sans"));
+    }
+    CHECK(ResolveUiFont("").family == std::string_view("DejaVu Sans"));
+    CHECK(ResolveUiFont("Liberation Sans").family == std::string_view("Liberation Sans"));
 }
 
 TEST_CASE("bundled font paths follow the normalized runtime directory [platform][bundled_font]")

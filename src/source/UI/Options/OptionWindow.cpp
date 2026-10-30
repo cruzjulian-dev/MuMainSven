@@ -177,6 +177,7 @@ static const FontOption s_Fonts[] = {
     {L"Liberation Sans", L"Liberation Sans"},
     {L"DejaVu Sans", L"DejaVu Sans"},
     {L"Noto Sans TC", L"Noto Sans TC"},
+    {L"Verdana", L"Verdana"},
 };
 static const int s_NumFonts = sizeof(s_Fonts) / sizeof(s_Fonts[0]);
 

@@ -37,6 +37,7 @@
 #include "Render/Look/TuningSetting.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
 #include "UI/RmlBridge/RmlRuntimeHooks.h"
+#include "UI/RmlBridge/RmlTheme.h"
 #include "Engine/Object/ZzzOpenData.h"
 #include "Scenes/SceneCore.h"
 #include "Scenes/SceneManager.h"
@@ -63,6 +64,7 @@
 #include "Core/Platform/ServerPort.h"
 #include "Core/Platform/sdl3/SDLWindowFlags.h"
 #include "Core/Platform/BundledFonts.h"
+#include "Core/Platform/SystemFonts.h"
 #include "Engine/Pathing/ZzzPath.h"
 #include "App/Platform/Windows/Local.h"
 #include "GameLogic/Items/PersonalShopTitleImp.h"
@@ -1781,8 +1783,7 @@ HFONT CreateFontForFamily(int size, int weight, std::string_view family)
 
 HFONT CreateUIFont(int size, int weight)
 {
-    const std::string configuredFamily = WideToUtf8(GameConfig::GetInstance().GetFontSelection());
-    return CreateFontForFamily(size, weight, ResolveBundledFont(configuredFamily).family);
+    return CreateFontForFamily(size, weight, ResolveUiFont(UI::RmlBridge::GetNativeFontFamily()).family);
 }
 
 bool CreateNewFonts(FontSizes sizes)
@@ -1814,7 +1815,7 @@ bool CreateNewFonts(FontSizes sizes)
 void ReinitializeTextRenderer(FontSizes sizes)
 {
     g_pRenderText->Release();
-    const std::string selectedFamily = WideToUtf8(GameConfig::GetInstance().GetFontSelection());
+    const std::string selectedFamily = UI::RmlBridge::GetNativeFontFamily();
     const bool fontsReloaded = mu::GetRenderer().ReloadTtfFonts(selectedFamily, static_cast<float>(sizes.normal),
                                                                 static_cast<float>(sizes.big),
                                                                 static_cast<float>(sizes.fixed));
@@ -2197,7 +2198,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     OpenglWindowWidth = WindowWidth;
     OpenglWindowHeight = WindowHeight;
 
-    const std::string selectedFontFamily = WideToUtf8(GameConfig::GetInstance().GetFontSelection());
+    const std::string selectedFontFamily = UI::RmlBridge::GetNativeFontFamily();
     const std::string renderBackend = WideToUtf8(GameConfig::GetInstance().GetRenderBackend());
     const FontSizes initialFontSizes = CalculateFontSizes();
     // Before Init, so the pipelines are built once, with the sample count of the configured look.

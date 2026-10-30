@@ -187,4 +187,9 @@ namespace UI::RmlBridge
     // the cached stylesheets that still carry the previous family, and rebuilds every themed
     // document. Destroys documents, so it must run outside RmlUi's event dispatch, like a theme switch.
     void ApplySelectedFontFamily(const std::string& family);
+
+    // The family the native text renderer is asked for: the [UI] Font choice, or the active
+    // theme's font-native token on the Default choice. ResolveUiFont() (SystemFonts.h) turns it
+    // into the font actually drawn.
+    std::string GetNativeFontFamily();
 }

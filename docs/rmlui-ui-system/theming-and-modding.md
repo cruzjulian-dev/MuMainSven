@@ -401,9 +401,14 @@ every theme, as long as RmlUi has that family loaded. With `Default`, the theme'
 apply. Other `font-*` tokens always keep the theme's value. A new choice applies right away: every
 themed document is rebuilt with it, the same way as after a theme switch.
 
-`font-native` always names the family the native text renderer uses (the `Font` choice, and
-DejaVu Sans for `Default`). It is meant for text RmlUi draws inside a box the native renderer
-measured, such as the world labels. Themes do not set it.
+`font-native` always names the family the native text renderer uses (the `Font` choice, and for
+`Default` the theme's own `font-native`, or DejaVu Sans when no theme sets it). It is meant for text
+RmlUi draws inside a box the native renderer measured, such as the world labels. A theme can set it
+to a selectable family; switching theme then rebuilds the native fonts as well.
+
+Verdana is selectable but not bundled: the client reads it from the player's Windows, and the `97k`
+theme uses it by default. Where it is not installed (Linux, macOS), `font-body` and `font-title`
+take the fallback above and native text draws with DejaVu Sans.
 
 Fonts load before themed documents at startup and on theme selection. RmlUi retains loaded
 families for the session, so a family loaded by an earlier theme remains available. Reselecting

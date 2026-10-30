@@ -13,5 +13,8 @@ void ClearThemeFontCache();
 // loaded family; font-native always names the family the native text renderer draws with; other
 // font-* tokens and the Default choice keep the theme's family.
 void SetSelectedFontFamily(std::string family);
+// The theme's own font-native token, inheritance included: what the native text renderer draws with
+// on the Default choice. Empty when no theme sets it.
+std::string ThemeNativeFontFamily(const ThemeInheritance& theme);
 std::optional<std::string> ResolveThemeFontToken(const ThemeInheritance& theme, const std::string& token);
 } // namespace UI::RmlBridge

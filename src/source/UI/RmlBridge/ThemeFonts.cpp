@@ -2,7 +2,7 @@
 #include "UI/RmlBridge/ThemeFonts.h"
 #include "UI/RmlBridge/ThemeInheritance.h"
 #include "UI/RmlBridge/RmlTheme.h"
-#include "Core/Platform/BundledFonts.h"
+#include "Core/Platform/SystemFonts.h"
 #include "Core/Utilities/StringUtils.h"
 
 #include <RmlUi/Core/Core.h>
@@ -130,6 +130,16 @@ void SetSelectedFontFamily(std::string family)
     SelectedFontFamily() = std::move(family);
 }
 
+std::string ThemeNativeFontFamily(const ThemeInheritance& theme)
+{
+    for (const auto& directory : theme.Directories())
+    {
+        if (const auto family = ThemeInheritance::ReadSetting(directory, "Tokens", kNativeFontToken))
+            return *family;
+    }
+    return {};
+}
+
 std::optional<std::string> ResolveThemeFontToken(const ThemeInheritance& theme, const std::string& token)
 {
     if (!token.starts_with("font-") || !theme.IsValid())
@@ -137,7 +147,7 @@ std::optional<std::string> ResolveThemeFontToken(const ThemeInheritance& theme, 
     const std::string& selected = SelectedFontFamily();
     if (token == kNativeFontToken)
     {
-        const std::string native = ResolveBundledFont(selected).family;
+        const std::string native = ResolveUiFont(selected.empty() ? ThemeNativeFontFamily(theme) : selected).family;
         if (FamilyAvailable(native))
             return native;
     }

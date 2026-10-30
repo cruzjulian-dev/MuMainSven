@@ -548,4 +548,10 @@ namespace UI::RmlBridge
         Rml::Factory::ClearStyleSheetCache();
         ReloadAllThemedDocuments();
     }
+
+    std::string GetNativeFontFamily()
+    {
+        const std::string selected = NarrowAscii(GameConfig::GetInstance().GetFontSelection());
+        return selected.empty() ? ThemeNativeFontFamily(ActiveThemeSettingsStorage().inheritance) : selected;
+    }
 }

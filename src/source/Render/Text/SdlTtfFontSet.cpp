@@ -1,5 +1,6 @@
 #include "SdlTtfFontSet.h"
 
+#include "Core/Platform/SystemFonts.h"
 #include "Core/Utilities/Log/MuLogger.h"
 
 #include <SDL3/SDL.h>
@@ -203,7 +204,7 @@ TTF_Font* SdlTtfFontSet::Get(SdlTtfFontRole role) const
 
 bool SdlTtfFontSet::Open(std::string_view configuredFamily, const RoleSizes& pointSizes)
 {
-    const BundledFont& family = ResolveBundledFont(configuredFamily);
+    const BundledFont& family = ResolveUiFont(configuredFamily);
     const char* const rolePaths[kRoleCount] = {family.regular, family.bold, family.bold, kBundledFixedFont.regular};
     for (std::size_t role = 0; role < kRoleCount; ++role)
     {

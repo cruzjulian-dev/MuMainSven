@@ -541,6 +541,19 @@ TEST_CASE("the native font token names the native text renderer's family [ui][rm
     CHECK(UI::RmlBridge::ResolveThemeFontToken(theme, "font-native") == std::optional<std::string>("Liberation Sans"));
 }
 
+TEST_CASE("a theme's native font applies to the Default choice only [ui][rml-theme]")
+{
+    Fixture fixture;
+    for (const char* name : {"LiberationSans-Regular.ttf", "DejaVuSans.ttf"})
+        REQUIRE(Rml::LoadFontFace((std::filesystem::path(MU_FONT_DIR) / name).generic_string()));
+    fixture.Write(fixture.Theme("child") / "tokens.ini", "[Tokens]\nfont-native=Liberation Sans\n");
+    const UI::RmlBridge::ThemeInheritance theme(fixture.Theme("child"));
+    CHECK(UI::RmlBridge::ThemeNativeFontFamily(theme) == "Liberation Sans");
+    CHECK(UI::RmlBridge::ResolveThemeFontToken(theme, "font-native") == std::optional<std::string>("Liberation Sans"));
+    UI::RmlBridge::SetSelectedFontFamily("DejaVu Sans");
+    CHECK(UI::RmlBridge::ResolveThemeFontToken(theme, "font-native") == std::optional<std::string>("DejaVu Sans"));
+}
+
 TEST_CASE("an empty legacy child preserves real theme resources and layout [ui][rml-theme]")
 {
     Fixture fixture;

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Core/Input/SyntheticInput.h"
+#include "Core/Platform/SystemFonts.h"
 #include "RmlUiRuntime.h"
 #include "RmlUiRenderInterface.h"
 #include "RmlUiSystemInterface.h"
@@ -112,6 +113,13 @@ void LoadBundledFonts()
     // The native fixed-width face (kBundledFixedFont, BundledFonts.h), for text the original drew
     // with g_hFixFont -- the character list's server messages (server_msg.rcss).
     Rml::LoadFontFace("fonts/Cousine-Regular.ttf");
+
+    // Not bundled (SystemFonts.h): where it is missing, the UI layer's font tokens fall back.
+    if (const BundledFont* verdana = FindSystemVerdana())
+    {
+        Rml::LoadFontFace(verdana->regular);
+        Rml::LoadFontFace(verdana->bold);
+    }
 }
 } // namespace
 
