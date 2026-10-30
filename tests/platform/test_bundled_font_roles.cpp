@@ -75,7 +75,8 @@ TEST_CASE("bundled font roles load their maximum responsive size [platform][bund
 TEST_CASE("mono hinting draws a glyph with one-bit coverage [platform][bundled_font]")
 {
     REQUIRE(TTF_Init());
-    TTF_Font* font = TTF_OpenFont(ResolveBundledFontPath(kDejaVuSansFont.regular).string().c_str(), 11.0f);
+    const std::filesystem::path fontPath = std::filesystem::path(MU_TEST_ASSET_SOURCE) / kDejaVuSansFont.regular;
+    TTF_Font* font = TTF_OpenFont(fontPath.string().c_str(), 11.0f);
     REQUIRE(font != nullptr);
     TTF_SetFontHinting(font, TTF_HINTING_MONO);
 
