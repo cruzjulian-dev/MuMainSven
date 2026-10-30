@@ -136,15 +136,46 @@ function Import-VcVars {
 # page ("Nota: inclusión del archivo:" has an 'ó'), so a build run from a console on another code page
 # than the configure recorded no headers for its objects and left them stale after header edits -- a
 # class allocated at its old size by one file and constructed at its new size by another. Pin the
-# console to UTF-8 for configure and build. A tree configured on another code page must have its
-# compiler detected again (delete out\build\<preset>\CMakeFiles\<cmake version>, or use -Clean).
+# console to UTF-8 for configure and build. Without a console (a scheduled task, some CI agents) the
+# code page can't be set, and the build runs on whatever cl writes there.
 function Invoke-WithUtf8Console {
     param([scriptblock]$Action)
 
-    $previous = [Console]::OutputEncoding
-    [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false
+    $previous = $null
+    try {
+        $previous = [Console]::OutputEncoding
+        [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false
+    }
+    catch {
+        Write-Warning "Can't switch the console to UTF-8 ($($_.Exception.Message)); building on its current code page."
+        $previous = $null
+    }
+
     try { & $Action }
-    finally { [Console]::OutputEncoding = $previous }
+    finally {
+        if ($previous) { [Console]::OutputEncoding = $previous }
+    }
+}
+
+# CMake keeps the prefix it detected in CMakeFiles\<cmake version>\CMake<LANG>Compiler.cmake and never
+# detects it again. One detected on a legacy code page holds bytes that aren't valid UTF-8 (cp850 writes
+# the 'ó' as 0xA2), so it can't match cl's output on the UTF-8 console: drop that directory and let the
+# configure detect the compiler again.
+function Reset-LegacyShowIncludesPrefix {
+    param([string]$BuildDir)
+
+    $cmakeFiles = Join-Path $BuildDir 'CMakeFiles'
+    if (-not (Test-Path $cmakeFiles)) { return }
+
+    $strictUtf8 = New-Object System.Text.UTF8Encoding $false, $true
+    $legacy = Get-ChildItem (Join-Path $cmakeFiles '*\CMake*Compiler.cmake') | Where-Object {
+        try { $null = $strictUtf8.GetString([System.IO.File]::ReadAllBytes($_.FullName)); $false }
+        catch [System.Text.DecoderFallbackException] { $true }
+    }
+    foreach ($detectionDir in @($legacy | ForEach-Object { $_.DirectoryName } | Sort-Object -Unique)) {
+        Write-Host "Compiler detected on another code page; detecting it again ($detectionDir) ..."
+        Remove-Item -Recurse -Force $detectionDir
+    }
 }
 
 function Resolve-VcpkgRoot {
@@ -200,6 +231,8 @@ if (-not $NoBuild) {
         $configureArgs += "-DMU_ENABLE_SHADER_COMPILATION=$(if ($CompileShaders) { 'ON' } else { 'OFF' })"
 
         Invoke-WithUtf8Console {
+            Reset-LegacyShowIncludesPrefix -BuildDir $buildDir
+
             Write-Host "Configuring preset '$presetBase' ..."
             cmake --preset $presetBase @configureArgs
             if ($LASTEXITCODE -ne 0) { throw 'cmake configure failed.' }
