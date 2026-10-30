@@ -53,9 +53,7 @@ void NormalizeSeparators(std::string& path)
     std::replace(path.begin(), path.end(), '\\', '/');
 }
 
-// A missing file never reaches miniaudio: when the resource manager fails to load a new node,
-// ma_resource_manager_data_buffer_node_acquire() frees it and then reads it again (0.11.25,
-// miniaudio.h: the "done:" block). Page Heap turns that read into a crash at startup.
+// A missing file never reaches miniaudio, so the log says it is missing rather than that it failed to load.
 bool IsAudioFileAvailable(const std::string& path, const char* failure)
 {
     std::error_code error;

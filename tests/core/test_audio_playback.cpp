@@ -1,12 +1,17 @@
 #include "App/stdafx.h"
 
+#include <algorithm>
 #include <array>
 #include <chrono>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <memory>
 #include <string>
 
+#ifndef _WIN32
+#include <sys/mman.h>
+#endif
 #include "doctest.h"
 
 #define private public
@@ -154,6 +159,96 @@ TEST_CASE("a missing sound effect file leaves its slot unloaded [audio][paths]")
     CHECK_FALSE(backend->m_soundLoaded[static_cast<int>(SOUND_CLICK01)]);
     CHECK(backend->m_loadedChannels[static_cast<int>(SOUND_CLICK01)] == 0);
     backend->Shutdown();
+}
+
+namespace
+{
+constexpr size_t kGuardedHeaderSize = 16;
+
+void* MapGuardedPages(size_t size)
+{
+#ifdef _WIN32
+    return VirtualAlloc(nullptr, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+#else
+    void* pages = mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    return pages == MAP_FAILED ? nullptr : pages;
+#endif
+}
+
+void UnmapGuardedPages(void* pages, size_t size)
+{
+#ifdef _WIN32
+    (void)size;
+    VirtualFree(pages, 0, MEM_RELEASE);
+#else
+    munmap(pages, size);
+#endif
+}
+
+// Each block owns its pages and a free unmaps them, so a read after free faults here the way it
+// does under Page Heap, instead of passing unnoticed in memory the heap still owns.
+void* GuardedMalloc(size_t size, void*)
+{
+    const size_t total = size + kGuardedHeaderSize;
+    void* pages = MapGuardedPages(total);
+    if (pages == nullptr)
+    {
+        return nullptr;
+    }
+    *static_cast<size_t*>(pages) = total;
+    return static_cast<char*>(pages) + kGuardedHeaderSize;
+}
+
+void GuardedFree(void* block, void*)
+{
+    if (block != nullptr)
+    {
+        void* pages = static_cast<char*>(block) - kGuardedHeaderSize;
+        UnmapGuardedPages(pages, *static_cast<size_t*>(pages));
+    }
+}
+
+void* GuardedRealloc(void* block, size_t size, void* userData)
+{
+    void* resized = GuardedMalloc(size, userData);
+    if (resized != nullptr && block != nullptr)
+    {
+        const size_t total = *reinterpret_cast<size_t*>(static_cast<char*>(block) - kGuardedHeaderSize);
+        std::memcpy(resized, block, (std::min)(size, total - kGuardedHeaderSize));
+        GuardedFree(block, userData);
+    }
+    return resized;
+}
+} // namespace
+
+// miniaudio frees a node whose load failed; reading it afterwards crashed the client under Page Heap.
+TEST_CASE("an undecodable sound effect file leaves its slot unloaded [audio][paths]")
+{
+    auto backend = std::make_unique<mu::MiniAudioBackend>();
+
+    ma_engine_config engineConfig = ma_engine_config_init();
+    engineConfig.noDevice = MA_TRUE;
+    engineConfig.channels = 1;
+    engineConfig.sampleRate = 48000;
+    engineConfig.allocationCallbacks.onMalloc = GuardedMalloc;
+    engineConfig.allocationCallbacks.onRealloc = GuardedRealloc;
+    engineConfig.allocationCallbacks.onFree = GuardedFree;
+    REQUIRE(ma_engine_init(&engineConfig, &backend->m_engine) == MA_SUCCESS);
+    backend->m_initialized = true;
+
+    const auto timestamp = std::chrono::steady_clock::now().time_since_epoch().count();
+    const std::filesystem::path testDirectory =
+        std::filesystem::temp_directory_path() / ("mu_audio_undecodable_" + std::to_string(timestamp));
+    std::filesystem::create_directories(testDirectory);
+    const std::filesystem::path undecodablePath = testDirectory / "Undecodable.wav";
+    std::ofstream(undecodablePath, std::ios::binary) << "not a sound file";
+
+    backend->LoadSound(SOUND_CLICK01, undecodablePath.wstring().c_str(), 4, false);
+
+    CHECK_FALSE(backend->m_soundLoaded[static_cast<int>(SOUND_CLICK01)]);
+    CHECK(backend->m_loadedChannels[static_cast<int>(SOUND_CLICK01)] == 0);
+    backend->Shutdown();
+    std::filesystem::remove_all(testDirectory);
 }
 
 namespace

@@ -189,6 +189,11 @@ FetchContent_Declare(miniaudio
     URL_HASH SHA256=1a3a79b80fc6f0b0cc155e28b954a598e0ddfa2db64e2afa8466be88c476fa55
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     SOURCE_SUBDIR _fetchcontent_only
+    PATCH_COMMAND
+        "${CMAKE_COMMAND}"
+        "-DSOURCE_DIR=<SOURCE_DIR>"
+        "-DPATCH_FILE=${CMAKE_SOURCE_DIR}/cmake/patches/miniaudio-0.11.25-free-failed-node-last.patch"
+        -P "${CMAKE_SOURCE_DIR}/cmake/ApplyGitPatch.cmake"
 )
 FetchContent_MakeAvailable(miniaudio)
 
