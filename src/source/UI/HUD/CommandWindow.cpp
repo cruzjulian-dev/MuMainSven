@@ -318,9 +318,9 @@ float mu::ui::window::CCommandWindow::GetLayerDepth()
 
 void mu::ui::window::CCommandWindow::RunCommand()
 {
-    // The pressed cursor lasts as long as the press. Only a hover over the window reset it before, and
-    // MouseLButtonPush stays set until something consumes it, so a press the world left unhandled (one
-    // made while the right button was still held from the window) kept the cursor pressed for good.
+    // The pressed cursor lasts as long as the press. Only a hover over the window reset it before, so a
+    // press the world left unhandled (one made while the right button was still held from the window)
+    // reached this function for its one frame and kept the cursor pressed for good.
     if (!MouseLButton)
     {
         if (m_iCurMouseCursor == CURSOR_PUSH)
