@@ -1,5 +1,6 @@
 #include <filesystem>
 #include <iterator>
+#include <string>
 #include <string_view>
 
 #include <doctest.h>
@@ -28,21 +29,31 @@ TEST_CASE("bundled font roles resolve deterministically [platform][bundled_font]
     CHECK(std::string_view(kBundledFallbackFonts[2].regular) == "fonts/NanumGothic-Regular.ttf");
 }
 
-TEST_CASE("Verdana draws from the installed files or the bundled default [platform][bundled_font]")
+TEST_CASE("a system family draws from the installed face or the bundled default [platform][bundled_font]")
 {
-    const BundledFont& font = ResolveUiFont(kVerdanaFamily);
-    if (const BundledFont* installed = FindSystemVerdana())
+    const std::string family = ResolveUiFontFamily("Verdana");
+    if (const SystemFontFace* face = FindSystemFontFace("Verdana", false, false))
     {
-        CHECK(&font == installed);
-        CHECK(std::filesystem::path(font.regular).is_absolute());
-        CHECK(ResolveBundledFontPath(font.bold) == std::filesystem::path(font.bold));
+        CHECK(family == "Verdana");
+        CHECK_FALSE(face->data.empty());
+        CHECK_FALSE(face->syntheticBold);
+        CHECK(FindSystemFontFace("Verdana", true, true)->data != face->data);
     }
     else
     {
-        CHECK(font.family == std::string_view("DejaVu Sans"));
+        CHECK(family == "DejaVu Sans");
     }
-    CHECK(ResolveUiFont("").family == std::string_view("DejaVu Sans"));
-    CHECK(ResolveUiFont("Liberation Sans").family == std::string_view("Liberation Sans"));
+    CHECK(ResolveUiFontFamily("Missing Test Family") == "DejaVu Sans");
+    CHECK(ResolveUiFontFamily("") == "DejaVu Sans");
+    CHECK(ResolveUiFontFamily("Liberation Sans") == "Liberation Sans");
+}
+
+TEST_CASE("a cell height gives a smaller em [platform][bundled_font]")
+{
+    const int em = FontEmPixels("DejaVu Sans", 13);
+    CHECK(em >= 1);
+    CHECK(em <= 13);
+    CHECK(FontEmPixels("DejaVu Sans", 26) > em);
 }
 
 TEST_CASE("bundled font paths follow the normalized runtime directory [platform][bundled_font]")

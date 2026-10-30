@@ -24,6 +24,8 @@
 #include "UI/RmlBridge/RmlTheme.h"
 #include "UI/Theme/ThemeSelection.h"
 #include "UI/RmlBridge/RmlTooltip.h"
+#include "Core/Platform/BundledFonts.h"
+#include "Core/Platform/SystemFonts.h"
 #include "Core/Utilities/StringUtils.h"
 #include "Scenes/SceneManager.h"
 #include "Scenes/MainScene.h"
@@ -165,21 +167,28 @@ static const int s_NumLanguages = sizeof(s_Languages) / sizeof(s_Languages[0]);
 // install.
 namespace
 {
-struct FontOption
+// The Default entry, the bundled families, then every installed one, as the 0.97k client's font
+// selector listed them. Only the bundled ones exist where the system's fonts are not read.
+std::vector<std::wstring> BuildFontNames()
 {
-    const wchar_t* name;
-    const wchar_t* label;
-};
-} // namespace
+    std::vector<std::wstring> names = {L""};
+    for (const BundledFont& font : kBundledFonts)
+        names.push_back(StringUtils::NarrowToWide(font.family));
+    for (const std::string& family : EnumerateSystemFontFamilies())
+    {
+        std::wstring name = StringUtils::NarrowToWide(family);
+        if (std::find(names.begin(), names.end(), name) == names.end())
+            names.push_back(std::move(name));
+    }
+    return names;
+}
 
-static const FontOption s_Fonts[] = {
-    {L"", L"Default"},
-    {L"Liberation Sans", L"Liberation Sans"},
-    {L"DejaVu Sans", L"DejaVu Sans"},
-    {L"Noto Sans TC", L"Noto Sans TC"},
-    {L"Verdana", L"Verdana"},
-};
-static const int s_NumFonts = sizeof(s_Fonts) / sizeof(s_Fonts[0]);
+const std::vector<std::wstring>& FontNames()
+{
+    static const std::vector<std::wstring> names = BuildFontNames();
+    return names;
+}
+} // namespace
 
 // FPS cap choices offered by the Video tab's FPS Limit row -- -1 matches SceneManager::SetTargetFps's
 // own "uncapped" sentinel and GameConfig::GetFpsCap()'s default, so "Uncapped" doubles as this
@@ -406,6 +415,14 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
     c.Bind("font_labels", &model.fontLabels);
     c.Bind("font_index", &model.fontIndex);
     c.Bind("font_row_label", &model.fontRowLabel);
+    c.Bind("classic_font_controls", &model.classicFontControls);
+    c.Bind("font_height", &model.fontHeight);
+    c.Bind("font_bold", &model.fontBold);
+    c.Bind("font_italic", &model.fontItalic);
+    c.Bind("font_height_label", &model.fontHeightLabel);
+    c.Bind("font_bold_label", &model.fontBoldLabel);
+    c.Bind("font_italic_label", &model.fontItalicLabel);
+    c.Bind("font_reset_label", &model.fontResetLabel);
     c.Bind("font_value_label", &model.fontValueLabel);
 
     // Video tab additions.
@@ -525,6 +542,18 @@ void mu::ui::window::COptionWindow::BindRmlModel(Rml::DataModelConstructor& c, O
     c.BindEventCallback("option_toggle_translate_item_names",
                         [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&)
                         { RmlToggleTranslateItemNames(); });
+    c.BindEventCallback("option_step_font_height",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList& arguments)
+        {
+            if (arguments.size() == 1)
+                RmlStepFontHeight(arguments[0].Get<int>(0));
+        });
+    c.BindEventCallback("option_toggle_font_bold",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlToggleFontBold(); });
+    c.BindEventCallback("option_toggle_font_italic",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlToggleFontItalic(); });
+    c.BindEventCallback("option_reset_font",
+        [this](Rml::DataModelHandle, Rml::Event&, const Rml::VariantList&) { RmlResetFont(); });
 
     c.BindEventCallback("option_gauge",
         [this](Rml::DataModelHandle, Rml::Event& ev, const Rml::VariantList& args)
@@ -996,11 +1025,69 @@ void mu::ui::window::COptionWindow::RmlFontChanged(int index)
     // See RmlResolutionChanged's own comment -- same settle-frame guard applies here.
     if (m_rmlSyncCount < kRmlSelectSettleFrames)
         return;
-    if (index < 0 || index >= s_NumFonts)
+    const auto& names = FontNames();
+    if (index < 0 || index >= static_cast<int>(names.size()))
         return;
     m_iFontIndex = index;
+    // Re-selecting the active font is a no-op; skip the font rebuild and disk write.
+    if (GameConfig::GetInstance().GetFontSelection() == names[index])
+        return;
     // Deferred to Update() -- the font change rebuilds every RmlUi document, see m_bPendingThemeSwitch.
     m_bPendingFontApply = true;
+}
+
+void mu::ui::window::COptionWindow::RmlStepFontHeight(int step)
+{
+    GameConfig& config = GameConfig::GetInstance();
+    const int previous = config.GetFontHeight();
+    config.SetFontHeight(previous + step);
+    if (config.GetFontHeight() != previous)
+        m_bPendingFontApply = true;
+}
+
+void mu::ui::window::COptionWindow::RmlToggleFontBold()
+{
+    GameConfig& config = GameConfig::GetInstance();
+    config.SetFontBold(!config.GetFontBold());
+    m_bPendingFontApply = true;
+}
+
+void mu::ui::window::COptionWindow::RmlToggleFontItalic()
+{
+    GameConfig& config = GameConfig::GetInstance();
+    config.SetFontItalic(!config.GetFontItalic());
+    m_bPendingFontApply = true;
+}
+
+void mu::ui::window::COptionWindow::RmlResetFont()
+{
+    GameConfig& config = GameConfig::GetInstance();
+    config.SetFontHeight(CfgDefaults::CfgDefaultFontHeight);
+    config.SetFontBold(CfgDefaults::CfgDefaultFontBold);
+    config.SetFontItalic(CfgDefaults::CfgDefaultFontItalic);
+    m_iFontIndex = 0;
+    m_bPendingFontApply = true;
+}
+
+void mu::ui::window::COptionWindow::SyncClassicFontRows(OptionRmlModel& model)
+{
+    const auto syncBool = [this](bool& field, const char* name, bool value)
+    {
+        if (field == value)
+            return;
+        field = value;
+        m_RmlView.MarkDirty(name);
+    };
+
+    const GameConfig& config = GameConfig::GetInstance();
+    syncBool(model.classicFontControls, "classic_font_controls", UI::RmlBridge::ThemeHasClassicFontControls());
+    syncBool(model.fontBold, "font_bold", config.GetFontBold());
+    syncBool(model.fontItalic, "font_italic", config.GetFontItalic());
+    if (model.fontHeight != config.GetFontHeight())
+    {
+        model.fontHeight = config.GetFontHeight();
+        m_RmlView.MarkDirty("font_height");
+    }
 }
 
 void mu::ui::window::COptionWindow::ApplyPendingFont()
@@ -1525,26 +1612,20 @@ void mu::ui::window::COptionWindow::ApplyLanguage()
 int mu::ui::window::COptionWindow::FindCurrentFontIndex()
 {
     const std::wstring current = GameConfig::GetInstance().GetFontSelection();
-    for (int i = 0; i < s_NumFonts; ++i)
-    {
-        if (current == s_Fonts[i].name)
-            return i;
-    }
-    return 0;  // default ("")
+    const auto& names = FontNames();
+    const auto found = std::find(names.begin(), names.end(), current);
+    return found == names.end() ? 0 : static_cast<int>(found - names.begin());  // 0 = default ("")
 }
 
 void mu::ui::window::COptionWindow::ApplyFont()
 {
-    // Re-selecting the active font is a no-op; skip the font rebuild and disk write.
-    if (GameConfig::GetInstance().GetFontSelection() == s_Fonts[m_iFontIndex].name)
-        return;
-
-    GameConfig::GetInstance().SetFontSelection(s_Fonts[m_iFontIndex].name);
+    const std::wstring& name = FontNames()[m_iFontIndex];
+    GameConfig::GetInstance().SetFontSelection(name);
     // Recreate the GDI fonts from config so the change takes effect live.
     ReinitializeFonts();
     GameConfig::GetInstance().Save();
     // RmlUi text draws with the same family (font tokens), so its documents are rebuilt with it.
-    UI::RmlBridge::ApplySelectedFontFamily(StringUtils::WideToNarrow(s_Fonts[m_iFontIndex].name));
+    UI::RmlBridge::ApplySelectedFontFamily(StringUtils::WideToNarrow(name.c_str()));
 }
 
 int mu::ui::window::COptionWindow::FindCurrentFpsCapIndex()
@@ -1730,6 +1811,10 @@ void mu::ui::window::COptionWindow::SyncRmlModel()
     SyncLabel(model.languageRowLabel, "language_row_label", I18N::Game::Language);
     SyncLabel(model.translateItemNamesLabel, "translate_item_names_label", I18N::Game::TranslateItemNames);
     SyncLabel(model.fontRowLabel, "font_row_label", I18N::Game::Font);
+    SyncLabel(model.fontHeightLabel, "font_height_label", I18N::Game::FontHeight);
+    SyncLabel(model.fontBoldLabel, "font_bold_label", I18N::Game::FontBold);
+    SyncLabel(model.fontItalicLabel, "font_italic_label", I18N::Game::FontItalic);
+    SyncLabel(model.fontResetLabel, "font_reset_label", I18N::Game::ResetFont);
     SyncLabel(model.vsyncLabel, "vsync_label", I18N::Game::VSync);
     SyncLabel(model.fpsCapRowLabel, "fps_cap_row_label", I18N::Game::FPSLimit);
     SyncLabel(model.disableEffectsLabel, "disable_effects_label", I18N::Game::DisableEffects);
@@ -1794,20 +1879,26 @@ void mu::ui::window::COptionWindow::SyncRmlModel()
         m_RmlView.MarkDirty("translate_item_names");
     }
 
-    // Rebuilt every sync (not just once) so the localized "Default" entry follows a live language
-    // switch, same as native's own GetFontLabels().
-    std::vector<Rml::String> newFontLabels;
-    newFontLabels.reserve(s_NumFonts);
-    newFontLabels.push_back(StringUtils::WideToNarrow(I18N::Game::DefaultFont));
-    for (int i = 1; i < s_NumFonts; ++i)
-        newFontLabels.push_back(StringUtils::WideToNarrow(s_Fonts[i].label));
-    if (newFontLabels != model.fontLabels)
+    // The localized "Default" entry follows a live language switch, same as native's own
+    // GetFontLabels(); the installed families behind it never change, and there can be hundreds.
+    const Rml::String defaultFontLabel = StringUtils::WideToNarrow(I18N::Game::DefaultFont);
+    if (model.fontLabels.empty())
     {
-        model.fontLabels = std::move(newFontLabels);
+        const auto& fontNames = FontNames();
+        model.fontLabels.reserve(fontNames.size());
+        model.fontLabels.push_back(defaultFontLabel);
+        for (size_t i = 1; i < fontNames.size(); ++i)
+            model.fontLabels.push_back(StringUtils::WideToNarrow(fontNames[i].c_str()));
+        m_RmlView.MarkDirty("font_labels");
+    }
+    else if (model.fontLabels.front() != defaultFontLabel)
+    {
+        model.fontLabels.front() = defaultFontLabel;
         m_RmlView.MarkDirty("font_labels");
     }
     if (model.fontIndex != m_iFontIndex) { model.fontIndex = m_iFontIndex; m_RmlView.MarkDirty("font_index"); }
     syncDropdownValue(model.fontValueLabel, "font_value_label", model.fontLabels, model.fontIndex);
+    SyncClassicFontRows(model);
 
     if (model.vsyncEnabled != m_bVsyncEnabled) { model.vsyncEnabled = m_bVsyncEnabled; m_RmlView.MarkDirty("vsync_enabled"); }
 

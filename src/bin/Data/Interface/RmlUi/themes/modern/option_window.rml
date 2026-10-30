@@ -417,6 +417,10 @@
 						<span class="opt-label">{{translate_item_names_label}}</span>
 						<div class="opt-control"><div class="opt-toggle" data-class-checked="translate_item_names"><div class="opt-toggle-knob"></div></div></div>
 					</div>
+					<!-- rml-contract-optional-callback: option_step_font_height: the 0.97k client's font rows are ClassicFontControls's; this theme's text grows with the window -->
+					<!-- rml-contract-optional-callback: option_toggle_font_bold: the 0.97k client's font rows are ClassicFontControls's; this theme's text grows with the window -->
+					<!-- rml-contract-optional-callback: option_toggle_font_italic: the 0.97k client's font rows are ClassicFontControls's; this theme's text grows with the window -->
+					<!-- rml-contract-optional-callback: option_reset_font: the 0.97k client's font rows are ClassicFontControls's; this theme's text grows with the window -->
 					<div class="opt-row">
 						<span class="opt-label">{{font_row_label}}</span>
 						<div class="opt-control">

@@ -14,6 +14,26 @@ namespace
 constexpr const char* kNativeTextClass = "native-text";
 constexpr const char* kSceneWindowScaleClass = "scene-window-scale";
 constexpr const char* kSceneBarScaleClass = "scene-bar-scale";
+constexpr const char* kClassicFontTextClass = "classic-font-text";
+
+// Bold and italic reach every text of the document by inheritance, as the 0.97k client's one font
+// did; a rule that sets its own weight keeps it.
+void ApplyClassicFontStyle(Rml::ElementDocument* document, float textPx)
+{
+    const UI::Scaling::ClassicFontSettings& classic = UI::Scaling::GetClassicFontSettings();
+    if (classic.normalPx <= 0)
+        return;
+
+    if (classic.bold)
+        document->SetProperty("font-weight", "bold");
+    if (classic.italic)
+        document->SetProperty("font-style", "italic");
+
+    Rml::ElementList textElements;
+    document->GetElementsByClassName(textElements, kClassicFontTextClass);
+    for (Rml::Element* element : textElements)
+        element->SetProperty(Rml::PropertyId::FontSize, Rml::Property(textPx, Rml::Unit::PX));
+}
 } // namespace
 
 float SceneWindowRatio(int windowWidth, int windowHeight)
@@ -34,6 +54,7 @@ void ApplyNativeTextSize(Rml::ElementDocument* document)
 
     const Rml::Vector2i window = document->GetContext()->GetDimensions();
     const float textPx = UI::Scaling::NativeTextPixelSize(UI::Scaling::FontRole::Normal, window.x, window.y);
+    ApplyClassicFontStyle(document, textPx);
     const bool sceneWindow = document->IsClassSet(kSceneWindowScaleClass);
     if (sceneWindow || document->IsClassSet(kSceneBarScaleClass))
     {

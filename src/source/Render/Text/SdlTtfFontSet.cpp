@@ -2,6 +2,7 @@
 
 #include "Core/Platform/SystemFonts.h"
 #include "Core/Utilities/Log/MuLogger.h"
+#include "UI/Scaling/UITransform.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
@@ -115,6 +116,41 @@ void CloseTtfFont(TTF_Font*& font)
     return OpenDeveloperFont(family, role, pointSize);
 }
 
+void AddFontStyle(TTF_Font* font, TTF_FontStyleFlags style)
+{
+    TTF_SetFontStyle(font, TTF_GetFontStyle(font) | style);
+}
+
+[[nodiscard]] TTF_Font* OpenSystemFontRole(std::string_view family, std::string_view role, bool bold, bool italic,
+                                           float pointSize)
+{
+    const SystemFontFace* face = FindSystemFontFace(family, bold, italic);
+    if (!face)
+        return nullptr;
+
+    SDL_IOStream* stream = SDL_IOFromConstMem(face->data.data(), face->data.size());
+    const SDL_PropertiesID properties = SDL_CreateProperties();
+    SDL_SetPointerProperty(properties, TTF_PROP_FONT_CREATE_IOSTREAM_POINTER, stream);
+    SDL_SetBooleanProperty(properties, TTF_PROP_FONT_CREATE_IOSTREAM_AUTOCLOSE_BOOLEAN, true);
+    SDL_SetFloatProperty(properties, TTF_PROP_FONT_CREATE_SIZE_FLOAT, pointSize);
+    SDL_SetNumberProperty(properties, TTF_PROP_FONT_CREATE_FACE_NUMBER, face->faceIndex);
+    TTF_Font* font = TTF_OpenFontWithProperties(properties);
+    SDL_DestroyProperties(properties);
+    if (!font)
+    {
+        mu::log::Get("render")->error("SDL_ttf -- system family='{}' role='{}' failed: {}", family, role,
+                                      SDL_GetError());
+        return nullptr;
+    }
+
+    if (face->syntheticBold)
+        AddFontStyle(font, TTF_STYLE_BOLD);
+    if (face->syntheticItalic)
+        AddFontStyle(font, TTF_STYLE_ITALIC);
+    mu::log::Get("render")->info("SDL_ttf -- system family='{}' role='{}'", family, role);
+    return font;
+}
+
 [[nodiscard]] const char* FallbackPath(const BundledFont& fallbackFont, std::size_t role)
 {
     return IsBoldRole(role) ? fallbackFont.bold : fallbackFont.regular;
@@ -204,15 +240,26 @@ TTF_Font* SdlTtfFontSet::Get(SdlTtfFontRole role) const
 
 bool SdlTtfFontSet::Open(std::string_view configuredFamily, const RoleSizes& pointSizes)
 {
-    const BundledFont& family = ResolveUiFont(configuredFamily);
-    const char* const rolePaths[kRoleCount] = {family.regular, family.bold, family.bold, kBundledFixedFont.regular};
+    const std::string uiFamily = ResolveUiFontFamily(configuredFamily);
+    const BundledFont& bundled = ResolveBundledFont(uiFamily);
+    const bool systemFamily = uiFamily != bundled.family;
+    const UI::Scaling::ClassicFontSettings& classic = UI::Scaling::GetClassicFontSettings();
+    const char* const normalPath = classic.bold ? bundled.bold : bundled.regular;
+    // A system family has no path: MeasureLayoutLift() and OpenFallbacks() then treat it as no bundled file.
+    const char* const rolePaths[kRoleCount] = {systemFamily ? "" : normalPath, systemFamily ? "" : bundled.bold,
+                                               systemFamily ? "" : bundled.bold, kBundledFixedFont.regular};
     for (std::size_t role = 0; role < kRoleCount; ++role)
     {
         const bool fixed = role == RoleIndex(SdlTtfFontRole::Fixed);
-        const std::string_view familyName = fixed ? kBundledFixedFont.family : family.family;
-        m_primary[role] = OpenTtfFontRole(familyName, RoleName(role), rolePaths[role], pointSizes[role]);
+        const std::string_view familyName = fixed ? std::string_view(kBundledFixedFont.family) : uiFamily;
+        m_primary[role] = systemFamily && !fixed
+                              ? OpenSystemFontRole(familyName, RoleName(role), IsBoldRole(role) || classic.bold,
+                                                   classic.italic, pointSizes[role])
+                              : OpenTtfFontRole(familyName, RoleName(role), rolePaths[role], pointSizes[role]);
         if (!m_primary[role])
             return false;
+        if (!systemFamily && !fixed && classic.italic)
+            AddFontStyle(m_primary[role], TTF_STYLE_ITALIC);
 
         const int lift = MeasureLayoutLift(m_primary[role], rolePaths[role], role);
         SDL_SetNumberProperty(TTF_GetFontProperties(m_primary[role]), kLayoutLiftProperty, lift);

@@ -189,7 +189,15 @@ namespace UI::RmlBridge
     void ApplySelectedFontFamily(const std::string& family);
 
     // The family the native text renderer is asked for: the [UI] Font choice, or the active
-    // theme's font-native token on the Default choice. ResolveUiFont() (SystemFonts.h) turns it
-    // into the font actually drawn.
+    // theme's font-native token on the Default choice. ResolveUiFontFamily() (SystemFonts.h) turns
+    // it into the family actually drawn.
     std::string GetNativeFontFamily();
+
+    // Whether the player sets the text's size, bold and italic as the 0.97k client's options did
+    // (ClassicFontControls=1): one fixed size for all text, whatever the window's size.
+    bool ThemeHasClassicFontControls();
+
+    // Hands the player's size, bold and italic to the text renderers, or turns them off where the
+    // theme lacks ClassicFontControls. Runs before the native fonts are built.
+    void ApplyClassicFontSettings();
 }

@@ -13225,6 +13225,18 @@
   <data name="DefaultFont" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="FontHeight" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="FontBold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="FontItalic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="ResetFont" xml:space="preserve">
+    <value>Reset font</value>
+  </data>
   <data name="ChatCommandsTitle" xml:space="preserve">
     <value>Commands</value>
   </data>

@@ -35,6 +35,8 @@ in `legacy`:
   centre from y 370.
 - **The hit numbers**, the damage and "Miss" over the characters, from `Interface97/Fonttest`
   (`ClassicHitNumbers=1` in `theme.ini`), ProEmulator's 4x redraw, sampled like that client.
+- **The text**, one size at every resolution, set in the options with that client's font, size,
+  bold, italic and reset rows (`ClassicFontControls=1` in `theme.ini`).
 
 - **The chat** (`chat_input.rcss`, `chat_log.rml/.rcss`, `chat_frame_buttons.rcss`,
   `workspace.rcss`), with the 0.97k client's two modes (`ChatLogModes=1` in `theme.ini`):

@@ -115,7 +115,10 @@ window writes to these sections:
 - `[UI]` - `Locale`, `Font`, `RmlTheme` and `UIScalePercent` from the Display and
   Interface tabs. `TranslateItemNames` (default `1`): the "Translate item names"
   checkbox under the language, applied at once; unticked, item names stay
-  English while the rest of the UI is in the chosen language.
+  English while the rest of the UI is in the chosen language. `FontHeight`
+  (1 to 25, default `13`), `FontBold` and `FontItalic`: the font size, bold,
+  italic and reset rows under the font, in themes with `ClassicFontControls`
+  (see [`theming-and-modding.md`](rmlui-ui-system/theming-and-modding.md)).
   `EnableAnimationTaskPool` (`0`/`1`, set by hand only, like the
   `--enable-taskpool` command-line flag) animates characters on worker
   threads.

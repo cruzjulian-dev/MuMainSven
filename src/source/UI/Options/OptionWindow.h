@@ -167,6 +167,11 @@ namespace mu::ui::window
         // The checkbox under the language: item names in the UI language, or English.
         void RmlToggleTranslateItemNames();
         void RmlFontChanged(int index);
+        // The 0.97k client's font options (ClassicFontControls): its size, bold, italic and reset.
+        void RmlStepFontHeight(int step);
+        void RmlToggleFontBold();
+        void RmlToggleFontItalic();
+        void RmlResetFont();
         // Graphics tab -- DXP-23's per-system effect-cost toggles (MainScene.h), promoted from
         // console-only ($effects ...) diagnostics to a persisted, in-game-options setting.
         void RmlToggleVsync();
@@ -307,6 +312,14 @@ namespace mu::ui::window
             int fontIndex = 0;
             Rml::String fontRowLabel;
             Rml::String fontValueLabel;
+            bool classicFontControls = false;
+            int fontHeight = 0;
+            bool fontBold = false;
+            bool fontItalic = false;
+            Rml::String fontHeightLabel;
+            Rml::String fontBoldLabel;
+            Rml::String fontItalicLabel;
+            Rml::String fontResetLabel;
 
             // Video tab additions.
             bool vsyncEnabled = true;
@@ -405,6 +418,7 @@ namespace mu::ui::window
         };
         void BindRmlModel(Rml::DataModelConstructor& c, OptionRmlModel& model);
         void SyncImpliedEffectRows(OptionRmlModel& model);
+        void SyncClassicFontRows(OptionRmlModel& model);
         // The model's copy of a UI text, marked dirty when the text changed.
         void SyncLabel(Rml::String& field, const char* fieldName, const wchar_t* text);
         void SyncTuningModel(OptionRmlModel& model);

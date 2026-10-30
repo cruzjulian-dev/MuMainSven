@@ -406,9 +406,17 @@ themed document is rebuilt with it, the same way as after a theme switch.
 RmlUi draws inside a box the native renderer measured, such as the world labels. A theme can set it
 to a selectable family; switching theme then rebuilds the native fonts as well.
 
-Verdana is selectable but not bundled: the client reads it from the player's Windows, and the `97k`
-theme uses it by default. Where it is not installed (Linux, macOS), `font-body` and `font-title`
-take the fallback above and native text draws with DejaVu Sans.
+On Windows the `Font` choice lists every installed family, as the 0.97k client's selector did; the
+client reads them from the system instead of bundling them. The `97k` theme uses Verdana by
+default. Where a family is not installed (Linux, macOS), `font-body` and `font-title` take the
+fallback above and native text draws with DejaVu Sans.
+
+`ClassicFontControls=1` in `[Capabilities]` gives a theme the 0.97k client's text: one fixed size
+for all text, whatever the window's size, and the options' font size (1 to 25, 13 by default, the
+same cell height as that client), bold, italic and reset rows, saved as `[UI] FontHeight`,
+`FontBold` and `FontItalic`. Big text is twice the size. Text that client drew as pictures, such as
+the numbers on the bar, stays as it is. An element whose document sizes text by its own rule takes
+this size with class `classic-font-text`.
 
 Fonts load before themed documents at startup and on theme selection. RmlUi retains loaded
 families for the session, so a family loaded by an earlier theme remains available. Reselecting
@@ -471,8 +479,8 @@ their element's drawn size; choose their scaling deliberately.
 - **Theme identity must never drive C++ branching** — `architecture-principles.md` §30. Where a
   theme must change C++ behaviour, it declares a capability in `theme.ini` (`NativeTextSize`,
   `NearestFiltering`, `ChatLogModes`, `WhisperStartsOff`, `ClassicWorldHud`, `ClassicLoginScene`,
-  `ClassicCharacterCreation`, `ClassicCharacterScene` and `ClassicHitNumbers` are the ones in
-  use). Game systems are never capabilities: they are the build's (`Core/Globals/ClientProfile.h`). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
+  `ClassicCharacterCreation`, `ClassicCharacterScene`, `ClassicHitNumbers` and
+  `ClassicFontControls` are the ones in use). Game systems are never capabilities: they are the build's (`Core/Globals/ClientProfile.h`). Prefer removing the need: the main frame's `ProvidesOwnIconChrome` existed only so
   C++ could skip drawing legacy chrome for the modern theme, and went away once that chrome was
   RCSS in the legacy theme's own stylesheet.
 - **RmlUi renders last in the frame**, so native content that must sit *in* a window's stacking

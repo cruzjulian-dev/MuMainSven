@@ -1783,7 +1783,7 @@ HFONT CreateFontForFamily(int size, int weight, std::string_view family)
 
 HFONT CreateUIFont(int size, int weight)
 {
-    return CreateFontForFamily(size, weight, ResolveUiFont(UI::RmlBridge::GetNativeFontFamily()).family);
+    return CreateFontForFamily(size, weight, ResolveUiFontFamily(UI::RmlBridge::GetNativeFontFamily()));
 }
 
 bool CreateNewFonts(FontSizes sizes)
@@ -1848,6 +1848,7 @@ void ReinitializeFonts()
     HFONT hOldFontBig = g_hFontBig;
     HFONT hOldFixFont = g_hFixFont;
 
+    UI::RmlBridge::ApplyClassicFontSettings();
     const FontSizes sizes = CalculateFontSizes();
     if (!CreateNewFonts(sizes))
     {
@@ -2198,6 +2199,11 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
     OpenglWindowWidth = WindowWidth;
     OpenglWindowHeight = WindowHeight;
 
+    // Make the bundled ./fonts faces resolvable by GDI before the first CreateFont,
+    // so a chosen curated font works even without a system-wide install. The classic
+    // font's sizes are measured through GDI as well.
+    const bool fontsRegistered = RegisterBundledFonts();
+    UI::RmlBridge::ApplyClassicFontSettings();
     const std::string selectedFontFamily = UI::RmlBridge::GetNativeFontFamily();
     const std::string renderBackend = WideToUtf8(GameConfig::GetInstance().GetRenderBackend());
     const FontSizes initialFontSizes = CalculateFontSizes();
@@ -2362,9 +2368,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nC
         SetDisableBodyShadows(cfg.GetDisableBodyShadows());
     }
 
-    // Make the bundled ./fonts faces resolvable by GDI before the first CreateFont,
-    // so a chosen curated font works even without a system-wide install.
-    const bool fontsRegistered = RegisterBundledFonts();
     const bool fontsCreated = CreateNewFonts(CalculateFontSizes());
     if (!fontsRegistered || !fontsCreated)
     {

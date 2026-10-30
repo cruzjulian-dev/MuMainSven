@@ -516,3 +516,14 @@
 	margin-bottom: 8dp;
 	color: token(semantic-danger);
 }
+
+/* The font rows' first button starts on the control column, where the checkboxes do. */
+.option-sub-row .option-row-label + .option-tuning-reset {
+	margin-left: 0;
+}
+/* The text size between its - and + buttons. */
+.option-font-height {
+	width: 24dp;
+	text-align: center;
+	color: token(text-input);
+}

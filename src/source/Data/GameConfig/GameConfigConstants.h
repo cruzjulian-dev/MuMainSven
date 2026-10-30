@@ -37,6 +37,10 @@ namespace CfgKeys
     // UI
     inline constexpr wchar_t CfgKeyUILocale[] = L"Locale";
     inline constexpr wchar_t CfgKeyFont[]     = L"Font";
+    // Read only where the theme declares ClassicFontControls.
+    inline constexpr wchar_t CfgKeyFontHeight[] = L"FontHeight";
+    inline constexpr wchar_t CfgKeyFontBold[]   = L"FontBold";
+    inline constexpr wchar_t CfgKeyFontItalic[] = L"FontItalic";
     // Whether item names follow the UI language; off keeps them English.
     inline constexpr wchar_t CfgKeyTranslateItemNames[] = L"TranslateItemNames";
     // Active RmlUi theme name ("legacy"/"modern"), Data/Interface/RmlUi/themes/<name>/. Not yet
@@ -119,6 +123,13 @@ namespace CfgDefaults
     // Windows, fontconfig "sans-serif" on Linux), so the look is unchanged until
     // the user picks a font. Any value is passed through as the GDI face name.
     inline constexpr wchar_t CfgDefaultFont[] = L"";
+
+    // The 0.97k client's text cell height in pixels and the range its options offered.
+    inline constexpr int CfgDefaultFontHeight = 13;
+    inline constexpr int CfgMinFontHeight = 1;
+    inline constexpr int CfgMaxFontHeight = 25;
+    inline constexpr bool CfgDefaultFontBold = false;
+    inline constexpr bool CfgDefaultFontItalic = false;
 
     // "legacy" reproduces the pre-RmlUi look with programmatic RCSS and no sprite dependency.
     // Defaults to legacy so nothing changes for existing players until they opt in.

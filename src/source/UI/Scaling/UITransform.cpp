@@ -43,13 +43,46 @@ struct FontPointRange
     int maximum;
 };
 
-FontPointRange GetFontPointRange(UI::Scaling::FontRole role)
+UI::Scaling::ClassicFontSettings g_classicFont;
+
+FontPointRange GrowingFontPointRange(UI::Scaling::FontRole role)
 {
     if (role == UI::Scaling::FontRole::Big)
         return {kBigFontPointSize, kMaximumBigFontPointSize};
     if (role == UI::Scaling::FontRole::Fixed)
         return {kFixedFontPointSize, kMaximumFixedFontPointSize};
     return {kNormalFontPointSize, kMaximumNormalFontPointSize};
+}
+
+FontPointRange GetFontPointRange(UI::Scaling::FontRole role)
+{
+    if (g_classicFont.normalPx <= 0)
+        return GrowingFontPointRange(role);
+    if (role == UI::Scaling::FontRole::Big)
+        return {g_classicFont.bigPx, g_classicFont.bigPx};
+    if (role == UI::Scaling::FontRole::Fixed)
+        return {g_classicFont.fixedPx, g_classicFont.fixedPx};
+    return {g_classicFont.normalPx, g_classicFont.normalPx};
+}
+
+int PointSizeInRange(const FontPointRange& range, const UI::Scaling::Transform& transform)
+{
+    const float typographyScale = transform.typographyScale / UI::Scaling::GetWindowContentScale();
+    const float growth =
+        std::clamp((typographyScale - 1.0f) / (kMaximumTypographyScale - 1.0f), 0.0f, 1.0f);
+    const float pointSize = static_cast<float>(range.minimum) +
+                            static_cast<float>(range.maximum - range.minimum) * growth;
+    return static_cast<int>(std::lround(pointSize));
+}
+
+float TextPixelSizeInRange(const FontPointRange& range, const UI::Scaling::Transform& transform)
+{
+    // CUIRenderTextSDLTtf opens every font at CachedFontPointSize() and draws it at
+    // FontPointSize() / MaximumFontPointSize() of that (FontScaleForBounds() without a box).
+    const int cachedPointSize =
+        std::max(static_cast<int>(std::lround(range.maximum * UI::Scaling::GetWindowContentScale())), 1);
+    return static_cast<float>(cachedPointSize) * static_cast<float>(PointSizeInRange(range, transform)) /
+           static_cast<float>(range.maximum);
 }
 
 int RoundedBottomHudTop(int windowWidth, int windowHeight)
@@ -228,6 +261,16 @@ float UI::Scaling::LogicalY(const Transform& transform, float windowY)
     return (windowY - transform.offsetY) / transform.scaleY;
 }
 
+void UI::Scaling::SetClassicFontSettings(const ClassicFontSettings& settings)
+{
+    g_classicFont = settings;
+}
+
+const UI::Scaling::ClassicFontSettings& UI::Scaling::GetClassicFontSettings()
+{
+    return g_classicFont;
+}
+
 int UI::Scaling::MinimumFontPointSize(FontRole role)
 {
     return GetFontPointRange(role).minimum;
@@ -245,21 +288,12 @@ int UI::Scaling::CachedFontPointSize(FontRole role)
 
 int UI::Scaling::FontPointSize(FontRole role, const Transform& transform)
 {
-    const FontPointRange range = GetFontPointRange(role);
-    const float typographyScale = transform.typographyScale / GetWindowContentScale();
-    const float growth =
-        std::clamp((typographyScale - 1.0f) / (kMaximumTypographyScale - 1.0f), 0.0f, 1.0f);
-    const float pointSize = static_cast<float>(range.minimum) +
-                            static_cast<float>(range.maximum - range.minimum) * growth;
-    return static_cast<int>(std::lround(pointSize));
+    return PointSizeInRange(GetFontPointRange(role), transform);
 }
 
 float UI::Scaling::NativeTextPixelSize(FontRole role, const Transform& transform)
 {
-    // CUIRenderTextSDLTtf opens every font at CachedFontPointSize() and draws it at
-    // FontPointSize() / MaximumFontPointSize() of that (FontScaleForBounds() without a box).
-    return static_cast<float>(CachedFontPointSize(role)) * static_cast<float>(FontPointSize(role, transform)) /
-           static_cast<float>(MaximumFontPointSize(role));
+    return TextPixelSizeInRange(GetFontPointRange(role), transform);
 }
 
 float UI::Scaling::NativeTextPixelSize(FontRole role, int windowWidth, int windowHeight)
@@ -340,8 +374,10 @@ float UI::Scaling::FitTextPixelSizeToWidth(float textPx, float measuredWidth, fl
 
 float UI::Scaling::SceneWindowScale(int windowWidth, int windowHeight)
 {
-    const float textPx = NativeTextPixelSize(FontRole::Normal, windowWidth, windowHeight);
-    const float referenceTextPx = NativeTextPixelSize(FontRole::Normal, 1024, 768);
+    // The growing range even under a fixed font: these windows follow the window, not the player's text size.
+    const FontPointRange range = GrowingFontPointRange(FontRole::Normal);
+    const float textPx = TextPixelSizeInRange(range, WindowPixelTransform(windowWidth, windowHeight));
+    const float referenceTextPx = TextPixelSizeInRange(range, WindowPixelTransform(1024, 768));
     return TextGrowthScale(textPx, referenceTextPx);
 }
 

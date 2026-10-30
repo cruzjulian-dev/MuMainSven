@@ -72,11 +72,12 @@ Release builds resolve every text role from files beside the executable:
 | Fixed | `fonts/Cousine-Regular.ttf` |
 | Missing glyph fallbacks | `fonts/DejaVuSans*.ttf`, `fonts/NotoSansTC-*.otf`, `fonts/NanumGothic-Regular.ttf` |
 
-Selectable families are DejaVu Sans, Liberation Sans, Noto Sans TC and Verdana.
-Empty or unknown configuration selects DejaVu Sans, unless the active theme
-sets `font-native`. SDL_ttf, Windows GDI, and the non-Windows GDI shim use the
-same registry. Verdana is not bundled: it comes from the Windows fonts folder,
-and where it is missing the choice draws with DejaVu Sans on every platform.
+Selectable families are DejaVu Sans, Liberation Sans, Noto Sans TC and, on
+Windows, every installed family. Empty or unknown configuration selects DejaVu
+Sans, unless the active theme sets `font-native`. SDL_ttf, Windows GDI, and the
+non-Windows GDI shim use the same registry. Installed families are not bundled:
+the client asks Windows for their data, and where one is missing the choice
+draws with DejaVu Sans on every platform.
 
 SDL_ttf attaches three fallbacks to every role at startup, tried in this order:
 

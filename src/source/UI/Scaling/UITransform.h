@@ -124,6 +124,19 @@ namespace UI::Scaling
     float SizeY(const Transform& transform, float height);
     float LogicalX(const Transform& transform, float windowX);
     float LogicalY(const Transform& transform, float windowY);
+    // The player's fixed font (theme capability ClassicFontControls): every role's size in em
+    // pixels, whatever the window's size, as the 0.97k client drew it. normalPx 0 = off, the
+    // roles grow with the window. Bold and italic apply to the normal role's text.
+    struct ClassicFontSettings
+    {
+        int normalPx = 0;
+        int bigPx = 0;
+        int fixedPx = 0;
+        bool bold = false;
+        bool italic = false;
+    };
+    void SetClassicFontSettings(const ClassicFontSettings& settings);
+    const ClassicFontSettings& GetClassicFontSettings();
     int MinimumFontPointSize(FontRole role);
     int MaximumFontPointSize(FontRole role);
     int CachedFontPointSize(FontRole role);

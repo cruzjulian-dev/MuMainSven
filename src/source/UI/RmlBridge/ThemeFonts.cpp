@@ -91,6 +91,29 @@ bool FamilyAvailable(std::string family)
     return fonts->GetFontFaceHandle(family, Rml::Style::FontStyle::Normal,
                                     Rml::Style::FontWeight::Normal, probeSize) != 0;
 }
+
+// The four faces of an installed family, for the bold and italic text. A bundled family is already
+// loaded, and a missing one is left to the font tokens' fallback.
+void LoadSystemFamily(const std::string& family)
+{
+    const std::string key = "system:" + family;
+    if (family.empty() || family == ResolveBundledFont(family).family || LoadedFiles().contains(key))
+        return;
+    LoadedFiles().insert(key);
+
+    for (const bool bold : {false, true})
+    {
+        for (const bool italic : {false, true})
+        {
+            const SystemFontFace* face = FindSystemFontFace(family, bold, italic);
+            if (!face)
+                continue;
+            const auto style = italic ? Rml::Style::FontStyle::Italic : Rml::Style::FontStyle::Normal;
+            const auto weight = bold ? Rml::Style::FontWeight::Bold : Rml::Style::FontWeight::Normal;
+            Rml::LoadFontFace({face->data.data(), face->data.size()}, family, style, weight, false, face->faceIndex);
+        }
+    }
+}
 } // namespace
 
 void ClearThemeFontCache()
@@ -122,7 +145,10 @@ void LoadThemeFonts(const ThemeInheritance& theme)
 
 void LoadActiveThemeFonts()
 {
-    LoadThemeFonts(ThemeInheritance(std::filesystem::path("Data/Interface/RmlUi/themes") / GetActiveThemeName()));
+    const ThemeInheritance theme(std::filesystem::path("Data/Interface/RmlUi/themes") / GetActiveThemeName());
+    LoadThemeFonts(theme);
+    const std::string& selected = SelectedFontFamily();
+    LoadSystemFamily(selected.empty() ? ThemeNativeFontFamily(theme) : selected);
 }
 
 void SetSelectedFontFamily(std::string family)
@@ -147,7 +173,7 @@ std::optional<std::string> ResolveThemeFontToken(const ThemeInheritance& theme, 
     const std::string& selected = SelectedFontFamily();
     if (token == kNativeFontToken)
     {
-        const std::string native = ResolveUiFont(selected.empty() ? ThemeNativeFontFamily(theme) : selected).family;
+        const std::string native = ResolveUiFontFamily(selected.empty() ? ThemeNativeFontFamily(theme) : selected);
         if (FamilyAvailable(native))
             return native;
     }

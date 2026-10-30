@@ -83,6 +83,9 @@ void GameConfig::Load()
     m_uiLocale = ReadString(CfgSectionUI, CfgKeyUILocale, CfgDefaultUILocale);
     m_translateItemNames = ReadBool(CfgSectionUI, CfgKeyTranslateItemNames, CfgDefaultTranslateItemNames);
     m_fontSelection = ReadString(CfgSectionUI, CfgKeyFont, CfgDefaultFont);
+    SetFontHeight(ReadInt(CfgSectionUI, CfgKeyFontHeight, CfgDefaultFontHeight));
+    m_fontBold = ReadBool(CfgSectionUI, CfgKeyFontBold, CfgDefaultFontBold);
+    m_fontItalic = ReadBool(CfgSectionUI, CfgKeyFontItalic, CfgDefaultFontItalic);
     m_rmlTheme = ReadString(CfgSectionUI, CfgKeyRmlTheme, CfgDefaultRmlTheme);
     m_uiScalePercent = std::clamp(ReadInt(CfgSectionUI, CfgKeyUIScalePercent, CfgDefaultUIScalePercent),
                                   CfgDefaults::CfgMinUIScalePercent, CfgDefaults::CfgMaxUIScalePercent);
@@ -156,6 +159,9 @@ void GameConfig::Save()
     WriteString(CfgSectionUI, CfgKeyUILocale, m_uiLocale);
     WriteBool(CfgSectionUI, CfgKeyTranslateItemNames, m_translateItemNames);
     WriteString(CfgSectionUI, CfgKeyFont, m_fontSelection);
+    WriteInt(CfgSectionUI, CfgKeyFontHeight, m_fontHeight);
+    WriteBool(CfgSectionUI, CfgKeyFontBold, m_fontBold);
+    WriteBool(CfgSectionUI, CfgKeyFontItalic, m_fontItalic);
     WriteString(CfgSectionUI, CfgKeyRmlTheme, m_rmlTheme);
     WriteInt(CfgSectionUI, CfgKeyUIScalePercent, m_uiScalePercent);
 
@@ -341,6 +347,21 @@ void GameConfig::SetTranslateItemNames(bool translate)
 void GameConfig::SetFontSelection(const std::wstring& font)
 {
     m_fontSelection = font;
+}
+
+void GameConfig::SetFontHeight(int height)
+{
+    m_fontHeight = std::clamp(height, CfgDefaults::CfgMinFontHeight, CfgDefaults::CfgMaxFontHeight);
+}
+
+void GameConfig::SetFontBold(bool bold)
+{
+    m_fontBold = bold;
+}
+
+void GameConfig::SetFontItalic(bool italic)
+{
+    m_fontItalic = italic;
 }
 
 void GameConfig::SetRmlTheme(const std::wstring& theme)

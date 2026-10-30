@@ -12896,6 +12896,18 @@
   <data name="DefaultFont" xml:space="preserve">
     <value>Predeterminado</value>
   </data>
+  <data name="FontHeight" xml:space="preserve">
+    <value>Tamaño de fuente</value>
+  </data>
+  <data name="FontBold" xml:space="preserve">
+    <value>Negrita</value>
+  </data>
+  <data name="FontItalic" xml:space="preserve">
+    <value>Cursiva</value>
+  </data>
+  <data name="ResetFont" xml:space="preserve">
+    <value>Reiniciar fuente</value>
+  </data>
   <data name="MixLevelAtLeast" xml:space="preserve">
     <value>+%d Mínimo</value>
   </data>

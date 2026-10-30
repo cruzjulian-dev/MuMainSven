@@ -470,18 +470,20 @@ TEST_CASE("capabilities and stacking come from the active theme, read once per s
                   "[Capabilities]\nChatLogModes=1\n[Stacking]\nmsg_win.rml=7.5\n");
     fixture.Write(fixture.Theme("child") / "theme.ini",
                   "[Theme]\nBase=parent\n[Capabilities]\nChatLogModes=0\nClassicCharacterScene=1\n"
-                  "ClassicHitNumbers=1\n");
+                  "ClassicHitNumbers=1\nClassicFontControls=1\n");
     fixture.ActivateRoot();
 
     UI::RmlBridge::SetActiveThemeName("parent");
     CHECK(UI::RmlBridge::ThemeHasChatLogModes());
     CHECK_FALSE(UI::RmlBridge::ThemeHasClassicCharacterScene());
     CHECK_FALSE(UI::RmlBridge::ThemeHasClassicHitNumbers());
+    CHECK_FALSE(UI::RmlBridge::ThemeHasClassicFontControls());
 
     UI::RmlBridge::SetActiveThemeName("child");
     CHECK_FALSE(UI::RmlBridge::ThemeHasChatLogModes());
     CHECK(UI::RmlBridge::ThemeHasClassicCharacterScene());
     CHECK(UI::RmlBridge::ThemeHasClassicHitNumbers());
+    CHECK(UI::RmlBridge::ThemeHasClassicFontControls());
     Rml::ElementDocument* document = fixture.context->LoadDocumentFromMemory("<rml><body></body></rml>");
     REQUIRE(document != nullptr);
     UI::RmlBridge::ApplyStackingDepth(document, "msg_win.rml");

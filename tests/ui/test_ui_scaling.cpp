@@ -547,6 +547,25 @@ TEST_CASE("screen overlays cover the whole window [ui][scaling]")
     CHECK(UI::Scaling::ScreenOverlayFullHeight(640, 480) == doctest::Approx(480.0f));
 }
 
+// The 0.97k client's text has one size in pixels at every resolution; off, it grows with the window.
+TEST_CASE("the classic font fixes every role's size whatever the window [ui][scaling]")
+{
+    using UI::Scaling::FontRole;
+    const auto small = UI::Scaling::LegacyUiTransform(640, 480);
+    const auto large = UI::Scaling::LegacyUiTransform(3840, 2160);
+    const int growingSize = UI::Scaling::FontPointSize(FontRole::Normal, large);
+
+    UI::Scaling::SetClassicFontSettings({11, 22, 13, false, false});
+    CHECK(UI::Scaling::FontPointSize(FontRole::Normal, small) == 11);
+    CHECK(UI::Scaling::FontPointSize(FontRole::Normal, large) == 11);
+    CHECK(UI::Scaling::FontPointSize(FontRole::Bold, large) == 11);
+    CHECK(UI::Scaling::FontPointSize(FontRole::Big, large) == 22);
+    CHECK(UI::Scaling::FontPointSize(FontRole::Fixed, large) == 13);
+
+    UI::Scaling::SetClassicFontSettings({});
+    CHECK(UI::Scaling::FontPointSize(FontRole::Normal, large) == growingSize);
+}
+
 TEST_CASE("positions include offsets and sizes do not [ui][scaling]")
 {
     const auto transform = UI::Scaling::PanelTransform(1920, 1080);

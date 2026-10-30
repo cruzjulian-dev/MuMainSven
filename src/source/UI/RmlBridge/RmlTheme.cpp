@@ -5,8 +5,11 @@
 #include "UI/RmlBridge/ThemeInheritance.h"
 #include "UI/RmlBridge/ThemeFonts.h"
 #include "Data/GameConfig/GameConfig.h"
+#include "Core/Platform/SystemFonts.h"
 #include "Core/Platform/WinIni.h"
+#include "Core/Utilities/StringUtils.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
+#include "UI/Scaling/UITransform.h"
 
 #include <RmlUi/Core/Context.h>
 #include <RmlUi/Core/Core.h>
@@ -94,6 +97,7 @@ namespace UI::RmlBridge
             bool classicCharacterCreation = HasCapability("ClassicCharacterCreation");
             bool classicCharacterScene = HasCapability("ClassicCharacterScene");
             bool classicHitNumbers = HasCapability("ClassicHitNumbers");
+            bool classicFontControls = HasCapability("ClassicFontControls");
         };
 
         // Empty until the active theme is first read or set, so SetActiveThemeName() reads the new
@@ -545,13 +549,35 @@ namespace UI::RmlBridge
     void ApplySelectedFontFamily(const std::string& family)
     {
         SetSelectedFontFamily(family);
+        LoadActiveThemeFonts();
         Rml::Factory::ClearStyleSheetCache();
         ReloadAllThemedDocuments();
     }
 
     std::string GetNativeFontFamily()
     {
-        const std::string selected = NarrowAscii(GameConfig::GetInstance().GetFontSelection());
+        const std::string selected = StringUtils::WideToNarrow(GameConfig::GetInstance().GetFontSelection().c_str());
         return selected.empty() ? ThemeNativeFontFamily(ActiveThemeSettingsStorage().inheritance) : selected;
+    }
+
+    bool ThemeHasClassicFontControls()
+    {
+        return ActiveThemeSettingsStorage().classicFontControls;
+    }
+
+    void ApplyClassicFontSettings()
+    {
+        if (!ThemeHasClassicFontControls())
+        {
+            UI::Scaling::SetClassicFontSettings({});
+            return;
+        }
+
+        const GameConfig& config = GameConfig::GetInstance();
+        const std::string family = ResolveUiFontFamily(GetNativeFontFamily());
+        const int height = config.GetFontHeight();
+        UI::Scaling::SetClassicFontSettings({FontEmPixels(family, height), FontEmPixels(family, height * 2),
+                                             FontEmPixels(kBundledFixedFont.family, height), config.GetFontBold(),
+                                             config.GetFontItalic()});
     }
 }

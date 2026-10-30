@@ -83,6 +83,12 @@ public:
     // UI font family name (GDI face name). Empty = platform default.
     std::wstring GetFontSelection() const { return m_fontSelection; }
     void SetFontSelection(const std::wstring& font);
+    int GetFontHeight() const { return m_fontHeight; }
+    void SetFontHeight(int height);
+    bool GetFontBold() const { return m_fontBold; }
+    void SetFontBold(bool bold);
+    bool GetFontItalic() const { return m_fontItalic; }
+    void SetFontItalic(bool italic);
 
     // Active RmlUi theme name ("legacy"/"modern") -- see UI::RmlBridge::RmlTheme.
     std::wstring GetRmlTheme() const { return m_rmlTheme; }
@@ -218,6 +224,9 @@ private:
     std::wstring m_uiLocale;
     bool m_translateItemNames;
     std::wstring m_fontSelection;
+    int m_fontHeight;
+    bool m_fontBold;
+    bool m_fontItalic;
     std::wstring m_rmlTheme;
     int m_uiScalePercent;
     bool m_enableAnimationTaskPool;
