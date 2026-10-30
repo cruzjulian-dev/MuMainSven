@@ -6,10 +6,10 @@
 namespace Character::ClassicNameTag
 {
 // The 0.97k client's font (WinMain): 12 pixels high at 640 wide, 13 at 800, 14 at 1024 and 15
-// from 1280 on.
+// from 1280 on. Only for a theme without ClassicFontControls, which uses the player's font.
 float TextPx(unsigned int windowWidth);
 
 // The 0.97k client wrote a tag's class line at the character's projected point and the name above
 // it, its text's height plus 3 higher on the 640x480 screen, which it stretched over the window.
-float NameRise(float textPx, unsigned int windowHeight);
+float NameRise(float lineHeight, unsigned int windowHeight);
 } // namespace Character::ClassicNameTag

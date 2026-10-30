@@ -10,8 +10,8 @@
 	     projection, unlike other RML files' static anchors. #balloons takes no box of its own (the
 	     balloons are placed against the body); it carries .char-make-open while the
 	     character-creation dialog is open, for a theme that hides the tags then, and the 0.97k
-	     client's tag text size (its font-size, which a theme's tag lines inherit unless they set
-	     their own) and name height (--classic-name-rise), for a theme that lays its tags out as
+	     tag text size (its font-size, which a theme's tag lines inherit unless they set their
+	     own; CCharInfoBalloonMng) and name height (--classic-name-rise), for a theme that lays its tags out as
 	     that client did. A font size is not taken from a variable: RmlUi does not redo it when the
 	     variable changes. -->
 	<div id="balloons" data-class-char-make-open="char_make_open"

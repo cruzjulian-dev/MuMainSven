@@ -42,8 +42,8 @@ float TextPx(unsigned int windowWidth)
     return kDefaultTextPx;
 }
 
-float NameRise(float textPx, unsigned int windowHeight)
+float NameRise(float lineHeight, unsigned int windowHeight)
 {
-    return (textPx + kNameGap) * static_cast<float>(windowHeight) / kReferenceHeight;
+    return (lineHeight + kNameGap) * static_cast<float>(windowHeight) / kReferenceHeight;
 }
 } // namespace Character::ClassicNameTag

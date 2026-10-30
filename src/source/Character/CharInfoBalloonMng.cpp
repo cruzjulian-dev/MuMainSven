@@ -7,11 +7,13 @@
 #include "ClassicNameTag.h"
 #include "Core/Globals/_enum.h"
 #include "Core/Utilities/StringUtils.h"
+#include "Data/GameConfig/GameConfig.h"
 #include "Render/RmlUi/RmlUiRuntime.h"
 #include "Render/Textures/ZzzOpenglUtil.h"
 #include "UI/RmlBridge/RmlDocumentVisibility.h"
 #include "UI/RmlBridge/RmlTheme.h"
 #include "UI/Core/SceneUICoordinator.h"
+#include "UI/Scaling/UITransform.h"
 #include <RmlUi/Core/ElementDocument.h>
 
 // Replaces CUIMng's old `CCharInfoBalloonMng m_CharInfoBalloonMng;` member, same convention as
@@ -20,6 +22,24 @@ CCharInfoBalloonMng g_CharInfoBalloonMng;
 
 namespace
 {
+// The height of a tag's line, which the name rises by: the player's font under ClassicFontControls.
+float TagLineHeight()
+{
+    if (UI::Scaling::IsClassicFontActive())
+        return static_cast<float>(GameConfig::GetInstance().GetFontHeight());
+    return Character::ClassicNameTag::TextPx(WindowWidth);
+}
+
+float TagTextPx()
+{
+    if (UI::Scaling::IsClassicFontActive())
+    {
+        return UI::Scaling::NativeTextPixelSize(UI::Scaling::FontRole::Normal, static_cast<int>(WindowWidth),
+                                                static_cast<int>(WindowHeight));
+    }
+    return TagLineHeight();
+}
+
 // Key char_info_balloon.rml compares against; the theme's .rcss styles each (.name-<key>).
 const char* NameStatusKey(BalloonNameStatus status)
 {
@@ -80,8 +100,8 @@ void CCharInfoBalloonMng::BindRmlModel(Rml::DataModelConstructor& c, BalloonList
     model.balloons.resize(kBalloonCount);
     // Set before the document's first layout as well as every frame (SyncRmlModel()), so no tag is
     // ever laid out at a font size of 0.
-    model.classicTextPx = Character::ClassicNameTag::TextPx(WindowWidth);
-    model.classicNameRise = Character::ClassicNameTag::NameRise(model.classicTextPx, WindowHeight);
+    model.classicTextPx = TagTextPx();
+    model.classicNameRise = Character::ClassicNameTag::NameRise(TagLineHeight(), WindowHeight);
 
     // See CCharMakeWin::BindRmlModel()'s comment on why this must re-run in full every
     // call, including on a theme switch -- no guard here.
@@ -175,8 +195,8 @@ void CCharInfoBalloonMng::SyncRmlModel()
         m_RmlView.MarkDirty("char_make_open");
     }
 
-    const float textPx = Character::ClassicNameTag::TextPx(WindowWidth);
-    const float nameRise = Character::ClassicNameTag::NameRise(textPx, WindowHeight);
+    const float textPx = TagTextPx();
+    const float nameRise = Character::ClassicNameTag::NameRise(TagLineHeight(), WindowHeight);
     if (model.classicTextPx != textPx || model.classicNameRise != nameRise)
     {
         model.classicTextPx = textPx;

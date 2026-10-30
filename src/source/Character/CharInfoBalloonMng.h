@@ -98,9 +98,9 @@ private:
         // Whether the character-creation dialog is open: the 97k theme hides the tags then, as the
         // 0.97k client did.
         bool charMakeOpen = false;
-        // The 0.97k client's tag text in screen pixels (its font, sized by the window's width), and
-        // how far above the class line's top it stood the name's top; the 97k theme lays its tags
-        // out with them.
+        // The tag text in screen pixels (the player's font under ClassicFontControls, else the
+        // 0.97k client's, sized by the window's width), and how far above the class line's top that
+        // client stood the name's top; the 97k theme lays its tags out with them.
         float classicTextPx = 0.f;
         float classicNameRise = 0.f;
     };

@@ -6,9 +6,9 @@
    cyan for blocked items, blue for an operator. The class line is white.
    C++ places the foot of Sven's 118x54 tag box at the point the 0.97k client projected, 190
    over the character's feet. That client wrote the class line from that point down and the name
-   above it; here both stand 3 pixels higher (top 51px instead of 54px). Both lines take its font
-   size (13 pixels at 800x600), and the name stands its height plus 3 higher on the 640x480 screen
-   (#balloons' font-size and --classic-name-rise, set by C++ for the window's size). The tags are
+   above it; here both stand 3 pixels higher (top 51px instead of 54px). Both lines take the font
+   size set in the options, whatever the window's size, and the name stands its height plus 3 higher
+   on the 640x480 screen (#balloons' font-size and --classic-name-rise, set by C++). The tags are
    hidden while the character-creation dialog is open, as the 0.97k client hid them. */
 
 #balloons.char-make-open {
